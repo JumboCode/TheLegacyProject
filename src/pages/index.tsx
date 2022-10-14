@@ -31,11 +31,6 @@ const Home: NextPage = () => {
             documentation="https://tailwindcss.com/"
           />
           <TechnologyCard
-            name="tRPC"
-            description="End-to-end typesafe APIs made easy"
-            documentation="https://trpc.io/"
-          />
-          <TechnologyCard
             name="Next-Auth"
             description="Authentication for Next.js"
             documentation="https://next-auth.js.org/"
