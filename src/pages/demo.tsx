@@ -1,7 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-
+ 
 const Home: NextPage = () => {
+  const handleClick = () => {
+    alert("Welcome to the Legacy Project!")
+  }
   return (
     <>
       <Head>
@@ -10,7 +13,9 @@ const Home: NextPage = () => {
       </Head>
 
       <div className="mt-4 grid gap-4 pt-4 text-center md:grid-cols-4: lg:w-2/3">
-        <div className=""> A button... </div>
+        <div className="">
+        <button type="button" onClick={handleClick}> Hello! </button>
+        </div>
       </div>
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
