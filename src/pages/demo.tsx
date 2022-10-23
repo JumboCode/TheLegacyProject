@@ -12,9 +12,13 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="mt-4 grid gap-4 pt-4 text-center md:grid-cols-4: lg:w-2/3">
+      <div className="mt-3 grid text-blue-700 gap-3 pt-3 text-center items-center md:grid-cols-3 lg:w-2/3">
         <div className="">
-        <button type="button" onClick={handleClick}> Hello! </button>
+          <button type="button" onClick={handleClick}> 
+          <section className="justify-center rounded border-2 border-blue-700 p-6 shadow-xl duration-500 motion-safe:hover:scale-105">
+            Click this Button!
+          </section>
+          </button>
         </div>
       </div>
 
