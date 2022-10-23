@@ -10,7 +10,7 @@ const Home: NextPage = () => {
       </Head>
 
       <div className="mt-4 grid gap-4 pt-4 text-center md:grid-cols-4: lg:w-2/3">
-        <div className=""> A button... </div>
+        <div className=""> <button style="background-color:black; color:white; text-align:center; font-size:16px; padding: 16px 35px; border-radius: 12px; border: 2px solid orange; display: inline-block;">Do not push </button></div>
       </div>
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
