@@ -9,8 +9,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="mt-4 grid gap-4 pt-4 text-center md:grid-cols-4: lg:w-2/3">
-        <div className="jo-button"> <button style="background-color:black; color:white; text-align:center; font-size:16px; padding: 16px 35px; border-radius: 12px; border: 2px solid orange; display: inline-block;">Do not push </button></div>
+      <div className="mt-4 grid gap-4 pt-4 text-center md:grid-cols-4:">
+        <div className="jo-button"> <button className="bg-black text-white text-center text-base px-16 py-30 rounded-xl border-2 border-orange-500 inline-block">Do not push </button></div>
       </div>
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
