@@ -9,13 +9,13 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="mt-4 grid gap-4 pt-4 text-center md:grid-cols-4: lg:w-2/3">
-        <div className="inline-block px-4 py-2">
-          <button className="bg-transparent hover:bg-black text-black hover:text-white px-4 py-2 font-semibold border-2 border-black hover:bg-black transform duration-500 translate-y-1 hover:translate-y-0">
+      {/* <div className="mt-4 pt-4"> */}
+        <div className="mt-4 pt-4 inline-block px-4 py-2 grid justify-center">
+          <button className="bg-transparent hover:bg-gray-700 text-gray-700 hover:text-white px-4 py-2 font-semibold border-2 border-gray-700 transform duration-500 translate-y-1 hover:translate-y-0">
             Don't Push My Button!
           </button>
         </div>
-      </div>
+      {/* </div> */}
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
