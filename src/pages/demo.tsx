@@ -1,16 +1,8 @@
+import Button from "@components/button";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
-  const [buttonId, setButtonId] = useState(0);
-  const [buttonCount, setButtonCount] = useState(0);
-  useEffect(() => {
-    fetch(`api/button/${buttonId}`)
-      .then((res) => res.json())
-      .then((data) => setButtonCount(data.timesClicked));
-  }, [buttonId]);
-
   return (
     <>
       <Head>
@@ -22,18 +14,7 @@ const Home: NextPage = () => {
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           The Legacy Project
         </h1>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            setButtonCount(buttonCount + 1);
-            fetch(`api/button/${buttonId}`, { method: "PUT" })
-              .then((res) => res.json())
-              .then((data) => setButtonCount(data.timesClicked));
-          }}
-        >
-          Button {buttonId}
-        </button>
-        <p>Button clicked {buttonCount} times!</p>
+        <Button />
       </main>
     </>
   );
