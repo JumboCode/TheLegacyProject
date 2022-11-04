@@ -3,12 +3,19 @@ import Head from "next/head";
 import { format } from "date-fns";
 import { date } from "zod";
 
+enum FileType {
+  Document,
+  Pdf,
+  Audio
+}
+
 type fileProps =  {
     name: string
     URL: string
-    type: string
+    type: FileType
     last_modified: Date
 };
+
 const FileGrid: NextPage = () => {
     return (
         <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
@@ -18,10 +25,29 @@ const FileGrid: NextPage = () => {
             <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-3 lg:w-2/3">
           <File
             name="example_file.pdf"
-            type="pdf"
+            type = {FileType.Pdf}
             last_modified = {new Date(5)}
             URL="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           />
+          <File
+            name="example_file1.pdf"
+            type = {FileType.Audio}
+            last_modified = {new Date(5)}
+            URL="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          />
+          <File
+            name="example_file2.pdf"
+            type = {FileType.Document}
+            last_modified = {new Date(5)}
+            URL="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          />
+          <File
+            name="example_file3.pdf"
+            type = {FileType.Audio}
+            last_modified = {new Date(5)}
+            URL="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          />
+
           </div>
         </main>
     );
@@ -46,6 +72,8 @@ const File = ({
       >
         Link
       </a>
+      if ({type} == {FileType.Pdf})<img src="/icons/icon_pdf.png"></img>
+      
     </section>
     );
 };
