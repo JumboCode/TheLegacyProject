@@ -16,12 +16,12 @@ const NavbarItem = ({
     <>
       { inMenu ?
           // mobile
-          <div className='text-xl font-semibold text-gray-700 py-2 leading-normal'>
+          <div className='text-xl font-semibold text-gray-700 py-2 leading-normal hover:-translate-y-0.5 duration-150'>
             <Link href={to}>{label}</Link>
           </div>
         :
           // desktop
-          <div className='mr-5 text-l font-semibold text-gray-700 py-2 leading-normal'>
+          <div className='mr-5 text-l font-semibold text-gray-700 py-2 leading-normal hover:-translate-y-0.5 duration-150'>
             <Link href={to}>{label}</Link>
           </div>
       }

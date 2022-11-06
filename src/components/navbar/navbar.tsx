@@ -11,7 +11,7 @@ const Navbar = () => {
  
   return (
     <>
-      <nav className='flex-col sticky top-0 z-50 shadow-2xl overflow-hidden bg-white'>
+      <nav className='flex flex-col sticky top-0 z-50 shadow-2xl overflow-hidden bg-white'>
 
         {/* navbar */}
         <div className='justify-center h-20 flex justify-between items-center m-auto w-11/12'>
@@ -24,10 +24,13 @@ const Navbar = () => {
           </div>
 
           {/* desktop */}
-          <div className='hidden md:flex'>
+          <div className='hidden lg:flex'>
             <NavbarItem inMenu={false} label='About' to='/about' />
             <NavbarItem inMenu={false} label='Contact Us' to='/contact' />
-            <button className='bg-gray-700 text-l text-white font-semibold py-1.5 px-4 rounded-full'>
+            <NavbarItem inMenu={false} label='Test 1' to='#' />
+            <NavbarItem inMenu={false} label='Test 2' to='#' />
+            <NavbarItem inMenu={false} label='Test 3' to='#' />
+            <button className='bg-gray-700 text-l text-white font-semibold py-1.5 px-4 rounded-full hover:-translate-y-0.5 duration-150'>
               <a target="_blank" href="https://google.com/" rel="noopener noreferrer">
                 Log in with Google
               </a>
@@ -35,7 +38,7 @@ const Navbar = () => {
           </div>
 
           {/* mobile */}
-          <div className='flex md:hidden hover:cursor-pointer'>
+          <div className='flex lg:hidden hover:cursor-pointer'>
             { toggleMenu ? 
               // close icon
               <div className="" onClick={toggleNavMenu}>
@@ -64,7 +67,7 @@ const Navbar = () => {
         </div>
 
         {/* dropdown */}
-        <NavbarMenu active={toggleMenu}/>
+        <NavbarMenu isActive={toggleMenu}/>
       </nav>
     </>
   )
