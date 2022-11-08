@@ -10,6 +10,11 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Button {
+    id              Int @id @map("_id")
+    timesClicked    Int
+}
+
 // Necessary for Next auth
 model Account {
     id                  String  @id @default(cuid()) @map("_id")
