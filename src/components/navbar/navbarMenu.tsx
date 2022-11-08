@@ -15,9 +15,9 @@ const NavbarMenu = ({ isActive }: toggleMenu) => {
             <div className='flex flex-col justify-center items-center m-auto'>
               <NavbarItem inMenu={isActive} label='About' to='/about' />
               <NavbarItem inMenu={isActive} label='Contact Us' to='/contact' />
-              <NavbarItem inMenu={isActive} label='Test 1' to='#' />
+              {/* <NavbarItem inMenu={isActive} label='Test 1' to='#' />
               <NavbarItem inMenu={isActive} label='Test 2' to='#' />
-              <NavbarItem inMenu={isActive} label='Test 3' to='#' />
+              <NavbarItem inMenu={isActive} label='Test 3' to='#' /> */}
               <button className='bg-gray-700 text-l text-white font-semibold py-3 px-4 my-4 rounded-full hover:-translate-y-0.5 duration-150'>
                 <a target="_blank" href="https://google.com/" rel="noopener noreferrer">Log in with Google</a>
               </button>

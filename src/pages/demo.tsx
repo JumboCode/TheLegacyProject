@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { Navbar } from "@components/navbar";
 
 const Home: NextPage = () => {
   return (
@@ -8,6 +9,8 @@ const Home: NextPage = () => {
         <title>The Legacy Project</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Navbar />
 
       <div className="mt-4 grid gap-4 pt-4 text-center md:grid-cols-4: lg:w-2/3">
         <div className=""> A button... </div>

@@ -27,9 +27,9 @@ const Navbar = () => {
           <div className='hidden lg:flex'>
             <NavbarItem inMenu={false} label='About' to='/about' />
             <NavbarItem inMenu={false} label='Contact Us' to='/contact' />
-            <NavbarItem inMenu={false} label='Test 1' to='#' />
+            {/* <NavbarItem inMenu={false} label='Test 1' to='#' />
             <NavbarItem inMenu={false} label='Test 2' to='#' />
-            <NavbarItem inMenu={false} label='Test 3' to='#' />
+            <NavbarItem inMenu={false} label='Test 3' to='#' /> */}
             <button className='bg-gray-700 text-l text-white font-semibold py-1.5 px-4 rounded-full hover:-translate-y-0.5 duration-150'>
               <a target="_blank" href="https://google.com/" rel="noopener noreferrer">
                 Log in with Google
