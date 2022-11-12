@@ -2,12 +2,12 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mongodb"
-    url      = env("DATABASE_URL")
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 model Button {
@@ -17,40 +17,69 @@ model Button {
 
 // Necessary for Next auth
 model Account {
-    id                  String  @id @default(cuid()) @map("_id")
-    userId              String
-    type                String
-    provider            String
-    providerAccountId   String
-    refresh_token       String?
-    access_token        String?
-    expires_at          Int?
-    token_type          String?
-    scope               String?
-    id_token            String?
-    session_state       String?
-    oauth_token_secret  String?
-    oauth_token         String?
+  id                 String  @id @default(cuid()) @map("_id")
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
 
-    user                User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
-    id           String   @id @default(cuid()) @map("_id")
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid()) @map("_id")
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id            String    @id @default(cuid()) @map("_id")
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    Account       Account[]
-    Session       Session[]
+  id            String    @id @default(cuid()) @map("_id")
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  Account       Account[]
+  Session       Session[]
+}
+
+model Button {
+  id           Int @id @map("_id")
+  timesClicked Int
+}
+
+model Senior {
+  id   String @id @default(cuid()) @map("_id")
+  File File[]
+  Tag  Tag[]
+}
+
+model File {
+  id       String @id @default(cuid()) @map("_id")
+  name     String
+  filetype String
+  url      String
+  senior   Senior @relation(fields: [seniorId], references: [id])
+  seniorId String
+}
+
+model Tag {
+  id       String @id @default(cuid()) @map("_id")
+  name     String
+  pos      Float
+  color    String // storing color as a string since it will need to be a string when injected into CSS later on
+  senior   Senior @relation(fields: [seniorId], references: [id])
+  seniorId String
 }
