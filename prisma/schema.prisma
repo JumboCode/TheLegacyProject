@@ -54,19 +54,15 @@ model User {
 }
 
 model Senior {
-    id            String    @id @default(cuid()) @map("_id")
+    id            String   @id @default(cuid()) @map("_id")
+    File          File[]
+    Tag           Tag[]
     name          String
     location      String
     biography     String
     photo         String
     studentIDs    String[]  
-    students      User[]    @relation(fields: [studentIDs], references: [id])
-}
-
-model Senior {
-    id   String @id @default(cuid()) @map("_id")
-    File File[]
-    Tag  Tag[]
+    students      User[]   @relation(fields: [studentIDs], references: [id])
 }
 
 model File {
