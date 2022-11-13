@@ -53,4 +53,17 @@ model User {
     image         String?
     Account       Account[]
     Session       Session[]
+    admin         Boolean   @default(false)
+    seniorIDs     String[]  
+    seniors       Senior[]  @relation(fields: [seniorIDs], references: [id])
+}
+
+model Senior {
+    id            String    @id @default(cuid()) @map("_id")
+    name          String
+    location      String
+    biography     String
+    photo         String
+    studentIDs    String[]  
+    students      User[]    @relation(fields: [studentIDs], references: [id])
 }
