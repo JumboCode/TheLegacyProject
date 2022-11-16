@@ -41,23 +41,33 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid()) @map("_id")
+    id            String    @id @default(cuid()) @map("_id") @db.ObjectId
     name          String?
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    admin         Boolean   @default(false)
     Account       Account[]
     Session       Session[]
+    SeniorIDs     String[]  @db.ObjectId
+    Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])
 }
 
 model Senior {
-    id   String @id @default(cuid()) @map("_id")
-    File File[]
-    Tag  Tag[]
+    id         String   @id @default(cuid()) @map("_id") @db.ObjectId
+    name       String
+    location   String
+    biography  String
+    photo      String
+    StudentIDs String[] @db.ObjectId
+    Students   User[]   @relation(fields: [StudentIDs], references: [id])
+    Files      File[]   
+    Tags       Tag[]   
+
 }
 
 model File {
-    id       String @id @default(cuid()) @map("_id")
+    id       String @id @default(cuid()) @map("_id") @db.ObjectId
     name     String
     filetype String
     url      String
@@ -66,7 +76,7 @@ model File {
 }
 
 model Tag {
-    id       String @id @default(cuid()) @map("_id")
+    id       String @id @default(cuid()) @map("_id") @db.ObjectId
     name     String
     pos      Float
     color    String // storing color as a string since it will need to be a string when injected into CSS later on
