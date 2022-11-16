@@ -1,14 +1,10 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import { format } from "date-fns";
-import { date } from "zod";
-//import pdf from './icons/icon_pdf.png';
+import Image from "next/image"
 
 enum FileType {
-  Document = "https://freeiconshop.com/wp-content/uploads/edd/doc-outline.png",
-  Pdf = "https://parkcam.com.tr/wp-content/uploads/2021/12/pdf_icon.jpg",
-  //Pdf = "./icons/icon_pdf.png",
-  Audio = "https://ecdn.teacherspayteachers.com/thumbitem/Demo-recording-The-Orffin-Blues--8080847-1657611393/original-8080847-1.jpg"
+  Document = "/icons/icon_doc.png",
+  Pdf = "/icons/icon_pdf.png",
+  Audio = "/icons/icon_audio.png"
 }
 
 type fileProps =  {
@@ -64,8 +60,8 @@ const File = ({
     type,
     last_modified,
 }: fileProps) => {
-  const formattedDate: () => String = () => {
-    let dateStr = `Last modified on ${last_modified.toDateString()} at ${last_modified.toTimeString()}`;
+  const formattedDate: () => string = () => {
+    const dateStr = `Last modified on ${last_modified.toDateString()} at ${last_modified.toTimeString()}`;
     return dateStr.substring(0, dateStr.indexOf("G"));
   }
 
@@ -81,8 +77,7 @@ const File = ({
     >
       Link
     </a>
-    <img className ="object-scale-down h-10" src={type}></img> 
-    
+    <Image className="object-scale-down h-10" width={35} height={35} src={type} alt="file icon"></Image> 
   </section>
   );
 };
