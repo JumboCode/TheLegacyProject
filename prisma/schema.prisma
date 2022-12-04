@@ -67,18 +67,6 @@ model Senior {
 }
 
 model File {
-    id       String @id @default(cuid()) @map("_id") @db.ObjectId
-    Account       Account[]
-    Session       Session[]
-}
-
-model Senior {
-    id   String @id @default(cuid()) @map("_id")
-    File File[]
-    Tag  Tag[]
-}
-
-model File {
     id       String @id @default(cuid()) @map("_id")
     name     String
     filetype String
