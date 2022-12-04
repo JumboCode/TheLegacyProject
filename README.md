@@ -28,7 +28,7 @@ To run the app, you first want to make sure your database is using the correct s
 We highly recommend that you read the first couple (three or four, if you're curious) chapters of [The Git Book](https://git-scm.com/book/en/v2) in order to figure out the general deal with git. In general, though, the process is:
 
 - Make sure your codebase is up to date using `git pull`
-- Create a branch for whatever changes you want to make, using `git branch -b <branch name>
+- Create a branch for whatever changes you want to make, using `git branch -b <branch name>`
 - Make your changes, add them to the staging environment using `git add .`, and commit them using `git commit -m <commit message>`
 - Push your changes using `git push`
 - File a pull request on GitHub to get your changes merged into the main branch
