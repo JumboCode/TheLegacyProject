@@ -85,6 +85,8 @@ model File {
     url      String
     senior   Senior @relation(fields: [seniorId], references: [id])
     seniorId String
+    TagIDs String[] @db.ObjectId
+    Tags   User[]   @relation(fields: [TagIDs], references: [id])
 }
 
 model Tag {
@@ -94,4 +96,6 @@ model Tag {
     color    String // storing color as a string since it will need to be a string when injected into CSS later on
     senior   Senior @relation(fields: [seniorId], references: [id])
     seniorId String
+    FileIDs String[] @db.ObjectId
+    Files   User[]   @relation(fields: [FileIDs], references: [id])
 }
