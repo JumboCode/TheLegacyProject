@@ -1,6 +1,6 @@
 const Sidebar = () => {
   return (
-    <div>
+    <div className="flex-[0.15] bg-white drop-shadow-md">
       This is the sidebar
     </div>
   );
