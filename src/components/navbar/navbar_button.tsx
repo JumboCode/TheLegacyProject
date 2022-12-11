@@ -26,7 +26,7 @@ const NavbarButton = ({
         { isCurr ?
           // default selected
           <Link href={to}>
-          <button className="inline-block flex-center align-middle px-5 py-3 mx-8 bg-green text-white bg-white-500 hover:bg-green hover:text-white active:bg-green-900 active:text-white font-medium font-sans text-base rounded-lg" >
+          <button className="inline-block flex-center align-middle px-5 py-3 mx-4 md:mx-16 bg-green text-white bg-white-500 hover:bg-green hover:text-white active:bg-green-900 active:text-white font-medium font-sans text-base rounded-xl" >
             <Image src={icon} alt="icon" width={20} height={20}/>
               {label}
           </button>
@@ -34,7 +34,7 @@ const NavbarButton = ({
         :
           // unselected
           <Link href={to}>
-          <button className="inline-block flex-center align-middle px-5 py-3 mx-8 hover:bg-green hover:text-white active:bg-green-900 active:text-white font-medium font-sans text-base rounded-lg" >
+          <button className="inline-block flex-center align-middle px-5 py-3 mx-4 md:mx-16 hover:bg-green hover:text-white active:bg-green-900 active:text-white font-medium font-sans text-base rounded-xl" >
             <Image src={icon} alt="icon" width={20} height={20}/>
               {label}
           </button>

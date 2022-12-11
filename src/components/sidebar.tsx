@@ -1,6 +1,6 @@
 import NavbarButton from "@components/navbar/navbar_button";
 
-//Todo: import and add actual icons, add business icon
+//Todo: center align items, import and add actual icons, add business icon
 
 const Sidebar = () => {
   return (
