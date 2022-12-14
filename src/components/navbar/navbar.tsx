@@ -14,7 +14,7 @@ const Navbar = () => {
       <nav className='flex flex-col sticky top-0 z-50 shadow-2xl overflow-hidden bg-white'>
 
         {/* navbar */}
-        <div className='justify-center h-20 flex justify-between items-center m-auto w-11/12'>
+        <div className='h-20 flex justify-between items-center m-auto w-11/12'>
 
           {/* logo */}
           <div className='flex'>
