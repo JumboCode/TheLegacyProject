@@ -74,35 +74,32 @@ const Admin: NextPage = () => {
   return (
     // this outer div can be though of as the "layout" for the admin page, which
     // might be a concept worth abstracting out to it's own component later.
-    <div className="w-screen h-screen flex flex-row"> 
-      <Sidebar />
-      <div className="flex-[0.85] bg-off-white w-full h-full">
-        {/* the header */}
-        <div className="flex flex-row items-center justify-between pt-9 px-5">
-          <h1 className="text-2xl">General</h1>
-          <div className="min-w-[50px] min-h-[50px] bg-green text-white">Icon</div>
+    <div className="bg-off-white w-full h-full flex-[0.85]">
+      {/* the header */}
+      <div className="flex flex-row items-center justify-between pt-9 px-5">
+        <h1 className="text-2xl">General</h1>
+        <div className="min-w-[50px] min-h-[50px] bg-green text-white">Icon</div>
+      </div>
+      {/* the toggles between members and seniors */}
+      <div className="flex flex-row">
+        <TabToggle active={activeTab == 0} onClick={toggleActiveTab}>Members</TabToggle>
+        <TabToggle active={activeTab == 1} onClick={toggleActiveTab}>Seniors</TabToggle>
+      </div>
+      {/* the search box */}
+      <div>
+        <input type="text" className="ml-5 p-1 border border-1 border-green rounded-lg bg-off-white w-[75%]"/>
+      </div>
+      {/* the list of members/seniors */}
+      <div className="grid grid-cols-4 p-5 pl-0">
+        { /* <div className="flex flex-col m-3 bg-white p-9 rounded-lg justify-center items-center text-[2rem] hover:border-2 hover:border-green hover:cursor-pointer"> */ }
+        <div className="flex flex-col m-3 bg-white p-9 rounded-lg justify-center items-center text-[2rem] border-2 border-white hover:bg-green hover:text-white hover:cursor-pointer duration-300" onClick={addButtonClicked}>
+        +
         </div>
-        {/* the toggles between members and seniors */}
-        <div className="flex flex-row">
-          <TabToggle active={activeTab == 0} onClick={toggleActiveTab}>Members</TabToggle>
-          <TabToggle active={activeTab == 1} onClick={toggleActiveTab}>Seniors</TabToggle>
-        </div>
-        {/* the search box */}
-        <div>
-          <input type="text" className="ml-5 p-1 border border-1 border-green rounded-lg bg-off-white w-[75%]"/>
-        </div>
-        {/* the list of members/seniors */}
-        <div className="grid grid-cols-4 p-5 pl-0">
-          { /* <div className="flex flex-col m-3 bg-white p-9 rounded-lg justify-center items-center text-[2rem] hover:border-2 hover:border-green hover:cursor-pointer"> */ }
-          <div className="flex flex-col m-3 bg-white p-9 rounded-lg justify-center items-center text-[2rem] border-2 border-white hover:bg-green hover:text-white hover:cursor-pointer duration-300" onClick={addButtonClicked}>
-          +
-          </div>
-          {
-            (activeTab == 0 ? dummyMemberData : dummySeniorData).map((data: any, i: number) => (
-              <Card key={i} type={ activeTab == 0 ? "member" : "senior" } data={data}/>
-            ))
-          }
-        </div>
+        {
+          (activeTab == 0 ? dummyMemberData : dummySeniorData).map((data: any, i: number) => (
+            <Card key={i} type={ activeTab == 0 ? "member" : "senior" } data={data}/>
+          ))
+        }
       </div>
     </div>
   );
