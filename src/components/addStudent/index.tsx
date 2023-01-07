@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 type User = {
-  icon?: string,
+  icon?: JSX.Element,
 }
 
 const AddStudent = ({
@@ -86,16 +86,8 @@ const AddStudent = ({
 
         <div className='flex flex-row justify-between items-center m-auto w-[96%] h-[14%]'>
           <span className='text-4xl font-medium text-[#000022] leading-[140%]'>Add New Member</span>
-          <div className='w-16 h-16 rounded-full bg-[#BCDFFB]'> {/* -> update when more established */}
-            {icon 
-              ? <Image 
-                  src={icon}
-                  alt='user profile picture'
-                  width={20}
-                  height={20}
-                />
-              : null
-            }
+          <div className='w-16 h-16 rounded-full bg-[#BCDFFB]'> {/* -> update when more established */} 
+            {icon}
           </div>
         </div>
 
