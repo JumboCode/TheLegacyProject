@@ -1,17 +1,18 @@
-import type { NextPage } from "next";
+import { getServerAuthSession } from "@server/common/get-server-auth-session";
+import type { GetServerSideProps, NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Home: NextPage = () => {
-  const { data: session } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   useEffect(() => {
-    if (!session || !session.user) {
+    if (status == "unauthenticated") {
       router.push("/");
     }
-  });
+  }, [router, status]);
 
   return (
     <>
@@ -27,6 +28,13 @@ const Home: NextPage = () => {
       </main>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getServerAuthSession(ctx);
+  return {
+    props: { session },
+  };
 };
 
 export default Home;
