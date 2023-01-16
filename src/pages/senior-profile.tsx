@@ -145,9 +145,18 @@ const FileGrid: NextPage = () => {
 export default FileGrid;
 
 const File = ({ name, URL, type, last_modified }: fileProps) => {
+  // more concise date formatting: if modification is in the past 24 hrs,
+  // specify time; otherwise, specify just date 
   const formattedDate: () => string = () => {
-    const dateStr = `Last modified on ${last_modified.toDateString()} at ${last_modified.toTimeString()}`;
-    return dateStr.substring(0, dateStr.indexOf("G"));
+    let dateStr = `Edited `;
+    // last_modified = new Date('20 December 2019 14:48');
+    if (last_modified.toDateString() == new Date().toDateString()) {
+        dateStr = dateStr + `at ${last_modified.toLocaleTimeString('en-US')}`
+    } 
+    else {
+        dateStr = dateStr + `on ${last_modified.toLocaleDateString('en-US')}`;
+    }
+    return dateStr;
   };
 
   // TODO: onHover outline effect, onDoubleClick to open file in GoogleDrive
@@ -161,7 +170,6 @@ const File = ({ name, URL, type, last_modified }: fileProps) => {
         alt="file icon"
       ></Image>
       <h2 className="text-lg text-gray-700">{name}</h2>
-      <p className="text-sm text-gray-600">{type}</p>
       <p className="text-sm text-gray-600">{formattedDate()}</p>
       <a
         className="m-auto mt-3 w-fit text-sm text-violet-500 underline decoration-dotted underline-offset-2"
