@@ -3,9 +3,9 @@ import Image from "next/image";
 import React, { Dispatch, SetStateAction, useMemo, useState } from "react";
 
 enum FileType {
-  Document = "/icons/icon_doc.png",
-  Pdf = "/icons/icon_pdf.png",
-  Audio = "/icons/icon_audio.png",
+  Document = "/doc.png",
+  Pdf = "/pdf.png",
+  Audio = "/mp3.png",
 }
 
 type fileProps = {
@@ -67,7 +67,7 @@ const AddFile = ({
       className="flex flex-col items-center justify-center border hover:cursor-pointer hover:bg-slate-500 hover:text-white"
       onClick={addFile}
     >
-      <Image src="/icons/icon_plus.png" alt="icon" width={50} height={60} />
+      <Image src="/plus.png" alt="icon" width={100} height={100} />
       <p>Add file</p>
     </button>
   );
@@ -155,8 +155,8 @@ const File = ({ name, URL, type, last_modified }: fileProps) => {
     <section className="flex flex-col justify-center rounded border p-3">
       <Image
         className="h-10 object-scale-down"
-        width={35}
-        height={35}
+        width={75}
+        height={75}
         src={type}
         alt="file icon"
       ></Image>
