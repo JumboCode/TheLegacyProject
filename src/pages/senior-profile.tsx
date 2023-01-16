@@ -3,13 +3,13 @@ import Image from "next/image";
 import React, { Dispatch, SetStateAction, useMemo, useState } from "react";
 
 enum FileType {
-  Document = "/icons/icon_doc.png",
-  Pdf = "/icons/icon_pdf.png",
-  Audio = "/icons/icon_audio.png",
+  Document = "/doc.png",
+  Pdf = "/pdf.png",
+  Audio = "/mp3.png",
 }
 
 type fileProps = {
-  id: number;
+  id: number;   // unique ID for given FileGrid item
   name: string;
   URL: string;
   type: FileType;
@@ -36,17 +36,25 @@ const SearchBar = ({
   );
 };
 
+
+/* AddFile
+ * onClick, creates a new File component with given fileProps properties
+ * TODO: popup component for user to select or create Google Drive file,
+ *       which generates properties to fill fileProps
+ */
 const AddFile = ({
   setData,
 }: {
   setData: React.Dispatch<SetStateAction<fileProps[]>>;
 }) => {
+  // TODO: onClick, generate popup, pull from drive, store info in backend,
+  // and then addFile
   const addFile = () => {
     setData((data: fileProps[]) => [
       ...data,
       {
         id: data.length + 1,
-        name: "new_file.pdf",
+        name: `new_file_${data.length + 1}.pdf`,    // unique new names
         type: FileType.Pdf,
         URL: "",
         last_modified: new Date(),
@@ -59,14 +67,19 @@ const AddFile = ({
       className="flex flex-col items-center justify-center border hover:cursor-pointer hover:bg-slate-500 hover:text-white"
       onClick={addFile}
     >
-      <Image src="/icons/icon_plus.png" alt="icon" width={50} height={60} />
+      <Image src="/plus.png" alt="icon" width={100} height={100} />
       <p>Add file</p>
     </button>
   );
 };
 
+
+/* FileGrid
+ * a flexible grid of File components that represent files in a given Senior
+ * profile. 
+ */ 
 const FileGrid: NextPage = () => {
-  //function to create new files
+  // function to create new sample files
   const [data, setData] = useState<fileProps[]>([
     {
       id: 1,
@@ -105,13 +118,13 @@ const FileGrid: NextPage = () => {
     [data, filter]
   );
 
+  // TODO: edit button somewhere near grid to modify and / or delete Files
   return (
     <main className="container flex min-h-screen flex-col p-4">
       <h1 className="text-[3rem] leading-normal text-gray-700">File Grid</h1>
       <SearchBar setFilter={setFilter} />
       <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-4">
         <AddFile setData={setData} />
-
         {filteredData.map(
           ({ id, name, URL, type, last_modified }: fileProps) => (
             <File
@@ -137,12 +150,13 @@ const File = ({ name, URL, type, last_modified }: fileProps) => {
     return dateStr.substring(0, dateStr.indexOf("G"));
   };
 
+  // TODO: onHover outline effect, onDoubleClick to open file in GoogleDrive
   return (
     <section className="flex flex-col justify-center rounded border p-3">
       <Image
         className="h-10 object-scale-down"
-        width={35}
-        height={35}
+        width={75}
+        height={75}
         src={type}
         alt="file icon"
       ></Image>
