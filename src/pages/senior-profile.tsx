@@ -1,13 +1,6 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useMemo, useState } from "react";
 
 enum FileType {
   Document = "/icons/icon_doc.png",
