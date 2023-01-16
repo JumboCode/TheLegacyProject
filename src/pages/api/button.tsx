@@ -6,11 +6,11 @@ const button = async (req: NextApiRequest, res: NextApiResponse) => {
     case "GET":
       try {
         /*
-         * upset is used to "update or insert" an entry in the database: first,
-         * it checks if a value exists which fits it's where data, and if it
-         * doesn't it creates it using its create data; then, it updates that
-         * value using its update data. Here, since the update data is empty,
-         * it only attempts to find or create.
+         * upsert is used to "update or insert" an entry in the database:
+         * first, it checks if a value exists which fits it's where data, and
+         * if it doesn't it creates it using its create data; then, it updates
+         * that value using its update data. Here, since the update data is
+         * empty, it only attempts to find or create.
          */
         const button = await prisma.button.upsert({
           where: {

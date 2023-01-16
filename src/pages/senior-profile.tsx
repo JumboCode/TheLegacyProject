@@ -9,7 +9,7 @@ enum FileType {
 }
 
 type fileProps = {
-  id: number;
+  id: number;   // unique ID for given FileGrid item
   name: string;
   URL: string;
   type: FileType;
@@ -36,17 +36,25 @@ const SearchBar = ({
   );
 };
 
+
+/* AddFile
+ * onClick, creates a new File component with given fileProps properties
+ * TODO: popup component for user to select or create Google Drive file,
+ *       which generates properties to fill fileProps
+ */
 const AddFile = ({
   setData,
 }: {
   setData: React.Dispatch<SetStateAction<fileProps[]>>;
 }) => {
+  // TODO: onClick, generate popup, pull from drive, store info in backend,
+  // and then addFile
   const addFile = () => {
     setData((data: fileProps[]) => [
       ...data,
       {
         id: data.length + 1,
-        name: "new_file.pdf",
+        name: `new_file_${data.length + 1}.pdf`,    // unique new names
         type: FileType.Pdf,
         URL: "",
         last_modified: new Date(),
@@ -65,8 +73,13 @@ const AddFile = ({
   );
 };
 
+
+/* FileGrid
+ * a flexible grid of File components that represent files in a given Senior
+ * profile. 
+ */ 
 const FileGrid: NextPage = () => {
-  //function to create new files
+  // function to create new sample files
   const [data, setData] = useState<fileProps[]>([
     {
       id: 1,
@@ -105,13 +118,13 @@ const FileGrid: NextPage = () => {
     [data, filter]
   );
 
+  // TODO: edit button somewhere near grid to modify and / or delete Files
   return (
     <main className="container flex min-h-screen flex-col p-4">
       <h1 className="text-[3rem] leading-normal text-gray-700">File Grid</h1>
       <SearchBar setFilter={setFilter} />
       <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-4">
         <AddFile setData={setData} />
-
         {filteredData.map(
           ({ id, name, URL, type, last_modified }: fileProps) => (
             <File
@@ -137,6 +150,7 @@ const File = ({ name, URL, type, last_modified }: fileProps) => {
     return dateStr.substring(0, dateStr.indexOf("G"));
   };
 
+  // TODO: onHover outline effect, onDoubleClick to open file in GoogleDrive
   return (
     <section className="flex flex-col justify-center rounded border p-3">
       <Image
