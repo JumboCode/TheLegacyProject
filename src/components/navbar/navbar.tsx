@@ -1,76 +1,73 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { NavbarMenu, NavbarItem } from './index';
+import React, { FunctionComponent, PropsWithChildren, useState } from "react";
+import Link from "next/link";
+import { NavbarItem } from "./index";
+import SignIn from "@components/signin";
 
-const Navbar = () => {
-  const [toggleMenu, setToggleMenu] = useState(false);
-  
-  const toggleNavMenu = () => {
-    setToggleMenu(!toggleMenu);
-  }
- 
+const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const handleMenuClick: React.MouseEventHandler = () => {
+    setDropdownVisible((visible) => !visible);
+  };
+
   return (
-    <>
-      <nav className='flex flex-col sticky top-0 z-50 shadow-2xl overflow-hidden bg-white'>
-
-        {/* navbar */}
-        <div className='justify-center h-20 flex justify-between items-center m-auto w-11/12'>
-
-          {/* logo */}
-          <div className='flex'>
-            <div className='mr-6 text-2xl font-bold text-gray-700 py-1.5 leading-normal'>
-              <Link href='/'>The Legacy Project</Link>
-            </div>
+    <nav className="top-0 z-50 flex flex-col bg-white shadow-2xl lg:sticky">
+      <div className="relative m-auto flex min-h-[5rem] w-11/12 items-center justify-between">
+        {/* Logo */}
+        <div className="flex">
+          <div className="mr-6 py-1.5 text-2xl font-bold leading-normal text-gray-700">
+            <Link href="/">The Legacy Project</Link>
           </div>
-
-          {/* desktop */}
-          <div className='hidden lg:flex'>
-            <NavbarItem inMenu={false} label='About' to='/about' />
-            <NavbarItem inMenu={false} label='Contact Us' to='/contact' />
-            {/* <NavbarItem inMenu={false} label='Test 1' to='#' />
-            <NavbarItem inMenu={false} label='Test 2' to='#' />
-            <NavbarItem inMenu={false} label='Test 3' to='#' /> */}
-            <button className='bg-gray-700 text-l text-white font-semibold py-1.5 px-4 rounded-full hover:-translate-y-0.5 duration-150'>
-              <a target="_blank" href="https://google.com/" rel="noopener noreferrer">
-                Log in with Google
-              </a>
-            </button>
-          </div>
-
-          {/* mobile */}
-          <div className='flex lg:hidden hover:cursor-pointer'>
-            { toggleMenu ? 
-              // close icon
-              <div className="" onClick={toggleNavMenu}>
-                <svg className="h-7 w-7 text-gray-700"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="18" y1="5" x2="5" y2="18" />
-                  <line x1="5" y1="5" x2="18" y2="18" />
-                </svg>
-              </div>
-              :    
-              // hamburger icon
-              <div className="space-y-1" onClick={toggleNavMenu}>
-                <span className="block h-1 w-7 bg-gray-700 rounded"></span>
-                <span className="block h-1 w-7 bg-gray-700 rounded"></span>
-                <span className="block h-1 w-7 bg-gray-700 rounded"></span>
-              </div> 
-            }
-          </div>
-
         </div>
 
-        {/* dropdown */}
-        <NavbarMenu isActive={toggleMenu}/>
-      </nav>
-    </>
-  )
-}
+        {/* Mobile */}
+        <button className="flex lg:hidden">
+          {dropdownVisible ? (
+            // close icon
+            <div onClick={handleMenuClick}>
+              <svg
+                className="h-7 w-7 text-gray-700"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="5" x2="5" y2="18" />
+                <line x1="5" y1="5" x2="18" y2="18" />
+              </svg>
+            </div>
+          ) : (
+            // hamburger icon
+            <div className="space-y-1" onClick={handleMenuClick}>
+              <span className="block h-1 w-7 rounded bg-gray-700"></span>
+              <span className="block h-1 w-7 rounded bg-gray-700"></span>
+              <span className="block h-1 w-7 rounded bg-gray-700"></span>
+            </div>
+          )}
+        </button>
+
+        {/* Using templates is bad practice generally, but we have to mingle
+            react and tailwind state here */}
+        <div
+          className={`${
+            dropdownVisible ? "flex" : "hidden"
+          } absolute top-full left-[-4.16667%] m-auto w-screen flex-col items-center justify-center space-y-4 border-t-2 border-gray-200  bg-white py-4 shadow-xl lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none`}
+        >
+          {children}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+const Navbar = () => (
+  <NavbarWrapper>
+    <NavbarItem label="About" to="/about" />
+    <NavbarItem label="Contact Us" to="/contact" />
+    <SignIn />
+  </NavbarWrapper>
+);
 
 export default Navbar;
