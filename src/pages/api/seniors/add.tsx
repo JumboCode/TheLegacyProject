@@ -5,7 +5,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method = "POST") {
     try {
       const body = JSON.parse(req.body);
-      if (body) { // check if fields are well formed??? not null
+      if (body) { // TODO: check if fields are well formed
         const senior = await prisma.senior.create({
           data: { 
             id = body.id,

@@ -15,7 +15,6 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (!session.user.admin) {
         const senior = await prisma.senior.findMany({
-          // get all fields or just id name and photo??
           select: {
             id: true,
             name: true,
