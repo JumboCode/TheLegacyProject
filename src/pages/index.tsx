@@ -3,6 +3,8 @@ import Dropdown from "@components/dropdown";
 import type { NextPage } from "next";
 import Head from "next/head";
 
+// TODO: revert this file to match main before opening pull request
+
 const Home: NextPage = () => {
   let [dropdownValue, DropdownComponent] = useDropdown({
       items: ["one", "two", "three"],
@@ -17,6 +19,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
+        <p>{dropdownValue}</p>
         {DropdownComponent}
       </main>
     </>

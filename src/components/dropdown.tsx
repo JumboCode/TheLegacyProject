@@ -48,7 +48,7 @@ function Item({ text, onClick, selected, color }: ItemProps) {
     );
 }
 
-function Dropdown({ items, color, selected, setSelected }: DropdownProps): JSX.Element {
+export function Dropdown({ items, color, selected, setSelected }: DropdownProps): JSX.Element {
     let [open, setOpen] = useState<boolean>(false);
 
     const styles = () => {
