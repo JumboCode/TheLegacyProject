@@ -1,6 +1,12 @@
-import "../styles/globals.css";
-import type { AddSenior } from "@components/addSenior";
+import AddSenior  from "@components/addSenior";
+import AddProfile  from "@components/addProfile";
 
-const add-senior: Next  {
-
+const AddSeniorPage: NextPage = () => {
+    return (
+        <div>
+            <p>hello</p>
+            <AddProfile />
+        </div>
+    );        
 }
+export default AddSeniorPage;
