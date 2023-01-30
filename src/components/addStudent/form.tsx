@@ -31,7 +31,7 @@ const AddStudentForm = () => {
   });
   const [showDropdown, setShowDropdown] = useState(false);
   // sample names
-  const [seniorSuggestions, setSeniorSuggestions] = useState(['John Doe', 'Jane Doe', 'James Doe']);
+  const [seniorSuggestions, setSeniorSuggestions] = useState(['John Doe', 'Jane Doe', 'James Doe', 'Jack Doe', 'Jake Doe']);
   const seniorRef = useRef<HTMLInputElement>(null);
   // const [errors, setErrors] = useState({});
 
@@ -184,15 +184,18 @@ const AddStudentForm = () => {
                   onBlur={handleBlur}
                   ref={seniorRef}
                 />
-                {showDropdown && (
+                {showDropdown && seniorSuggestions.filter((item) => item.toLowerCase().startsWith(studentData.seniorName.toLowerCase())).length != 0 && (
                   <ul className='bg-white rounded border-[0.3px] border-[#A6A6A6] absolute w-full top-[71px] list-none shadow-md pb-1'>
                     {seniorSuggestions
                       .filter((item) => item.toLowerCase().startsWith(studentData.seniorName.toLowerCase()))
-                      .map((item) => (
-                        <li className='pl-3 py-1' key={item} onClick={() => handleSelected(item)}>
-                          {item}
-                        </li>
-                      ))}
+                      .map((item, index) => (
+                        (index < 3) && (
+                          <li className='pl-3 py-1' key={item} onClick={() => handleSelected(item)}>
+                            {item}
+                          </li>
+                        )
+                      ))
+                    }
                   </ul>
                 )}
               </div>
