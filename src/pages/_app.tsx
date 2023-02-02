@@ -2,15 +2,15 @@ import "../styles/globals.css";
 import type { AppType } from "next/app";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import Sidebar from "@components/sidebar";
-import Navbar from "@components/navbar/Navbar";
+// TODO: merge sidebar code to incorporate sidebar for _app
+import { Navbar } from "@components/navbar";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
 
-  if (/* is it the Landing Page? */) {
+  if (true) {
     return (
         <SessionProvider session={session}>
             <div className="flex flex-col w-screen h-screen">
@@ -30,7 +30,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
         </SessionProvider>
     );
   }
-
 };
 
 export default MyApp;
