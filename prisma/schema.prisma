@@ -12,17 +12,17 @@ datasource db {
 
 // Necessary for Next auth
 model Account {
-    id                 String  @id @default(cuid()) @map("_id")
-    userId             String
+    id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+    userId             String  @db.ObjectId
     type               String
     provider           String
     providerAccountId  String
-    refresh_token      String?
-    access_token       String?
+    refresh_token      String? @db.String
+    access_token       String? @db.String
     expires_at         Int?
     token_type         String?
     scope              String?
-    id_token           String?
+    id_token           String? @db.String
     session_state      String?
     oauth_token_secret String?
     oauth_token        String?
@@ -33,15 +33,15 @@ model Account {
 }
 
 model Session {
-    id           String   @id @default(cuid()) @map("_id")
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
     sessionToken String   @unique
-    userId       String
+    userId       String   @db.ObjectId
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id            String    @id @default(cuid()) @map("_id") @db.ObjectId
+    id            String    @id @default(auto()) @map("_id") @db.ObjectId
     name          String?
     email         String?   @unique
     emailVerified DateTime?
@@ -54,32 +54,35 @@ model User {
 }
 
 model Senior {
-    id         String   @id @default(cuid()) @map("_id") @db.ObjectId
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
     name       String
     location   String
     biography  String
     photo      String
     StudentIDs String[] @db.ObjectId
     Students   User[]   @relation(fields: [StudentIDs], references: [id])
-    Files      File[]   
-    Tags       Tag[]   
-
+    Files      File[]
+    Tags       Tag[]
 }
 
 model File {
-    id       String @id @default(cuid()) @map("_id") @db.ObjectId
+    id       String   @id @default(cuid()) @map("_id") @db.ObjectId
     name     String
     filetype String
     url      String
-    senior   Senior @relation(fields: [seniorId], references: [id])
-    seniorId String
+    senior   Senior   @relation(fields: [seniorId], references: [id])
+    seniorId String   @db.ObjectId
+    TagIDs   String[] @db.ObjectId
+    Tags     Tag[]    @relation(fields: [TagIDs], references: [id])
 }
 
 model Tag {
-    id       String @id @default(cuid()) @map("_id") @db.ObjectId
+    id       String   @id @default(cuid()) @map("_id") @db.ObjectId
     name     String
     pos      Float
     color    String // storing color as a string since it will need to be a string when injected into CSS later on
-    senior   Senior @relation(fields: [seniorId], references: [id])
-    seniorId String
+    senior   Senior   @relation(fields: [seniorId], references: [id])
+    seniorId String   @db.ObjectId
+    FileIDs  String[] @db.ObjectId
+    Files    File[]   @relation(fields: [FileIDs], references: [id])
 }
