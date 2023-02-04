@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { string, z } from "zod";
 
 type Student = {
   icon: Icon;
@@ -10,6 +11,11 @@ type Student = {
   classYear: string;
   email: string;
 }
+
+const name = z.string({
+  required_error: "Name is required",
+  invalid_type_error: "Name must be a string",
+});
 
 type Icon = {
   preview: string | null;
@@ -33,10 +39,43 @@ const AddStudentForm = () => {
   // sample names
   const [seniorSuggestions, setSeniorSuggestions] = useState(['John Doe', 'Jane Doe', 'James Doe', 'Jack Doe', 'Jake Doe']);
   const seniorRef = useRef<HTMLInputElement>(null);
-  // const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
-  // const validate = (data) = {}
+ 
+
+  const validate_student = (student: Student) => {
+    return(validate_email(student.email) && validate_alphanumeric(student.firstName) && validate_alphanumeric(student.lastName));
+  }
+
+  
+
+  const validate_alphanumeric = (data: string) => {
+    data.split("").forEach(
+        character =>
+        {
+            if (/[^0-9a-zA-Z]/.test(character)) {
+                console.log(JSON.stringify(character), "=> invalid");
+                return false;
+            } else {
+                console.log(JSON.stringify(character), "=> valid");
+                return true;
+            }
+        }
+    );
+
+  }
   // const getSeniors = async () => {}
+
+  const validate_email = (email: any) => Boolean{
+      //working on error below -Siara
+      email.split("@")
+      var is_valid = z.string().endsWith("@tufts.edu");
+      return is_valid;
+  }
+
+  const validate_year = (year: string) => {
+      const year_int = year;//todo
+  }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStudentData({
@@ -47,7 +86,7 @@ const AddStudentForm = () => {
 
   const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // setErrors(validate(studentData));
+    setErrors(validate(studentData));
 
     // const data = JSON.stringify(studentData);
     // const endpoint = '/api/students';
@@ -63,6 +102,8 @@ const AddStudentForm = () => {
     // console.log(result);
     
     // for now
+
+    
     console.log(studentData);
   }
 
