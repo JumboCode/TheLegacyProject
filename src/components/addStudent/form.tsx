@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { string, z } from "zod";
+import { boolean, string, z } from "zod";
 
 type Student = {
   icon: Icon;
@@ -11,11 +11,6 @@ type Student = {
   classYear: string;
   email: string;
 }
-
-const name = z.string({
-  required_error: "Name is required",
-  invalid_type_error: "Name must be a string",
-});
 
 type Icon = {
   preview: string | null;
@@ -41,23 +36,31 @@ const AddStudentForm = () => {
   const seniorRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState({});
 
- 
-
   const validate_student = (student: Student) => {
-    return(validate_email(student.email) && validate_alphanumeric(student.firstName) && validate_alphanumeric(student.lastName));
+    var is_name_valid = (validate_alphanumeric(student.firstName) && validate_alphanumeric(student.lastName)) ;
+    validate_email(student.email);
+    validate_year(student.classYear);
+
+    // return(validate_email(student.email) && validate_alphanumeric(student.firstName) && validate_alphanumeric(student.lastName));
   }
 
-  
+  const validate_senior = (seniorName: string) => {
+      if (seniorSuggestions.includes(seniorName)) {
+        console.log("senior name is valid");
+      } else {
+          console.log("senior name is invalid");
+      }
+  }
 
-  const validate_alphanumeric = (data: string) => {
+  const validate_alphanumeric = (data: string, type: string) => {
     data.split("").forEach(
         character =>
         {
             if (/[^0-9a-zA-Z]/.test(character)) {
-                console.log(JSON.stringify(character), "=> invalid");
+                console.log(JSON.stringify(character), "in {type} is invalid"); //TODO test concatenation
                 return false;
             } else {
-                console.log(JSON.stringify(character), "=> valid");
+                console.log(JSON.stringify(character), "in {type} is valid");
                 return true;
             }
         }
@@ -66,15 +69,30 @@ const AddStudentForm = () => {
   }
   // const getSeniors = async () => {}
 
-  const validate_email = (email: any) => Boolean{
+  const validate_email = (email: string) => {
       //working on error below -Siara
-      email.split("@")
-      var is_valid = z.string().endsWith("@tufts.edu");
-      return is_valid;
+      var splitted = email.split("@")
+      if (splitted[1] != "tufts.edu" || (validate_alphanumeric(JSON.stringify(splitted[0]), "email characters") == false)) {
+        console.log("email is invalid");
+        return false;
+      } else {
+        console.log("email is valid");
+        return true;
+      }
   }
 
   const validate_year = (year: string) => {
-      const year_int = year;//todo
+    year.split("").forEach(
+        character =>
+        {
+            if (/[^0-9]/.test(character)) {
+                console.log(JSON.stringify(character), "in class year is invalid"); //TODO test concatenation
+                return false;
+            } 
+        }
+    );
+    console.log("class year is valid");
+    return true;
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,8 +103,8 @@ const AddStudentForm = () => {
   };
 
   const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setErrors(validate(studentData));
+    // event.preventDefault();
+    // setErrors(validate(studentData));
 
     // const data = JSON.stringify(studentData);
     // const endpoint = '/api/students';
@@ -103,7 +121,7 @@ const AddStudentForm = () => {
     
     // for now
 
-    
+    validate_student(studentData);
     console.log(studentData);
   }
 
