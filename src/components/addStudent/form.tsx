@@ -37,10 +37,11 @@ const AddStudentForm = () => {
   const [errors, setErrors] = useState({});
 
   const validate_student = (student: Student) => {
-    var is_name_valid = (validate_alphanumeric(student.firstName) && validate_alphanumeric(student.lastName)) ;
+    validate_alphanumeric(student.firstName, "first name");
+    validate_alphanumeric(student.lastName, "last name");
     validate_email(student.email);
     validate_year(student.classYear);
-
+    validate_senior(student.seniorName);
     // return(validate_email(student.email) && validate_alphanumeric(student.firstName) && validate_alphanumeric(student.lastName));
   }
 
@@ -53,36 +54,62 @@ const AddStudentForm = () => {
   }
 
   const validate_alphanumeric = (data: string, type: string) => {
-    data.split("").forEach(
+    var copy = data;
+    copy.split("").forEach(
         character =>
         {
             if (/[^0-9a-zA-Z]/.test(character)) {
-                console.log(JSON.stringify(character), "in {type} is invalid"); //TODO test concatenation
+                console.log(JSON.stringify(character), "in " + type + " is invalid"); //TODO test concatenation
                 return false;
             } else {
-                console.log(JSON.stringify(character), "in {type} is valid");
+                console.log(JSON.stringify(character), "in " + type + " is valid");
                 return true;
             }
         }
     );
+    return false;
+  }
 
+  const validate_alphanumeric_email = (data: string) => {
+    console.log(data);
+    var copy = data;
+    var arr = copy.split("");
+    console.log(arr);
+    for (let i = 1; i < (arr.length - 1); i++) {
+            console.log("character= " + JSON.stringify(arr[i]));
+            if (/[^0-9a-zA-Z._-]/.test(arr[i])) { //TODO stringify(arr[i])?
+                console.log(JSON.stringify(arr[i]), "in email name is invalid"); //TODO test concatenation
+                return false;
+            } else {
+                console.log(JSON.stringify(arr[i]), "in email name is valid");
+            }
+        }
+    return true;
   }
   // const getSeniors = async () => {}
 
   const validate_email = (email: string) => {
       //working on error below -Siara
-      var splitted = email.split("@")
-      if (splitted[1] != "tufts.edu" || (validate_alphanumeric(JSON.stringify(splitted[0]), "email characters") == false)) {
-        console.log("email is invalid");
+      var copy = email;
+      var splitted = copy.split("@");
+      if (splitted[1] == "tufts.edu" && (validate_alphanumeric_email(JSON.stringify(splitted[0])))) {
+        console.log("email is valid");
         return false;
       } else {
-        console.log("email is valid");
+        console.log("email is invalid");
         return true;
       }
-  }
+   }
+  
 
   const validate_year = (year: string) => {
-    year.split("").forEach(
+    //TODO: ask if we should validate specific year
+    if (year.length != 4) {
+        console.log("class year is not four digits- invalid");
+        return false;
+    }
+    var copy = year;
+    copy.split("").forEach(
         character =>
         {
             if (/[^0-9]/.test(character)) {
@@ -120,7 +147,7 @@ const AddStudentForm = () => {
     // console.log(result);
     
     // for now
-
+    console.log("submitted form");
     validate_student(studentData);
     console.log(studentData);
   }
