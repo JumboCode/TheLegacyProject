@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { boolean, string, z } from "zod";
+import { Alert } from 'react-alert'
 
 type Student = {
   icon: Icon;
@@ -49,7 +50,7 @@ const AddStudentForm = () => {
       if (seniorSuggestions.includes(seniorName)) {
         console.log("senior name is valid");
       } else {
-          console.log("senior name is invalid");
+          alert("Senior name is invalid");
       }
   }
 
@@ -59,7 +60,8 @@ const AddStudentForm = () => {
         character =>
         {
             if (/[^0-9a-zA-Z]/.test(character)) {
-                console.log(JSON.stringify(character), "in " + type + " is invalid"); 
+                var message = JSON.stringify(character) + "character in " + type + " is invalid";
+                alert(message); 
                 return false;
             } else {
                 console.log(JSON.stringify(character), "in " + type + " is valid");
@@ -78,7 +80,8 @@ const AddStudentForm = () => {
     for (let i = 1; i < (arr.length - 1); i++) {
             console.log("character= " + JSON.stringify(arr[i]));
             if (/[^0-9a-zA-Z._-]/.test(arr[i])) { 
-                console.log(JSON.stringify(arr[i]), "in email name is invalid"); 
+                var message = JSON.stringify(arr[i])+ "character in email name is invalid";
+                alert(message); 
                 return false;
             } else {
                 console.log(JSON.stringify(arr[i]), "in email name is valid");
@@ -94,14 +97,14 @@ const AddStudentForm = () => {
         console.log("email is valid");
         return false;
       } else {
-        console.log("email is invalid");
+        alert("Email is invalid");
         return true;
       }
    }
 
   const validate_year = (year: string) => {
     if (year.length != 4) {
-        console.log("class year is not four digits- invalid");
+        alert("Class year is not a valid four digit number");
         return false;
     }
     var copy = year;
@@ -109,7 +112,7 @@ const AddStudentForm = () => {
         character =>
         {
             if (/[^0-9]/.test(character)) {
-                console.log(JSON.stringify(character), "in class year is invalid"); 
+                alert("Class year is not a valid four digit number")
                 return false;
             } 
         }
