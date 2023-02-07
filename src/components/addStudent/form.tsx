@@ -37,12 +37,12 @@ const AddStudentForm = () => {
   const [errors, setErrors] = useState({});
 
   const validate_student = (student: Student) => {
+    //TODO: send alert if invalid
     validate_alphanumeric(student.firstName, "first name");
     validate_alphanumeric(student.lastName, "last name");
     validate_email(student.email);
     validate_year(student.classYear);
     validate_senior(student.seniorName);
-    // return(validate_email(student.email) && validate_alphanumeric(student.firstName) && validate_alphanumeric(student.lastName));
   }
 
   const validate_senior = (seniorName: string) => {
@@ -59,7 +59,7 @@ const AddStudentForm = () => {
         character =>
         {
             if (/[^0-9a-zA-Z]/.test(character)) {
-                console.log(JSON.stringify(character), "in " + type + " is invalid"); //TODO test concatenation
+                console.log(JSON.stringify(character), "in " + type + " is invalid"); 
                 return false;
             } else {
                 console.log(JSON.stringify(character), "in " + type + " is valid");
@@ -77,8 +77,8 @@ const AddStudentForm = () => {
     console.log(arr);
     for (let i = 1; i < (arr.length - 1); i++) {
             console.log("character= " + JSON.stringify(arr[i]));
-            if (/[^0-9a-zA-Z._-]/.test(arr[i])) { //TODO stringify(arr[i])?
-                console.log(JSON.stringify(arr[i]), "in email name is invalid"); //TODO test concatenation
+            if (/[^0-9a-zA-Z._-]/.test(arr[i])) { 
+                console.log(JSON.stringify(arr[i]), "in email name is invalid"); 
                 return false;
             } else {
                 console.log(JSON.stringify(arr[i]), "in email name is valid");
@@ -86,10 +86,8 @@ const AddStudentForm = () => {
         }
     return true;
   }
-  // const getSeniors = async () => {}
 
   const validate_email = (email: string) => {
-      //working on error below -Siara
       var copy = email;
       var splitted = copy.split("@");
       if (splitted[1] == "tufts.edu" && (validate_alphanumeric_email(JSON.stringify(splitted[0])))) {
@@ -100,10 +98,8 @@ const AddStudentForm = () => {
         return true;
       }
    }
-  
 
   const validate_year = (year: string) => {
-    //TODO: ask if we should validate specific year
     if (year.length != 4) {
         console.log("class year is not four digits- invalid");
         return false;
@@ -113,7 +109,7 @@ const AddStudentForm = () => {
         character =>
         {
             if (/[^0-9]/.test(character)) {
-                console.log(JSON.stringify(character), "in class year is invalid"); //TODO test concatenation
+                console.log(JSON.stringify(character), "in class year is invalid"); 
                 return false;
             } 
         }
