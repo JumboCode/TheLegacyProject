@@ -1,6 +1,10 @@
 import type { NextPage } from "next";
 import Image from "next/image"
+import { Navbar } from "@components/navbar";
+import emailSignupBox from "@components/emailSignupBox";
 
 const Hero: NextPage = () => {
-    return ();
+    return (
+        
+    );
 }
