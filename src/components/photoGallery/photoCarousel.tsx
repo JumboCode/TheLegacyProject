@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
+import PhotoCard from './photoCard';
 
-const PhotoGallery = () => {
+const PhotoCarousel = () => {
   return (
     <div className='bg-[#F5F0EA] w-full h-[684px]'>
       {/* text section */}
@@ -28,15 +28,27 @@ const PhotoGallery = () => {
       {/* gallery carousel */}
       <div className='flex flex-row relative max-w-[90%] w-full h-[300px] overflow-x-hidden mx-auto'>
         {/* image components */}
-        <div className='absolute left-0 w-[300px] h-[300px] bg-[#22555A] rounded-lg'></div>  
-        <div className='absolute left-[332px] w-[300px] h-[300px] bg-[#22555A] rounded-lg'></div>  
-        <div className='absolute left-[664px] w-[300px] h-[300px] bg-[#22555A] rounded-lg'></div>  
-        <div className='absolute left-[996px] w-[300px] h-[300px] bg-[#22555A] rounded-lg'></div>  
-        <div className='absolute left-[1328px] w-[300px] h-[300px] bg-[#22555A] rounded-lg'></div>  
-        <div className='absolute left-[1660px] w-[300px] h-[300px] bg-[#22555A] rounded-lg'></div>  
+        <div className='absolute left-0 w-[300px] h-[300px] rounded-lg'>
+          <PhotoCard filePath='/gallery/p1.png'/>
+        </div>  
+        <div className='absolute left-[332px] w-[300px] h-[300px] rounded-lg'>
+          <PhotoCard filePath='/gallery/p2.png'/>
+        </div>  
+        <div className='absolute left-[664px] w-[300px] h-[300px] rounded-lg'>
+          <PhotoCard filePath='/gallery/p3.png'/>
+        </div>  
+        <div className='absolute left-[996px] w-[300px] h-[300px] rounded-lg'>
+          <PhotoCard filePath='/gallery/p4.png'/>
+        </div>  
+        <div className='absolute left-[1328px] w-[300px] h-[300px] rounded-lg'>
+          <PhotoCard filePath='/gallery/p5.png'/>
+        </div>  
+        <div className='absolute left-[1660px] w-[300px] h-[300px] rounded-lg'>
+          <PhotoCard filePath='/gallery/p6.png'/>
+        </div>
       </div>
     </div>
   )
 }
 
-export default PhotoGallery;
+export default PhotoCarousel;

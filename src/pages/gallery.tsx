@@ -1,9 +1,9 @@
 import React from 'react';
-import PhotoGallery from '@components/gallery/carousel';
+import { PhotoCarousel } from '@components/photoGallery';
 
 const Gallery = () => {
   return (
-    <PhotoGallery />
+    <PhotoCarousel />
   )
 }
 

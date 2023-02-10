@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from "next/image"
 
 type PhotoCardPic = {
-    filename: string;
-  };
+  filePath: string;
+};
 
-const PhotoCard: React.FunctionComponent<PhotoCardPic> = ({filename}) => {
-    return(
-        <>
-            <Image src={filename} alt="icon" width={2000} height={2000} className="block w-full"/>
-        </>
-    );
+const PhotoCard: React.FunctionComponent<PhotoCardPic> = ({filePath}) => {
+  return (
+    <Image className='rounded-lg'
+      src={filePath} 
+      alt="icon" 
+      width={300} 
+      height={300} 
+    />
+  );
 }
 
 export default PhotoCard;
