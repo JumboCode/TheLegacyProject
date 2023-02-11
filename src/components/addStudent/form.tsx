@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSession, getSession } from "next-auth/react"
 import Image from 'next/image';
 import { boolean, string, z } from "zod";
-import { Alert } from 'react-alert'
 
 type Student = {
   icon: Icon;
@@ -38,12 +38,12 @@ const AddStudentForm = () => {
   const [errors, setErrors] = useState({});
 
   const validate_student = (student: Student) => {
-    //TODO: send alert if invalid
-    validate_alphanumeric(student.firstName, "first name");
-    validate_alphanumeric(student.lastName, "last name");
-    validate_email(student.email);
-    validate_year(student.classYear);
-    validate_senior(student.seniorName);
+    // validate_alphanumeric(student.firstName, "first name");
+    // validate_alphanumeric(student.lastName, "last name");
+    // validate_email(student.email);
+    // validate_year(student.classYear);
+    // validate_senior(student.seniorName);
+    validate_signed_in();
   }
 
   const validate_senior = (seniorName: string) => {
@@ -100,6 +100,28 @@ const AddStudentForm = () => {
         alert("Email is invalid");
         return true;
       }
+   }
+
+   const validate_signed_in = () => {
+    //    const { data: session, status } = useSession();
+      //  const curr_session = getSession()
+      //  const { data: session, status } = useSession();
+      //  if (status === "authenticated") {
+      //       //TODO: give that student access to senior's folder
+      //       alert("Email is authenticated but Google drive access not yet implemented");
+      //  }
+      alert("hello");
+
+      const {data: session, status } = useSession();
+      alert("hello 2");
+        if (status == "authenticated") {
+            alert("logged in");
+        }
+        // required: true,
+        // onUnauthenticated() {
+        //   alert("Not logged in");
+        //}
+    //   alert("logged in");
    }
 
   const validate_year = (year: string) => {
