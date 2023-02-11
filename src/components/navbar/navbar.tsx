@@ -1,8 +1,7 @@
 import React, { FunctionComponent, PropsWithChildren, useState } from "react";
 import Link from "next/link";
 import { NavbarItem } from "./index";
-import SignIn from "@components/SignIn";
-//import cn from "classnames";
+import SignIn from "@components/signin";
 
 const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -51,14 +50,13 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
 
         {/* Using templates is bad practice generally, but we have to mingle
             react and tailwind state here */}
-        {/* <div
-          className={cn(
-            dropdownVisible ? "flex" : "hidden",
-            "absolute top-full left-[-4.16667%] m-auto w-screen flex-col items-center justify-center space-y-4 border-t-2 border-gray-200  bg-white py-4 shadow-xl lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none"
-          )}
+        <div
+          className={`${
+            dropdownVisible ? "flex" : "hidden"
+          } absolute top-full left-[-4.16667%] m-auto w-screen flex-col items-center justify-center space-y-4 border-t-2 border-gray-200  bg-white py-4 shadow-xl lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none`}
         >
           {children}
-        </div> */}
+        </div>
       </div>
     </nav>
   );
