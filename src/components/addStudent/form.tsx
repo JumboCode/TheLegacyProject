@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSession, getSession } from "next-auth/react"
+import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import Image from 'next/image';
 import { boolean, string, z } from "zod";
 
@@ -38,12 +39,11 @@ const AddStudentForm = () => {
   const [errors, setErrors] = useState({});
 
   const validate_student = (student: Student) => {
-    // validate_alphanumeric(student.firstName, "first name");
-    // validate_alphanumeric(student.lastName, "last name");
-    // validate_email(student.email);
-    // validate_year(student.classYear);
-    // validate_senior(student.seniorName);
-    validate_signed_in();
+    validate_alphanumeric(student.firstName, "first name");
+    validate_alphanumeric(student.lastName, "last name");
+    validate_email(student.email);
+    validate_year(student.classYear);
+    validate_senior(student.seniorName);
   }
 
   const validate_senior = (seniorName: string) => {
@@ -102,28 +102,6 @@ const AddStudentForm = () => {
       }
    }
 
-   const validate_signed_in = () => {
-    //    const { data: session, status } = useSession();
-      //  const curr_session = getSession()
-      //  const { data: session, status } = useSession();
-      //  if (status === "authenticated") {
-      //       //TODO: give that student access to senior's folder
-      //       alert("Email is authenticated but Google drive access not yet implemented");
-      //  }
-      alert("hello");
-
-      const {data: session, status } = useSession();
-      alert("hello 2");
-        if (status == "authenticated") {
-            alert("logged in");
-        }
-        // required: true,
-        // onUnauthenticated() {
-        //   alert("Not logged in");
-        //}
-    //   alert("logged in");
-   }
-
   const validate_year = (year: string) => {
     if (year.length != 4) {
         alert("Class year is not a valid four digit number");
@@ -167,8 +145,7 @@ const AddStudentForm = () => {
     // const result = await response.json();
     // console.log(result);
     
-    // for now
-    console.log("submitted form");
+    //TODO: send data to backend
     validate_student(studentData);
     console.log(studentData);
   }
