@@ -3,15 +3,16 @@ import Image from "next/image"
 
 type PhotoCardPic = {
   filePath: string;
+  caption: string;
 };
 
-const PhotoCard: React.FunctionComponent<PhotoCardPic> = ({filePath}) => {
+const PhotoCard: React.FunctionComponent<PhotoCardPic> = ({filePath, caption}) => {
   return (
-    <Image className='rounded-lg'
+    <Image className='rounded-lg object-cover'
       src={filePath} 
-      alt="icon" 
+      alt={caption} 
       width={300} 
-      height={300} 
+      height={300}
     />
   );
 }

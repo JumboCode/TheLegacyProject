@@ -3,7 +3,7 @@ import { PhotoCarousel } from '@components/photoGallery';
 
 const Gallery = () => {
   return (
-    <PhotoCarousel />
+    <PhotoCarousel show={6} />
   )
 }
 
