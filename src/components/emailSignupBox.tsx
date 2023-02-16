@@ -2,9 +2,13 @@ import React from "react";
 
 function handleSubmit(event) {
     // validate that input is an email
+    // contains alpha (65-90, 97-122) numeric (48-57) chars
+    // no "." (46) at beginning or consecutive ("..")
+    // contains an @ (64)
+    // no ( ) , : ; < > @ [ \ ]
 
-    // if contains @ and no weird characters
 
+    
     alert("Email: ");
     event.target.email.value = "";
     event.preventDefault();
