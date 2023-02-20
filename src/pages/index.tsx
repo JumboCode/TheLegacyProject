@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import EmailSignupBox from "@components/EmailSignUpBox";
+import { EmailSignupBox } from "@components/emailSignup";
 import { Navbar } from "@components/navbar";
 
 const Home: NextPage = () => {
