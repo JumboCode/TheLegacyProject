@@ -16,7 +16,7 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
       <div className="relative m-auto flex min-h-[5rem] w-11/12 items-center justify-between">
         {/* Logo */}
         <div className="flex">
-          <div className="mr-6 py-1.5 text-2xl font-bold leading-normal text-gray-700">
+          <div className="mr-6 py-1.5 text-2xl font-bold leading-normal text-dark-plum">
             <Link href="/">The Legacy Project</Link>
           </div>
         </div>

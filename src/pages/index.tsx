@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { EmailSignupBox } from "@components/emailSignup";
-import { Navbar } from "@components/navbar";
 
 const Home: NextPage = () => {
   return (
@@ -11,71 +10,26 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
-          The Legacy Project
-        </h1>
-        <p className="text-2xl text-gray-700">This stack uses:</p>
-        <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-3 lg:w-2/3">
-          <TechnologyCard
-            name="NextJS"
-            description="The React framework for production"
-            documentation="https://nextjs.org/"
-          />
-          <TechnologyCard
-            name="TypeScript"
-            description="Strongly typed programming language that builds on JavaScript, giving you better tooling at any scale"
-            documentation="https://www.typescriptlang.org/"
-          />
-          <TechnologyCard
-            name="TailwindCSS"
-            description="Rapidly build modern websites without ever leaving your HTML"
-            documentation="https://tailwindcss.com/"
-          />
-          <TechnologyCard
-            name="Next-Auth"
-            description="Authentication for Next.js"
-            documentation="https://next-auth.js.org/"
-          />
-          <TechnologyCard
-            name="Prisma"
-            description="Build data-driven JavaScript & TypeScript apps in less time"
-            documentation="https://www.prisma.io/docs/"
-          />
+      <main className="container mx-auto flex min-h-screen flex-col items-center p-4">
+        <div> 
+            <div> {/*left*/}
+                <h1 className="text-5xl font-extrabold leading-normal text-dark-plum md:text-[5rem] my-4 border-2 border-red-500">
+                Everyone has a story worth preserving
+                </h1>
+                <p className="text-2xl text-gray-700 my-4">Legacy Project documents the stories of the elder generation
+to ensure that their legacies are preserved for years to come.</p>
+                <EmailSignupBox />
+            </div>
+           <div> {/*right*/}
+
+           </div>
+            
         </div>
-        <div>
-            <EmailSignupBox />
-        </div>
+      
       </main>
     </>
   );
 };
+Home.displayName = "public"
 
 export default Home;
-
-type TechnologyCardProps = {
-  name: string;
-  description: string;
-  documentation: string;
-};
-
-const TechnologyCard = ({
-  name,
-  description,
-  documentation,
-}: TechnologyCardProps) => {
-  return (
-    <section className="flex flex-col justify-center rounded border-2 border-gray-500 p-6 shadow-xl duration-500 motion-safe:hover:scale-105">
-      <h2 className="text-lg text-gray-700">{name}</h2>
-      <p className="text-sm text-gray-600">{description}</p>
-      <a
-        className="m-auto mt-3 w-fit text-sm text-violet-500 underline decoration-dotted underline-offset-2"
-        href={documentation}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Documentation
-      </a>
-    </section>
-  );
-};

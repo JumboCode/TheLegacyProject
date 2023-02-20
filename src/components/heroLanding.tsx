@@ -5,6 +5,6 @@ import emailSignupBox from "@components/emailSignup/emailSignupBox";
 
 const Hero: NextPage = () => {
     return (
-        
+        //<Navbar />
     );
 }
