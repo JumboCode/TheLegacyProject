@@ -7,8 +7,8 @@ function handleSubmit(event) {
     // contains an @ (64)
     // no ( ) , : ; < > @ [ \ ]
 
-
     
+
     alert("Email: ");
     event.target.email.value = "";
     event.preventDefault();
