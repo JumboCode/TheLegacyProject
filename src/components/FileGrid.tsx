@@ -1,6 +1,6 @@
 const FileGrid = () => {
     return (
-        <div className="bg-sky-300"> Hello! </div>
+        <div className="bg-red-300"> Hello! </div>
     );
 }
 
