@@ -16,6 +16,7 @@ type Icon = {
   raw: File | null;
 }
 
+
 const AddStudentForm = () => {
   const [studentData, setStudentData] = useState<Student>({
     icon: {
@@ -29,6 +30,7 @@ const AddStudentForm = () => {
     classYear: '',
     email: '',
   });
+
   const [showDropdown, setShowDropdown] = useState(false);
   // sample names
   const [seniorSuggestions, setSeniorSuggestions] = useState(['John Doe', 'Jane Doe', 'James Doe', 'Jack Doe', 'Jake Doe']);
@@ -104,6 +106,53 @@ const AddStudentForm = () => {
     }
   }, [showDropdown]);
 
+  type StudentFieldProps = {
+    label: string,
+    elemName: string,
+    value: string,
+    ref: Object,
+    onFocus: Function,
+    onBlur: Function
+  }
+  
+    const AddStudentField = ({label, elemName, value, placeholder, ref, dropdown,
+                            onFocus, onBlur}: StudentFieldProps) => {
+
+    const applyDropdown = (showDropdown && (dropdown != undefined) && 
+                            dropdown.filter((item) => item.toLowerCase().startsWith(value.toLowerCase())).length != 0);
+    return (
+        <div className='flex flex-col w-full h-[26.6%]'>
+            <label className='w-full h-[37%] text-[14px] font-normal'>{label}</label>
+            <input className='w-full h-[71px] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]'
+                name={elemName}
+                type='text'
+                value={value} 
+                placeholder={placeholder}
+                ref={ref}
+                onChange={handleChange}
+                onFocus={onFocus}
+                onBlur={onBlur}>
+            </input>
+        
+        { applyDropdown && (
+            <ul className='bg-white rounded border-[0.3px] border-[#A6A6A6] absolute w-full top-[71px] list-none shadow-md pb-1'>
+            {dropdown
+                .filter((item) => item.toLowerCase().startsWith(value.toLowerCase()))
+                .map((item, index) => (
+                (index < 3) && (
+                    <li className='pl-3 py-1' key={item} onClick={() => handleSelected(item)}>
+                    {item}
+                    </li>
+                )
+                ))
+            }
+            </ul>
+        )}
+        </div>
+    );
+  }
+
+
   return (
     <section className='flex items-center justify-center bg-white m-auto w-[96%] rounded-xl h-[72%]'>
       <div className='flex flex-col w-[75%] h-[78%] justify-between items-center'>
@@ -162,85 +211,33 @@ const AddStudentForm = () => {
         <form className='flex flex-col w-full h-[70%] justify-between items-center' onSubmit={handleSubmit}>
           <div className='flex flex-row w-[98%] h-[75%] justify-between items-center'>
             <div className='flex flex-col w-[47%] h-full justify-between text-[#515151]'>
-              <div className='flex flex-col w-full h-[26.6%]'>
-                <label className='w-full h-[37%] text-[14px] font-normal'>First Name</label>
-                <input className='w-full h-[63%] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]'
-                  placeholder='Enter your first name'
-                  name='firstName'
-                  type='text'
-                  value={studentData.firstName} 
-                  onChange={handleChange}>
-                </input>
-              </div>
-              <div className='flex flex-col w-full h-[26.6%] relative'>
-                <label className='w-full h-[37%] text-[14px] font-normal'>Senior Name</label>
-                <input className='w-full h-[63%] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px] z-50' 
-                  placeholder='Enter your senior name' 
-                  name='seniorName'
-                  type="text"
-                  value={studentData.seniorName}
-                  onChange={handleChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  ref={seniorRef}
-                />
-                {showDropdown && seniorSuggestions.filter((item) => item.toLowerCase().startsWith(studentData.seniorName.toLowerCase())).length != 0 && (
-                  <ul className='bg-white rounded border-[0.3px] border-[#A6A6A6] absolute w-full top-[71px] list-none shadow-md pb-1'>
-                    {seniorSuggestions
-                      .filter((item) => item.toLowerCase().startsWith(studentData.seniorName.toLowerCase()))
-                      .map((item, index) => (
-                        (index < 3) && (
-                          <li className='pl-3 py-1' key={item} onClick={() => handleSelected(item)}>
-                            {item}
-                          </li>
-                        )
-                      ))
-                    }
-                  </ul>
-                )}
-              </div>
-              <div className='flex flex-col w-full h-[26.6%]'>
-                <label className='w-full h-[37%] text-[14px] font-normal'>Class Year</label>
-                <input className='w-full h-[63%] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]' placeholder='Enter your class year' 
-                  name='classYear'
-                  type='text'
-                  value={studentData.classYear} 
-                  onChange={handleChange}> 
-                </input>
-              </div>
+              <AddStudentField elemName={'firstName'} label={'First Name'} 
+                               value={studentData.firstName}
+                               placeholder={'Enter their first name'} />
+
+              <AddStudentField elemName={'seniorName'} label={'Senior Name'}
+                               value={studentData.seniorName} ref={seniorRef}
+                               placeholder={'Enter their senior\'s name'}
+                               onBlur={handleBlur} onFocus={handleFocus}
+                               dropdown={seniorSuggestions}/>
+
+              <AddStudentField elemName={'classYear'} label={'Class Year'} 
+                               value={studentData.classYear}
+                               placeholder={'Enter their first name'} />
             </div>
 
             <div className='flex flex-col w-[47%] h-full justify-between text-[#515151]'>
-              <div className='flex flex-col w-full h-[26.6%]'>
-                <label className='w-full h-[37%] text-[14px] font-normal'>Last Name</label>
-                <input className='w-full h-[63%] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]' 
-                  placeholder='Enter your last name'
-                  name='lastName'
-                  type='text'
-                  value={studentData.lastName} 
-                  onChange={handleChange}>
-                </input>
-              </div>
-              <div className='flex flex-col w-full h-[26.6%]'>
-                <label className='w-full h-[37%] text-[14px] font-normal'>Pronouns</label>
-                <input className='w-full h-[63%] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]' 
-                  placeholder='She/her'
-                  name='pronouns'
-                  type='text'
-                  value={studentData.pronouns} 
-                  onChange={handleChange}>
-                </input>
-              </div>
-              <div className='flex flex-col w-full h-[26.6%]'>
-                <label className='w-full h-[37%] text-[14px] font-normal'>Email</label>
-                <input className='w-full h-[63%] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]' 
-                  placeholder='Enter your email'
-                  name='email'
-                  type='text'
-                  value={studentData.email} 
-                  onChange={handleChange}>
-                </input>
-              </div>
+              <AddStudentField elemName={'lastName'} label={'Last Name'} 
+                               value={studentData.lastName}
+                               placeholder={'Enter their last name'} />
+    
+              <AddStudentField elemName={'pronouns'} label={'Pronouns'} 
+                               value={studentData.pronouns}
+                               placeholder={'Enter their pronouns'} />
+
+              <AddStudentField elemName={'email'} label={'Email'} 
+                               value={studentData.email}
+                               placeholder={'Enter their email'} />
             </div>
           </div>
 
