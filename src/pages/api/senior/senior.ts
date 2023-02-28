@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@server/db/client";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
+
 const senior = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
   const { senior_id, senior_location } = JSON.parse(req.body); //TODO: verify that these fields are well-formed using zod
