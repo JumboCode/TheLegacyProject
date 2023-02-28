@@ -15,10 +15,10 @@ type ProfileProps<T extends {selectName: string}> = {
     profileLabels: T 
 }
 
-const AddProfileForm = ({
+const AddProfileForm = <T extends {selectName: string}>({
     initialData, 
-    profileLabel,
-}: ProfileProps) => {
+    profileLabels
+}: ProfileProps<T>) => {
 
   const [profileData, setProfileData] = useState<T>(initialData);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -151,7 +151,7 @@ const AddProfileForm = ({
             <div className='flex flex-col w-[47%] h-full justify-between text-[#515151]'>
                 <div className='flex flex-col w-full h-[26.6%]'>
                     
-                    {/* <div> {Object.keys(initialData)} </div> */}
+                    <div> {initialData.firstName} </div>
                     {/* Issue: initialData is undefined here; test above */}
 
                     {/* {Object.keys(initialData).map((keyname) =>(
