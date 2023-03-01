@@ -31,6 +31,7 @@ const AddStudentPage: NextPage = () => {
         classYear: 'Class Year',
         email: 'Email'
     };
+
   return (
     <>
       <Head>
@@ -38,8 +39,7 @@ const AddStudentPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AddStudent />
-      {/* <AddProfile<Student> initialData={initStudent} profileLabel={labelStudent}/> */}
+      <AddProfile<Student> icon={undefined} initialData={initStudent} profileLabels={labelStudent}/>
     </>
   );
 };

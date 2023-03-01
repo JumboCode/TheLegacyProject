@@ -6,6 +6,7 @@ type Icon = {
   raw: File | null;
 }
 
+
 // documentation explaining how this component is "parameterized": i.e.,
 // it operates on a specific type, specified by the <T>; the type must
 // contain the field "selectName: string"!
@@ -149,23 +150,19 @@ const AddProfileForm = <T extends {selectName: string}>({
 
         <form className='flex flex-col w-full h-[70%] justify-between items-center' onSubmit={handleSubmit}>
             <div className='flex flex-col w-[47%] h-full justify-between text-[#515151]'>
-                <div className='flex flex-col w-full h-[26.6%]'>
-                    
-                    <div> {initialData.firstName} </div>
-                    {/* Issue: initialData is undefined here; test above */}
-
-                    {/* {Object.keys(initialData).map((keyname) =>(
-                        <label className='w-full h-[37%] text-[14px] font-normal'>{profileLabels.keyname}</label>
-                        <input className='w-full h-[63%] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]' 
-                        placeholder={initialData.keyname}
-                        name={keyname}
-                        type='text'
-                        value={profileData.keyname} 
-                        onChange={handleChange}>
-                        </input>
-                    ))} */}
-
-                </div>
+                    {Object.keys(initialData).map(
+                        (keyname) =>(
+                            <div className='flex flex-col w-full h-[26.6%]'>
+                                <label className='w-full h-[37%] text-[14px] font-normal'>{profileLabels[keyname]}</label>
+                                <input className='w-full h-[63%] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]' 
+                                placeholder={initialData[keyname]}
+                                name={keyname}
+                                type='text'
+                                value={profileData[keyname]} 
+                                onChange={handleChange}>
+                                </input>
+                            </div>))
+                    }
             </div>
             <div className='flex flex-row w-[50%] h-[15%] justify-between'>
                 <button className='w-[44%] h-full border-[1px] border-[#22555A] bg-white text-md text-[#22555A] font-bold rounded' type='reset'>Cancel</button>

@@ -114,43 +114,44 @@ const AddStudentForm = () => {
     onFocus: Function,
     onBlur: Function
   }
-  
+
+    // React tries to re-render entire component
     const AddStudentField = ({label, elemName, value, placeholder, ref, dropdown,
                             onFocus, onBlur}: StudentFieldProps) => {
 
-    const applyDropdown = (showDropdown && (dropdown != undefined) && 
+        const applyDropdown = (showDropdown && (dropdown != undefined) && 
                             dropdown.filter((item) => item.toLowerCase().startsWith(value.toLowerCase())).length != 0);
-    return (
-        <div className='flex flex-col w-full h-[26.6%]'>
-            <label className='w-full h-[37%] text-[14px] font-normal'>{label}</label>
-            <input className='w-full h-[71px] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]'
-                name={elemName}
-                type='text'
-                value={value} 
-                placeholder={placeholder}
-                ref={ref}
-                onChange={handleChange}
-                onFocus={onFocus}
-                onBlur={onBlur}>
-            </input>
-        
-        { applyDropdown && (
-            <ul className='bg-white rounded border-[0.3px] border-[#A6A6A6] absolute w-full top-[71px] list-none shadow-md pb-1'>
-            {dropdown
-                .filter((item) => item.toLowerCase().startsWith(value.toLowerCase()))
-                .map((item, index) => (
-                (index < 3) && (
-                    <li className='pl-3 py-1' key={item} onClick={() => handleSelected(item)}>
-                    {item}
-                    </li>
-                )
-                ))
-            }
-            </ul>
-        )}
-        </div>
-    );
-  }
+        return (
+            <div className='flex flex-col w-full h-[26.6%]'>
+                <label className='w-full h-[37%] text-[14px] font-normal'>{label}</label>
+                <input className='w-full h-[71px] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]'
+                    name={elemName}
+                    type='text'
+                    value={value} 
+                    placeholder={placeholder}
+                    ref={ref}
+                    onChange={handleChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}>
+                </input>
+            
+            { applyDropdown && (
+                <ul className='bg-white rounded border-[0.3px] border-[#A6A6A6] absolute w-full top-[71px] list-none shadow-md pb-1'>
+                {dropdown
+                    .filter((item) => item.toLowerCase().startsWith(value.toLowerCase()))
+                    .map((item, index) => (
+                    (index < 3) && (
+                        <li className='pl-3 py-1' key={item} onClick={() => handleSelected(item)}>
+                        {item}
+                        </li>
+                    )
+                    ))
+                }
+                </ul>
+            )}
+            </div>
+        );
+    }
 
 
   return (

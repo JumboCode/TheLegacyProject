@@ -6,14 +6,26 @@ type User = {
   icon?: JSX.Element;
 }
 
-const AddProfile = ({
-  icon
-}: User) => {
+// documentation explaining how this component is "parameterized": i.e.,
+// it operates on a specific type, specified by the <T>; the type must
+// contain the field "selectName: string"!
+
+type ProfileProps<T extends {selectName: string}> = {
+    icon: User,
+    initialData: T,
+    profileLabels: T 
+}
+
+const AddProfile = <T extends {selectName: string}>({
+    icon,
+    initialData, 
+    profileLabels
+}: ProfileProps<T>) => {
   return (
     <>
       <div className='bg-[#F5F5F5] w-[84%] h-screen absolute inset-y-0 right-0 font-sans'>
         <ProfileHeader title={"Add New Member"} icon={icon}/>
-        <AddProfileForm />
+        <AddProfileForm initialData={initialData} profileLabels={profileLabels}/>
       </div>
     </>
   )
