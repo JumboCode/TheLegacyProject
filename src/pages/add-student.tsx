@@ -14,7 +14,7 @@ const AddStudentPage: NextPage = () => {
         email: string;
     }
 
-    const initStudent: Student = {
+    const placeholdStudent: Student = {
         firstName: 'Enter their first name',
         lastName: 'Enter their last name',
         selectName: 'Enter their senior\'s name',
@@ -39,7 +39,7 @@ const AddStudentPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AddProfile<Student> icon={undefined} initialData={initStudent} profileLabels={labelStudent}/>
+      <AddProfile<Student> icon={undefined} placeholdData={placeholdStudent} profileLabels={labelStudent}/>
     </>
   );
 };

@@ -12,16 +12,18 @@ type Icon = {
 // contain the field "selectName: string"!
 
 type ProfileProps<T extends {selectName: string}> = {
-    initialData: T,
+    placeholdData: T,
     profileLabels: T 
 }
 
 const AddProfileForm = <T extends {selectName: string}>({
-    initialData, 
+    placeholdData, 
     profileLabels
 }: ProfileProps<T>) => {
 
-  const [profileData, setProfileData] = useState<T>(initialData);
+  // TODO: generate empty initialData from type T
+
+  const [profileData, setProfileData] = useState<T>(placeholdData);
   const [showDropdown, setShowDropdown] = useState(false);
   const [currIcon, setCurrIcon] = useState<Icon>({ preview: null, raw: null });
 
@@ -93,8 +95,8 @@ const AddProfileForm = <T extends {selectName: string}>({
   }, [showDropdown]);
 
   return (
-    <section className='flex items-center justify-center bg-white m-auto w-[96%] rounded-xl h-[72%]'>
-      <div className='flex flex-col w-[75%] h-[78%] justify-between items-center'>
+    <section className='flex items-center justify-center bg-white m-auto w-[96%] rounded-xl h-[80%] overflow-scroll'>
+      <div className='flex flex-col gap-y-4 w-full h-[90%] justify-between items-center'>
 
         <div className='flex flex-col w-[15%] h-[26%] items-center'>
           <label className='rounded-full relative bg-[#F5F6FA] w-[5.5rem] h-[5.5rem] flex items-center cursor-pointer' htmlFor='upload-button'>
@@ -148,14 +150,14 @@ const AddProfileForm = <T extends {selectName: string}>({
         </div>
 
 
-        <form className='flex flex-col w-full h-[70%] justify-between items-center' onSubmit={handleSubmit}>
-            <div className='flex flex-col w-[47%] h-full justify-between text-[#515151]'>
-                    {Object.keys(initialData).map(
+        <form className='flex flex-col w-full h-[80%] justify-between items-center' onSubmit={handleSubmit}>
+            <div className='grid md:grid-cols-2 grid-cols-1 md:gap-5 gap-5 gap-x-10 w-[70%] h-full justify-items-center text-[#515151]'>
+                    {Object.keys(placeholdData).map(
                         (keyname) =>(
-                            <div className='flex flex-col w-full h-[26.6%]'>
+                            <div className='flex flex-col gap-y-1 w-full h-full'>
                                 <label className='w-full h-[37%] text-[14px] font-normal'>{profileLabels[keyname]}</label>
-                                <input className='w-full h-[63%] bg-[#F5F6FA] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]' 
-                                placeholder={initialData[keyname]}
+                                <input className='w-full md:h-12 h-10 bg-[#F5F6FA] text-[14px] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]' 
+                                placeholder={placeholdData[keyname]}
                                 name={keyname}
                                 type='text'
                                 value={profileData[keyname]} 
@@ -163,10 +165,8 @@ const AddProfileForm = <T extends {selectName: string}>({
                                 </input>
                             </div>))
                     }
-            </div>
-            <div className='flex flex-row w-[50%] h-[15%] justify-between'>
-                <button className='w-[44%] h-full border-[1px] border-[#22555A] bg-white text-md text-[#22555A] font-bold rounded' type='reset'>Cancel</button>
-                <button className='w-[44%] h-full bg-[#22555A] text-md text-white font-bold rounded' type='submit' >Save</button>
+                <button className='md:w-[70%] md:h-12 h-10 w-full md:justify-self-end justify-self-center border-[1px] border-[#22555A] bg-white text-md text-[#22555A] font-bold rounded' type='reset'>Cancel</button>
+                <button className='md:w-[70%] md:h-12 h-10 w-full md:justify-self-start justify-self-center bg-[#22555A] text-md text-white font-bold rounded' type='submit' >Save</button>
             </div>
         </form>
 

@@ -12,20 +12,20 @@ type User = {
 
 type ProfileProps<T extends {selectName: string}> = {
     icon: User,
-    initialData: T,
+    placeholdData: T,
     profileLabels: T 
 }
 
 const AddProfile = <T extends {selectName: string}>({
     icon,
-    initialData, 
+    placeholdData, 
     profileLabels
 }: ProfileProps<T>) => {
   return (
     <>
       <div className='bg-[#F5F5F5] w-[84%] h-screen absolute inset-y-0 right-0 font-sans'>
         <ProfileHeader title={"Add New Member"} icon={icon}/>
-        <AddProfileForm initialData={initialData} profileLabels={profileLabels}/>
+        <AddProfileForm placeholdData={placeholdData} profileLabels={profileLabels}/>
       </div>
     </>
   )
