@@ -7,23 +7,21 @@ type Icon = {
 }
 
 
-// documentation explaining how this component is "parameterized": i.e.,
-// it operates on a specific type, specified by the <T>; the type must
-// contain the field "selectName: string"!
-
 type ProfileProps<T extends {selectName: string}> = {
     placeholdData: T,
     profileLabels: T 
 }
+ 
 
 const AddProfileForm = <T extends {selectName: string}>({
     placeholdData, 
     profileLabels
 }: ProfileProps<T>) => {
 
-  // TODO: generate empty initialData from type T
+  const initialData = {}
+  Object.keys(placeholdData).map((keyname) => (initialData[keyname] = ''));
 
-  const [profileData, setProfileData] = useState<T>(placeholdData);
+  const [profileData, setProfileData] = useState<T>(initialData);
   const [showDropdown, setShowDropdown] = useState(false);
   const [currIcon, setCurrIcon] = useState<Icon>({ preview: null, raw: null });
 
@@ -40,22 +38,7 @@ const AddProfileForm = <T extends {selectName: string}>({
 
   const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // setErrors(validate(profileData));
-
-    // const data = JSON.stringify(profileData);
-    // const endpoint = '/api/students';
-    // const options = {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: data,
-    // };
-    // const response = await fetch(endpoint, options);
-    // const result = await response.json();
-    // console.log(result);
-    
-    // for now
+    // TODO: POST to create a new model on submit
     console.log(profileData);
   }
 
@@ -149,13 +132,12 @@ const AddProfileForm = <T extends {selectName: string}>({
           </span>
         </div>
 
-
         <form className='flex flex-col w-full h-[80%] justify-between items-center' onSubmit={handleSubmit}>
             <div className='grid md:grid-cols-2 grid-cols-1 md:gap-5 gap-5 gap-x-10 w-[70%] h-full justify-items-center text-[#515151]'>
                     {Object.keys(placeholdData).map(
                         (keyname) =>(
                             <div className='flex flex-col gap-y-1 w-full h-full'>
-                                <label className='w-full h-[37%] text-[14px] font-normal'>{profileLabels[keyname]}</label>
+                                <label className='w-full text-[14px] font-normal'>{profileLabels[keyname]}</label>
                                 <input className='w-full md:h-12 h-10 bg-[#F5F6FA] text-[14px] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]' 
                                 placeholder={placeholdData[keyname]}
                                 name={keyname}
