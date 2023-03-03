@@ -15,12 +15,12 @@ const AddStudentPage: NextPage = () => {
     }
 
     const placeholdStudent: Student = {
-        firstName: 'Enter their first name',
-        lastName: 'Enter their last name',
-        selectName: 'Enter their senior\'s name',
-        pronouns: 'Enter their pronouns',
-        classYear: 'Enter their class year',
-        email: 'Enter their email'
+        firstName: 'Enter their first name.',
+        lastName: 'Enter their last name.',
+        selectName: 'Enter their senior\'s name.',
+        pronouns: 'Enter their pronouns.',
+        classYear: 'Enter their class year.',
+        email: 'Enter their email.'
     };
 
     const labelStudent: Student = {

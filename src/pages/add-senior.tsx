@@ -12,13 +12,13 @@ const AddSenior: NextPage = () => {
         description: string;
     }
 
-    const initSenior: Senior = {
-        firstName: 'Enter their first name',
-        lastName: 'Enter their last name',
-        selectName: 'Enter their student\'s names',
-        interests: 'Enter their interests',
-        location: 'Enter their location',
-        description: 'Describe them'
+    const placeholdSenior: Senior = {
+        firstName: 'Enter their first name.',
+        lastName: 'Enter their last name.',
+        selectName: 'Enter their student\'s names.',
+        interests: 'Enter their interests.',
+        location: 'Enter their location.',
+        description: 'Describe this senior.'
     };
 
     const labelSenior: Senior = {
@@ -32,7 +32,7 @@ const AddSenior: NextPage = () => {
 
     return (
         <>
-            <AddProfile<Senior> initialData=initSenior profileLabel=labelSenior/>
+            <AddProfile<Senior> icon={undefined} placeholdData={placeholdSenior} profileLabels={labelSenior}/>
         </>
     ); 
 }
