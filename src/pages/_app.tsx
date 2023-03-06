@@ -2,14 +2,16 @@ import "../styles/globals.css";
 import type { AppType } from "next/app";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { useState } from 'react';
 import { Navbar } from "@components/navbar";
+import Sidebar from "@components/sidebar";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
 
-  if (true) {
+  if (Component.displayName == "public") {
     return (
         <SessionProvider session={session}>
             <div className="flex flex-col w-screen h-screen">

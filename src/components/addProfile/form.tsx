@@ -147,6 +147,21 @@ const AddProfileForm = <T extends {selectName: string}>({
                                 </input>
                             </div>))
                     }
+                    {/* TODO: FIX DROPDOWN! */}
+                    {showDropdown && nameSuggestions.filter((item) => item.toLowerCase().startsWith(profileData.selectName.toLowerCase())).length != 0 && (
+                        <ul className='bg-white rounded border-[0.3px] border-[#A6A6A6] absolute w-full top-[71px] list-none shadow-md pb-1'>
+                            {nameSuggestions
+                            .filter((item) => item.toLowerCase().startsWith(profileData.selectName.toLowerCase()))
+                            .map((item, index) => (
+                                (index < 3) && (
+                                <li className='pl-3 py-1' key={item} onClick={() => handleSelected(item)}>
+                                    {item}
+                                </li>
+                                )
+                            ))
+                            }
+                        </ul>
+                    )}
                 <button className='md:w-[70%] md:h-12 h-10 w-full md:justify-self-end justify-self-center border-[1px] border-[#22555A] bg-white text-md text-[#22555A] font-bold rounded' type='reset'>Cancel</button>
                 <button className='md:w-[70%] md:h-12 h-10 w-full md:justify-self-start justify-self-center bg-[#22555A] text-md text-white font-bold rounded' type='submit' >Save</button>
             </div>

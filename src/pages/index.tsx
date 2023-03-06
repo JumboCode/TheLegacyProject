@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import FileGrid from "@components/FileGrid"
+import FileGrid from "@components/TileGrid"
 
 const Home: NextPage = () => {
   return (
