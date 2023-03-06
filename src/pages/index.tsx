@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import FileGrid from "@components/TileGrid"
 
 const Home: NextPage = () => {
   return (
@@ -14,8 +13,7 @@ const Home: NextPage = () => {
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           The Legacy Project
         </h1>
-        <FileGrid />
-
+        
         <p className="text-2xl text-gray-700">This stack uses:</p>
         <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-3 lg:w-2/3">
           <TechnologyCard

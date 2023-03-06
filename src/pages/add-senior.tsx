@@ -30,9 +30,16 @@ const AddSenior: NextPage = () => {
         description: 'Description' 
     }
 
+    const handleSeniorSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        // TODO: POST to create a new model on submit
+        alert("Submitted Senior.");
+    }
+
     return (
         <>
-            <AddProfile<Senior> icon={undefined} placeholdData={placeholdSenior} profileLabels={labelSenior}/>
+            <AddProfile<Senior> placeholdData={placeholdSenior} profileLabels={labelSenior}
+                                handleSubmit={handleSeniorSubmit}/>
         </>
     ); 
 }

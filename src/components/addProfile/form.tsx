@@ -6,16 +6,17 @@ type Icon = {
   raw: File | null;
 }
 
-
 type ProfileProps<T extends {selectName: string}> = {
     placeholdData: T,
-    profileLabels: T 
+    profileLabels: T,
+    handleSubmit: Function
 }
  
 
 const AddProfileForm = <T extends {selectName: string}>({
     placeholdData, 
-    profileLabels
+    profileLabels,
+    handleSubmit
 }: ProfileProps<T>) => {
 
   const initialData = {}
@@ -36,11 +37,6 @@ const AddProfileForm = <T extends {selectName: string}>({
     });
   };
 
-  const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // TODO: POST to create a new model on submit
-    console.log(profileData);
-  }
 
   const handleImageUploaded = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {

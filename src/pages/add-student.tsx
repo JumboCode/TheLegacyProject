@@ -32,6 +32,13 @@ const AddStudentPage: NextPage = () => {
         email: 'Email'
     };
 
+    const handleStudentSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        // TODO: POST to create a new model on submit
+        console.log(placeholdStudent);
+    }
+
+
   return (
     <>
       <Head>
@@ -39,7 +46,8 @@ const AddStudentPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AddProfile<Student> icon={undefined} placeholdData={placeholdStudent} profileLabels={labelStudent}/>
+      <AddProfile<Student> placeholdData={placeholdStudent} profileLabels={labelStudent}
+                           handleSubmit={handleStudentSubmit}/>
     </>
   );
 };
