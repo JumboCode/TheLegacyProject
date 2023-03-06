@@ -17,7 +17,7 @@ function TabToggle({ children, active, onClick }: { children: any, active: boole
 function Card({ type, data }: { type: string, data: any }) {
   if (type == "member") {
     return (
-      <div className="flex flex-col m-3 bg-white p-9 rounded-lg items-center justify-between border-2 border-white text-center hover:border-green hover:cursor-pointer duration-300">
+      <div className="flex flex-col m-3 bg-white p-9 rounded-lg items-center justify-between border-2 border-white text-center hover:border-teal hover:cursor-pointer duration-300">
         <div className="min-w-[100px] max-w-[100px] min-h-[100px] max-h-[100px] bg-slate-300">
           Profile Picture
         </div>
@@ -27,7 +27,7 @@ function Card({ type, data }: { type: string, data: any }) {
     );
   }
   return (
-    <div className="flex flex-col m-3 bg-white p-9 rounded-lg items-center justify-between border-2 border-white text-center hover:border-green hover:cursor-pointer">
+    <div className="flex flex-col m-3 bg-white p-9 rounded-lg items-center justify-between border-2 border-white text-center hover:border-teal hover:cursor-pointer">
       <div className="min-w-[100px] max-w-[100px] min-h-[100px] max-h-[100px] bg-slate-300">
         Profile Picture
       </div>
@@ -78,7 +78,7 @@ const Admin: NextPage = () => {
         {/* the header */}
         <div className="flex flex-row items-center justify-between pt-9 px-5">
           <h1 className="text-2xl">General</h1>
-          <div className="min-w-[50px] min-h-[50px] bg-green text-white">Icon</div>
+          <div className="min-w-[50px] min-h-[50px] bg-teal text-white">Icon</div>
         </div>
         {/* the toggles between members and seniors */}
         <div className="flex flex-row">
@@ -87,12 +87,12 @@ const Admin: NextPage = () => {
         </div>
         {/* the search box */}
         <div>
-          <input type="text" className="ml-5 p-1 border border-1 border-green rounded-lg bg-off-white w-[75%]"/>
+          <input type="text" className="ml-5 p-1 border border-1 border-teal rounded-lg bg-off-white w-[75%]"/>
         </div>
         {/* the list of members/seniors */}
         <div className="grid sm: grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 p-5 pl-0">
-          { /* <div className="flex flex-col m-3 bg-white p-9 rounded-lg justify-center items-center text-[2rem] hover:border-2 hover:border-green hover:cursor-pointer"> */ }
-          <div className="flex flex-col m-3 bg-white p-9 rounded-lg justify-center items-center text-[2rem] border-2 border-white hover:bg-green hover:text-white hover:cursor-pointer duration-300" onClick={addButtonClicked}>
+          { /* <div className="flex flex-col m-3 bg-white p-9 rounded-lg justify-center items-center text-[2rem] hover:border-2 hover:border-teal hover:cursor-pointer"> */ }
+          <div className="flex flex-col m-3 bg-white p-9 rounded-lg justify-center items-center text-[2rem] border-2 border-white hover:bg-teal hover:text-white hover:cursor-pointer duration-300" onClick={addButtonClicked}>
           +
           </div>
           {

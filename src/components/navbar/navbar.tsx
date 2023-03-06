@@ -12,7 +12,7 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
   };
 
   return (
-    <nav className="top-0 z-50 flex flex-col bg-white shadow-2xl lg:sticky">
+    <nav className="top-0 z-50 flex flex-col bg-taupe shadow-2xl lg:sticky">
       <div className="relative m-auto flex min-h-[5rem] w-11/12 items-center justify-between">
         {/* Logo */}
         <div className="flex">

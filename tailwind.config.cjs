@@ -6,8 +6,10 @@ module.exports = {
     extend: {},
     colors: {
       ...colors,
-      'green': '#22555A',
-      'off-white': '#f5f5f5',
+      'teal': '#22555A',
+      'off-white': '#F5F5F5',
+      'taupe': '#F5F0EA',
+      'taupe-hover': '#E9DED1'
     },
     fontFamily: {
       sans: ['Inter', 'sans-serif'],

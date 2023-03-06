@@ -14,7 +14,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   if (Component.displayName == "public") {
     return (
         <SessionProvider session={session}>
-            <div className="flex flex-col w-screen h-screen">
+            <div className="flex flex-col bg-taupe w-screen h-screen">
                 <Navbar />
                 <Component {...pageProps} />
             </div>
@@ -24,7 +24,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   else {
     return (
         <SessionProvider session={session}>
-            <div className="flex flex-row w-screen h-screen">
+            <div className="flex flex-row bg-taupe w-screen h-screen">
                 <Sidebar />
                 <Component {...pageProps} />
             </div>
