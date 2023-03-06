@@ -37,6 +37,13 @@ const AddProfileForm = <T extends {selectName: string}>({
     });
   };
 
+  
+  // look Michael! it's curried!!
+  const generalHandleSubmit = async (data: T) => {
+        async (event: React.ChangeEvent<HTMLFormElement>) => {
+            handleSubmit(data, event);
+        }
+  }
 
   const handleImageUploaded = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -128,7 +135,7 @@ const AddProfileForm = <T extends {selectName: string}>({
           </span>
         </div>
 
-        <form className='flex flex-col w-full h-[80%] justify-between items-center' onSubmit={handleSubmit}>
+        <form className='flex flex-col w-full h-[80%] justify-between items-center' onSubmit={generalHandleSubmit(profileData)}>
             <div className='grid md:grid-cols-2 grid-cols-1 md:gap-5 gap-5 gap-x-10 w-[70%] h-full justify-items-center text-[#515151]'>
                     {Object.keys(placeholdData).map(
                         (keyname) =>(

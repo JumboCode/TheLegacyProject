@@ -32,10 +32,12 @@ const AddStudentPage: NextPage = () => {
         email: 'Email'
     };
 
-    const handleStudentSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
+
+    const handleStudentSubmit = async (studentData: Student,
+                                       event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         // TODO: POST to create a new model on submit
-        console.log(placeholdStudent);
+        alert("Submitted Student.");
     }
 
 
