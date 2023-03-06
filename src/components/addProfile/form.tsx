@@ -37,10 +37,10 @@ const AddProfileForm = <T extends {selectName: string}>({
     });
   };
 
-  
+
   // look Michael! it's curried!!
   const generalHandleSubmit = async (data: T) => {
-        async (event: React.ChangeEvent<HTMLFormElement>) => {
+        (event: React.ChangeEvent<HTMLFormElement>) => {
             handleSubmit(data, event);
         }
   }

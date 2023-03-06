@@ -11,7 +11,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
             id = body.id,
             name = body.name,
             location = body.location,
-            biography = body.biography,
+            description = body.description,
             photo = body.photo,
             StudentIDs = body.StudentIDs,
             Students = body.Students,

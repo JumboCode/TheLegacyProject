@@ -47,22 +47,23 @@ model User {
     emailVerified DateTime?
     image         String?
     admin         Boolean   @default(false)
-    Account       Account[]
+    Account       Account[]a
     Session       Session[]
     SeniorIDs     String[]  @db.ObjectId
     Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])
 }
 
 model Senior {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
-    name       String
-    location   String
-    biography  String
-    photo      String
-    StudentIDs String[] @db.ObjectId
-    Students   User[]   @relation(fields: [StudentIDs], references: [id])
-    Files      File[]
-    Tags       Tag[]
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
+    location    String
+    description String
+    photo       String
+    StudentIDs  String[] @db.ObjectId
+    Students    User[]   @relation(fields: [StudentIDs], references: [id])
+    folder      String
+    Files       File[]
+    Tags        Tag[]
 }
 
 model File {
