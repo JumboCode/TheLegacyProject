@@ -1,5 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import PhotoHeader from "@components/photoHeader";
+
+import ProfileTile from "@components/profileTile";
 
 const Home: NextPage = () => {
   return (
@@ -8,7 +11,14 @@ const Home: NextPage = () => {
         <title>The Legacy Project</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      
+      <div>
+        <PhotoHeader/>
+        
+        <ProfileTile name="J Doe" location="Boston, MA" picture=""/>
 
+      </div>
+      
     </>
   );
 };
