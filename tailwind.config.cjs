@@ -10,9 +10,11 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
-      ...colors,
-      'green': '#22555A',
+      'dark-green': '#22555A',
       'off-white': '#f5f5f5',
+      'dark-gray': '#515151',
+      'dark-plum': '#000022',
+      ...colors,
     },
     fontFamily: {
       sans: ['Inter', 'sans-serif'],

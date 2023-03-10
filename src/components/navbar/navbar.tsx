@@ -1,4 +1,4 @@
-import React, { FunctionComponent, PropsWithChildren, useState } from "react";
+import React, { FunctionComponent, PropsWithChildren, useEffect, useState } from "react";
 import Link from "next/link";
 import { NavbarItem } from "./index";
 import SignIn from "@components/signin";
@@ -6,17 +6,31 @@ import cn from "classnames";
 
 const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [scrolling, setScrolling] = useState(false);
+
+  useEffect(() => {
+    window.onscroll = () => {
+      console.log(window.scrollY);
+      if (window.scrollY > 50) {
+        setScrolling(true);
+      } else {
+        setScrolling(false);
+      }
+    }
+  }, [])
 
   const handleMenuClick: React.MouseEventHandler = () => {
     setDropdownVisible((visible) => !visible);
   };
 
   return (
-    <nav className="top-0 z-50 flex flex-col bg-white shadow-2xl lg:sticky">
+    <nav className={cn(
+      scrolling ? "shadow-2xl" : null,
+      "top-0 z-50 flex flex-col bg-off-white lg:sticky")}>
       <div className="relative m-auto flex min-h-[5rem] w-11/12 items-center justify-between">
         {/* Logo */}
         <div className="flex">
-          <div className="mr-6 py-1.5 text-2xl font-bold leading-normal text-gray-700">
+          <div className="mr-6 py-1.5 text-2xl font-bold leading-normal text-dark-plum">
             <Link href="/">The Legacy Project</Link>
           </div>
         </div>
@@ -54,7 +68,7 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
         <div
           className={cn(
             dropdownVisible ? "flex" : "hidden",
-            "absolute top-full left-[-4.16667%] m-auto w-screen flex-col items-center justify-center space-y-4 border-t-2 border-gray-200  bg-white py-4 shadow-xl lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none"
+            "absolute top-full left-[-4.16667%] m-auto w-screen flex-col items-center justify-center space-y-4 border-t-2 border-gray-200  bg-off-white py-4 shadow-xl lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none"
           )}
         >
           {children}
