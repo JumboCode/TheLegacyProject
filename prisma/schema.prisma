@@ -47,7 +47,7 @@ model User {
     emailVerified DateTime?
     image         String?
     admin         Boolean   @default(false)
-    Account       Account[]a
+    Account       Account[]
     Session       Session[]
     SeniorIDs     String[]  @db.ObjectId
     Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])

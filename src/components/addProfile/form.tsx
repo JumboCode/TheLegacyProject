@@ -26,7 +26,7 @@ const AddProfileForm = <T extends {selectName: string}>({
   const [showDropdown, setShowDropdown] = useState(false);
   const [currIcon, setCurrIcon] = useState<Icon>({ preview: null, raw: null });
 
-  // sample names
+  // sample names   
   const [nameSuggestions, setNameSuggestions] = useState(['Skylar', 'Michael']);
   const nameRef = useRef<HTMLInputElement>(null);
 
@@ -37,13 +37,11 @@ const AddProfileForm = <T extends {selectName: string}>({
     });
   };
 
-
-  // look Michael! it's curried!!
-  const generalHandleSubmit = async (data: T) => {
-        (event: React.ChangeEvent<HTMLFormElement>) => {
-            handleSubmit(data, event);
-        }
-  }
+  const handleSubmitWithState = React.useCallback(async (event: React.SyntheticEvent) => {
+    console.log(event)
+    event.preventDefault();
+    handleSubmit(profileData);
+  }, [profileData])
 
   const handleImageUploaded = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -135,7 +133,7 @@ const AddProfileForm = <T extends {selectName: string}>({
           </span>
         </div>
 
-        <form className='flex flex-col w-full h-[80%] justify-between items-center' onSubmit={generalHandleSubmit(profileData)}>
+        <form className='flex flex-col w-full h-[80%] justify-between items-center' onSubmit={handleSubmitWithState}>
             <div className='grid md:grid-cols-2 grid-cols-1 md:gap-5 gap-5 gap-x-10 w-[70%] h-full justify-items-center text-[#515151]'>
                     {Object.keys(placeholdData).map(
                         (keyname) =>(
