@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div>
+      <div className="bg-off-white">
         <PhotoHeader/>
         
         <ProfileTile name="J Doe" location="Boston, MA" picture=""/>

@@ -5,18 +5,25 @@ import Image from "next/image"
 
 const PhotoHeader = () => {
     return (
-        <>
-        <div className='lg:p-9 md:p-5 p-3'> 
-            <Image className='rounded-lg object-cover'
-            src={'/student_home/header1.jpg'} 
-            alt={'Photo of flowers on an old book with a faded photo of two people'}
-            width={2000} 
-            height={500}
-            />
-        </div>
-        <div className='lg:p-0 md:p-5 p-3 border-2 border-blue-500 bg-white-500/75'>
-            
-        </div> 
+        <>  
+            <div className="pb-9">
+                <div className='lg:m-9 md:m-5 m-4 relative'>
+                    <Image className='rounded-lg object-cover'
+                    src={'/student_home/header1.jpg'} 
+                    alt={'Photo of flowers on an old book with a faded photo of two people'}
+                    width={2000} 
+                    height={500}
+                    />
+                    <div className='rounded-lg bg-white bg-opacity-90 backdrop-blur-sm w-[98%] h-20 absolute right-0 -bottom-12 md:-bottom-10 flex p-3 items-center'>
+                        <Image className='rounded-lg' src={'/student_home/profile_photo_pic.jpeg'} alt={'Profile Photo'} width={56} height={56}/>
+                        <div className='flex flex-col pl-3'>
+                            <h5 className='font-bold'>Angela Han</h5>
+                            <p className=''>email@legacy.com</p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
