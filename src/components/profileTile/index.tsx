@@ -8,8 +8,11 @@ type tileData =  {
 
 const ProfileTile = ({ name, location, picture }: tileData) => {
         return (
-        <div className="lg:p-9 md:p-5 p-3">
-          <section className="w-64 h-64 p-4 rounded border bg-white drop-shadow-md">
+        <div className="lg:px-9 md:px-5 px-3">
+          <h1 className="font-semibold text-xl">My Senior</h1>
+          <div className="border-2 border-teal-500 my-2"></div>
+          <br></br>
+          <section className="w-64 h-64 p-4 rounded bg-white drop-shadow-md">
             <div className="h-full flex flex-col items-center justify-center">
               <div className="w-20 h-20 rounded-full overflow-hidden">
                 <Image className="object-scale-down" src={'/student_home/andrewbojangles.png'} alt="Placeholder profile image" height={80} width={80}></Image>

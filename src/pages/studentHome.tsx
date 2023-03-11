@@ -14,7 +14,6 @@ const Home: NextPage = () => {
       
       <div className="bg-off-white">
         <PhotoHeader/>
-        
         <ProfileTile name="Andrew Bojangles" location="Boston, MA" picture=""/>
 
       </div>
