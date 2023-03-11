@@ -18,7 +18,7 @@ const PhotoHeader = () => {
                         <Image className='rounded-lg' src={'/student_home/profile_photo_pic.jpeg'} alt={'Profile Photo'} width={56} height={56}/>
                         <div className='flex flex-col pl-3'>
                             <h5 className='font-bold'>Angela Han</h5>
-                            <p className=''>email@legacy.com</p>
+                            <p className=''>email@legacy.org</p>
                         </div>
                         
                     </div>

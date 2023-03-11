@@ -14,9 +14,10 @@ const ProfileTile = ({ name, location, picture }: tileData) => {
               <div className="w-20 h-20 rounded-full overflow-hidden">
                 <Image className="object-scale-down" src={'/student_home/andrewbojangles.png'} alt="Placeholder profile image" height={80} width={80}></Image>
               </div>
+              <br></br>
               <p className="text-base text-gray-700">{name}</p>
               <p className="text-sm text-gray-600">Student Name</p>
-              <p className="text-xs text-gray-600">Location</p>
+              <p className="text-xs text-gray-600">{location}</p>
             </div>
           </section>
       </div>
