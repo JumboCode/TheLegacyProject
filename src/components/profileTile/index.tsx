@@ -15,7 +15,7 @@ const ProfileTile = ({ name, location, picture }: tileData) => {
                 <Image className="object-scale-down" src={'/student_home/andrewbojangles.png'} alt="Placeholder profile image" height={80} width={80}></Image>
               </div>
               <br></br>
-              <p className="text-base text-gray-700">{name}</p>
+              <p className="text-base text-gray-700 font-medium">{name}</p>
               <p className="text-sm text-gray-600">Student Name</p>
               <p className="text-xs text-gray-600">{location}</p>
             </div>
