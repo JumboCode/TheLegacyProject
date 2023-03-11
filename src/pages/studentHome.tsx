@@ -16,7 +16,7 @@ const Home: NextPage = () => {
         <PhotoHeader/>
         <div className="lg:px-9 md:px-5 px-3">
           <h1 className="font-semibold text-xl">My Senior</h1>
-          <div className="border-2 border-teal-500 my-2"></div>
+          <button className="bg-teal-500 h-0.5 inline-block min-w-[2in] 2xl:w-[12%] xl:w-[12%] lg:w-[12%] md:w-[12%] w-1/3 mb-2"></button>
         </div>
         <br></br>
         <ProfileTile name="Andrew Bojangles" location="Boston, MA" picture=""/>
