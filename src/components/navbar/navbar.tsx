@@ -1,7 +1,7 @@
 import React, { FunctionComponent, PropsWithChildren, useState } from "react";
 import Link from "next/link";
 import { NavbarItem } from "./index";
-import SignIn from "@components/signin";
+import SignIn from "@components/SignIn";
 import cn from "classnames";
 
 const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
