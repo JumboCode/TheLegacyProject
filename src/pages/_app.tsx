@@ -2,7 +2,6 @@ import "../styles/globals.css";
 import type { AppType } from "next/app";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { useState } from 'react';
 import { Navbar } from "@components/navbar";
 import Sidebar from "@components/sidebar";
 
@@ -10,25 +9,25 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-
   if (Component.displayName == "public") {
     return (
+      <>
         <SessionProvider session={session}>
-            <div className="flex flex-col bg-taupe w-screen h-screen">
-                <Navbar />
-                <Component {...pageProps} />
-            </div>
+          <div className="flex h-screen w-screen flex-col bg-taupe">
+            <Navbar />
+            <Component {...pageProps} />
+          </div>
         </SessionProvider>
+      </>
     );
-  }
-  else {
+  } else {
     return (
-        <SessionProvider session={session}>
-            <div className="flex flex-row bg-taupe w-screen h-screen">
-                <Sidebar />
-                <Component {...pageProps} />
-            </div>
-        </SessionProvider>
+      <SessionProvider session={session}>
+        <div className="flex h-screen w-screen flex-row bg-taupe">
+          <Sidebar />
+          <Component {...pageProps} />
+        </div>
+      </SessionProvider>
     );
   }
 };
