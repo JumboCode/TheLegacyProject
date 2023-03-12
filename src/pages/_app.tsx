@@ -13,7 +13,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     return (
       <>
         <SessionProvider session={session}>
-          <div className="flex h-screen w-screen flex-col bg-taupe">
+          <div className="flex h-full w-screen flex-col bg-taupe">
             <Navbar />
             <Component {...pageProps} />
           </div>
@@ -23,7 +23,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   } else {
     return (
       <SessionProvider session={session}>
-        <div className="flex h-screen w-screen flex-row bg-taupe">
+        <div className="flex h-full w-screen flex-row bg-taupe">
           <Sidebar />
           <Component {...pageProps} />
         </div>
