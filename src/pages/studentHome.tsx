@@ -16,7 +16,7 @@ const Home: NextPage = () => {
         <PhotoHeader/>
         <div className="lg:px-9 md:px-5 px-3">
           <h1 className="font-semibold text-xl">My Senior</h1>
-          <div className="bg-teal-500 h-0.5 inline-block min-w-[2in] 2xl:w-[12%] xl:w-[12%] lg:w-[12%] md:w-[12%] w-1/3 my-3"></div>
+          <div className="bg-dark-teal h-0.5 inline-block min-w-[2in] 2xl:w-[12%] xl:w-[12%] lg:w-[12%] md:w-[12%] w-1/3 my-3"></div>
         </div>
         {/* <ProfileTile name="Andrew Bojangles" location="Boston, MA" picture=""/> */}
         <SeniorGrid name="Andrew" location="Boston" picture="" />
