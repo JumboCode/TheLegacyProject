@@ -1,60 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
+import AddProfileForm from './form';
+import ProfileHeader from './header';
 
-function handleSubmit(event) {
-    alert("First name: " + event.target.firstname.value + "\nLast name: " + event.target.lastname.value + "\nEmail: " + event.target.email.value + "\nSenior: " + event.target.senior.value);
-    event.target.firstname.value = "";
-    event.target.lastname.value = "";
-    event.target.email.value = "";
-    event.target.senior.value = "";
-    event.preventDefault();
+type User = {
+  icon?: JSX.Element;
 }
 
-const initialValues = {
-  firstname: "",
-  lastname: "",
-  email: "",
-  senior: "",
+// documentation explaining how this component is "parameterized": i.e.,
+// it operates on a specific type, specified by the <T>; the type must
+// contain the field "selectName: string"!
+
+type ProfileProps<T extends {selectName: string}> = {
+    placeholdData: T,
+    profileLabels: T,
+    handleSubmit: Function
+}
+
+const AddProfile = <T extends {selectName: string}>({
+    placeholdData, 
+    profileLabels,
+    handleSubmit
+}: ProfileProps<T>) => {
+
+  return (
+    <>
+      <div className='bg-[#F5F5F5] w-[84%] h-screen absolute inset-y-0 right-0 font-sans'>
+        <ProfileHeader title={"Add New Member"} icon={null}/>
+        <AddProfileForm placeholdData={placeholdData} profileLabels={profileLabels}
+                        handleSubmit={handleSubmit}/>
+      </div>
+    </>
+  )
 };
 
-
-export default function AddProfile() {
-  const [values, setValues] = useState(initialValues);
-
-
-  const handleChange = (e) => {
-    //const name = e.target.name 
-    //const value = e.target.value 
-    const { name, value } = e.target;
-
-    setValues({
-      ...values,
-      [name]: value,
-    });
-  };
-  
-  return (
-          <div >
-            <form onSubmit={handleSubmit}>
-            <label className>
-                First name: 
-                <input value={values.firstname} type="text" name="firstname" className='ml-2 mr-4 bg-gray-50 text-l text-black py-0 px-0 hover:-translate-y-0.5 duration-150 border-5' onChange={handleChange} />
-              </label>
-              <label className>
-                Last name: 
-                <input value={values.lastname} type="text" name="lastname" className='ml-2  mr-4 bg-gray-50 text-l text-black py-0 px-0 hover:-translate-y-0.5 duration-150' onChange={handleChange} />
-              </label>
-              <label className>
-                Email address: 
-                <input value={values.email} type="text" name="email"  className='ml-2  mr-4 bg-gray-50 text-l text-black py-0 px-0 hover:-translate-y-0.5 duration-150' onChange={handleChange} />
-              </label>
-              <label>
-                Senior: 
-                <input value={values.senior} type="text" name="senior"  className='ml-2  mr-4 bg-gray-50 text-l text-black py-0 px-0 hover:-translate-y-0.5 duration-150' onChange={handleChange} />
-              </label>
-              <input type="submit" value="Save" className='bg-blue-700 text-l text-white py-1.5 px-6 hover:-translate-y-0.5 duration-150'  />
-            </form>
-          </div>
-        );
-}
-
-export { AddProfile };
+export default AddProfile;

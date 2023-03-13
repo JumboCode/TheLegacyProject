@@ -1,4 +1,9 @@
-import React, { FunctionComponent, PropsWithChildren, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from "react";
 import Link from "next/link";
 import { NavbarItem } from "./index";
 import SignIn from "@components/SignIn";
@@ -16,17 +21,20 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
       } else {
         setScrolling(false);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   const handleMenuClick: React.MouseEventHandler = () => {
     setDropdownVisible((visible) => !visible);
   };
 
   return (
-    <nav className={cn(
-      scrolling ? "shadow-2xl" : null,
-      "top-0 z-50 flex flex-col bg-off-white lg:sticky")}>
+    <nav
+      className={cn(
+        scrolling ? "shadow-2xl" : null,
+        "top-0 z-50 flex flex-col bg-off-white lg:sticky"
+      )}
+    >
       <div className="relative m-auto flex min-h-[5rem] w-11/12 items-center justify-between">
         {/* Logo */}
         <div className="flex">

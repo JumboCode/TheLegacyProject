@@ -54,15 +54,16 @@ model User {
 }
 
 model Senior {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
-    name       String
-    location   String
-    biography  String
-    photo      String
-    StudentIDs String[] @db.ObjectId
-    Students   User[]   @relation(fields: [StudentIDs], references: [id])
-    Files      File[]
-    Tags       Tag[]
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
+    location    String
+    description String
+    photo       String
+    StudentIDs  String[] @db.ObjectId
+    Students    User[]   @relation(fields: [StudentIDs], references: [id])
+    folder      String
+    Files       File[]
+    Tags        Tag[]
 }
 
 model File {

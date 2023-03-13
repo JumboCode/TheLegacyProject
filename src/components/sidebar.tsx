@@ -5,10 +5,10 @@ import NavbarButton from "@components/navbar/navbar_button";
 const Sidebar = () => {
   return (
     <>
-    <div className="flex-[0.15] bg-white shadow-lg drop-shadow-lg box-shadow flex flex-col justify-between items-center p-5">
+    <div className="flex shrink-0 bg-taupe shadow-lg drop-shadow-lg box-shadow flex flex-col justify-between items-center px-6 py-8">
       <div className="flex flex-col items-center">
         <div className="mb-10">
-          <h1 className="text-center">LOGO PLACEHOLDER</h1>
+          <h1 className="text-left font-serif text-xl">The Legacy Project</h1>
           {/* <img src="" className="h-15 w-20 mx-8 mt-8 "/> */}
         </div>
 
