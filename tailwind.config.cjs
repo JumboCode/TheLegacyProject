@@ -20,6 +20,7 @@ module.exports = {
       'dark-plum': '#000022',
       ...colors,
     },
+    
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
