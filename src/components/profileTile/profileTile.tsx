@@ -45,7 +45,14 @@ const SeniorGrid = () => {
 
   return (
     <main className="lg:px-9 md:px-5 px-3 flex min-h-fit pb-9 flex-col w-full mx-auto">
-      <div className="grid gap-10 pt-3 text-center lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 space-evenly">
+          <div className="mt-5 grid grid-cols-[repeat(auto-fill,_256px)] gap-10 text-center">
+
+          { /* Grid styling submitted in PR */}
+          {/* <div className="grid gap-10 pt-3 text-center lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 space-evenly"> */}
+
+          {/* Flex styling workaround */}
+          {/* <div className="lg:px-9 md:px-5 px-3 flex justify-self-center flex-wrap gap-6"> */}
+
           {data.map(({ name, location, picture }: TileData) => (
             <ProfileTile key={name} name={name} location={location} picture={picture} />
           ))}
