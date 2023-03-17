@@ -11,14 +11,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   if (Component.displayName == "public") {
     return (
-      <>
-        <SessionProvider session={session}>
-          <div className="flex h-full w-screen flex-col bg-taupe">
-            <Navbar />
-            <Component {...pageProps} />
-          </div>
-        </SessionProvider>
-      </>
+      <SessionProvider session={session}>
+        <div className="flex h-full w-screen flex-col bg-taupe">
+          <Navbar />
+          <Component {...pageProps} />
+        </div>
+      </SessionProvider>
     );
   } else {
     return (

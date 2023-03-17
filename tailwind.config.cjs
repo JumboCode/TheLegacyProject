@@ -10,6 +10,7 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
+      'dark-teal': '#22555A',
       'teal': '#22555A',
       'off-white': '#F5F5F5',
       'taupe': '#F5F0EA',
@@ -20,6 +21,7 @@ module.exports = {
       'dark-plum': '#000022',
       ...colors,
     },
+    
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
