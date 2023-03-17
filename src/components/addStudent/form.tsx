@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSession, getSession } from "next-auth/react"
+import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import Image from 'next/image';
+import { boolean, string, z } from "zod";
 
 type Student = {
   icon: Icon;
@@ -33,10 +36,90 @@ const AddStudentForm = () => {
   // sample names
   const [seniorSuggestions, setSeniorSuggestions] = useState(['John Doe', 'Jane Doe', 'James Doe', 'Jack Doe', 'Jake Doe']);
   const seniorRef = useRef<HTMLInputElement>(null);
-  // const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
-  // const validate = (data) = {}
-  // const getSeniors = async () => {}
+  const validate_student = (student: Student) => {
+    validate_alphanumeric(student.firstName, "first name");
+    validate_alphanumeric(student.lastName, "last name");
+    validate_email(student.email);
+    validate_year(student.classYear);
+    validate_senior(student.seniorName);
+  }
+
+  const validate_senior = (seniorName: string) => {
+      if (seniorSuggestions.includes(seniorName)) {
+        console.log("senior name is valid");
+      } else {
+          alert("Senior name is invalid");
+      }
+  }
+
+  const validate_alphanumeric = (data: string, type: string) => {
+    var copy = data;
+    copy.split("").forEach(
+        character =>
+        {
+            if (/[^0-9a-zA-Z]/.test(character)) {
+                var message = JSON.stringify(character) + "character in " + type + " is invalid";
+                alert(message); 
+                return false;
+            } else {
+                console.log(JSON.stringify(character), "in " + type + " is valid");
+                return true;
+            }
+        }
+    );
+    return false;
+  }
+
+  const validate_alphanumeric_email = (data: string) => {
+    console.log(data);
+    var copy = data;
+    var arr = copy.split("");
+    console.log(arr);
+    for (let i = 1; i < (arr.length - 1); i++) {
+            console.log("character= " + JSON.stringify(arr[i]));
+            if (/[^0-9a-zA-Z._-]/.test(arr[i])) { 
+                var message = JSON.stringify(arr[i])+ "character in email name is invalid";
+                alert(message); 
+                return false;
+            } else {
+                console.log(JSON.stringify(arr[i]), "in email name is valid");
+            }
+        }
+    return true;
+  }
+
+  const validate_email = (email: string) => {
+      var copy = email;
+      var splitted = copy.split("@");
+      if (splitted[1] == "tufts.edu" && (validate_alphanumeric_email(JSON.stringify(splitted[0])))) {
+        console.log("email is valid");
+        return false;
+      } else {
+        alert("Email is invalid");
+        return true;
+      }
+   }
+
+  const validate_year = (year: string) => {
+    if (year.length != 4) {
+        alert("Class year is not a valid four digit number");
+        return false;
+    }
+    var copy = year;
+    copy.split("").forEach(
+        character =>
+        {
+            if (/[^0-9]/.test(character)) {
+                alert("Class year is not a valid four digit number")
+                return false;
+            } 
+        }
+    );
+    console.log("class year is valid");
+    return true;
+  }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStudentData({
@@ -46,7 +129,7 @@ const AddStudentForm = () => {
   };
 
   const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    // event.preventDefault();
     // setErrors(validate(studentData));
 
     // const data = JSON.stringify(studentData);
@@ -62,7 +145,8 @@ const AddStudentForm = () => {
     // const result = await response.json();
     // console.log(result);
     
-    // for now
+    //TODO: send data to backend
+    validate_student(studentData);
     console.log(studentData);
   }
 

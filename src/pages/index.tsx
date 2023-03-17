@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { EmailSignupBox } from "@components/emailSignup";
+import Image from "next/image";
 
 const Home: NextPage = () => {
   return (
@@ -9,68 +11,67 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
-          The Legacy Project
-        </h1>
-        <p className="text-2xl text-gray-700">This stack uses:</p>
-        <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-3 lg:w-2/3">
-          <TechnologyCard
-            name="NextJS"
-            description="The React framework for production"
-            documentation="https://nextjs.org/"
-          />
-          <TechnologyCard
-            name="TypeScript"
-            description="Strongly typed programming language that builds on JavaScript, giving you better tooling at any scale"
-            documentation="https://www.typescriptlang.org/"
-          />
-          <TechnologyCard
-            name="TailwindCSS"
-            description="Rapidly build modern websites without ever leaving your HTML"
-            documentation="https://tailwindcss.com/"
-          />
-          <TechnologyCard
-            name="Next-Auth"
-            description="Authentication for Next.js"
-            documentation="https://next-auth.js.org/"
-          />
-          <TechnologyCard
-            name="Prisma"
-            description="Build data-driven JavaScript & TypeScript apps in less time"
-            documentation="https://www.prisma.io/docs/"
-          />
+      <main className="container mx-auto flex min-h-screen flex-col items-center justify-items-center bg-off-white p-4">
+        <div className="flex flex-row items-center justify-items-center gap-5">
+          {" "}
+          {/*holds left and right*/}
+          <div className="">
+            {" "}
+            {/*left: email signup*/}
+            <h1 className="my-4 text-5xl font-extrabold leading-tight text-dark-plum duration-500 md:text-[4rem]">
+              Everyone has a story worth preserving
+            </h1>
+            <p className="my-4 bg-off-white text-2xl text-gray-700 duration-500">
+              Legacy Project documents the stories of the elder generation to
+              ensure that their legacies are preserved for years to come.
+            </p>
+            <EmailSignupBox />
+          </div>
+          <div className="relative hidden h-[600px] w-[600px] shrink-0 items-center justify-center lg:flex">
+            {" "}
+            {/*right: photo*/}
+            <div className="h-[500px]">
+              <Image
+                src="/home/homepage-circle.png"
+                alt="A circular photo of younger woman helping a senior citizen"
+                height={500}
+                width={500}
+                className="absolute z-10 duration-500"
+              ></Image>
+            </div>
+            <div className="absolute top-0 -left-24">
+              <Image
+                src="/home/pinkflower.png"
+                height={323}
+                width={323}
+                alt="Image of a branch with small dried pink flowers with a transparent background"
+                className="absolute z-0 duration-500"
+              ></Image>
+            </div>
+            <div className="absolute -bottom-10 -right-6 z-20">
+              <Image
+                src="/../public/home/yellowflower.png"
+                height={246}
+                width={246}
+                alt="Image of a single yellow-orange dried flower with a transparent background"
+                className="duration-500"
+              ></Image>
+            </div>
+            <div className="absolute -top-20 -right-8">
+              <Image
+                src="/../public/home/paper.png"
+                height={368}
+                width={274}
+                alt="Image of an aged piece of paper with cursive writing on it"
+                className="duration-500"
+              ></Image>
+            </div>
+          </div>
         </div>
       </main>
     </>
   );
 };
+Home.displayName = "public";
 
 export default Home;
-
-type TechnologyCardProps = {
-  name: string;
-  description: string;
-  documentation: string;
-};
-
-const TechnologyCard = ({
-  name,
-  description,
-  documentation,
-}: TechnologyCardProps) => {
-  return (
-    <section className="flex flex-col justify-center rounded border-2 border-gray-500 p-6 shadow-xl duration-500 motion-safe:hover:scale-105">
-      <h2 className="text-lg text-gray-700">{name}</h2>
-      <p className="text-sm text-gray-600">{description}</p>
-      <a
-        className="m-auto mt-3 w-fit text-sm text-violet-500 underline decoration-dotted underline-offset-2"
-        href={documentation}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Documentation
-      </a>
-    </section>
-  );
-};
