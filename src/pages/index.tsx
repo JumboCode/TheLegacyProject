@@ -2,8 +2,15 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { EmailSignupBox } from "@components/emailSignup";
 import Image from "next/image";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
+    useEffect(() => {
+        fetch("/api/drive/drive")
+            .then(res => res.json())
+            .then(json => console.log(json));
+    });
+
   return (
     <>
       <Head>

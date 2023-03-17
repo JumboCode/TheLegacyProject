@@ -12,7 +12,7 @@ const drive = async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json({
         message: "this is placeholder response",
-        token
+        token: token?.accessToken,
     });
 }
 
