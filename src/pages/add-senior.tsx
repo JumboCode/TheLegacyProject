@@ -39,7 +39,8 @@ const AddSenior: NextPage = () => {
     return (
         <>
             <AddProfile<Senior> placeholdData={placeholdSenior} profileLabels={labelSenior}
-                                handleSubmit={handleSeniorSubmit}/>
+                                handleSubmit={handleSeniorSubmit}
+                                dropData={['Place', 'Holder', 'Names']}/>
         </>
     ); 
 }

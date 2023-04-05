@@ -34,8 +34,8 @@ const AddStudentForm = () => {
   });
   const [showDropdown, setShowDropdown] = useState(false);
   // sample names
-  const [seniorSuggestions, setSeniorSuggestions] = useState(['John Doe', 'Jane Doe', 'James Doe', 'Jack Doe', 'Jake Doe']);
-  const seniorRef = useRef<HTMLInputElement>(null);
+  const [profileSuggestions, setProfileSuggestions] = useState(['John Doe', 'Jane Doe', 'James Doe', 'Jack Doe', 'Jake Doe']);
+  const profileRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState({});
 
   const validate_student = (student: Student) => {
@@ -47,7 +47,7 @@ const AddStudentForm = () => {
   }
 
   const validate_senior = (seniorName: string) => {
-      if (seniorSuggestions.includes(seniorName)) {
+      if (profileSuggestions.includes(seniorName)) {
         console.log("senior name is valid");
       } else {
           alert("Senior name is invalid");
@@ -182,9 +182,9 @@ const AddStudentForm = () => {
 
   useEffect(() => {
     if (showDropdown) {
-      seniorRef.current?.focus();
+      profileRef.current?.focus();
     } else {
-      seniorRef.current?.blur();
+      profileRef.current?.blur();
     }
   }, [showDropdown]);
 
@@ -266,11 +266,11 @@ const AddStudentForm = () => {
                   onChange={handleChange}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  ref={seniorRef}
+                  ref={profileRef}
                 />
-                {showDropdown && seniorSuggestions.filter((item) => item.toLowerCase().startsWith(studentData.seniorName.toLowerCase())).length != 0 && (
+                {showDropdown && profileSuggestions.filter((item) => item.toLowerCase().startsWith(studentData.seniorName.toLowerCase())).length != 0 && (
                   <ul className='bg-white rounded border-[0.3px] border-[#A6A6A6] absolute w-full top-[71px] list-none shadow-md pb-1'>
-                    {seniorSuggestions
+                    {profileSuggestions
                       .filter((item) => item.toLowerCase().startsWith(studentData.seniorName.toLowerCase()))
                       .map((item, index) => (
                         (index < 3) && (

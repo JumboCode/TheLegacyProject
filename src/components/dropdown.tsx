@@ -32,15 +32,14 @@ export default function Dropdown({ items, bgColor, selected, setSelected }: Drop
     let [open, setOpen] = useState<boolean>(false);
 
     const styles = () => {
-        // return `md:min-w-[10rem] relative ${open ? "shadow box-shadow drop-shadow" : ""}`
-        return "md:min-w-[10rem] relative shadow-lg box-shadow-lg drop-shadow-lg"
+        return "md:min-w-[10rem] absolute shadow-lg box-shadow-lg drop-shadow-lg"
     }
 
     return (
         <div className={styles()}>
-            <div className="bg-white absolute top-0 left-0 min-w-[10rem]" onClick={() => setOpen(!open)}>
+            <div className="bg-white absolute z-10 top-0 left-0 min-w-[10rem]" onClick={() => setOpen(!open)}>
                 <Item text={selected} onClick={() => setOpen(!open)} bgColor={bgColor} selected/>
-                {open &&items.map((item: string, i: number) =>
+                {open && items.map((item: string, i: number) =>
                     <Item key={i} text={item} onClick={() => setSelected(items[i] || "")} bgColor={bgColor}/>
                 )}
             </div>

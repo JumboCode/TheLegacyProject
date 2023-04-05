@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Dropdown from '@components/Dropdown'
 
 type Icon = {
   preview: string | null;
@@ -9,6 +10,7 @@ type Icon = {
 type ProfileProps<T extends {selectName: string}> = {
     placeholdData: T,
     profileLabels: T,
+    dropData: string [],
     handleSubmit: Function
 }
  
@@ -16,6 +18,7 @@ type ProfileProps<T extends {selectName: string}> = {
 const AddProfileForm = <T extends {selectName: string}>({
     placeholdData, 
     profileLabels,
+    dropData,
     handleSubmit
 }: ProfileProps<T>) => {
 
@@ -26,8 +29,8 @@ const AddProfileForm = <T extends {selectName: string}>({
   const [showDropdown, setShowDropdown] = useState(false);
   const [currIcon, setCurrIcon] = useState<Icon>({ preview: null, raw: null });
 
-  // sample names   
-  const [nameSuggestions, setNameSuggestions] = useState(['Skylar', 'Michael']);
+  debugger;
+  const [dropNames, setDropNames] = useState(dropData);
   const nameRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,9 +63,7 @@ const AddProfileForm = <T extends {selectName: string}>({
     setShowDropdown(false);
   };
 
-  const handleFocus = () => {
-    setShowDropdown(true);
-  };
+  const handleFocus = () => { setShowDropdown(true);  };
 
   const handleBlur = () => {
     setTimeout(() => {
@@ -77,6 +78,35 @@ const AddProfileForm = <T extends {selectName: string}>({
       nameRef.current?.blur();
     }
   }, [showDropdown]);
+
+  
+  const formBox = (keyname) => {
+    <div className='relative flex flex-col gap-y-1 w-full h-full'>
+        <label className='w-full text-[14px] font-normal'>{profileLabels[keyname]}</label>
+        <input className='w-full md:h-12 h-10 bg-[#F5F6FA] text-[14px] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]' 
+            placeholder={placeholdData[keyname]}
+            name={keyname}
+            type='text'
+            value={profileData[keyname]} 
+            onChange={handleChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}>
+        </input>  
+        {showDropdown && keyname == "selectName" 
+                        && dropNames.filter((item) => 
+                        item.toLowerCase()
+                            .startsWith(profileData.selectName.toLowerCase())).length != 0 && 
+            (<ul className='bg-white absolute z-10 rounded border-[0.3px] border-[#A6A6A6] w-full top-[71px] list-none shadow-md pb-1'>
+            {dropNames
+                .filter((item) => item.toLowerCase().startsWith(profileData.selectName.toLowerCase()))
+                .map((item) => (
+                    (<li className='pl-3 py-1' key={item} onClick={() => handleSelected(item)}>
+                        {item}
+                    </li>)
+                ))}
+        </ul>)}
+    </div>
+  }
 
   return (
     <section className='flex items-center justify-center bg-white m-auto w-[96%] rounded-xl h-[80%] overflow-scroll'>
@@ -136,33 +166,33 @@ const AddProfileForm = <T extends {selectName: string}>({
         <form className='flex flex-col w-full h-[80%] justify-between items-center' onSubmit={handleSubmitWithState}>
             <div className='grid md:grid-cols-2 grid-cols-1 md:gap-5 gap-5 gap-x-10 w-[70%] h-full justify-items-center text-[#515151]'>
                     {Object.keys(placeholdData).map(
-                        (keyname) =>(
-                            <div className='flex flex-col gap-y-1 w-full h-full'>
+                        (keyname) =>  
+                            (<div className='relative flex flex-col gap-y-1 w-full h-full'>
                                 <label className='w-full text-[14px] font-normal'>{profileLabels[keyname]}</label>
                                 <input className='w-full md:h-12 h-10 bg-[#F5F6FA] text-[14px] rounded border-[0.3px] border-[#A6A6A6] placeholder:text-[#A6A6A6] placeholder:font-normal placeholder:text-[14px] pl-[12px]' 
-                                placeholder={placeholdData[keyname]}
-                                name={keyname}
-                                type='text'
-                                value={profileData[keyname]} 
-                                onChange={handleChange}>
-                                </input>
-                            </div>))
-                    }
-                    {/* TODO: FIX DROPDOWN! */}
-                    {showDropdown && nameSuggestions.filter((item) => item.toLowerCase().startsWith(profileData.selectName.toLowerCase())).length != 0 && (
-                        <ul className='bg-white rounded border-[0.3px] border-[#A6A6A6] absolute w-full top-[71px] list-none shadow-md pb-1'>
-                            {nameSuggestions
-                            .filter((item) => item.toLowerCase().startsWith(profileData.selectName.toLowerCase()))
-                            .map((item, index) => (
-                                (index < 3) && (
-                                <li className='pl-3 py-1' key={item} onClick={() => handleSelected(item)}>
-                                    {item}
-                                </li>
-                                )
-                            ))
-                            }
-                        </ul>
-                    )}
+                                    placeholder={placeholdData[keyname]}
+                                    name={keyname}
+                                    type='text'
+                                    value={profileData[keyname]} 
+                                    onChange={handleChange}
+                                    onFocus={handleFocus}
+                                    onBlur={handleBlur}>
+                                </input>  
+                                {showDropdown && keyname == "selectName" 
+                                              && dropNames.filter((item) => 
+                                                item.toLowerCase()
+                                                    .startsWith(profileData.selectName.toLowerCase())).length != 0 && 
+                                    (<ul className='bg-white absolute z-10 rounded border-[0.3px] border-[#A6A6A6] w-full top-[71px] list-none shadow-md pb-1'>
+                                    {dropNames
+                                        .filter((item) => item.toLowerCase().startsWith(profileData.selectName.toLowerCase()))
+                                        .map((item) => (
+                                            (<li className='pl-3 py-1' key={item} onClick={() => handleSelected(item)}>
+                                                {item}
+                                            </li>)
+                                        ))}
+                                </ul>)}
+                            </div>))}
+
                 <button className='md:w-[70%] md:h-12 h-10 w-full md:justify-self-end justify-self-center border-[1px] border-[#22555A] bg-white text-md text-[#22555A] font-bold rounded' type='reset'>Cancel</button>
                 <button className='md:w-[70%] md:h-12 h-10 w-full md:justify-self-start justify-self-center bg-[#22555A] text-md text-white font-bold rounded' type='submit' >Save</button>
             </div>
