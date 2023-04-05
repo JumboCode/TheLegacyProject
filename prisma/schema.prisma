@@ -49,7 +49,7 @@ model User {
     admin         Boolean   @default(false)
     Account       Account[]
     Session       Session[]
-    SeniorIDs     []  @db.ObjectId
+    SeniorIDs     String[]  @db.ObjectId
     Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])
 }
 
@@ -58,21 +58,19 @@ model Senior {
     name        String
     location    String
     description String
-    photo       String
     StudentIDs  String[] @db.ObjectId
     Students    User[]   @relation(fields: [StudentIDs], references: [id])
     folder      String
     Files       File[]
-    Tags        Tag[]
 }
 
 model File {
-    id       String   @id @default(cuid()) @map("_id") @db.ObjectId
-    name     String
-    filetype String
-    url      String
-    senior   Senior   @relation(fields: [seniorId], references: [id])
-    seniorId String   @db.ObjectId
-    TagIDs   String[] @db.ObjectId
-    Tags     String[]    @relation(fields: [TagIDs], references: [id])
+    id          String   @id @default(cuid()) @map("_id") @db.ObjectId
+    name        String
+    description String
+    filetype    String
+    url         String
+    seniorId    String   @db.ObjectId
+    senior      Senior   @relation(fields: [seniorId], references: [id])
+    Tags        String[]
 }
