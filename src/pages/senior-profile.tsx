@@ -3,6 +3,19 @@ import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import File, { FileProps } from "@components/File"
 
+
+type SeniorFields = { 
+    id:          string,
+    name:        string,
+    location:    string,
+    description: string,
+    studentIds:  string [],
+    folder:      string,
+    files:       string [],
+}
+
+export { SeniorFields };
+
 const SearchBar = ({
   data,
   setData
@@ -37,15 +50,31 @@ const SearchBar = ({
 }
 
 
-const SeniorProfile: NextPage = () => {
+const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
 
-    // TODO: replace with initial data for senior on load
-    // should be initialized with single addTile
-    const testArr: FileProps[] = [{name: 'First Note', url: '/url', fileIcon: undefined, lastModified: Date()},
-                                  {name: 'Second Note', url: '/url', fileIcon: undefined, lastModified: Date()},];
-    // TODO: resolve fileIcons images
+    const fileArr: FileProps[] = [{id: "1", name: "First Note", 
+                                   description: "My first note", 
+                                   lastModified: Date(), url: '/url',
+                                   tags: ["Childhood", "Early career"]},
 
-    const [ fileData, setFileData ] = useState<FileProps[]>(testArr);
+                                   {id: "2", name: "Second Note", 
+                                   description: "My second note", 
+                                   lastModified: Date(), url: '/url2',
+                                   tags: ["College", "Romance"] }];
+                                  
+    // initSeniorData will be set by passed-in prop; here's a temporary one
+    // to use for this ticket
+
+    initSeniorData = { id: "0", 
+                       name: "Skylar Gilfeather",
+                       location: "Somerville",
+                       description: "She's your project manager!",
+                       studentIDs: ["1", "2", "3", "4"],
+                       folder: "FOLDERID",
+                       files: fileArr };
+    
+    const [ fileData, setFileData ] = useState<FileProps[]>(fileArr);
+    const [ seniorData, setSeniorData ] = useState<SeniorFields>(initSeniorData);
 
     return (
     <div className="container flex min-h-screen flex-col p-4">
@@ -54,9 +83,8 @@ const SeniorProfile: NextPage = () => {
 
         {/* styling for a TileGrid-like grid */}
         <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-4">
-            {fileData.map((file) => (
-                    <div> {File(file)}</div>) )
-            }
+            {fileData.map(
+                (file) => ( <div> {file /* File component here! */} </div> ))}
         </div>
       </div>
     );

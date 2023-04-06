@@ -22,7 +22,9 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
             id: senior_id //get all information for given senior
           },
         });
+        
         res.status(200).json(senior);
+ 
       } catch (error) {
         res.status(500).json({
           error: `failed to fetch senior: ${error}`,

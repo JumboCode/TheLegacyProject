@@ -13,12 +13,14 @@ type User = {
 type ProfileProps<T extends {selectName: string}> = {
     placeholdData: T,
     profileLabels: T,
+    dropData: string [],
     handleSubmit: Function
 }
 
 const AddProfile = <T extends {selectName: string}>({
     placeholdData, 
     profileLabels,
+    dropData,
     handleSubmit
 }: ProfileProps<T>) => {
 
@@ -27,7 +29,7 @@ const AddProfile = <T extends {selectName: string}>({
       <div className='bg-[#F5F5F5] w-[84%] h-screen absolute inset-y-0 right-0 font-sans'>
         <ProfileHeader title={"Add New Member"} icon={null}/>
         <AddProfileForm placeholdData={placeholdData} profileLabels={profileLabels}
-                        handleSubmit={handleSubmit}/>
+                        handleSubmit={handleSubmit} dropData={dropData}/>
       </div>
     </>
   )

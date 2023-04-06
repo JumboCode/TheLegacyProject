@@ -30,7 +30,8 @@ const AddSenior: NextPage = () => {
         description: 'Description' 
     }
 
-    const handleSeniorSubmit = async (seniorData: Senior) => {
+    const handleSeniorSubmit = async (seniorData: Senior,
+                                      event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         // TODO: POST to create a new model on submit
         alert("Submitted Senior.");
@@ -39,7 +40,8 @@ const AddSenior: NextPage = () => {
     return (
         <>
             <AddProfile<Senior> placeholdData={placeholdSenior} profileLabels={labelSenior}
-                                handleSubmit={handleSeniorSubmit}/>
+                                handleSubmit={handleSeniorSubmit}
+                                dropData={['Place', 'Holder', 'Names']}/>
         </>
     ); 
 }

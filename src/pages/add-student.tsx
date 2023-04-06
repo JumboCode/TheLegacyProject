@@ -36,7 +36,6 @@ const AddStudentPage: NextPage = () => {
     const handleStudentSubmit = async (studentData: Student,
                                        event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // TODO: POST to create a new model on submit
         alert("Submitted Student.");
     }
 
@@ -49,7 +48,8 @@ const AddStudentPage: NextPage = () => {
       </Head>
 
       <AddProfile<Student> placeholdData={placeholdStudent} profileLabels={labelStudent}
-                           handleSubmit={handleStudentSubmit}/>
+                           handleSubmit={handleStudentSubmit}
+                           dropData={['Place', 'Holder', 'Names']}/>
     </>
   );
 };
