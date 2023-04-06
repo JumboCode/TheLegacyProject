@@ -1,22 +1,20 @@
-import Image from "next/image";
+
 
 type FileProps =  {
-    name: string,
-    URL: string,
-    fileType: string,
-    lastModified: Date
+    id:           string,
+    name:         string,
+    description:  string,
+    lastModified: Date,
+    url:          string,
+    tags:         string[],
 };
 
-const File = ({
-    name,
-    URL,
-    fileType,
-    lastModified
-}: FileProps) => {
+
+const File = ({id, name, description, lastModified, url, tags}: FileProps) => {
     return (
         <div className="flex flex-col text-left font-sans p-4 bg-off-white rounded-md aspect-square border hover:cursor-pointer hover:bg-taupe-hover">
-            <span> {fileType} </span>
-            <span> {URL} </span>
+            <span> {name} </span>
+            <span> {url} </span>
             <span> {lastModified} </span>
         </div>
     );
