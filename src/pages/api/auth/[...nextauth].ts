@@ -16,12 +16,12 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
 
-    jwt({token, account}) {
-        if (account?.access_token) {
-            token.accessToken = account.access_token;
-        }
-        return token;
-    }
+    jwt({ token, account }) {
+      if (account?.access_token) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),

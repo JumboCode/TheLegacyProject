@@ -1,3 +1,3 @@
 class Button {
-    const button = async (req: NextApiRequest, res: NextApiResponse) => {  }
+  button = async (req: NextApiRequest, res: NextApiResponse) => {};
 }

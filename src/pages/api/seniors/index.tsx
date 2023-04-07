@@ -5,11 +5,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@server/db/client";
 
 const senior = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method = "GET") {
+  if ((req.method = "GET")) {
     try {
       /*
-       * If the user performing the request is a student, it returns their 
-       * seniors; otherwise, if the user is an admin, it returns all existing 
+       * If the user performing the request is a student, it returns their
+       * seniors; otherwise, if the user is an admin, it returns all existing
        * seniors.
        */
 
@@ -21,7 +21,8 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
             photo: true,
           },
         });
-      } else { // current id is admin, return all seniors
+      } else {
+        // current id is admin, return all seniors
         const senior = await prisma.senior.findMany();
       }
 

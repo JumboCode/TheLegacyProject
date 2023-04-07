@@ -32,5 +32,5 @@ import Slider from "@components/slider";
 ```
 
 Note that in the above example, that you are importing from
-`@components/slider`, *not* `@components/slider/index` (this is not a functional
+`@components/slider`, _not_ `@components/slider/index` (this is not a functional
 difference in this example, but could cause issues in the future).
