@@ -43,8 +43,8 @@ const TagSelector = () => {
         <input className="h-[46px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] px-3" />
       </form>
       <div className="flex flex-row p-3">
-        {selectedTags.map((tag: string) => (
-          <Tag text={tag} />
+        {selectedTags.map((tag: string, i) => (
+          <Tag key={i} text={tag} />
         ))}
       </div>
     </div>
