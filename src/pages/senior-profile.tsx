@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import File, { FileProps } from "@components/File";
+import File, { FileProps, TagProps } from "@components/File";
 
 type SeniorFields = {
   id: string;
@@ -10,7 +10,7 @@ type SeniorFields = {
   description: string;
   studentIds: string[];
   folder: string;
-  files: string[];
+  files: FileProps[];
 };
 
 export { SeniorFields };
@@ -60,7 +60,11 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
       description: "My first note",
       lastModified: Date(),
       url: "/url",
-      tags: ["Childhood", "Early career"],
+      tags: [
+        {name: "Childhood", color: "blue"},
+        {name: "Early career", color: "red"},
+        {name: "Adulthood", color: "green"},
+      ],
     },
 
     {
@@ -69,7 +73,10 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
       description: "My second note",
       lastModified: Date(),
       url: "/url2",
-      tags: ["College", "Romance"],
+      tags: [
+        {name: "College", color: "blue"},
+        {name: "Romance", color: "red"},
+      ],
     },
   ];
 
@@ -90,7 +97,7 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
   const [seniorData, setSeniorData] = useState<SeniorFields>(initSeniorData);
 
   return (
-    <div className="container flex min-h-screen flex-col p-4">
+    <div className="container flex min-h-screen flex-col p-8">
       <h1 className="text-teal font-serif text-[3rem] leading-normal">
         {" "}
         File Grid
@@ -98,9 +105,11 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
       <SearchBar data={fileData as FileProps[]} setData={setFileData} />
 
       {/* styling for a TileGrid-like grid */}
-      <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-4">
-        {fileData.map((file) => (
-          <div> {file /* File component here! */} </div>
+      <div className="mt-5 grid grid-cols-[repeat(auto-fill,_256px)] gap-10 text-center">
+        {fileData.map(({name, lastModified, url, tags}: FileProps) => (
+          <div> 
+            <File name={name} lastModified={lastModified} url={url} tags={tags}/> 
+          </div>
         ))}
       </div>
     </div>
