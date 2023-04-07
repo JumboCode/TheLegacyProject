@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from 'react';
+
+type AddFileProps = {
+  showAddFilePopUp: boolean;
+  setShowAddFilePopUp: Dispatch<SetStateAction<boolean>>;
+}
 
 // https://feathericons.dev/?search=x&iconset=feather&format=strict-tsx
 function X(props: JSX.IntrinsicElements["svg"]) {
@@ -51,17 +56,18 @@ const TagSelector = () => {
   );
 };
 
-const AddFile = () => {
-  const [visibility, setVisibility] = useState<boolean>(true);
-
+const AddFile = ({
+  showAddFilePopUp,
+  setShowAddFilePopUp
+}: AddFileProps) => {
+  
   const handleCancel = () => {
-    // TODO: we should clear the form state here too
-    setVisibility(!visibility);
+    setShowAddFilePopUp(!showAddFilePopUp);
   };
 
   return (
     <>
-      {visibility && (
+      {showAddFilePopUp && (
         <>
           <div className="absolute flex h-full w-full flex-row items-center justify-center backdrop-blur-[2px] backdrop-brightness-75">
             <div className="flex h-[700px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">

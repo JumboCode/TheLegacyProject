@@ -83,7 +83,7 @@ const SeniorProfile: NextPage<SeniorFields> = (initSeniorData) => {
     return (
     <div className="container relative flex min-h-screen min-w-screen flex-col">
         <button className="" onClick={handlePopUp}>Add File</button>
-        { showAddFilePopUp ? <AddFile /> : null }
+        { showAddFilePopUp ? <AddFile showAddFilePopUp={showAddFilePopUp} setShowAddFilePopUp={setShowAddFilePopUp} /> : null }
 
         <div className="w-full h-full p-4">
           <h1 className="text-[3rem] font-serif text-teal leading-normal"> File Grid</h1>
