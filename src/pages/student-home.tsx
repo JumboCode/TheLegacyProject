@@ -11,19 +11,15 @@ const Home: NextPage = () => {
         <title>The Legacy Project</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
-      <div className="bg-off-white h-max">
-        <PhotoHeader/>
-        <div className="lg:px-9 md:px-5 px-3">
-          <h1 className="font-semibold text-xl mt-1">My Senior</h1>
-          <button className="bg-dark-teal h-0.5 inline-block min-w-[2in] 2xl:w-[12%] xl:w-[12%] lg:w-[12%] md:w-[12%] w-1/3 my-3"></button>
+
+      <div className="h-max bg-off-white">
+        <PhotoHeader />
+        <div className="px-3 md:px-5 lg:px-9">
+          <h1 className="mt-1 text-xl font-semibold">My Senior</h1>
+          <button className="my-3 inline-block h-0.5 w-1/3 min-w-[2in] bg-dark-teal md:w-[12%] lg:w-[12%] xl:w-[12%] 2xl:w-[12%]"></button>
         </div>
         <SeniorGrid name="Andrew" location="Boston" picture="" />
-
-        
-
       </div>
-      
     </>
   );
 };
