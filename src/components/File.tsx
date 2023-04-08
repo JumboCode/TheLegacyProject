@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { current } from "tailwindcss/colors";
 
 export type FileProps = {
   id: string;
@@ -49,12 +50,32 @@ FileProps) => {
 
   const [tagData, setTagData] = useState<TagProps[]>(tags);
 
+  const timeOptions: Intl.DateTimeFormatOptions = {hour: "numeric", hour12: true, minute: "numeric"};
+  const dateOptions: Intl.DateTimeFormatOptions = {year: "numeric", month: "long", day: "numeric"};
+
+  const currentDate = new Date();
+  let dateString = "";
+
+  if ((lastModified.getFullYear() == currentDate.getFullYear()) && (lastModified.getMonth() == currentDate.getMonth())) {
+    if ((lastModified.getDay() == currentDate.getDay()) && (lastModified.getHours() <= currentDate.getHours())) {
+      // TODAY
+      dateString = "today at " + lastModified.toLocaleTimeString(undefined, timeOptions);
+    }
+    if ((lastModified.getDay() == currentDate.getDay() - 1) && (lastModified.getHours() > currentDate.getHours())) {
+      // YESTERDAY
+      dateString = "yesterday at " + lastModified.toLocaleTimeString(undefined, timeOptions);
+    }
+  } else {
+    // ALL OTHER TIMES
+    dateString = lastModified.toLocaleDateString(undefined, dateOptions);
+  }
+
   return (
     <div className="flex aspect-square flex-col justify-between rounded-lg border bg-off-white p-5 drop-shadow-md text-left font-sans hover:cursor-pointer hover:bg-taupe-hover">
       <div className="flex flex-col">
         <span className="font-semibold mb-1 text-lg"> {name} </span>
         <span className="mb-1"> {url} </span>
-        <span> {lastModified} </span>
+        <span> Last opened {dateString} </span>
       </div>
       {/* Row of Tags */}
       <div className="flex flex-row gap-2 flex-nowrap overflow-x-scroll">

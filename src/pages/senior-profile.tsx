@@ -59,7 +59,7 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
       id: "1",
       name: "First Note",
       description: "My first note",
-      lastModified: Date(),
+      lastModified: new Date(2023, 3, 7, 20, 34),
       url: "/url",
       tags: [
         {name: "Childhood", color: "bg-tag-rust"},
@@ -72,7 +72,7 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
       id: "2",
       name: "Second Note",
       description: "My second note",
-      lastModified: Date(),
+      lastModified: new Date(2023, 2, 31, 14, 52),
       url: "/url2",
       tags: [
         {name: "College", color: "bg-tag-rust"},
