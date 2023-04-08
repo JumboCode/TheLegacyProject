@@ -51,7 +51,7 @@ const students = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
           }
 
-          res.status(200).json({ result });
+          res.status(200).json({ students: result.Students });
         } else {
           res.status(500).json({
             error:
