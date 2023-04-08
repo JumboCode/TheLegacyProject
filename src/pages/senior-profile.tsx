@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import File, { FileProps, TagProps } from "@components/File";
+import DropdownCopy from "@components/dropdownCopy"
 
 type SeniorFields = {
   id: string;
@@ -61,9 +62,9 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
       lastModified: Date(),
       url: "/url",
       tags: [
-        {name: "Childhood", color: "blue"},
-        {name: "Early career", color: "red"},
-        {name: "Adulthood", color: "green"},
+        {name: "Childhood", color: "rust"},
+        {name: "Early career", color: "tan"},
+        {name: "Adulthood", color: "sage"},
       ],
     },
 
@@ -74,8 +75,8 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
       lastModified: Date(),
       url: "/url2",
       tags: [
-        {name: "College", color: "blue"},
-        {name: "Romance", color: "red"},
+        {name: "College", color: "rust"},
+        {name: "Romance", color: "tan"},
       ],
     },
   ];
@@ -102,10 +103,12 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
         {" "}
         File Grid
       </h1>
-      <SearchBar data={fileData as FileProps[]} setData={setFileData} />
-
+      <div className="flex flex-row">
+        <SearchBar data={fileData as FileProps[]} setData={setFileData} />
+        {/* <DropdownCopy items={["By Name", "By Last Modified"]} bgColor="red" selected="Sortttt" setSelected={Dispatch<SetStateAction<string>>}/> */}
+      </div>
       {/* styling for a TileGrid-like grid */}
-      <div className="mt-5 grid grid-cols-[repeat(auto-fill,_256px)] gap-10 text-center">
+      <div className="mt-7 grid grid-cols-[repeat(auto-fill,_256px)] gap-10 text-center">
         {fileData.map(({name, lastModified, url, tags}: FileProps) => (
           <div> 
             <File name={name} lastModified={lastModified} url={url} tags={tags}/> 
