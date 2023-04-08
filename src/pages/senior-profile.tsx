@@ -99,9 +99,9 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
 
   return (
     <div className="container flex min-h-screen flex-col p-8">
-      <h1 className="text-teal font-serif text-[3rem] leading-normal">
+      <h1 className="text-teal font-serif text-[3rem] leading-normal mb-8">
         {" "}
-        File Grid
+        {seniorData.name}
       </h1>
       <div className="flex flex-row">
         <SearchBar data={fileData as FileProps[]} setData={setFileData} />
