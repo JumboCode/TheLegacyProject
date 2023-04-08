@@ -12,20 +12,32 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
+  const { id: seniorId } = req.query; //TODO: verify that these fields are well-formed using zod
+  if (typeof seniorId !== "string") {
+    res.status(500).json({
+      error: `seniorId must be a string`,
+    });
+    return;
+  }
+
   switch (req.method) {
     case "GET":
       try {
         /*
          * Retrieve information about a Senior
          */
-
-        const { senior_id } = JSON.parse(req.body); //TODO: verify that these fields are well-formed using zod
-
         const senior = await prisma.senior.findUnique({
           where: {
-            id: senior_id, //get all information for given senior
+            id: seniorId, //get all information for given senior
           },
         });
+
+        if (!senior) {
+          res.status(404).json({
+            error: `senior with id ${seniorId} not found`,
+          });
+          return;
+        }
 
         res.status(200).json(senior);
       } catch (error) {
@@ -49,17 +61,18 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         })) ?? { admin: false };
 
-        const { senior_id, senior_location } = JSON.parse(req.body); //TODO: verify that these fields are well-formed using zod
+        const { seniorLocation } = JSON.parse(req.body); //TODO: verify that these fields are well-formed using zod
 
         if (admin) {
           const senior = await prisma.senior.update({
             where: {
-              id: senior_id,
+              id: seniorId,
             },
             data: {
-              location: senior_location,
+              location: seniorLocation,
             },
           });
+
           res.status(200).json(senior);
         } else {
           res.status(500).json({
