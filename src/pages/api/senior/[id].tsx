@@ -5,7 +5,12 @@ import { getServerAuthSession } from "@server/common/get-server-auth-session";
 const senior = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
 
-  const { senior_id, senior_location } = JSON.parse(req.body); //TODO: verify that these fields are well-formed using zod
+  if (!session) {
+    res.status(401).json({
+      error: "This route is protected. In order to access it, please sign in.",
+    });
+    return;
+  }
 
   switch (req.method) {
     case "GET":
@@ -13,6 +18,9 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
         /*
          * Retrieve information about a Senior
          */
+
+        const { senior_id } = JSON.parse(req.body); //TODO: verify that these fields are well-formed using zod
+
         const senior = await prisma.senior.findUnique({
           where: {
             id: senior_id, //get all information for given senior
@@ -32,17 +40,18 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
         /*
          * Allow change of location of Senior if admin
          */
-        const admin = await prisma.user.findUnique({
-          //is there a problem here if session is false?
+        const { admin } = (await prisma.user.findUnique({
           where: {
-            id: session?.user?.id,
+            id: session.user?.id,
           },
           select: {
             admin: true, //return admin boolean field for given user id
           },
-        });
+        })) ?? { admin: false };
+
+        const { senior_id, senior_location } = JSON.parse(req.body); //TODO: verify that these fields are well-formed using zod
+
         if (admin) {
-          //for admin users
           const senior = await prisma.senior.update({
             where: {
               id: senior_id,
@@ -53,10 +62,11 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
           });
           res.status(200).json(senior);
         } else {
-          res.send({
+          res.status(500).json({
             error:
-              "You must be signed in as admin to view the protected content on this page.",
+              "This route is protected. In order to access it, please sign in as admin.",
           });
+          return;
         }
       } catch (error) {
         res.status(500).json({
