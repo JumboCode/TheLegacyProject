@@ -80,7 +80,7 @@ const AddFile = ({
                   Description
                 </span>
                 <textarea
-                  className="my-5 h-[123px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] bg-[#F5F6FA] p-[12px] text-start text-sm"
+                  className="my-5 h-[123px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] bg-[#F5F6FA] p-[12px] text-start text-sm min-h-[123px] max-h-[123px]"
                   placeholder="Write a detailed description"
                 />
                 <TagSelector />

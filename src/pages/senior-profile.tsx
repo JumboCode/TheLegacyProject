@@ -12,7 +12,7 @@ export type SeniorFields = {
     description: string,
     studentIds:  string [],
     folder:      string,
-    files:       string [],
+    files:       FileProps [],
 }
 
 const SearchBar = ({
@@ -26,7 +26,7 @@ const SearchBar = ({
   const [searchInput, setSearchInput] = useState("");
   const originalData = useRef(data);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setSearchInput(e.target.value);
 
@@ -53,12 +53,18 @@ const SeniorProfile: NextPage<SeniorFields> = (initSeniorData) => {
 
     const fileArr: FileProps[] = [{id: "1", name: "First Note", 
                                    description: "My first note", 
-                                   lastModified: Date(), url: '/url',
+                                  // hydration error if changed to Date()
+                                  // placeholder below until uniformly formatted Date to prevent error
+                                   lastModified: "Fri Apr 07 2023 22:02:31 GMT-0400 (Eastern Daylight Time)", 
+                                   url: '/url',
                                    tags: ["Childhood", "Early career"]},
 
                                    {id: "2", name: "Second Note", 
                                    description: "My second note", 
-                                   lastModified: Date(), url: '/url2',
+                                   // hydration error if changed to Date()
+                                   // placeholder below until uniformly formatted Date to prevent error
+                                   lastModified: "Fri Apr 07 2023 22:02:31 GMT-0400 (Eastern Daylight Time)", 
+                                   url: '/url2',
                                    tags: ["College", "Romance"] }];
                                   
     // initSeniorData will be set by passed-in prop; here's a temporary one
@@ -68,7 +74,7 @@ const SeniorProfile: NextPage<SeniorFields> = (initSeniorData) => {
                        name: "Skylar Gilfeather",
                        location: "Somerville",
                        description: "She's your project manager!",
-                       studentIDs: ["1", "2", "3", "4"],
+                       studentIds: ["1", "2", "3", "4"],
                        folder: "FOLDERID",
                        files: fileArr };
     
@@ -93,7 +99,16 @@ const SeniorProfile: NextPage<SeniorFields> = (initSeniorData) => {
           <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-4">
               {fileData.map(
                   // file component replaces File
-                  (file, i) => ( <div key={i}> File </div> ))}
+                  (file, i) => (
+                    <File key={i}
+                      id={file.id}
+                      name={file.name}
+                      description={file.description}
+                      lastModified={file.lastModified}
+                      url={file.url}
+                      tags={file.tags}
+                    />
+                  ))}
           </div>
         </div>
       </div>
