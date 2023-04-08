@@ -52,8 +52,8 @@ const Tag = ({name, color}: TagProps) => {
     }
     
     return (
-        <div className={`${givenColor} w-fit whitespace-nowrap rounded-md text-center text-off-white h-15 p-2`}>
-            <span className=""> {name}, {color} </span>
+        <div className={`${givenColor} w-fit whitespace-nowrap rounded-lg text-center text-off-white h-15 py-2 px-3`}>
+            <span className=""> {name} </span>
         </div>
     )
 };
@@ -71,14 +71,14 @@ FileProps) => {
   const [tagData, setTagData] = useState<TagProps[]>(tags);
 
   return (
-    <div className="flex aspect-square flex-col justify-between rounded-md border bg-off-white p-5 drop-shadow-md text-left font-sans hover:cursor-pointer hover:bg-taupe-hover">
+    <div className="flex aspect-square flex-col justify-between rounded-lg border bg-off-white p-5 drop-shadow-md text-left font-sans hover:cursor-pointer hover:bg-taupe-hover">
       <div className="flex flex-col">
         <span className="font-semibold mb-1 text-lg"> {name} </span>
         <span className="mb-1"> {url} </span>
         <span> {lastModified} </span>
       </div>
       {/* Row of Tags */}
-      <div className="flex flex-row flex-nowrap overflow-x-scroll">
+      <div className="flex flex-row gap-2 flex-nowrap overflow-x-scroll">
         {tagData.map(({name, color}: TagProps) => (
             <div className=""> 
                 <Tag name={name} color={color} /> 
