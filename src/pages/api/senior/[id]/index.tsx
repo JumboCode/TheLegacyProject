@@ -5,7 +5,7 @@ import { getServerAuthSession } from "@server/common/get-server-auth-session";
 const senior = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
 
-  if (!session) {
+  if (!session || !session.user) {
     res.status(401).json({
       error: "This route is protected. In order to access it, please sign in.",
     });
@@ -19,6 +19,8 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
     });
     return;
   }
+
+  const userId = session.user.id;
 
   switch (req.method) {
     case "GET":
@@ -54,7 +56,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
          */
         const { admin } = (await prisma.user.findUnique({
           where: {
-            id: session.user?.id,
+            id: userId,
           },
           select: {
             admin: true, //return admin boolean field for given user id
