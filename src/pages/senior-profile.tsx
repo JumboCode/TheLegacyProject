@@ -62,9 +62,9 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
       lastModified: Date(),
       url: "/url",
       tags: [
-        {name: "Childhood", color: "rust"},
-        {name: "Early career", color: "tan"},
-        {name: "Adulthood", color: "sage"},
+        {name: "Childhood", color: "bg-tag-rust"},
+        {name: "Early career", color: "bg-tag-tan"},
+        {name: "Adulthood", color: "bg-tag-sage"},
       ],
     },
 
@@ -75,8 +75,8 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
       lastModified: Date(),
       url: "/url2",
       tags: [
-        {name: "College", color: "rust"},
-        {name: "Romance", color: "tan"},
+        {name: "College", color: "bg-tag-rust"},
+        {name: "Romance", color: "bg-tag-tan"},
       ],
     },
   ];

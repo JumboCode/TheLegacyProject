@@ -14,45 +14,24 @@ export type TagProps = {
   color: string;
 };
 
-export type TagColorProps = {
-  name: string;
-  className: string;
-}
-
-// const tagColorArr: TagColorProps[] = [
-//   {name: "rust", className: "bg-tag-rust-600 hover:bg-tag-rust-500"},
-//   {name: "tan", className: "bg-tag-tan-600 hover:bg-tag-tan-500"},
-//   {name: "sage", className: "bg-tag-sage-600 hover:bg-tag-sage-500"},
-//   {name: "gray", className: "bg-tag-gray-600 hover:bg-tag-gray-500"},
-// ]
-
 const Tag = ({name, color}: TagProps) => {
 
     // TODO: set tag color based on color prop
 
-    // const tagColors = [
-    //     {rust: "bg-tag-rust-600 hover:bg-tag-rust-500"},
-    //     {tan: "bg-tag-tan-600 hover:bg-tag-tan-500"},
-    //     {sage: "bg-tag-sage-600 hover:bg-tag-sage-500"},
-    //     {gray: "bg-tag-gray-600 hover:bg-tag-gray-500"},
-    // ]
-
-    let givenColor;
     //let givenColor = "bg-tag-gray";
-    //const [tagColor, setTagColor] = useState<string>(givenColor);
 
-    if (color == "rust") {
-      givenColor = "bg-tag-rust";
-    } else if (color == "tan") {
-      givenColor = "bg-tag-tan";
-    } else if (color == "sage") {
-      givenColor = "bg-tag-sage";
-    } else if (color == "gray") {
-      givenColor = "bg-tag-gray";
-    }
+    // if (color == "rust") {
+    //   givenColor = "bg-tag-rust";
+    // } else if (color == "tan") {
+    //   givenColor = "bg-tag-tan";
+    // } else if (color == "sage") {
+    //   givenColor = "bg-tag-sage";
+    // } else if (color == "gray") {
+    //   givenColor = "bg-tag-gray";
+    // }
     
     return (
-        <div className={`${givenColor} w-fit whitespace-nowrap rounded-lg text-center text-off-white h-15 py-2 px-3`}>
+        <div className={`${color} w-fit whitespace-nowrap rounded-lg text-center text-off-white h-15 py-2 px-3`}>
             <span className=""> {name} </span>
         </div>
     )
