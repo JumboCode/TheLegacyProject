@@ -1,9 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
   setShowAddFilePopUp: Dispatch<SetStateAction<boolean>>;
-}
+};
 
 // https://feathericons.dev/?search=x&iconset=feather&format=strict-tsx
 function X(props: JSX.IntrinsicElements["svg"]) {
@@ -36,7 +36,9 @@ const Tag = ({ text }: { text: string }) => {
 };
 
 const TagSelector = () => {
-  const [selectedTags, setSelectedTags] = useState<string[]>(["tag 3"]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([
+    "tag 3",
+  ]);
   const tagList = ["tag 1", "tag 2", "tag 3"];
 
   return (
@@ -56,14 +58,21 @@ const TagSelector = () => {
   );
 };
 
-const AddFile = ({
-  showAddFilePopUp,
-  setShowAddFilePopUp
-}: AddFileProps) => {
-  
+const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
+  const [ fileName, setFilename ] = useState("");
+
   const handleCancel = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
   };
+
+  const addFile = () => {
+    fetch("/api/drive/addfile", {
+      method: "POST",
+      body: JSON.stringify({
+        fileName: "Placeholder",
+      }),
+    })
+  }
 
   return (
     <>
@@ -75,12 +84,12 @@ const AddFile = ({
                 <span className="my-5 h-[34px] w-full font-sans text-sm leading-[22px] text-dark-gray">
                   File name
                 </span>
-                <input className="my-5 h-[46px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] px-3" />
+                <input className="my-5 h-[46px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] px-3" type="text" value={fileName} onChange={(e: any) => setFilename(e.target.value)}/>
                 <span className="mt-[1rem] h-[34px] w-full text-sm leading-[22px] text-dark-gray">
                   Description
                 </span>
                 <textarea
-                  className="my-5 h-[123px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] bg-[#F5F6FA] p-[12px] text-start text-sm min-h-[123px] max-h-[123px]"
+                  className="my-5 h-[123px] max-h-[123px] min-h-[123px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] bg-[#F5F6FA] p-[12px] text-start text-sm"
                   placeholder="Write a detailed description"
                 />
                 <TagSelector />
@@ -89,11 +98,10 @@ const AddFile = ({
               <div className="flex w-full flex-row justify-center">
                 <button
                   className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-sm font-normal text-[#515151] hover:bg-gray-200"
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </button>
-                <button className="mx-1 w-full max-w-[10rem] rounded bg-teal-800 p-3 text-sm font-normal text-[#FFFFFF] hover:bg-dark-teal">
+                  onClick={handleCancel} >
+                  Cancel </button>
+                <button className="mx-1 w-full max-w-[10rem] rounded bg-teal-800 p-3 text-sm font-normal text-[#FFFFFF] hover:bg-dark-teal"
+                  onClick={addFile} >
                   Create
                 </button>
               </div>
