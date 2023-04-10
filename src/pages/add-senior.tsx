@@ -34,9 +34,16 @@ const AddSenior: NextPage = () => {
     event: React.ChangeEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    // TODO: POST to create a new model on submit
+
+    const response = await fetch("/api/seniors", {
+      method: "POST",
+      body: JSON.stringify(seniorData),
+    });
+
+    return response.json()
     alert("Submitted Senior.");
   };
+  
 
   return (
     <>
@@ -44,7 +51,7 @@ const AddSenior: NextPage = () => {
         placeholdData={placeholdSenior}
         profileLabels={labelSenior}
         handleSubmit={handleSeniorSubmit}
-        dropData={["Place", "Holder", "Names"]}
+        dropData={[labelSenior.selectName]}
       />
     </>
   );
