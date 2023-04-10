@@ -25,8 +25,8 @@ import {
   
     useEffect(() => {
       setStyles(
-        `w-full px-5 py-3 hover:${bgColor}-500 text-dark-gray-500 cursor-pointer ${
-          selected ? `bg-${bgColor}-500 text-dark-gray-500` : ""
+        `w-full px-5 py-3 text-dark-gray-500 cursor-pointer border-2 border-purple-500 ${
+          selected ? `text-dark-gray-500` : ""
         }`
       );
     });
@@ -47,30 +47,26 @@ import {
     const [open, setOpen] = useState<boolean>(false);
   
     const styles = () => {
-      return "absolute float-right md:min-w-[10rem]";
+      return "md:min-w-[10rem]";
     };
   
     return (
       <div className={styles()}>
-        <div
-          className="min-w-[10rem] bg-white rounded"
-          onClick={() => setOpen(!open)}
-        >
+        <div className="min-w-[10rem] bg-white rounded" onClick={() => setOpen(!open)}>
           <Item
             text={selected}
             onClick={() => setOpen(!open)}
             bgColor={bgColor}
             selected
           />
-          {open &&
-            items.map((item: string, i: number) => (
-              <Item
-                key={i}
-                text={item}
-                onClick={() => setSelected(items[i] || "")}
-                bgColor={bgColor}
-              />
-            ))}
+          {open && items.map((item: string, i: number) => (
+            <Item
+              key={i}
+              text={item}
+              onClick={() => setSelected(items[i] || "")}
+              bgColor={bgColor}
+            />
+          ))}
         </div>
       </div>
     );
