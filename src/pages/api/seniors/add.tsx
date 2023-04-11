@@ -33,7 +33,6 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({
       error: `method ${req.method} not implemented`,
     });
-  }
-};
+  };
 
 export default senior;

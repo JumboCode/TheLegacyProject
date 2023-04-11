@@ -14,7 +14,11 @@ const student = async (req: NextApiRequest, res: NextApiResponse) => {
     if (current_user?.admin) {
       //returns list of students
       try {
-        const student = await prisma.user.findMany();
+        const student : string[] = await prisma.user.findMany({
+          select: {
+            name: true
+          }
+        });
       } catch {
         res.status(500).json({
           error: `Failed to access student database`,
