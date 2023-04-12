@@ -25,7 +25,7 @@ import {
   
     useEffect(() => {
       setStyles(
-        `w-full px-5 py-3 text-dark-gray-500 cursor-pointer border-2 border-green-500 ${
+        `w-full px-5 py-3 text-dark-gray-500 cursor-pointer border-2 ${
           selected ? `text-dark-gray-500` : ""
         }`
       );

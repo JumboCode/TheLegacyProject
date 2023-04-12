@@ -103,10 +103,9 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
         {" "}
         {seniorData.name}
       </h1>
-      <div className="flex flex-row align-middle justify-between border-2 border-red-500">
-          <div className="border-blue-500">
+      <div className="flex flex-row align-middle justify-between border-2">
+          
             <SearchBar data={fileData as FileProps[]} setData={setFileData} />
-          </div>
           <div>
             <DropdownCopy items={["By Name", "By Last Modified"]} bgColor="red" selected="Sortttt" setSelected={Dispatch<SetStateAction<string>>}/>
           </div>
