@@ -5,7 +5,22 @@ import { getServerAuthSession } from "@server/common/get-server-auth-session";
 const senior = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
 
-  const { senior_id, senior_location } = JSON.parse(req.body); //TODO: verify that these fields are well-formed using zod
+  if (!session || !session.user) {
+    res.status(401).json({
+      error: "This route is protected. In order to access it, please sign in.",
+    });
+    return;
+  }
+
+  const { id: seniorId } = req.query; //TODO: verify that these fields are well-formed using zod
+  if (typeof seniorId !== "string") {
+    res.status(500).json({
+      error: `seniorId must be a string`,
+    });
+    return;
+  }
+
+  const userId = session.user.id;
 
   switch (req.method) {
     case "GET":
@@ -15,9 +30,16 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
          */
         const senior = await prisma.senior.findUnique({
           where: {
-            id: senior_id, //get all information for given senior
+            id: seniorId, //get all information for given senior
           },
         });
+
+        if (!senior) {
+          res.status(404).json({
+            error: `senior with id ${seniorId} not found`,
+          });
+          return;
+        }
 
         res.status(200).json(senior);
       } catch (error) {
@@ -32,31 +54,34 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
         /*
          * Allow change of location of Senior if admin
          */
-        const admin = await prisma.user.findUnique({
-          //is there a problem here if session is false?
+        const { admin } = (await prisma.user.findUnique({
           where: {
-            id: session?.user?.id,
+            id: userId,
           },
           select: {
             admin: true, //return admin boolean field for given user id
           },
-        });
+        })) ?? { admin: false };
+
+        const { seniorLocation } = JSON.parse(req.body); //TODO: verify that these fields are well-formed using zod
+
         if (admin) {
-          //for admin users
           const senior = await prisma.senior.update({
             where: {
-              id: senior_id,
+              id: seniorId,
             },
             data: {
-              location: senior_location,
+              location: seniorLocation,
             },
           });
+
           res.status(200).json(senior);
         } else {
-          res.send({
+          res.status(500).json({
             error:
-              "You must be signed in as admin to view the protected content on this page.",
+              "This route is protected. In order to access it, please sign in as admin.",
           });
+          return;
         }
       } catch (error) {
         res.status(500).json({

@@ -2,12 +2,20 @@ import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { prisma } from "@server/db/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const students = async (req: NextApiRequest, res: NextApiResponse) => {
+const student = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
 
   if (!session || !session.user) {
     res.status(401).json({
       error: "This route is protected. In order to access it, please sign in.",
+    });
+    return;
+  }
+
+  const { id: studentId } = req.query;
+  if (typeof studentId !== "string") {
+    res.status(500).json({
+      error: `studentId must be a string`,
     });
     return;
   }
@@ -19,11 +27,11 @@ const students = async (req: NextApiRequest, res: NextApiResponse) => {
       id: userId,
     },
     select: {
-      admin: true,
+      admin: true, //return admin boolean field for given user id
     },
   })) ?? { admin: false };
 
-  if (!admin) {
+  if (userId != studentId && !admin) {
     res.status(500).json({
       error:
         "This route is protected. In order to access it, please sign in as admin.",
@@ -34,12 +42,26 @@ const students = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "GET":
       try {
-        const students = await prisma.user.findMany();
+        /*
+         * Retrieve information about a student
+         */
+        const student = await prisma.user.findUnique({
+          where: {
+            id: studentId, //get all information for given student
+          },
+        });
 
-        res.status(200).json(students);
+        if (!student) {
+          res.status(404).json({
+            error: `student with id ${studentId} not found`,
+          });
+          return;
+        }
+
+        res.status(200).json(student);
       } catch (error) {
         res.status(500).json({
-          error: `failed to find students: ${error}`,
+          error: `failed to fetch student: ${error}`,
         });
       }
       break;
@@ -52,4 +74,4 @@ const students = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default students;
+export default student;
