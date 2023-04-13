@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useMemo, useState } from "react";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -36,19 +36,34 @@ const Tag = ({ text }: { text: string }) => {
 };
 
 const TagSelector = () => {
-  const [selectedTags, setSelectedTags] = useState<string[]>([
+  const [selectedTags, setSelectedTags] = useState([
     "tag 3",
   ]);
   const tagList = ["tag 1", "tag 2", "tag 3"];
+  const [ filterText, setFilterText ] = useState("");
+
+  const filteredTags = useMemo(
+    () => tagList.filter(tag => tag.indexOf(filterText) != -1),
+    [filterText]
+  );
+  
+  const onChange = (e: any) => {
+    setFilterText(e.target.value);
+  }
+
+  const onSubmit = (e: any) => {
+
+  }
 
   return (
     <div>
-      <span className="h-[34px] w-full font-sans text-sm leading-[22px] text-dark-gray">
-        Tags
+      <span className="h-[34px] w-full font-sans text-sm leading-[22px] text-dark-gray"> Tags
       </span>
-      <form className="mt-[1rem]">
-        <input className="h-[46px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] px-3" />
-      </form>
+      <input 
+        className="mt-[1rem] h-[46px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] px-3"
+        value={filterText}
+        onChange={onChange}
+      />
       <div className="flex flex-row p-3">
         {selectedTags.map((tag: string, i) => (
           <Tag key={i} text={tag} />

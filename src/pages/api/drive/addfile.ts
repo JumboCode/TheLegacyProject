@@ -3,8 +3,11 @@ import { getToken } from 'next-auth/jwt';
 import { google } from 'googleapis';
 
 async function uploadToFolder(folderId: string, fileName: string) {
+      
+        const {google} = require('googleapis');
+        
         // TODO: figure out auth stuff
-        const auth
+        const auth = ;
         const service = google.drive({version: 'v3', auth});
       
         // TODO(developer): set folder Id
@@ -28,6 +31,7 @@ async function uploadToFolder(folderId: string, fileName: string) {
           return file.data.id;
         } catch (err) {
           // TODO(developer) - Handle error
+          console.log("Error creating file in addfile.ts");
           throw err;
         }
 }

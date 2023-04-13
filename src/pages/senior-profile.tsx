@@ -23,8 +23,7 @@ const SearchBar = ({
   setData: Dispatch<SetStateAction<FileProps[]>>
 }) => {
 
-  const [searchInput, setSearchInput] = useState("");
-  const originalData = useRef(data);
+  const [searchInput, setSearchInput] = useState(""); const originalData = useRef(data);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -87,7 +86,7 @@ const SeniorProfile: NextPage<SeniorFields> = (initSeniorData) => {
     }
 
     return (
-    <div className="container relative flex min-h-screen min-w-screen flex-col">
+    <div className="container relative flex w-screen h-screen flex-col">
         <button className="" onClick={handlePopUp}>Add File</button>
         { showAddFilePopUp ? <AddFile showAddFilePopUp={showAddFilePopUp} setShowAddFilePopUp={setShowAddFilePopUp} /> : null }
 
