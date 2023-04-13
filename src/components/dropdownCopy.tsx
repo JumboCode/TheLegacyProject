@@ -19,13 +19,26 @@ import {
     selected?: boolean;
     bgColor: string;
   };
+
+  type SortProps = {
+    text: string;
+    onClick: MouseEventHandler<HTMLDivElement> | undefined;
+  }
+
+  function Sort({ text, onClick}: SortProps) {
+    return (
+      <div className="rounded px-5 py-3 text-dark-gray-500 bg-white cursor-pointer">
+        {text}
+      </div>
+    )
+  }
   
   function Item({ text, onClick, selected, bgColor }: ItemProps) {
     const [styles, setStyles] = useState<string>("");
   
     useEffect(() => {
       setStyles(
-        `w-full px-5 py-3 text-dark-gray-500 cursor-pointer border-2 ${
+        `px-5 py-3 text-dark-gray-500 cursor-pointer whitespace-nowrap ${
           selected ? `text-dark-gray-500` : ""
         }`
       );
@@ -46,29 +59,33 @@ import {
   }: DropdownProps): JSX.Element {
     const [open, setOpen] = useState<boolean>(false);
   
-    const styles = () => {
-      return "md:min-w-[10rem]";
-    };
-  
     return (
-      <div className={styles()}>
-        <div className="min-w-[10rem] bg-white rounded" onClick={() => setOpen(!open)}>
-          <Item
+      // <div className= "h-full border-2 border-red-500 relative">
+        <div className="h-full bg-white rounded relative" onClick={() => setOpen(!open)}>
+          <Sort
+            text="Sort"
+            onClick={() => setOpen(!open)}
+          />
+          {/* <Item
             text={selected}
             onClick={() => setOpen(!open)}
             bgColor={bgColor}
             selected
-          />
-          {open && items.map((item: string, i: number) => (
-            <Item
-              key={i}
-              text={item}
-              onClick={() => setSelected(items[i] || "")}
-              bgColor={bgColor}
-            />
-          ))}
+          /> */}
+          <div className="absolute -right-0.5 top-16 rounded">
+            {open && items.map((item: string, i: number) => (
+              <div className="bg-white rounded">
+                <Item
+                  key={i}
+                  text={item}
+                  onClick={() => setSelected(items[i] || "")}
+                  bgColor={bgColor}
+                /> 
+              </div>         
+            ))}
+          </div>
         </div>
-      </div>
+      // </div>
     );
   }
   

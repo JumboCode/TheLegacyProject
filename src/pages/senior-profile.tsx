@@ -103,11 +103,11 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
         {" "}
         {seniorData.name}
       </h1>
-      <div className="flex flex-row align-middle justify-between border-2">
+      <div className="flex flex-row align-middle justify-between">
           
             <SearchBar data={fileData as FileProps[]} setData={setFileData} />
-          <div>
-            <DropdownCopy items={["By Name", "By Last Modified"]} bgColor="red" selected="Sortttt" setSelected={Dispatch<SetStateAction<string>>}/>
+          <div className="relative z-10">
+            <DropdownCopy items={["By Name", "By Last Modified"]} bgColor="red" selected="Sort" setSelected={Dispatch<SetStateAction<string>>}/>
           </div>
       </div>
       {/* styling for a TileGrid-like grid */}
