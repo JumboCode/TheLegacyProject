@@ -78,7 +78,7 @@ import {
                 <Item
                   key={i}
                   text={item}
-                  onClick={() => setSelected(items[i] || "")}
+                  onClick={() => setSelected(items[i] || "")} //figure out setSelected?
                   bgColor={bgColor}
                 /> 
               </div>         
