@@ -32,7 +32,7 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
     <nav
       className={cn(
         scrolling ? "shadow-2xl" : null,
-        "top-0 z-50 flex flex-col bg-off-white lg:sticky"
+        "top-0 z-50 flex flex-col bg-taupe lg:sticky"
       )}
     >
       <div className="relative m-auto flex min-h-[5rem] w-11/12 items-center justify-between">
@@ -76,7 +76,7 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
         <div
           className={cn(
             dropdownVisible ? "flex" : "hidden",
-            "absolute top-full left-[-4.16667%] m-auto w-screen flex-col items-center justify-center space-y-4 border-t-2 border-gray-200  bg-off-white py-4 shadow-xl lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none"
+            "absolute top-full left-[-4.16667%] m-auto w-screen flex-col items-center justify-center space-y-4 border-t-2 border-gray-200  py-4 shadow-xl lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none"
           )}
         >
           {children}

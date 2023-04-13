@@ -11,7 +11,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-items-center bg-off-white p-4">
+      <main className="min-height-screen container mx-auto flex flex-col items-center justify-items-center p-4">
         <div className="flex flex-row items-center justify-items-center gap-5">
           {" "}
           {/*holds left and right*/}
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
             <h1 className="my-4 text-5xl font-extrabold leading-tight text-dark-plum duration-500 md:text-[4rem]">
               Everyone has a story worth preserving
             </h1>
-            <p className="my-4 bg-off-white text-2xl text-gray-700 duration-500">
+            <p className="my-4 text-2xl text-gray-700 duration-500">
               Legacy Project documents the stories of the elder generation to
               ensure that their legacies are preserved for years to come.
             </p>
