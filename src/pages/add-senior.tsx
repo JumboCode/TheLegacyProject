@@ -30,39 +30,41 @@ const AddSenior: NextPage = () => {
     description: "Description",
   };
 
-  const newSenior: Senior = {
-    firstName: seniorData.firstName,
-    lastName: seniorData.lastName,
-    interests: seniorData.interests,
-    location: seniorData.location,
-    description: seniorData.description,
-    StudentIDs: [1, 2, 3],
-    Students: ["a", "b", "c"],
-    File: "",
-  };
+  // const newSenior: Senior = {
+  //   firstName: seniorData.firstName,
+  //   lastName: seniorData.lastName,
+  //   interests: seniorData.interests,
+  //   location: seniorData.location,
+  //   description: seniorData.description,
+  //   StudentIDs: [1, 2, 3],
+  //   Students: ["a", "b", "c"],
+  //   File: "",
+  // };
 
-  // Ultimately this is where we will get the user data, but there is a bug
-  // TODO: fix typing bug
-  const getCurrStudents = async (
-    seniorData: Senior,
-    event: React.ChangeEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  // // Ultimately this is where we will get the user data, but there is a bug
+  // // TODO: fix typing bug
+  // const getCurrStudents = async (
+  //   // seniorData: Senior,
+  //   // event: React.ChangeEvent<HTMLFormElement>
+  // ) => {
+  //   //event.preventDefault();
 
-    const names = await fetch("/api/students", {
-      method: "GET",
-      body: JSON.stringify(seniorData),
-    });
+  //   const resp = await fetch("/api/students");
+  //     // method: "GET",
+  //     // body: JSON.stringify(seniorData),
+  //   return resp.json();
 
-    return names.json()
-    alert("Retrieved names.");
-  };
+  //   //return names.json()
+  //   //alert("Retrieved names.");
+  // }
+
 
   //alternative approach
   useEffect(() => {
     fetch('api/students')
       .then(response => response.json())
       .then(data => {
+        console.log("data", data)
         const names = data.map(student => `${student.name}`);
         setStudents(names);
       });
@@ -85,6 +87,7 @@ const AddSenior: NextPage = () => {
   };
   
   const studentthing = ["Alice", "Alicia", "Bobert"]
+  //const curr_students = getCurrStudents().then(data => )
   
   return (
     <>
