@@ -15,7 +15,7 @@ const EmailSignupBox = () => {
       <input
         type="email"
         id="email"
-        className="w-3/4 rounded-lg border border-gray-300 bg-off-white p-2.5 text-sm text-dark-gray focus:border-blue-500 focus:ring-blue-500"
+        className="w-3/4 rounded-lg border border-gray-300 bg-taupe p-2.5 text-sm text-dark-gray focus:border-blue-500 focus:ring-blue-500"
         placeholder="john.doe@company.com"
         required
       />

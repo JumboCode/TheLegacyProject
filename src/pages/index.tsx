@@ -69,7 +69,10 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-        <PhotoCarousel />
+        <div className="w-screen">
+          <PhotoCarousel />
+        </div>
+        
       </main>
     </>
   );
