@@ -10,7 +10,7 @@ const EmailSignupBox = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flew-row flex content-center gap-3 p-4"
+      className="flew-row flex content-center gap-3"
     >
       <input
         type="email"

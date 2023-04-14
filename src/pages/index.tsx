@@ -20,10 +20,10 @@ const Home: NextPage = () => {
           <div className="">
             {" "}
             {/*left: email signup*/}
-            <h1 className="my-4 text-5xl font-serif font-extrabold leading-tight text-dark-plum duration-500 md:text-[4rem]">
+            <h1 className="my-4 text-5xl font-serif font-bold leading-tight text-dark-plum duration-500 md:text-[4rem]">
               Everyone has a story worth preserving
             </h1>
-            <p className="my-4 text-2xl text-gray-700 duration-500">
+            <p className="my-4 text-xl leading-[32px] text-[#515151] duration-500">
               Legacy Project documents the stories of the elder generation to
               ensure that their legacies are preserved for years to come.
             </p>
@@ -32,12 +32,13 @@ const Home: NextPage = () => {
           <div className="relative hidden h-[600px] w-[600px] shrink-0 items-center justify-center lg:flex">
             {" "}
             {/*right: photo*/}
-            <div className="h-[500px]">
+            <div className="h-[500px] overflow-hidden rounded-full">
               <Image
-                src="/home/homepage-circle.png"
+                src="/home/homepage-circlehq.jpeg"
                 alt="A circular photo of younger woman helping a senior citizen"
                 height={500}
                 width={500}
+                objectFit="cover"
                 className="absolute z-10 duration-500"
               ></Image>
             </div>
