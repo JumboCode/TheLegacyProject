@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { EmailSignupBox } from "@components/emailSignup";
+import { PhotoCarousel } from "@components/photoGallery";
 import Image from "next/image";
 
 const Home: NextPage = () => {
@@ -11,17 +12,17 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-items-center bg-off-white p-4">
+      <main className="container mx-auto flex min-h-screen flex-col items-center justify-items-center p-4">
         <div className="flex flex-row items-center justify-items-center gap-5">
           {" "}
           {/*holds left and right*/}
           <div className="">
             {" "}
             {/*left: email signup*/}
-            <h1 className="my-4 text-5xl font-extrabold leading-tight text-dark-plum duration-500 md:text-[4rem]">
+            <h1 className="my-4 text-5xl font-serif font-extrabold leading-tight text-dark-plum duration-500 md:text-[4rem]">
               Everyone has a story worth preserving
             </h1>
-            <p className="my-4 bg-off-white text-2xl text-gray-700 duration-500">
+            <p className="my-4 text-2xl text-gray-700 duration-500">
               Legacy Project documents the stories of the elder generation to
               ensure that their legacies are preserved for years to come.
             </p>
@@ -68,6 +69,7 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
+        <PhotoCarousel />
       </main>
     </>
   );
