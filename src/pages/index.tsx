@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { EmailSignupBox } from "@components/emailSignup";
 import { PhotoCarousel } from "@components/photoGallery";
+import LandingFooter from "@components/landingFooter";
 import Image from "next/image";
 
 const Home: NextPage = () => {
@@ -70,8 +71,9 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className="w-screen">
-          <PhotoCarousel />
+          <PhotoCarousel show={6} />
         </div>
+        <LandingFooter />
         
       </main>
     </>
