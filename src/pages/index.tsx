@@ -32,12 +32,12 @@ const Home: NextPage = () => {
           <div className="relative hidden h-[600px] w-[600px] shrink-0 items-center justify-center lg:flex">
             {" "}
             {/*right: photo*/}
-            <div className="h-[500px] overflow-hidden rounded-full">
+            <div className="overflow-hidden rounded-full">
               <Image
                 src="/home/homepage-circlehq.jpeg"
                 alt="A circular photo of younger woman helping a senior citizen"
-                height={500}
-                width={500}
+                height={450}
+                width={450}
                 objectFit="cover"
                 className="absolute z-10 duration-500"
               ></Image>
