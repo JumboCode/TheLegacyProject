@@ -14,7 +14,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-items-center p-4">
-        <div className="flex flex-row items-center justify-items-center gap-5">
+        <div className="flex flex-row items-center justify-items-center gap-5 mx-5">
           {" "}
           {/*holds left and right*/}
           <div className="">
