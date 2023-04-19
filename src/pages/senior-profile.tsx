@@ -3,13 +3,17 @@ import Image from "next/image";
 import {
   Dispatch,
   SetStateAction,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 import File, { FileProps, TagProps } from "@components/File";
-import DropdownCopy from "@components/dropdownCopy";
+import DropdownCopy, {
+  SortDropdown,
+  SortMethod,
+} from "@components/dropdownCopy";
 import SearchBar from "@components/SearchBar";
 
 type SeniorFields = {
@@ -43,7 +47,7 @@ const fileArr: FileProps[] = [
     id: "2",
     name: "Second Note",
     description: "My second note",
-    lastModified: new Date(2023, 2, 31, 14, 52),
+    lastModified: new Date(2024, 2, 31, 14, 52),
     url: "/url2",
     tags: [
       { name: "College", color: "bg-tag-rust" },
@@ -54,14 +58,32 @@ const fileArr: FileProps[] = [
 
 const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
   const [fileData, setFileData] = useState<FileProps[]>(fileArr);
+  const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
   const [filter, setFilter] = useState("");
+
+  const sortFunction: (a: FileProps, b: FileProps) => number = useMemo(
+    () =>
+      sortMethod === "By Name"
+        ? ({ name: nameA }: FileProps, { name: nameB }: FileProps) =>
+            nameA.localeCompare(nameB)
+        : (
+            { lastModified: dateA }: FileProps,
+            { lastModified: dateB }: FileProps
+          ) => +dateA - +dateB,
+    [sortMethod]
+  );
+
+  const sortedFiles = useMemo(
+    () => fileData.sort(sortFunction),
+    [fileData, sortFunction]
+  );
 
   const filteredFiles = useMemo(
     () =>
-      fileData.filter(({ name }) =>
+      sortedFiles.filter(({ name }) =>
         name.toLowerCase().includes(filter.toLowerCase())
       ),
-    [fileData, filter]
+    [sortedFiles, filter]
   );
 
   const seniorData = {
@@ -77,18 +99,12 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
   return (
     <div className="container flex min-h-screen flex-col p-8">
       <h1 className="text-teal mb-8 font-serif text-[3rem] leading-normal">
-        {" "}
         {seniorData.name}
       </h1>
       <div className="flex flex-row justify-between space-x-3 align-middle">
         <SearchBar setFilter={setFilter} />
         <div className="relative z-10">
-          <DropdownCopy
-            items={["By Name", "By Last Modified"]}
-            bgColor="red"
-            selected="Sort"
-            setSelected={Dispatch<SetStateAction<string>>}
-          />
+          <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
         </div>
       </div>
       {/* styling for a TileGrid-like grid */}
