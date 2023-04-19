@@ -29,25 +29,23 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
   };
 
   return (
-    <nav
-      className={cn(
-        scrolling ? "shadow-2xl" : null,
-        "top-0 z-50 flex flex-col bg-off-white lg:sticky"
-      )}
-    >
-      <div className="relative m-auto flex min-h-[5rem] w-11/12 items-center justify-between">
+    <nav className="top-0 z-50 flex flex-col bg-taupe shadow-md lg:sticky">
+      
+{/*       <div className={ cn(dropdownVisible ? "w-screen" : "w-11/12",
+            "relative m-auto flex min-h-[5rem] items-center justify-between")}> */}
+
+      <div className="relative m-auto w-screen flex min-h-[5rem] items-center justify-between">
         {/* Logo */}
-        <div className="flex">
-          <div className="mr-6 py-1.5 text-2xl font-bold leading-normal text-dark-plum">
+
+          <div className="mr-6 py-1.5 pl-8 text-3xl font-serif leading-normal text-dark-plum">
             <Link href="/">The Legacy Project</Link>
           </div>
-        </div>
 
         {/* Mobile */}
         <button className="flex lg:hidden">
           {dropdownVisible ? (
             // close icon
-            <div onClick={handleMenuClick}>
+            <div className="pr-8" onClick={handleMenuClick}>
               <svg
                 className="h-7 w-7 text-gray-700"
                 viewBox="0 0 24 24"
@@ -63,7 +61,7 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
             </div>
           ) : (
             // hamburger icon
-            <div className="space-y-1" onClick={handleMenuClick}>
+            <div className="space-y-1 pr-8" onClick={handleMenuClick}>
               <span className="block h-1 w-7 rounded bg-gray-700"></span>
               <span className="block h-1 w-7 rounded bg-gray-700"></span>
               <span className="block h-1 w-7 rounded bg-gray-700"></span>
@@ -74,9 +72,8 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
         {/* Using templates is bad practice generally, but we have to mingle
             react and tailwind state here */}
         <div
-          className={cn(
-            dropdownVisible ? "flex" : "hidden",
-            "absolute top-full left-[-4.16667%] m-auto w-screen flex-col items-center justify-center space-y-4 border-t-2 border-gray-200  bg-off-white py-4 shadow-xl lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none"
+          className={ cn(dropdownVisible ? "flex" : "hidden",
+            "absolute top-full shadow-drop-inner shadow-md pr-8 w-screen flex-col items-center justify-center space-y-4 bg-taupe py-4 lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none"
           )}
         >
           {children}
