@@ -19,6 +19,7 @@ module.exports = {
       'off-white': '#f5f5f5',
       'dark-gray': '#515151',
       'dark-plum': '#000022',
+      'light-sage': '#D3D9D6',
       ...colors,
     },
     
