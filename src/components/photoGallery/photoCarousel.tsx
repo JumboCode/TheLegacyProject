@@ -46,7 +46,7 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
     <div className="h-[684px] w-full bg-[#F5F0EA]">
       <div className="mx-auto mt-[50px] mb-[30px] flex h-[230px] w-[86%] flex-row justify-between lg:mt-[101px] lg:mb-0 lg:h-[182px]">
         <div className="top-[56px] left-24 flex h-[191px] w-[517px] flex-col items-start gap-[24px] p-0 lg:h-[143px]">
-          <span className="h-[67px] w-[165px] text-5xl font-semibold leading-[140%] text-[#515151]">
+          <span className="h-[67px] w-[165px] text-5xl font-semibold leading-[140%] text-black">
             Gallery
           </span>
           <span className="h-[100px] w-full text-base font-medium leading-[160%] text-[#515151] lg:h-[52px]">

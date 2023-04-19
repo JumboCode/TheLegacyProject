@@ -1,27 +1,55 @@
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { prisma } from "@server/db/client";
-import { Session } from "inspector";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const student = async (req: NextApiRequest, res: NextApiResponse) => {
+const students = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
-  const current_user = await prisma.user.findUnique({
+
+  if (!session || !session.user) {
+    res.status(401).json({
+      error: "This route is protected. In order to access it, please sign in.",
+    });
+    return;
+  }
+
+  const userId = session.user.id;
+
+  const { admin } = (await prisma.user.findUnique({
     where: {
-      id: session?.user?.id,
+      id: userId,
     },
-  });
-  if (req.method == "GET") {
-    if (current_user?.admin) {
-      //returns list of students
+    select: {
+      admin: true,
+    },
+  })) ?? { admin: false };
+
+  if (!admin) {
+    res.status(500).json({
+      error:
+        "This route is protected. In order to access it, please sign in as admin.",
+    });
+    return;
+  }
+
+  switch (req.method) {
+    case "GET":
       try {
-        const student = await prisma.user.findMany();
-      } catch {
+        const students = await prisma.user.findMany();
+
+        res.status(200).json(students);
+      } catch (error) {
         res.status(500).json({
-          error: `Failed to access student database`,
+          error: `failed to find students: ${error}`,
         });
       }
-    }
+      break;
+
+    default:
+      res.status(500).json({
+        error: `method ${req.method} not implemented`,
+      });
+      break;
   }
 };
 
-export default student;
+export default students;

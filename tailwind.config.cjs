@@ -22,6 +22,7 @@ module.exports = {
       'tag-tan': '#C79F7C',
       'tag-sage': '#90A699',
       'tag-gray': '#65696C',
+      'light-sage': '#D3D9D6',
       ...colors,
     },
     
