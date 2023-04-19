@@ -86,6 +86,9 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
     files: fileArr,
   };
 
+  const myvar = "string";
+  myvar.
+
   const [fileData, setFileData] = useState<FileProps[]>(fileArr);
   const [seniorData, setSeniorData] = useState<SeniorFields>(initSeniorData);
 
@@ -100,7 +103,7 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
       {/* styling for a TileGrid-like grid */}
       <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-4">
         {fileData.map((file) => (
-          <div> {file /* File component here! */} </div>
+          <div> </div>
         ))}
       </div>
     </div>
