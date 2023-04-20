@@ -30,65 +30,47 @@ const AddSenior: NextPage = () => {
     description: "Description",
   };
 
-  // const newSenior: Senior = {
-  //   firstName: seniorData.firstName,
-  //   lastName: seniorData.lastName,
-  //   interests: seniorData.interests,
-  //   location: seniorData.location,
-  //   description: seniorData.description,
-  //   StudentIDs: [1, 2, 3],
-  //   Students: ["a", "b", "c"],
-  //   File: "",
-  // };
 
-  // // Ultimately this is where we will get the user data, but there is a bug
-  // // TODO: fix typing bug
-  // const getCurrStudents = async (
-  //   // seniorData: Senior,
-  //   // event: React.ChangeEvent<HTMLFormElement>
-  // ) => {
-  //   //event.preventDefault();
-
-  //   const resp = await fetch("/api/students");
-  //     // method: "GET",
-  //     // body: JSON.stringify(seniorData),
-  //   return resp.json();
-
-  //   //return names.json()
-  //   //alert("Retrieved names.");
-  // }
-
-
-  //alternative approach
-  useEffect(() => {
-    fetch('api/students')
-      .then(response => response.json())
-      .then(data => {
-        console.log("data", data)
-        const names = data.map(student => `${student.name}`);
-        setStudents(names);
-      });
-  }, []);
-  const [students, setStudents] = useState<string[]>([]);
-
-  const handleSeniorSubmit = async (
+  const handleSeniorSubmit = (
     seniorData: Senior,
-    event: React.ChangeEvent<HTMLFormElement>
+    event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
 
-    const response = await fetch("/api/seniors", {
-      method: "POST",
-      body: JSON.stringify(seniorData),
-    });
+    alert("Time to Submit!");
 
-    return response.json()
-    alert("Submitted Senior.");
+    const seniorPost = {
+      name: seniorData.firstName + " " + seniorData.lastName,
+      location: seniorData.location,
+      description: seniorData.description,
+    };
+
+    const postData = async () => {
+      const response = await fetch("/api/seniors/add", {
+        method: "POST",
+        body: JSON.stringify(seniorPost),
+      });
+      return response.json();
+    };
+
+    postData().then((data) => { alert(JSON.stringify(data)); });    
   };
-  
-  const studentthing = ["Alice", "Alicia", "Bobert"]
+
+
+  // 1. fetch the Student list
+  const studentthing = ["Alice", "Alicia", "Bobert"];
   //const curr_students = getCurrStudents().then(data => )
-  
+  // useEffect(() => {
+  //   fetch('api/students')
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log("data", data)
+  //       const names = data.map(student => `${student.name}`);
+  //       setStudents(names);
+  //     });
+  // }, []);
+  // const [students, setStudents] = useState<string[]>([]);
+
   return (
     <>
       <AddProfile<Senior>
