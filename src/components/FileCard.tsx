@@ -1,35 +1,11 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { current } from "tailwindcss/colors";
+import { File } from "@prisma/client";
 
-export type FileProps = {
-  // id: string;
-  name: string;
-  // description: string;
-  lastModified: Date;
-  url: string;
-  tags: TagProps[];
-};
-
-export type TagProps = {
+export interface ITagProps {
   name: string;
   color: string;
-};
+}
 
-const Tag = ({ name, color }: TagProps) => {
-  // TODO: set tag color based on color prop
-
-  //let givenColor = "bg-tag-gray";
-
-  // if (color == "rust") {
-  //   givenColor = "bg-tag-rust";
-  // } else if (color == "tan") {
-  //   givenColor = "bg-tag-tan";
-  // } else if (color == "sage") {
-  //   givenColor = "bg-tag-sage";
-  // } else if (color == "gray") {
-  //   givenColor = "bg-tag-gray";
-  // }
-
+const Tag = ({ name, color }: ITagProps) => {
   return (
     <div
       className={`${color} h-15 w-fit whitespace-nowrap rounded-lg py-2 px-3 text-center text-off-white`}
@@ -39,16 +15,12 @@ const Tag = ({ name, color }: TagProps) => {
   );
 };
 
-const File = ({
-  //   id,
-  name,
-  //   description,
-  lastModified,
-  url,
-  tags,
-}: FileProps) => {
-  const [tagData, setTagData] = useState<TagProps[]>(tags);
+export type IFileCardProps = Pick<
+  File,
+  "name" | "lastModified" | "url" | "Tags"
+>;
 
+const FileCard = ({ name, lastModified, url, Tags }: IFileCardProps) => {
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "numeric",
     hour12: true,
@@ -98,9 +70,9 @@ const File = ({
       </div>
       {/* Row of Tags */}
       <div className="flex flex-row flex-nowrap gap-2 overflow-x-scroll">
-        {tagData.map(({ name, color }: TagProps) => (
-          <div className="">
-            <Tag name={name} color={color} />
+        {Tags.map((name) => (
+          <div key={name} className="">
+            <Tag name={name} color={"bg-tag-rust"} />
           </div>
         ))}
       </div>
@@ -108,4 +80,4 @@ const File = ({
   );
 };
 
-export default File;
+export default FileCard;
