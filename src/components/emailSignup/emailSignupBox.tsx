@@ -10,12 +10,12 @@ const EmailSignupBox = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flew-row flex content-center gap-3 bg-off-white p-4"
+      className="flew-row flex content-center gap-3"
     >
       <input
         type="email"
         id="email"
-        className="w-3/4 rounded-lg border border-gray-300 bg-off-white p-2.5 text-sm text-dark-gray focus:border-blue-500 focus:ring-blue-500"
+        className="w-3/4 rounded-lg border border-gray-300 bg-taupe p-2.5 text-sm text-dark-gray focus:border-blue-500 focus:ring-blue-500"
         placeholder="john.doe@company.com"
         required
       />

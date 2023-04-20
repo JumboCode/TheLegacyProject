@@ -7,7 +7,7 @@ interface NavbarItemProps {
 }
 
 const NavbarItem = ({ label, to }: NavbarItemProps) => (
-  <div className="lg:text-l text-xl font-semibold leading-normal text-dark-plum duration-150 hover:-translate-y-0.5 lg:mr-5">
+  <div className="text-2xl font-serif leading-normal text-dark-plum duration-150 hover:-translate-y-0.5 lg:mr-5">
     <Link href={to}>{label}</Link>
   </div>
 );
