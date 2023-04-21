@@ -10,11 +10,10 @@ import { Approval, User } from "@prisma/client";
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
-    session({ session, user }) {
+    session({ session, token, user }) {
       if (session.user) {
         session.user.id = user.id;
       }
-      session.accessToken();
       return session;
     },
 
