@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="h-max bg-off-white">
+      <div className="h-max bg-taupe">
         <PhotoHeader />
         <div className="px-3 md:px-5 lg:px-9">
           <h1 className="mt-1 text-xl font-semibold">My Senior</h1>
