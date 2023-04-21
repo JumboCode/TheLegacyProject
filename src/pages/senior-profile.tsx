@@ -110,6 +110,7 @@ const SeniorProfile: NextPage<SeniorFields> = (initSeniorData) => {
                   ))}
           </div>
         </div>
+        <button onClick={() => fetch("/api/drive/addfile")}>Add File</button>
       </div>
     );
 }
