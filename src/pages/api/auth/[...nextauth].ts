@@ -37,7 +37,8 @@ export const authOptions: NextAuthOptions = {
           // prompt: "",
           access_type: "offline",
           response_type: "code",
-          scope: "https://www.googleapis.com/auth/calendar openid",
+          scope:
+            "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource openid",
         },
       },
     }),
