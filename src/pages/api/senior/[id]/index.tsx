@@ -8,6 +8,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!session || !session.user) {
     res.status(401).json({
       error: "This route is protected. In order to access it, please sign in.",
+      session,
     });
     return;
   }
@@ -31,6 +32,9 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
         const senior = await prisma.senior.findUnique({
           where: {
             id: seniorId, //get all information for given senior
+          },
+          include: {
+            Files: true,
           },
         });
 

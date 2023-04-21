@@ -1,9 +1,11 @@
-import type { NextPage } from "next";
+import type { InferGetServerSidePropsType, NextPage } from "next";
 import { useState } from "react";
 import FileCard, { IFileCardProps } from "@components/FileCard";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import SearchBar from "@components/SearchBar";
-import { File } from "@prisma/client";
+import { server } from "@server/config";
+import { File, Senior } from "@prisma/client";
+import { getSession, useSession } from "next-auth/react";
 
 type SeniorFields = {
   id: string;
@@ -12,7 +14,7 @@ type SeniorFields = {
   description: string;
   studentIds: string[];
   folder: string;
-  files: File[];
+  files: Partial<File>[];
 };
 
 const fileArr = [
@@ -42,10 +44,21 @@ const fileArr = [
   },
 ];
 
-const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
+const SeniorProfile = ({
+  seniorData: _a,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const { status, data } = useSession({
+    required: true,
+    onUnauthenticated() {
+      alert("unauthenticated");
+    },
+  });
   const [fileData, setFileData] = useState<IFileCardProps[]>(fileArr);
   const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
   const [filter, setFilter] = useState("");
+
+  console.log(status);
+  console.log(data);
 
   const sortFunction: (a: IFileCardProps, b: IFileCardProps) => number =
     sortMethod === "By Name"
@@ -105,3 +118,17 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
 };
 
 export default SeniorProfile;
+
+export const getServerSideProps = async ({
+  query: { id },
+}: {
+  query: { id: string };
+}) => {
+  const session = await getSession();
+  console.log("session", session);
+  const res = await fetch(`${server}/api/senior/${id}`);
+  const seniorData = (await res.json()) as Senior & { Files: File[] };
+  console.log("getInitialProps", seniorData);
+
+  return { props: { seniorData } };
+};
