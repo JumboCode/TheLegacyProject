@@ -10,7 +10,7 @@ import { Approval, User } from "@prisma/client";
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
-    session({ session, token, user }) {
+    async session({ session, token, user }) {
       if (session.user) {
         session.user.id = user.id;
       }
@@ -32,6 +32,14 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          // prompt: "",
+          access_type: "offline",
+          response_type: "code",
+          scope: "https://www.googleapis.com/auth/calendar openid",
+        },
+      },
     }),
   ],
 };
