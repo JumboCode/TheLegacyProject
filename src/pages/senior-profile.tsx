@@ -87,7 +87,6 @@ const SeniorProfile: NextPage<SeniorFields> = (initSeniorData) => {
 
     return (
     <div className="container relative flex w-screen h-screen flex-col">
-        <button className="" onClick={handlePopUp}>Add File</button>
         { showAddFilePopUp ? <AddFile showAddFilePopUp={showAddFilePopUp} setShowAddFilePopUp={setShowAddFilePopUp} /> : null }
 
         <div className="w-full h-full p-4">
@@ -96,6 +95,11 @@ const SeniorProfile: NextPage<SeniorFields> = (initSeniorData) => {
 
           {/* styling for a TileGrid-like grid */}
           <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-4">
+              <button className="flex flex-col text-left font-sans p-4 bg-off-white rounded-md aspect-square border hover:cursor-pointer hover:bg-taupe-hover justify-center items-center" 
+                onClick={handlePopUp}
+              >
+                Add File
+              </button>
               {fileData.map(
                   // file component replaces File
                   (file, i) => (
@@ -110,7 +114,7 @@ const SeniorProfile: NextPage<SeniorFields> = (initSeniorData) => {
                   ))}
           </div>
         </div>
-        <button onClick={() => fetch("/api/drive/addfile")}>Upload to Folder</button>
+        {/* <button onClick={() => fetch("/api/drive/addfile")}>Upload to Folder</button> */}
       </div>
     );
 }

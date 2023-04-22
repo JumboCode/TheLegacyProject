@@ -41,10 +41,13 @@ const uploadToFolder = async (req: NextApiRequest, res: NextApiResponse) => {
     auth
   });
 
-  const fileName = 'testfile';
+  const fileData = JSON.parse(req.body);
+  // console.log("fileData", fileData);
+  // const fileName = fileData.fileName;
+  // console.log("fileName", fileName);
   const parentID = '1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a';
   const fileMetadata = {
-    name: fileName,
+    name: fileData.fileName,
     parents: [parentID],
   };
   const media = {
@@ -52,8 +55,10 @@ const uploadToFolder = async (req: NextApiRequest, res: NextApiResponse) => {
     // b/c it is not specificed what the body field should contain? 
     // maybe you need to create a document using the docs api?
     // keeping it as text/plain with a string for now
+    // body not being empty throws a 401 invalid credentials error? 
+    // might need to redo permissions in the scopes
     mimeType: 'text/plain',
-    body: "random text"
+    body: ""
   };
 
   try {
@@ -68,7 +73,7 @@ const uploadToFolder = async (req: NextApiRequest, res: NextApiResponse) => {
       message: "Successfully created document",
       folder: parentID,
       fileID: file.data.id,
-      file: fileName,
+      file: fileData.fileName,
     })
   } catch (err) {
     // TODO(developer) - Handle error

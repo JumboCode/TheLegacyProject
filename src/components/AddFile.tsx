@@ -84,7 +84,7 @@ const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
     fetch("/api/drive/addfile", {
       method: "POST",
       body: JSON.stringify({
-        fileName: "Placeholder",
+        fileName: fileName,
       }),
     })
   }
