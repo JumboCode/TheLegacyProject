@@ -7,7 +7,7 @@ type TileData = {
   picture: string;
 };
 
-const ProfileTile = ({ name, location, picture }: TileData) => {
+const ProfileTile = ({name, location, picture}: TileData) => {
   return (
     <div className="w-64">
       <section className="h-64 rounded bg-white p-4 drop-shadow-md">
@@ -31,7 +31,7 @@ const ProfileTile = ({ name, location, picture }: TileData) => {
   );
 };
 
-const SeniorGrid = () => {
+const ProfileGrid = () => {
   const [data, setData] = useState<TileData[]>([
     { name: "Jo", location: "Somerville, MA", picture: "" },
     { name: "JoJo", location: "Somerville, MA", picture: "" },
@@ -54,7 +54,6 @@ const SeniorGrid = () => {
 
         {data.map(({ name, location, picture }: TileData) => (
           <ProfileTile
-            key={name}
             name={name}
             location={location}
             picture={picture}
@@ -65,4 +64,4 @@ const SeniorGrid = () => {
   );
 };
 
-export default SeniorGrid;
+export default ProfileGrid;

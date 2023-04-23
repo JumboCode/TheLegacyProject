@@ -1,5 +1,4 @@
 import AddProfile from "@components/addProfile";
-import AddStudent from "@components/addStudent";
 import type { NextPage } from "next";
 import Head from "next/head";
 

@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import PhotoHeader from "@components/photoHeader";
 
-import { SeniorGrid } from "@components/profileTile";
+import { ProfileGrid, TileData } from "@components/profileTile";
 
 const Home: NextPage = () => {
   return (
@@ -18,7 +18,7 @@ const Home: NextPage = () => {
           <h1 className="mt-1 text-xl font-semibold">My Senior</h1>
           <button className="my-3 inline-block h-0.5 w-1/3 min-w-[2in] bg-dark-teal md:w-[12%] lg:w-[12%] xl:w-[12%] 2xl:w-[12%]"></button>
         </div>
-        <SeniorGrid name="Andrew" location="Boston" picture="" />
+        <ProfileGrid name="Andrew" location="Boston" picture="" />
       </div>
     </>
   );
