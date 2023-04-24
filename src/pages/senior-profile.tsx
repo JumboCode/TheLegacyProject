@@ -86,9 +86,6 @@ const SeniorProfile: NextPage = (initSeniorData: SeniorFields) => {
     files: fileArr,
   };
 
-  const myvar = "string";
-  myvar.
-
   const [fileData, setFileData] = useState<FileProps[]>(fileArr);
   const [seniorData, setSeniorData] = useState<SeniorFields>(initSeniorData);
 

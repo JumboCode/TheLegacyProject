@@ -6,20 +6,20 @@ type Icon = {
   raw: File | null;
 };
 
-type ProfileProps<T extends { selectName: string }> = {
+type ProfileProps<T extends { selectName: string[] }> = {
   placeholdData: T;
   profileLabels: T;
   dropData: string[];
   handleSubmit: React.FormEvent<HTMLFormElement>;
 };
 
-const AddProfileForm = <T extends { selectName: string }>({
+const AddProfileForm = <T extends { selectName: string[] }>({
   placeholdData,
   profileLabels,
   dropData,
   handleSubmit,
 }: ProfileProps<T>) => {
-  const initialData = {};
+  
   Object.keys(placeholdData).map((keyname) => (initialData[keyname] = ""));
 
   const [profileData, setProfileData] = useState<T>(initialData);
@@ -149,8 +149,10 @@ const AddProfileForm = <T extends { selectName: string }>({
           className="flex h-[80%] w-full flex-col items-center justify-between"
           onSubmit={handleSubmitWithState}
         >
+
+          {/* PUT IF SELECTNAME UP HERE */}
           <div className="grid h-full w-[70%] grid-cols-1 justify-items-center gap-5 gap-x-10 text-[#515151] md:grid-cols-2 md:gap-5">
-            {Object.keys(placeholdData).map((keyname) => (
+            {Objct.keys(placeholdData).map((keyname) => (
               <div
                 key={keyname}
                 className="relative flex h-full w-full flex-col gap-y-1"
@@ -216,3 +218,4 @@ const AddProfileForm = <T extends { selectName: string }>({
 };
 
 export default AddProfileForm;
+export type { ProfileProps };

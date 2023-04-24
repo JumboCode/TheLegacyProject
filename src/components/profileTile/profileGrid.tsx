@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-type TileData = {
+export type TileData = {
   name: string;
   location: string;
   picture: string;
@@ -31,7 +31,9 @@ const ProfileTile = ({name, location, picture}: TileData) => {
   );
 };
 
-const ProfileGrid = () => {
+type ProfileGridProps = { gridData: TileData[]};
+
+const ProfileGrid = ({gridData}: ProfileGridProps) => {
   const [data, setData] = useState<TileData[]>([
     { name: "Jo", location: "Somerville, MA", picture: "" },
     { name: "JoJo", location: "Somerville, MA", picture: "" },
@@ -46,12 +48,6 @@ const ProfileGrid = () => {
   return (
     <main className="mx-auto flex min-h-fit w-full flex-col px-3 pb-9 md:px-5 lg:px-9">
       <div className="mt-5 grid grid-cols-[repeat(auto-fill,_256px)] gap-10 text-center">
-        {/* Grid styling submitted in PR */}
-        {/* <div className="grid gap-10 pt-3 text-center lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 space-evenly"> */}
-
-        {/* Flex styling workaround */}
-        {/* <div className="lg:px-9 md:px-5 px-3 flex justify-self-center flex-wrap gap-6"> */}
-
         {data.map(({ name, location, picture }: TileData) => (
           <ProfileTile
             name={name}

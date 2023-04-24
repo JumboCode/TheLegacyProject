@@ -52,7 +52,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
     case "PATCH":
       try {
         /*
-         * Allow change of location of Senior if admin
+         * Allow change of Senior information if admin
          */
         const { admin } = (await prisma.user.findUnique({
           where: {

@@ -18,7 +18,17 @@ const MyApp: AppType<{ session: Session | null }> = ({
         </div>
       </SessionProvider>
     );
-  } else {
+  }
+  else if (Component.displayName == "admin") {
+    <SessionProvider session={session}>
+    <div className="flex w-screen sm:flex-col md:flex-row bg-taupe">
+      <span className="sm:inline md:hidden"> <Navbar /> </span>
+      <span className="sm:hidden md:inline"> <Sidebar /> </span>
+      <Component {...pageProps} />
+    </div>
+  </SessionProvider>
+  }
+  else {
     return (
       <SessionProvider session={session}>
         <div className="flex w-screen sm:flex-col md:flex-row bg-taupe">

@@ -5,7 +5,7 @@ const AddSenior: NextPage = () => {
   type Senior = {
     firstName: string;
     lastName: string;
-    selectName: string;
+    selectName: string[];
     interests: string;
     location: string;
     description: string;
@@ -14,7 +14,7 @@ const AddSenior: NextPage = () => {
   const placeholdSenior: Senior = {
     firstName: "Enter their first name.",
     lastName: "Enter their last name.",
-    selectName: "Enter their student's names.",
+    selectName: ["Enter their student's names."],
     interests: "Enter their interests.",
     location: "Enter their location.",
     description: "Describe this senior.",
@@ -23,7 +23,7 @@ const AddSenior: NextPage = () => {
   const labelSenior: Senior = {
     firstName: "First Name",
     lastName: "Last Name",
-    selectName: "Student Names",
+    selectName: ["Student Names"],
     interests: "Interests",
     location: "Location",
     description: "Description",
