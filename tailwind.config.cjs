@@ -8,7 +8,11 @@ module.exports = {
   //   }
   // ],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        'drop-inner': 'inset 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.2)',
+      }
+    },
     colors: {
       'dark-teal': '#22555A',
       'teal': '#22555A',
