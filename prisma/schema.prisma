@@ -65,7 +65,7 @@ model Senior {
 }
 
 model File {
-    id           String   @id @default(cuid()) @map("_id") @db.ObjectId
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
     name         String
     description  String
     filetype     String
