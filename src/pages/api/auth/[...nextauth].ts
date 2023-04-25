@@ -33,11 +33,11 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
       authorization: {
         params: {
-          // prompt: "",
+          prompt: "consent",
           access_type: "offline",
           response_type: "code",
           scope:
-            "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource openid",
+            "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource https://www.googleapis.com/auth/documents https://www.googleapis.com/auth/documents.readonly openid",
         },
       },
     }),
