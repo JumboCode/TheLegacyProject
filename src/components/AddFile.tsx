@@ -28,7 +28,7 @@ function X(props: JSX.IntrinsicElements["svg"]) {
 
 const Tag = ({ text }: { text: string }) => {
   return (
-    <div className="flex flex flex-row flex-row rounded-xl bg-gray-300 py-1 px-3">
+    <div className="flex flex-row rounded-xl bg-gray-300 py-1 px-3">
       <small>{text}</small>
       <X className="text-xs" />
     </div>
@@ -47,12 +47,8 @@ const TagSelector = () => {
     [filterText]
   );
   
-  const onChange = (e: any) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilterText(e.target.value);
-  }
-
-  const onSubmit = (e: any) => {
-
   }
 
   return (
@@ -74,7 +70,8 @@ const TagSelector = () => {
 };
 
 const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
-  const [ fileName, setFilename ] = useState("");
+  const [ fileName, setFilename ] = useState<string>("");
+  const [ description, setDescription ] = useState<string>("");
 
   const handleCancel = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
@@ -85,6 +82,7 @@ const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
       method: "POST",
       body: JSON.stringify({
         fileName: fileName,
+        description: description,
       }),
     })
   }
@@ -99,13 +97,18 @@ const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
                 <span className="my-5 h-[34px] w-full font-sans text-sm leading-[22px] text-dark-gray">
                   File name
                 </span>
-                <input className="my-5 h-[46px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] px-3" type="text" value={fileName} onChange={(e: any) => setFilename(e.target.value)}/>
+                <input className="my-5 h-[46px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] px-3" 
+                  type="text" 
+                  value={fileName} 
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilename(e.target.value)}
+                />
                 <span className="mt-[1rem] h-[34px] w-full text-sm leading-[22px] text-dark-gray">
-                  Description
+                Description
                 </span>
                 <textarea
                   className="my-5 h-[123px] max-h-[123px] min-h-[123px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] bg-[#F5F6FA] p-[12px] text-start text-sm"
                   placeholder="Write a detailed description"
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
                 />
                 <TagSelector />
               </div>
