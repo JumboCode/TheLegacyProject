@@ -16,7 +16,9 @@ const Home: NextPage = () => {
 
       <div className="h-max bg-taupe">
         <AdminPhotoHeader />
+        <hr />
         <HorizontalMenu/>
+        <hr />
         <SeniorGrid name="Andrew" location="Boston" picture="" />
       </div>
     </>
