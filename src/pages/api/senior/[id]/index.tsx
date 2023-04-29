@@ -94,6 +94,37 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
       }
       break;
 
+      case "DELETE":
+        try {
+          const { admin } = (await prisma.user.findUnique({
+            where: {
+              id: userId,
+            },
+            select: {
+              admin: true, //return admin boolean field for given user id
+            },
+          })) ?? { admin: false };
+          
+          if (admin) {
+            const deleteSenior = await prisma.senior.delete({
+              where: {
+                id: seniorId,
+              }
+            });
+            res.status(200).json(deleteSenior);
+            return;
+          } else {
+            res.status(500).json({
+              error:
+                "This route is protected. In order to access it, please sign in as admin.",
+            });
+            return;
+          } 
+        } catch (error) {
+          res.status(500).json({
+            error: `failed to delete senior: ${error}`,
+          });
+        }
     default:
       res.status(500).json({
         error: `method ${req.method} not implemented`,
