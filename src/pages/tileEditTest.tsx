@@ -12,7 +12,7 @@ const Home: NextPage = () => {
       </Head>
 
       <div className="h-max bg-taupe">
-        
+      <TileEdit id="1" handleDelete={() => fetch("/api/senior/6442c41aa1fbce0735b20ba0/", {method: "DELETE"})} handleEdit={() => fetch("/api/senior/6442c41aa1fbce0735b20ba0/", {method: "PATCH"})}/>
       </div>
     </>
   );
