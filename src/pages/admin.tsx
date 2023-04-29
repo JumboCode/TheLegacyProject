@@ -137,6 +137,8 @@ const Admin: NextPage = () => {
           )}
         </div>
       </div>
+      {/* TESTS DELETE ROUTE */}
+      <button onClick={() => fetch("/api/senior/6442c41aa1fbce0735b20ba0/", {method: "DELETE"})}>DELETE</button>
     </div>
   );
 };
