@@ -66,6 +66,8 @@ const student = async (req: NextApiRequest, res: NextApiResponse) => {
       }
       break;
 
+      // TODO: DELETE route
+        
     default:
       res.status(500).json({
         error: `method ${req.method} not implemented`,
