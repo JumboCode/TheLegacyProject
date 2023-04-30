@@ -1,3 +1,4 @@
+import { Approval } from "@prisma/client";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { prisma } from "@server/db/client";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -78,8 +79,15 @@ const student = async (req: NextApiRequest, res: NextApiResponse) => {
           })) ?? { admin: false };
           
           if (admin) {
-            // TODO Call to prisma
-            // res.status(200).json();
+            const deleteStudent = await prisma.user.update({
+              where: {
+                id: studentId,
+              },
+              data: {
+                approved: Approval.DENIED,
+              }
+            })
+            res.status(200).json(deleteStudent);
             return;
           } else {
             res.status(500).json({
