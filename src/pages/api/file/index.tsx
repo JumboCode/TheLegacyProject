@@ -50,39 +50,6 @@ const files = async (req: NextApiRequest, res: NextApiResponse) => {
       });
       break;
   }
-  // switch (req.method) {
-  //   case "GET":
-  //     try {
-  //       const student = await prisma.user.findUnique({
-  //         where: {
-  //           id: studentId,
-  //         },
-  //         include: {
-  //           Seniors: true,
-  //         },
-  //       });
-
-  //       if (!student) {
-  //         res.status(404).json({
-  //           error: `student with id ${studentId} not found`,
-  //         });
-  //         return;
-  //       }
-
-  //       res.status(200).json({ seniors: student.Seniors });
-  //     } catch (error) {
-  //       res.status(500).json({
-  //         error: `failed to fetch student: ${error}`,
-  //       });
-  //     }
-  //     break;
-
-  //   default:
-  //     res.status(500).json({
-  //       error: `method ${req.method} not implemented`,
-  //     });
-  //     break;
-  // }
 };
 
 export default files;
