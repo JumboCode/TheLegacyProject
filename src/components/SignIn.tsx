@@ -12,7 +12,7 @@ const SignIn = () => {
   ) : (
     <button
       className="rounded-lg bg-dark-green px-5 py-3 font-serif text-2xl text-white duration-150 hover:-translate-y-0.5"
-      onClick={() => signIn(undefined, { callbackUrl: "/home" })}
+      onClick={() => signIn("google", { callbackUrl: "/home" })}
     >
       Sign in
     </button>
