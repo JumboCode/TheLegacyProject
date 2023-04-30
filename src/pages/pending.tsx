@@ -3,8 +3,8 @@ export default function Pending() {
     <div>
       <h1>Pending</h1>
       <h2>
-        Your access to the legacy proejct is pending, please follow-up with a
-        club administrator
+        Your access to The Legacy Project is pending, please follow-up with a
+        club administrator.
       </h2>
     </div>
   );
