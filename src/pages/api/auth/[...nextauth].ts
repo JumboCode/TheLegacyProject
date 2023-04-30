@@ -16,15 +16,6 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-
-    // async signIn({ user }) {
-    //   const prismaUser = user as User;
-    //   if (prismaUser.approved != Approval.APPROVED) {
-    //     return "/pending";
-    //   } else {
-    //     return true;
-    //   }
-    // },
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
