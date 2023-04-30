@@ -51,6 +51,13 @@ model User {
     Session       Session[]
     SeniorIDs     String[]  @db.ObjectId
     Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])
+    approved      Approval  @default(PENDING)
+}
+
+enum Approval {
+    PENDING
+    APPROVED
+    DENIED
 }
 
 model Senior {
@@ -65,12 +72,13 @@ model Senior {
 }
 
 model File {
-    id          String   @id @default(cuid()) @map("_id") @db.ObjectId
-    name        String
-    description String
-    filetype    String
-    url         String
-    seniorId    String   @db.ObjectId
-    senior      Senior   @relation(fields: [seniorId], references: [id])
-    Tags        String[]
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    name         String
+    description  String
+    filetype     String
+    lastModified DateTime
+    url          String
+    seniorId     String   @db.ObjectId
+    senior       Senior   @relation(fields: [seniorId], references: [id])
+    Tags         String[]
 }

@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@server/db/client";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
+import { z } from "zod";
 
 const senior = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
@@ -8,17 +9,15 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!session || !session.user) {
     res.status(401).json({
       error: "This route is protected. In order to access it, please sign in.",
+      session,
     });
     return;
   }
 
-  const { id: seniorId } = req.query; //TODO: verify that these fields are well-formed using zod
-  if (typeof seniorId !== "string") {
-    res.status(500).json({
-      error: `seniorId must be a string`,
-    });
-    return;
-  }
+  const SeniorId = z.object({ id: z.string() }).transform(({ id }) => {
+    seniorId: id;
+  });
+  const seniorId = SeniorId.parse(req.query);
 
   const userId = session.user.id;
 
@@ -31,6 +30,9 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
         const senior = await prisma.senior.findUnique({
           where: {
             id: seniorId, //get all information for given senior
+          },
+          include: {
+            Files: true,
           },
         });
 
@@ -63,7 +65,13 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         })) ?? { admin: false };
 
-        const { seniorLocation } = JSON.parse(req.body); //TODO: verify that these fields are well-formed using zod
+        const SeniorUpdate = z.object({
+          name: z.string().optional(),
+          location: z.string().optional(),
+          description: z.string().optional(),
+        });
+
+        const { name, location, description } = SeniorUpdate.parse(req.body);
 
         if (admin) {
           const senior = await prisma.senior.update({
@@ -71,7 +79,9 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
               id: seniorId,
             },
             data: {
-              location: seniorLocation,
+              name,
+              location,
+              description,
             },
           });
 
