@@ -1,92 +1,28 @@
-import type { NextPage } from "next";
+import { Approval } from "@prisma/client";
+import { getServerAuthSession } from "@server/common/get-server-auth-session";
+import type { GetServerSidePropsContext, NextPage } from "next";
 import { useState } from "react";
 
-function TabToggle({
-  children,
-  active,
-  onClick,
-}: {
-  children: any;
-  active: boolean;
-  onClick: any;
-}) {
-  let styles: string = "m-3 p-3 hover:cursor-pointer text-md font-bold";
-  let activeStyles: string = "text-black";
-  let inactiveStyles: string = "text-gray-400";
+type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
+  redirect: undefined;
+};
 
-  return (
-    <div
-      className={`${styles} ${active ? activeStyles : inactiveStyles}`}
-      onClick={onClick}
-    >
-      <div className="pr-9">{children}</div>
-      <div
-        className={`max-h-[1px] min-h-[1px] w-full ${active ? "bg-black" : ""}`}
-      />
-    </div>
-  );
-}
+const tabs = ["Members", "Seniors", "Pending Accounts"] as const;
+type Tab = typeof tabs[number];
 
-function Card({ type, data }: { type: string; data: any }) {
-  if (type == "member") {
-    return (
-      <div className="hover:border-teal m-3 flex flex-col items-center justify-between rounded-lg border-2 border-white bg-white p-9 text-center duration-300 hover:cursor-pointer">
-        <div className="max-h-[100px] min-h-[100px] min-w-[100px] max-w-[100px] bg-slate-300">
-          Profile Picture
-        </div>
-        <p className="py-3">{data.name}</p>
-        <small className="font-light">{data.email}</small>
-      </div>
-    );
-  }
-  return (
-    <div className="hover:border-teal m-3 flex flex-col items-center justify-between rounded-lg border-2 border-white bg-white p-9 text-center hover:cursor-pointer">
-      <div className="max-h-[100px] min-h-[100px] min-w-[100px] max-w-[100px] bg-slate-300">
-        Profile Picture
-      </div>
-      <p className="py-3">{data.name}</p>
-      <small className="font-light">{data.location}</small>
-    </div>
-  );
-}
-
-const Admin: NextPage = () => {
+const Admin: NextPage<IAdminProps> = ({ seniors, users }) => {
   const [activeTab, setActiveTab] = useState(1);
   const toggleActiveTab = () => {
     if (activeTab == 0) setActiveTab(1);
     if (activeTab == 1) setActiveTab(0);
   };
 
-  const [dummySeniorData, setDummySeniorData] = useState([
-    { name: "Andrew Bojangles", location: "location" },
-    { name: "Andrew Bojangles", location: "location" },
-    { name: "Andrew Bojangles", location: "location" },
-    { name: "Andrew Bojangles", location: "location" },
-    { name: "Andrew Bojangles", location: "location" },
-    { name: "Andrew Bojangles", location: "location" },
-  ]);
-  const [dummyMemberData, setDummyMemberData] = useState([
-    { name: "Andrew Bojangles", email: "eml@tufts.edu" },
-    { name: "Andrew Bojangles", email: "eml@tufts.edu" },
-    { name: "Andrew Bojangles", email: "eml@tufts.edu" },
-    { name: "Andrew Bojangles", email: "eml@tufts.edu" },
-    { name: "Andrew Bojangles", email: "eml@tufts.edu" },
-    { name: "Andrew Bojangles", email: "eml@tufts.edu" },
-  ]);
+  const [dummySeniorData, setDummySeniorData] = useState(seniors);
+  const [dummyMemberData, setDummyMemberData] = useState(users);
 
   const addButtonClicked = (e: any) => {
     e.preventDefault();
-    if (activeTab == 0) {
-      setDummyMemberData([
-        ...dummyMemberData,
-        { name: "Andrew Bojangles", email: "eml@tufts.edu" },
-      ]);
-    } else {
-      setDummySeniorData([
-        ...dummySeniorData,
-        { name: "Andrew Bojangles", location: "location" },
-      ]);
-    }
+    alert("not implemented");
   };
 
   return (
@@ -127,7 +63,7 @@ const Admin: NextPage = () => {
             +
           </div>
           {(activeTab == 0 ? dummyMemberData : dummySeniorData).map(
-            (data: any, i: number) => (
+            (data, i) => (
               <Card
                 key={i}
                 type={activeTab == 0 ? "member" : "senior"}
@@ -142,3 +78,114 @@ const Admin: NextPage = () => {
 };
 
 export default Admin;
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const session = await getServerAuthSession(context);
+
+  if (!session || !session.user) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  if (!prisma) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
+
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  if (!user.admin) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  const seniors = await prisma.senior.findMany();
+  const users = await prisma.user.findMany({
+    where: {
+      approved: Approval.APPROVED,
+    },
+  });
+
+  return {
+    props: {
+      seniors,
+      users,
+    },
+  };
+};
+
+function TabToggle({
+  children,
+  active,
+  onClick,
+}: {
+  children: any;
+  active: boolean;
+  onClick: any;
+}) {
+  const styles = "m-3 p-3 hover:cursor-pointer text-md font-bold";
+  const activeStyles = "text-black";
+  const inactiveStyles = "text-gray-400";
+
+  return (
+    <div
+      className={`${styles} ${active ? activeStyles : inactiveStyles}`}
+      onClick={onClick}
+    >
+      <div className="pr-9">{children}</div>
+      <div
+        className={`max-h-[1px] min-h-[1px] w-full ${active ? "bg-black" : ""}`}
+      />
+    </div>
+  );
+}
+
+function Card({ type, data }: { type: string; data: any }) {
+  if (type == "member") {
+    return (
+      <div className="hover:border-teal m-3 flex flex-col items-center justify-between rounded-lg border-2 border-white bg-white p-9 text-center duration-300 hover:cursor-pointer">
+        <div className="max-h-[100px] min-h-[100px] min-w-[100px] max-w-[100px] bg-slate-300">
+          Profile Picture
+        </div>
+        <p className="py-3">{data.name}</p>
+        <small className="font-light">{data.email}</small>
+      </div>
+    );
+  }
+  return (
+    <div className="hover:border-teal m-3 flex flex-col items-center justify-between rounded-lg border-2 border-white bg-white p-9 text-center hover:cursor-pointer">
+      <div className="max-h-[100px] min-h-[100px] min-w-[100px] max-w-[100px] bg-slate-300">
+        Profile Picture
+      </div>
+      <p className="py-3">{data.name}</p>
+      <small className="font-light">{data.location}</small>
+    </div>
+  );
+}

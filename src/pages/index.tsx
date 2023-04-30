@@ -14,13 +14,13 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-items-center p-4">
-        <div className="flex flex-row items-center justify-items-center gap-5 mx-5">
+        <div className="mx-5 flex flex-row items-center justify-items-center gap-5">
           {" "}
           {/*holds left and right*/}
           <div className="">
             {" "}
             {/*left: email signup*/}
-            <h1 className="my-4 text-5xl font-serif font-bold leading-tight text-dark-plum duration-500 md:text-[4rem]">
+            <h1 className="my-4 font-serif text-5xl font-bold leading-tight text-dark-plum duration-500 md:text-[4rem]">
               Everyone has a story worth preserving
             </h1>
             <p className="my-4 text-xl leading-[32px] text-[#515151] duration-500">
@@ -53,7 +53,7 @@ const Home: NextPage = () => {
             </div>
             <div className="absolute -bottom-10 -right-6 z-20">
               <Image
-                src="/../public/home/yellowflower.png"
+                src="/home/yellowflower.png"
                 height={246}
                 width={246}
                 alt="Image of a single yellow-orange dried flower with a transparent background"
@@ -62,7 +62,7 @@ const Home: NextPage = () => {
             </div>
             <div className="absolute -top-20 -right-8">
               <Image
-                src="/../public/home/paper.png"
+                src="/home/paper.png"
                 height={368}
                 width={274}
                 alt="Image of an aged piece of paper with cursive writing on it"
