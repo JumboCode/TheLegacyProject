@@ -87,7 +87,7 @@ export const getServerSideProps = async (
   if (!session || !session.user) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/",
         permanent: false,
       },
     };
@@ -111,7 +111,7 @@ export const getServerSideProps = async (
   if (!user) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/",
         permanent: false,
       },
     };

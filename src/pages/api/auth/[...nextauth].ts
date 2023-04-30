@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@server/db/client";
 import { env } from "@env/server.mjs";
+import { Approval, User } from "@prisma/client";
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
@@ -16,11 +17,13 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
 
-    jwt({ token, account }) {
-      if (account?.access_token) {
-        token.accessToken = account.access_token;
+    async signIn({ user }) {
+      const prismaUser = user as User;
+      if (prismaUser.approved != Approval.APPROVED) {
+        return "/pending";
+      } else {
+        return true;
       }
-      return token;
     },
   },
   // Configure one or more authentication providers
