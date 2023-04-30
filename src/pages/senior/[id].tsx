@@ -1,18 +1,17 @@
-import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
+import type { GetServerSidePropsContext } from "next";
 import { useState } from "react";
 import FileCard from "@components/FileCard";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import SearchBar from "@components/SearchBar";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
+import { Approval } from "@prisma/client";
 
-type ISeniorProfileProps = InferGetServerSidePropsType<
-  typeof getServerSideProps
->;
-
+type ISeniorProfileProps = Awaited<
+  ReturnType<typeof getServerSideProps>
+>["props"] & {
+  redirect: undefined;
+};
 type SerialzedFile = ISeniorProfileProps["senior"]["Files"][number];
 
 const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
@@ -75,11 +74,21 @@ export const getServerSideProps = async (
   const seniorId = z.string().parse(context.query.id);
 
   if (!session || !session.user) {
-    throw new Error("not authenticated");
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
   }
 
   if (!prisma) {
-    throw new Error("prisma not initialized");
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
   }
 
   const user = await prisma.user.findUnique({
@@ -89,7 +98,21 @@ export const getServerSideProps = async (
   });
 
   if (!user) {
-    throw new Error("user not found");
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  if (user.approved === Approval.PENDING) {
+    return {
+      redirect: {
+        destination: "/pending",
+        permanent: false,
+      },
+    };
   }
 
   const senior = await prisma.senior.findUnique({
@@ -105,7 +128,12 @@ export const getServerSideProps = async (
     !senior ||
     (!user.admin && !senior.StudentIDs.includes(session.user.id))
   ) {
-    throw new Error("not found");
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
   }
 
   return {

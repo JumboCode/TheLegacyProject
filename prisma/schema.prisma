@@ -51,6 +51,13 @@ model User {
     Session       Session[]
     SeniorIDs     String[]  @db.ObjectId
     Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])
+    approved      Approval  @default(PENDING)
+}
+
+enum Approval {
+    PENDING
+    APPROVED
+    DENIED
 }
 
 model Senior {
