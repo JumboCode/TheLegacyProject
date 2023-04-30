@@ -7,6 +7,8 @@ import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval } from "@prisma/client";
 
+type ITileProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {redirect: undefined}
+
 type AdminTileData = {
   name: string;
   location: string;
@@ -72,3 +74,69 @@ const AdminGrid = () => {
 };
 
 export default AdminGrid;
+
+// export const getServerSideProps = async (
+//   context: GetServerSidePropsContext
+// ) => {
+//   const session = await getServerAuthSession(context);
+
+//   if (!session || !session.user) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   if (!prisma) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   const user = await prisma.user.findUnique({
+//     where: {
+//       id: session.user.id,
+//     },
+//   });
+
+//   if (!user) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   if (user.approved === Approval.PENDING) {
+//     return {
+//       redirect: {
+//         destination: "/pending",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   const students = await prisma.user.findMany({
+//     select: {
+//       id: true,
+//       name: true,
+//       email: true,
+//       image: true,
+//     }
+//   })
+
+//   //console.log(students);
+
+//   return {
+//     props: {
+//       students
+//     },
+//   };
+// }; 
+

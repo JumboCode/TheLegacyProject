@@ -13,7 +13,7 @@ type TileData = {
   picture: string;
 };
 
-const ProfileTile = ({ name, location, picture }: TileData) => {
+const ProfileTile = ({ name, location, picture }: TileData, { students }: ITileProps) => {
   return (
     <div className="w-64">
       <section className="h-64 rounded bg-white p-4 drop-shadow-md">
@@ -29,7 +29,6 @@ const ProfileTile = ({ name, location, picture }: TileData) => {
           </div>
           <br></br>
           <p className="text-base font-medium text-gray-700">{name}</p>
-          <p className="text-sm text-gray-600">Student Name</p>
           <p className="text-xs text-gray-600">{location}</p>
         </div>
       </section>
@@ -73,3 +72,69 @@ const SeniorGrid = () => {
 };
 
 export default SeniorGrid;
+
+// export const getServerSideProps = async (
+//   context: GetServerSidePropsContext
+// ) => {
+//   const session = await getServerAuthSession(context);
+
+//   if (!session || !session.user) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   if (!prisma) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   const user = await prisma.user.findUnique({
+//     where: {
+//       id: session.user.id,
+//     },
+//   });
+
+//   if (!user) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   if (user.approved === Approval.PENDING) {
+//     return {
+//       redirect: {
+//         destination: "/pending",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   const students = await prisma.user.findMany({
+//     select: {
+//       id: true,
+//       name: true,
+//       email: true,
+//       image: true,
+//     }
+//   })
+
+//   //console.log(students);
+
+//   return {
+//     props: {
+//       students
+//     },
+//   };
+// }; 
+
