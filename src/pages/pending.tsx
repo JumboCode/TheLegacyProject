@@ -4,16 +4,15 @@ export default function Pending() {
   return (
     <main className="text-center m-auto">
     <div className="p-16">
-      <h1 className="text-4xl font-bold font-serif">Pending</h1>
+      <h1 className="text-4xl font-bold font-serif text-dark-plum">Pending</h1>
       <br></br>
-      <h1 className="text-2xl font-semibold italic font-serif">Uh Oh! Looks like you don't have access yet.</h1>
-      <br></br>
+      <h1 className="text-2xl font-semibold italic font-serif pb-1">Uh Oh! Looks like you don't have access yet.</h1>
       <h2>
         Your access to The Legacy Project is pending, please follow-up with a
         club administrator.
       </h2>
     </div>
-    <div className="">
+    <div>
     <Image
         src="/pending/orange dried flower thing.png"
         alt="A circular photo of younger woman helping a senior citizen"
