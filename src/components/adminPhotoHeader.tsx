@@ -6,7 +6,7 @@ import Image from "next/image";
 const AdminPhotoHeader = () => {
   return (
     <>
-      <div className="pb-9">
+      <div className="pb-1">
         <div className="relative m-4 md:m-5 lg:m-9">
           <Image
             className=" object-cover"

@@ -3,23 +3,29 @@ import Head from "next/head";
 import AdminPhotoHeader from "@components/adminPhotoHeader";
 import HorizontalMenu from "@components/horizontalMenu/horizontalMenu";
 
-import { SeniorGrid } from "@components/profileTile";
+import AdminGrid from "@components/profileTile/adminGrid";
 
 const Home: NextPage = () => {
+  
   return (
     <>
       <Head>
         <title>The Legacy Project</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-
       <div className="h-max bg-taupe">
         <AdminPhotoHeader />
-        <hr />
-        <HorizontalMenu/>
-        <hr />
-        <SeniorGrid name="Andrew" location="Boston" picture="" />
+        {/* TODO: this horizontal bar is not responsive :( */}
+        <div className = "resize-y">
+          <div className = "pl-9" >
+            <hr/>
+          </div>
+          <HorizontalMenu/>
+          <div className = "pl-9 shadow-sm" >
+            <hr/>
+          </div>
+        </div>
+        <AdminGrid name="Andrew" location="Boston" picture="" />
       </div>
     </>
   );

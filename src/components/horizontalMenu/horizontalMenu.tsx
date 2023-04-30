@@ -23,21 +23,13 @@ const HorizontalMenuWrapper: FunctionComponent<PropsWithChildren> = ({ children 
   }, []);
 
   return (
-    <div className="px-1 relative m-auto w-screen flex  ">
+    <div className="pl-9 px-1 relative m-auto w-screen flex  ">
         <HorizontalMenuItem label="Seniors" to="/admin-home" />
         <HorizontalMenuItem label="Students" to="/admin-home" />
     </div> 
-    // <nav className="relative flex flex-col bg-taupe shadow-md lg:sticky font-inter">
-    //   <div className="relative m-auto w-screen flex min-h-[5rem] items-center justify-between">
-    //     {/* Mobile */}
-    //     <HorizontalMenuItem label="Seniors" to="/admin-home" />
-    //     <HorizontalMenuItem label="Students" to="/admin-home" />
-    //   </div>
-    // </nav>
   );
 }; 
 
-// border-solid border-2 border-red-500 
 const HorizontalMenu = () => (
   <HorizontalMenuWrapper>
 
