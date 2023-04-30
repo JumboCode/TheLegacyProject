@@ -43,7 +43,7 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
   };
 
   return (
-    <div className="h-[684px] w-full bg-[#F5F0EA]">
+    <div className="h-[684px] w-full">
       <div className="mx-auto mt-[50px] mb-[30px] flex h-[230px] w-[86%] flex-row justify-between lg:mt-[101px] lg:mb-0 lg:h-[182px]">
         <div className="top-[56px] left-24 flex h-[191px] w-[517px] flex-col items-start gap-[24px] p-0 lg:h-[143px]">
           <span className="h-[67px] w-[165px] text-5xl font-semibold leading-[140%] text-black">
@@ -61,12 +61,12 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
             viewBox="0 0 64 64"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            className="hover:cursor-pointer"
+            onClick={() => prevIndex()}
           >
             <path
               d="M41.0933 44.24L28.8799 32L41.0933 19.76L37.3333 16L21.3333 32L37.3333 48L41.0933 44.24Z"
               fill="#000022"
-              className="hover:cursor-pointer"
-              onClick={() => prevIndex()}
             />
           </svg>
           <svg
@@ -75,12 +75,12 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
             viewBox="0 0 64 64"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            className="hover:cursor-pointer"
+            onClick={() => nextIndex()}
           >
             <path
               d="M22.9067 19.76L35.1201 32L22.9067 44.24L26.6667 48L42.6667 32L26.6667 16L22.9067 19.76Z"
               fill="#000022"
-              className="hover:cursor-pointer"
-              onClick={() => nextIndex()}
             />
           </svg>
         </div>
