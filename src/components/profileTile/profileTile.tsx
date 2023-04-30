@@ -1,6 +1,11 @@
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-// import 
+
+import type { GetServerSidePropsContext } from "next";
+import { getServerAuthSession } from "@server/common/get-server-auth-session";
+import { Approval } from "@prisma/client";
+
+type ITileProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {redirect: undefined}
 
 type TileData = {
   name: string;

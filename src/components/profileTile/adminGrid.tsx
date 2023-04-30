@@ -3,6 +3,10 @@ import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { AddTile } from "@components/addTile";
 
+import type { GetServerSidePropsContext } from "next";
+import { getServerAuthSession } from "@server/common/get-server-auth-session";
+import { Approval } from "@prisma/client";
+
 type AdminTileData = {
   name: string;
   location: string;
