@@ -16,6 +16,7 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+
     // async signIn({ user }) {
     //   const prismaUser = user as User;
     //   if (prismaUser.approved != Approval.APPROVED) {
