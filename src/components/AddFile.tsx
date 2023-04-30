@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction, useMemo, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import FilterDropdown from "@components/filterDropdown";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -13,29 +14,37 @@ const Tag = ({ text }: { text: string }) => {
   );
 };
 
-const TagSelector = () => {
-  const [selectedTags, setSelectedTags] = useState(["tag 3"]);
-  const tagList = ["tag 1", "tag 2", "tag 3"];
-  const [filterText, setFilterText] = useState("");
-
-  const filteredTags = useMemo(
-    () => tagList.filter((tag) => tag.indexOf(filterText) != -1),
-    [filterText]
-  );
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterText(e.target.value);
-  };
+const TagSelector = ({
+  selectedTags,
+  setSelectedTags,
+}: {
+  selectedTags: string[];
+  setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
+}) => {
+  const tagList = [
+    "tag 1",
+    "tag 2",
+    "tag 3",
+    "somehting else",
+    "another tag",
+    "last tag",
+  ];
 
   return (
     <div>
       <span className="h-[34px] w-full font-sans text-sm leading-[22px] text-dark-gray">
         Tags
       </span>
-      <input
-        className="mt-[1rem] h-[46px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] px-3"
-        value={filterText}
-        onChange={onChange}
+      <FilterDropdown
+        items={tagList}
+        onItemSelect={(idx: number, item: string) => {
+          if (!selectedTags.includes(item)) {
+            setSelectedTags([...selectedTags, item]);
+          } else {
+            setSelectedTags(selectedTags.filter((i) => i != item));
+          }
+        }}
+        selectedItems={selectedTags}
       />
       <div className="flex flex-row p-3">
         {selectedTags.map((tag: string, i) => (
@@ -51,6 +60,7 @@ const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
   const [description, setDescription] = useState<string>("");
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const handleCancel = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
@@ -62,6 +72,7 @@ const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
       body: JSON.stringify({
         fileName: fileName,
         description: description,
+        tags: selectedTags,
       }),
     });
     if (res.status === 200) {
@@ -99,7 +110,10 @@ const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
                     setDescription(e.target.value)
                   }
                 />
-                <TagSelector />
+                <TagSelector
+                  selectedTags={selectedTags}
+                  setSelectedTags={setSelectedTags}
+                />
               </div>
 
               <div className="flex w-full flex-row justify-center">
