@@ -9,6 +9,7 @@ import TileGrid from "@components/TileGrid";
 import { useMemo, useState } from "react";
 import { CheckMark } from "@components/Icons";
 import { Cross } from "@components/Icons/Cross";
+import { useRouter } from "next/router";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -30,6 +31,13 @@ const Home: NextPage<IAdminProps> = ({
 
   const [selectedTab, setSelectedTab] = useState<Tabs>("Students");
 
+  const router = useRouter();
+  // Call this function whenever you want to
+  // refresh props!
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
+
   const body = useMemo(() => {
     if (selectedTab === "Students") {
       return <StudentBody students={students} />;
@@ -42,6 +50,7 @@ const Home: NextPage<IAdminProps> = ({
           setPending={setPending}
           setDeactivated={setDeactivated}
           setStudents={setStudents}
+          refreshData={refreshData}
         />
       );
     } else if (selectedTab === "Deactivated") {
@@ -50,10 +59,11 @@ const Home: NextPage<IAdminProps> = ({
           deactivated={deactivated}
           setDeactivated={setDeactivated}
           setStudents={setStudents}
+          refreshData={refreshData}
         />
       );
     }
-  }, [deactivated, pending, selectedTab, seniors, students]);
+  }, [deactivated, pending, refreshData, selectedTab, seniors, students]);
 
   return (
     <div className="h-max w-full bg-taupe">
@@ -113,11 +123,13 @@ function PendingBody({
   setPending,
   setDeactivated,
   setStudents,
+  refreshData,
 }: {
   pending: User[];
   setPending: React.Dispatch<React.SetStateAction<User[]>>;
   setDeactivated: React.Dispatch<React.SetStateAction<User[]>>;
   setStudents: React.Dispatch<React.SetStateAction<User[]>>;
+  refreshData: () => void;
 }) {
   return (
     <ul className="mt-5 px-3 pb-9 md:px-5 lg:px-9">
@@ -141,6 +153,7 @@ function PendingBody({
               fetch(`/api/student/${user.id}/reject`, { method: "POST" });
               setPending((prev) => prev.filter((u) => u.id !== user.id));
               setDeactivated((prev) => [...prev, user]);
+              refreshData();
             }}
           >
             <div className="fill-red-800 stroke-red-800">
@@ -154,6 +167,7 @@ function PendingBody({
               fetch(`/api/student/${user.id}/approve`, { method: "POST" });
               setPending((prev) => prev.filter((u) => u.id !== user.id));
               setStudents((prev) => [...prev, user]);
+              refreshData();
             }}
           >
             <div className="fill-green-800 ">
@@ -170,10 +184,12 @@ function DeactivatedBody({
   deactivated,
   setDeactivated,
   setStudents,
+  refreshData,
 }: {
   deactivated: User[];
   setDeactivated: React.Dispatch<React.SetStateAction<User[]>>;
   setStudents: React.Dispatch<React.SetStateAction<User[]>>;
+  refreshData: () => void;
 }) {
   return (
     <ul className="mt-5 px-3 pb-9 md:px-5 lg:px-9">
@@ -197,6 +213,7 @@ function DeactivatedBody({
               fetch(`/api/student/${user.id}/approve`, { method: "POST" });
               setDeactivated((prev) => prev.filter((u) => u.id !== user.id));
               setStudents((prev) => [...prev, user]);
+              refreshData();
             }}
           >
             <div className="fill-green-800 ">
