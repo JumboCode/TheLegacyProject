@@ -73,6 +73,11 @@ const Admin: NextPage<IAdminProps> = ({ seniors, users }) => {
           )}
         </div>
       </div>
+      {/* TESTS SENIOR DELETE ROUTE */}
+      <button onClick={() => fetch("/api/senior/6442c41aa1fbce0735b20ba0/", {method: "DELETE"})}>DELETE SENIOR</button>
+      {/* TESTS STUDENT DELETE ROUTE */}
+      <button onClick={() => fetch("/api/student/644ea32180982d230ea94434/", {method: "DELETE"})}>DELETE STUDENT</button>
+      
     </div>
   );
 };
@@ -87,7 +92,7 @@ export const getServerSideProps = async (
   if (!session || !session.user) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/",
         permanent: false,
       },
     };
@@ -111,7 +116,7 @@ export const getServerSideProps = async (
   if (!user) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/",
         permanent: false,
       },
     };

@@ -40,7 +40,7 @@ const AddProfileForm = <T extends { selectName: string [] }>({
     async (event: React.SyntheticEvent) => {
       console.log(event);
       event.preventDefault();
-      handleSubmit(profileData);
+      handleSubmit(profileData, event);
     },
     [profileData]
   );
