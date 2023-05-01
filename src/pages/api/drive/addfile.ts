@@ -20,12 +20,11 @@ const uploadToFolder = async (req: NextApiRequest, res: NextApiResponse) => {
   };
 
   try {
-    const file = await service.files.create({
+    const file = await (service as NonNullable<typeof service>).files.create({
       resource: fileMetadata,
       media: media,
       fields: "id",
     });
-    console.log("Successfully created document with ID:", file.data.id);
 
     res.status(200).json({
       message: "Successfully created document",
@@ -35,7 +34,7 @@ const uploadToFolder = async (req: NextApiRequest, res: NextApiResponse) => {
       description: fileData.description,
       tags: fileData.tags,
     });
-    return file.data.id;
+    return;
   } catch (err) {
     // TODO(developer) - Handle error
     res.status(401).json({
