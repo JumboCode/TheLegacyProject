@@ -67,40 +67,42 @@ const student = async (req: NextApiRequest, res: NextApiResponse) => {
       }
       break;
 
-      case "DELETE":
-        try {
-          const { admin } = (await prisma.user.findUnique({
+    case "DELETE":
+      try {
+        const { admin } = (await prisma.user.findUnique({
+          where: {
+            id: userId,
+          },
+          select: {
+            admin: true, //return admin boolean field for given user id
+          },
+        })) ?? { admin: false };
+
+        if (admin) {
+          const deleteStudent = await prisma.user.update({
             where: {
-              id: userId,
+              id: studentId,
             },
-            select: {
-              admin: true, //return admin boolean field for given user id
+            data: {
+              approved: Approval.DENIED,
             },
-          })) ?? { admin: false };
-          
-          if (admin) {
-            const deleteStudent = await prisma.user.update({
-              where: {
-                id: studentId,
-              },
-              data: {
-                approved: Approval.DENIED,
-              }
-            })
-            res.status(200).json(deleteStudent);
-            return;
-          } else {
-            res.status(500).json({
-              error:
-                "This route is protected. In order to access it, please sign in as admin.",
-            });
-            return;
-          } 
-        } catch (error) {
-          res.status(500).json({
-            error: `failed to delete student: ${error}`,
           });
+
+          res.status(200).json(deleteStudent);
+
+          return;
+        } else {
+          res.status(500).json({
+            error:
+              "This route is protected. In order to access it, please sign in as admin.",
+          });
+          return;
         }
+      } catch (error) {
+        res.status(500).json({
+          error: `failed to delete student: ${error}`,
+        });
+      }
 
     default:
       res.status(500).json({

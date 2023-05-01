@@ -5,11 +5,11 @@ import Image from "next/image";
 import { AdminTile } from "@components/profileTile/adminGrid";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval, Senior, User } from "@prisma/client";
-import TileGrid from "@components/TileGrid";
-import { useMemo, useState } from "react";
+import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { CheckMark } from "@components/Icons";
 import { Cross } from "@components/Icons/Cross";
 import { useRouter } from "next/router";
+import TileGrid, { StudentTile } from "@components/TileGrid";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -34,13 +34,20 @@ const Home: NextPage<IAdminProps> = ({
   const router = useRouter();
   // Call this function whenever you want to
   // refresh props!
-  const refreshData = () => {
+  const refreshData = useCallback(() => {
     router.replace(router.asPath);
-  };
+  }, [router]);
 
   const body = useMemo(() => {
     if (selectedTab === "Students") {
-      return <StudentBody students={students} />;
+      return (
+        <StudentBody
+          students={students}
+          setDeactivated={setDeactivated}
+          setStudents={setStudents}
+          refreshData={refreshData}
+        />
+      );
     } else if (selectedTab === "Seniors") {
       return <SeniorBody seniors={seniors} />;
     } else if (selectedTab === "Pending") {
@@ -98,11 +105,27 @@ const Home: NextPage<IAdminProps> = ({
   );
 };
 
-function StudentBody({ students }: { students: User[] }) {
+function StudentBody({
+  students,
+  setDeactivated,
+  setStudents,
+  refreshData,
+}: {
+  students: User[];
+  setDeactivated: React.Dispatch<React.SetStateAction<User[]>>;
+  setStudents: React.Dispatch<React.SetStateAction<User[]>>;
+  refreshData: () => void;
+}) {
   return (
     <TileGrid>
       {students.map((student) => (
-        <AdminTile key={student.id} data={student} />
+        <StudentTile
+          key={student.id}
+          student={student}
+          setDeactivated={setDeactivated}
+          setStudents={setStudents}
+          refreshData={refreshData}
+        />
       ))}
     </TileGrid>
   );
@@ -112,7 +135,9 @@ function SeniorBody({ seniors }: { seniors: Senior[] }) {
   return (
     <TileGrid>
       {seniors.map((senior) => (
-        <AdminTile key={senior.id} data={senior} />
+        <div key={senior.id}>
+          <AdminTile key={senior.id} data={senior} />
+        </div>
       ))}
     </TileGrid>
   );
@@ -150,7 +175,7 @@ function PendingBody({
             title="Reject"
             className="flex h-8 w-8 items-center justify-center rounded border-2 border-red-200 bg-red-100"
             onClick={() => {
-              fetch(`/api/student/${user.id}/reject`, { method: "POST" });
+              fetch(`/api/student/${user.id}`, { method: "DELETE" });
               setPending((prev) => prev.filter((u) => u.id !== user.id));
               setDeactivated((prev) => [...prev, user]);
               refreshData();

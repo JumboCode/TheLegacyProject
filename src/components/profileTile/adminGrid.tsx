@@ -6,6 +6,7 @@ import { AddTile } from "@components/addTile";
 import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval } from "@prisma/client";
+import TileEdit from "@components/TileGrid/TileEdit";
 
 // type AdminTileData = {
 //   name: string;
@@ -15,6 +16,19 @@ import { Approval } from "@prisma/client";
 export const AdminTile = ({ data }: { data: any }) => {
   return (
     <div className="w-64 resize-y resize-x">
+      <TileEdit
+        id="1"
+        handleDelete={() =>
+          fetch("/api/senior/6442c41aa1fbce0735b20ba0/", {
+            method: "DELETE",
+          })
+        }
+        handleEdit={() =>
+          fetch("/api/senior/6442c41aa1fbce0735b20ba0/", {
+            method: "PATCH",
+          })
+        }
+      />
       <section className="h-64 rounded bg-white p-4 drop-shadow-md">
         <div className="flex h-full flex-col items-center justify-center">
           <div className="h-20 w-20 overflow-hidden rounded-full">
