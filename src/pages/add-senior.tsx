@@ -11,7 +11,7 @@ const AddSenior: NextPage<IAddSeniorProps> = ( { studentNames }: IAddSeniorProps
   type Senior = {
     firstName: string;
     lastName: string;
-    selectName: string;
+    selectName: string [];
     interests: string;
     location: string;
     description: string;

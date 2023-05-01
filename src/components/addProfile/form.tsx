@@ -6,23 +6,23 @@ type Icon = {
   raw: File | null;
 };
 
-type ProfileProps<T extends { selectName: string }> = {
+type ProfileProps<T extends { selectName: string [] }> = {
   placeholdData: T;
   profileLabels: T;
   dropData: string[];
   handleSubmit: React.FormEvent<HTMLFormElement>;
 };
 
-const AddProfileForm = <T extends { selectName: string }>({
+const AddProfileForm = <T extends { selectName: string [] }>({
   placeholdData,
   profileLabels,
   dropData,
   handleSubmit,
 }: ProfileProps<T>) => {
-  const initialData = {};
-  Object.keys(placeholdData).map((keyname) => (initialData[keyname] = ""));
+    
+  const profileKeys = Object.keys(placeholdData);
 
-  const [profileData, setProfileData] = useState<T>(initialData);
+  const [profileData, setProfileData] = useState<T>({} as T);
   const [showDropdown, setShowDropdown] = useState(false);
   const [currIcon, setCurrIcon] = useState<Icon>({ preview: null, raw: null });
 
@@ -31,8 +31,9 @@ const AddProfileForm = <T extends { selectName: string }>({
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProfileData({
       ...profileData,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
+    // profileData[event.target.name].push(event.target.value)
   };
 
   const handleSubmitWithState = React.useCallback(
@@ -63,23 +64,29 @@ const AddProfileForm = <T extends { selectName: string }>({
     setShowDropdown(false);
   };
 
-  const handleFocus = () => {
-    setShowDropdown(true);
-  };
+  const handleClick = (keyname: string) => (
+      () => {
+        console.log("we focused on " + keyname);
+        if (keyname == "selectName") {
+          setShowDropdown(true);
+        }
+    }
+  );
 
   const handleBlur = () => {
+    console.log("we unfocused!");
     setTimeout(() => {
       setShowDropdown(false);
     }, 200);
   };
 
-  useEffect(() => {
-    if (showDropdown) {
-      nameRef.current?.focus();
-    } else {
-      nameRef.current?.blur();
-    }
-  }, [showDropdown]);
+  // useEffect(() => {
+  //   if (showDropdown) {
+  //     nameRef.current?.focus();
+  //   } else {
+  //     nameRef.current?.blur();
+  //   }
+  // }, [showDropdown]);
 
   return (
     <section className="m-auto flex h-[80%] w-[96%] items-center justify-center overflow-scroll rounded-xl bg-white">
@@ -133,6 +140,7 @@ const AddProfileForm = <T extends { selectName: string }>({
               </>
             )}
           </label>
+            {/* TODO allow image to be uploaded when "Upload Photo" text is clicked*/}
           <input
             className="hidden"
             id="upload-button"
@@ -155,7 +163,7 @@ const AddProfileForm = <T extends { selectName: string }>({
                 key={keyname}
                 className="relative flex h-full w-full flex-col gap-y-1"
               >
-                <label className="w-full text-[14px] font-normal">
+                <label className="w-full text-[14px] font-semibold">
                   {profileLabels[keyname]}
                 </label>
                 <input
@@ -165,22 +173,15 @@ const AddProfileForm = <T extends { selectName: string }>({
                   type="text"
                   value={profileData[keyname]}
                   onChange={handleChange}
-                  onFocus={handleFocus}
+                  onClick={handleClick(keyname)}
                   onBlur={handleBlur}
                 ></input>
                 {showDropdown &&
                   keyname == "selectName" &&
-                  dropData.filter((item) =>
-                    item
-                      .toLowerCase()
-                      .startsWith(profileData.selectName.toLowerCase())
-                  ).length != 0 && (
+                  dropData.filter((item) => []).length != 0 && (
                     <ul className="absolute top-[71px] z-10 w-full list-none rounded border-[0.3px] border-[#A6A6A6] bg-white pb-1 shadow-md">
                       {dropData
-                        .filter((item) =>
-                          item
-                            .toLowerCase()
-                            .startsWith(profileData.selectName.toLowerCase())
+                        .filter((item) => []
                         )
                         .map((item) => (
                           <li
