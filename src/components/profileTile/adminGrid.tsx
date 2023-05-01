@@ -7,15 +7,16 @@ import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval } from "@prisma/client";
 
-type ITileProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {redirect: undefined}
-
-type AdminTileData = {
-  name: string;
-  location: string;
-  picture: string;
+type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
+  redirect: undefined;
 };
 
-const AdminTile = ({ name, location, picture  }: AdminTileData) => {
+// type AdminTileData = {
+//   name: string;
+//   image: string;
+// };
+
+const AdminTile = ({ data }: {data: any}) => {
   return (
     <div className="w-64 resize-x resize-y">
       <section className="h-64 rounded bg-white p-4 drop-shadow-md">
@@ -23,33 +24,34 @@ const AdminTile = ({ name, location, picture  }: AdminTileData) => {
           <a href="add-student.html"><div className="h-20 w-20 overflow-hidden rounded-full">
             <Image
               className="object-scale-down"
-              src={"/student_home/profile_photo_pic.jpeg"}
+              src={data.image}
               alt="Placeholder profile image"
               height={80}
               width={80}
             ></Image>
           </div></a>
           <br></br>
-          <p className="text-base font-medium text-gray-700">{name}</p>
-          <p className="text-sm text-gray-600">Student Name</p>
-          <p className="text-xs text-gray-600">{location}</p>
+          <p className="text-base font-medium text-gray-700">{data.name}</p>
         </div>
       </section>
     </div>
   );
 };
 
-const AdminGrid = () => {
-  const [data, setData] = useState<AdminTileData[]>([
-    { name: "Jo", location: "Somerville, MA", picture: "" },
-    { name: "JoJo", location: "Somerville, MA", picture: "" },
-    { name: "Joe", location: "Somerville, MA", picture: "" },
-    { name: "Joseph", location: "Somerville, MA", picture: "" },
-    { name: "Jô", location: "Somerville, MA", picture: "" },
-    { name: "Jonathan", location: "Somerville, MA", picture: "" },
-    { name: "João", location: "Somerville, MA", picture: "" },
-    { name: "Bojangles", location: "Somerville, MA", picture: "" },
-  ]);
+const AdminGrid = ( { users }: IAdminProps ) => {
+  // const [data, setData] = useState<AdminTileData[]>([
+  //   { name: "Jo", location: "Somerville, MA", picture: "" },
+  //   { name: "JoJo", location: "Somerville, MA", picture: "" },
+  //   { name: "Joe", location: "Somerville, MA", picture: "" },
+  //   { name: "Joseph", location: "Somerville, MA", picture: "" },
+  //   { name: "Jô", location: "Somerville, MA", picture: "" },
+  //   { name: "Jonathan", location: "Somerville, MA", picture: "" },
+  //   { name: "João", location: "Somerville, MA", picture: "" },
+  //   { name: "Bojangles", location: "Somerville, MA", picture: "" },
+  // ]);
+
+  //const data = students;
+  const [studentData, setStudentData] = useState(users);
 
   return (
     <main className="mx-auto flex min-w-fit w-full flex-col px-3 pb-9 md:px-5 lg:px-9">
@@ -60,12 +62,10 @@ const AdminGrid = () => {
         {/* Flex styling workaround */}
         {/* <div className="lg:px-9 md:px-5 px-3 flex justify-self-center flex-wrap gap-6"></div> */}
         <AddTile/>
-        {data.map(({ name, location, picture}: AdminTileData) => (
+        {studentData.map((data, i) => (
           <AdminTile
-            key={name}
-            name={name}
-            location={location}
-            picture={picture}
+            key={i}
+            data = { data }
           />
         ))}
       </div>
@@ -75,68 +75,63 @@ const AdminGrid = () => {
 
 export default AdminGrid;
 
-// export const getServerSideProps = async (
-//   context: GetServerSidePropsContext
-// ) => {
-//   const session = await getServerAuthSession(context);
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const session = await getServerAuthSession(context);
 
-//   if (!session || !session.user) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!session || !session.user) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-//   if (!prisma) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!prisma) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       id: session.user.id,
-//     },
-//   });
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
 
-//   if (!user) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-//   if (user.approved === Approval.PENDING) {
-//     return {
-//       redirect: {
-//         destination: "/pending",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!user.admin) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-//   const students = await prisma.user.findMany({
-//     select: {
-//       id: true,
-//       name: true,
-//       email: true,
-//       image: true,
-//     }
-//   })
+  const seniors = await prisma.senior.findMany();
+  const users = await prisma.user.findMany({
+    where: {
+      approved: Approval.APPROVED,
+    },
+  });
 
-//   //console.log(students);
-
-//   return {
-//     props: {
-//       students
-//     },
-//   };
-// }; 
-
+  return {
+    props: {
+      users,
+    },
+  };
+};
