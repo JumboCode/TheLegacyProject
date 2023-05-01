@@ -9,7 +9,7 @@ import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { CheckMark } from "@components/Icons";
 import { Cross } from "@components/Icons/Cross";
 import { useRouter } from "next/router";
-import TileGrid, { StudentTile } from "@components/TileGrid";
+import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -23,11 +23,12 @@ const Home: NextPage<IAdminProps> = ({
   students: initialStudents,
   pending: initialPending,
   deactivated: initialDeactivated,
-  seniors,
+  seniors: initialSeniors,
 }) => {
   const [students, setStudents] = useState(initialStudents);
   const [pending, setPending] = useState(initialPending);
   const [deactivated, setDeactivated] = useState(initialDeactivated);
+  const [seniors, setSeniors] = useState(initialSeniors);
 
   const [selectedTab, setSelectedTab] = useState<Tabs>("Students");
 
@@ -49,7 +50,13 @@ const Home: NextPage<IAdminProps> = ({
         />
       );
     } else if (selectedTab === "Seniors") {
-      return <SeniorBody seniors={seniors} />;
+      return (
+        <SeniorBody
+          seniors={seniors}
+          setSeniors={setSeniors}
+          refreshData={refreshData}
+        />
+      );
     } else if (selectedTab === "Pending") {
       return (
         <PendingBody
@@ -80,7 +87,7 @@ const Home: NextPage<IAdminProps> = ({
         <div className="pl-9">
           <hr />
         </div>
-        <div className="m-auto flex w-full gap-1 p-1 pl-9">
+        <div className="m-2 flex w-full gap-1 p-1 pl-9">
           {tabs.map((tab) => (
             <button
               className="flex flex-row gap-1"
@@ -131,12 +138,25 @@ function StudentBody({
   );
 }
 
-function SeniorBody({ seniors }: { seniors: Senior[] }) {
+function SeniorBody({
+  seniors,
+  setSeniors,
+  refreshData,
+}: {
+  seniors: Senior[];
+  setSeniors: React.Dispatch<React.SetStateAction<Senior[]>>;
+  refreshData: () => void;
+}) {
   return (
     <TileGrid>
       {seniors.map((senior) => (
         <div key={senior.id}>
-          <AdminTile key={senior.id} data={senior} />
+          <SeniorTile
+            key={senior.id}
+            senior={senior}
+            setSeniors={setSeniors}
+            refreshData={refreshData}
+          />
         </div>
       ))}
     </TileGrid>
