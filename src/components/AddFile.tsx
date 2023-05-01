@@ -80,28 +80,15 @@ const AddFile = ({
       body: JSON.stringify({
         fileName: fileName,
         description: description,
+        fileType: "Google Document",
+        seniorId,
         tags: selectedTags,
         folder: folder,
       }),
     });
-    const fileData = await addFileRes.json();
 
-    // POST file in db
-    const postFileRes = await fetch("/api/file/add", {
-      method: "POST",
-      body: JSON.stringify({
-        name: fileData.file,
-        description: fileData.description,
-        fileType: "Google Document",
-        lastModified: "",
-        url: `https://docs.google.com/document/d/${fileData.fileId}`,
-        seniorId: seniorId,
-        tags: fileData.tags,
-      }),
-    });
-    if (addFileRes.status === 200 && postFileRes.status === 200) {
+    if (addFileRes.status === 200) {
       setConfirm(true);
-      console.log(postFileRes);
     } else {
       setError(true);
     }

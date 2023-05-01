@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 // import { google } from 'googleapis';
 // import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import drive from "../drive/drive";
@@ -6,7 +7,16 @@ import drive from "../drive/drive";
 const uploadToFolder = async (req: NextApiRequest, res: NextApiResponse) => {
   const service = await drive(req, res);
 
-  const fileData = JSON.parse(req.body);
+  const fileSchema = z.object({
+    folder: z.string(),
+    fileName: z.string(),
+    description: z.string(),
+    tags: z.array(z.string()),
+    fileType: z.string(),
+    seniorId: z.string(),
+  });
+  const fileData = fileSchema.parse(JSON.parse(req.body));
+
   // const parentID = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a";
   const parentID = fileData.folder.split("/").pop();
   const fileMetadata = {
@@ -25,15 +35,21 @@ const uploadToFolder = async (req: NextApiRequest, res: NextApiResponse) => {
       media: media,
       fields: "id",
     });
+    const googleFileId = (file as any).data.id;
 
-    res.status(200).json({
-      message: "Successfully created document",
-      folder: parentID,
-      fileId: file.data.id,
-      file: fileData.fileName,
-      description: fileData.description,
-      tags: fileData.tags,
+    const fileEntry = await prisma?.file.create({
+      data: {
+        name: fileData.fileName,
+        description: fileData.description,
+        filetype: fileData.fileType,
+        lastModified: new Date(),
+        url: `https://docs.google.com/document/d/${googleFileId}`,
+        seniorId: fileData.seniorId,
+        Tags: fileData.tags,
+      },
     });
+
+    res.status(200).json(fileEntry);
     return;
   } catch (err) {
     // TODO(developer) - Handle error
