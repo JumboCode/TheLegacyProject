@@ -7,7 +7,7 @@ const AddStudentPage: NextPage = () => {
   type Student = {
     firstName: string;
     lastName: string;
-    selectName: string;
+    selectName: string [];
     pronouns: string;
     classYear: string;
     email: string;

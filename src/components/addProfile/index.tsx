@@ -8,16 +8,16 @@ type User = {
 
 // documentation explaining how this component is "parameterized": i.e.,
 // it operates on a specific type, specified by the <T>; the type must
-// contain the field "selectName: string"!
+// contain the field "selectName: string []"!
 
-type ProfileProps<T extends { selectName: string }> = {
+type ProfileProps<T extends { selectName: string [] }> = {
   placeholdData: T;
   profileLabels: T;
   dropData: string[];
   handleSubmit: Function;
 };
 
-const AddProfile = <T extends { selectName: string }>({
+const AddProfile = <T extends { selectName: string [] }>({
   placeholdData,
   profileLabels,
   dropData,
@@ -25,7 +25,7 @@ const AddProfile = <T extends { selectName: string }>({
 }: ProfileProps<T>) => {
   return (
     <>
-      <div className="absolute inset-y-0 right-0 h-screen w-[84%] bg-[#F5F5F5] font-sans">
+      <div className="absolute inset-y-0 right-0 h-screen w-[84%] bg-taupe font-sans">
         <ProfileHeader title={"Add New Member"} icon={null} />
         <AddProfileForm
           placeholdData={placeholdData}

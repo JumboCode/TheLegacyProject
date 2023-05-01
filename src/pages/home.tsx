@@ -1,3 +1,4 @@
+import { Approval } from "@prisma/client";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { GetServerSidePropsContext } from "next";
 
@@ -43,10 +44,19 @@ export const getServerSideProps = async (
     };
   }
 
-  return {
-    redirect: {
-      destination: user.admin ? "/admin" : "/student-home",
-      permanent: false,
-    },
-  };
+  if (user.approved !== Approval.APPROVED) {
+    return {
+      redirect: {
+        destination: "/pending",
+        permanent: false,
+      },
+    };
+  } else {
+    return {
+      redirect: {
+        destination: user.admin ? "/admin" : "/student-home",
+        permanent: false,
+      },
+    };
+  }
 };
