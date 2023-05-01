@@ -10,7 +10,7 @@ import { Approval, User } from "@prisma/client";
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
-    async session({ session, user }) {
+    session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
       }
@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
           access_type: "offline",
           response_type: "code",
           scope:
-            "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource https://www.googleapis.com/auth/documents https://www.googleapis.com/auth/documents.readonly openid",
+            "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource https://www.googleapis.com/auth/documents https://www.googleapis.com/auth/documents.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid",
         },
       },
     }),

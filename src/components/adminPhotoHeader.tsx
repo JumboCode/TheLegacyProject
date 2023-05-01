@@ -3,7 +3,13 @@
 import React from "react";
 import Image from "next/image";
 
-const AdminPhotoHeader = () => {
+export interface IPhotoHeaderProps {
+  name: string | null;
+  image: string | null;
+  email: string | null;
+}
+
+const AdminPhotoHeader = ({ name, image, email }: IPhotoHeaderProps) => {
   return (
     <>
       <div className="pb-1">
@@ -20,14 +26,14 @@ const AdminPhotoHeader = () => {
           <div className="absolute right-0 -bottom-12 flex h-20 w-[100%] items-center bg-white bg-opacity-90 p-3 backdrop-blur-sm md:-bottom-10">
             <Image
               className="rounded-xl"
-              src={"/student_home/profile_photo_pic.jpeg"}
+              src={image ?? "/student_home/profile_photo_pic.jpeg"}
               alt={"Profile Photo"}
               width={58.5}
               height={58.5}
             />
             <div className="flex flex-col pl-3 text-neutral-600">
-              <h5 className="text-base font-bold">Angela Han</h5>
-              <p className="text-sm">email@legacy.org</p>
+              <h5 className="text-base font-bold">{name ?? "Admin"}</h5>
+              <p className="text-sm">{email ?? "email@legacy.org"}</p>
             </div>
           </div>
         </div>

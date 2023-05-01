@@ -4,6 +4,8 @@ import FilterDropdown from "@components/filterDropdown";
 type AddFileProps = {
   showAddFilePopUp: boolean;
   setShowAddFilePopUp: Dispatch<SetStateAction<boolean>>;
+  seniorId: string;
+  folder: string;
 };
 
 const Tag = ({ text }: { text: string }) => {
@@ -55,7 +57,12 @@ const TagSelector = ({
   );
 };
 
-const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
+const AddFile = ({
+  showAddFilePopUp,
+  setShowAddFilePopUp,
+  seniorId,
+  folder,
+}: AddFileProps) => {
   const [fileName, setFilename] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [confirm, setConfirm] = useState<boolean>(false);
@@ -67,15 +74,20 @@ const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
   };
 
   const addFile = async () => {
-    const res = await fetch("/api/drive/addfile", {
+    // POST file in drive
+    const addFileRes = await fetch("/api/drive/addfile", {
       method: "POST",
       body: JSON.stringify({
         fileName: fileName,
         description: description,
+        fileType: "Google Document",
+        seniorId,
         tags: selectedTags,
+        folder: folder,
       }),
     });
-    if (res.status === 200) {
+
+    if (addFileRes.status === 200) {
       setConfirm(true);
     } else {
       setError(true);
@@ -85,7 +97,7 @@ const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
   return (
     <>
       {showAddFilePopUp && (
-        <div className="absolute flex h-full w-full flex-row items-center justify-center backdrop-blur-[2px] backdrop-brightness-75">
+        <div className="absolute z-50 flex h-full w-full flex-row items-center justify-center backdrop-blur-[2px] backdrop-brightness-75">
           {!confirm && !error ? (
             <div className="flex h-[700px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
               <div>
@@ -134,7 +146,7 @@ const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
           ) : (
             <>
               {confirm ? (
-                <div className="flex h-[700px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
+                <div className="flex h-[250px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
                   <span>File added successfully!</span>
                   <div className="flex w-full flex-row justify-center">
                     <button
@@ -146,7 +158,7 @@ const AddFile = ({ showAddFilePopUp, setShowAddFilePopUp }: AddFileProps) => {
                   </div>
                 </div>
               ) : (
-                <div className="flex h-[700px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
+                <div className="flex h-[250px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
                   <span>Error in adding file...</span>
                   <div className="flex w-full flex-row justify-center">
                     <button

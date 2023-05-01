@@ -65,7 +65,11 @@ const FileCard = ({ name, lastModified, url, Tags }: IFileCardProps) => {
     <div className="flex aspect-square flex-col justify-between rounded-lg border bg-off-white p-5 text-left font-sans drop-shadow-md hover:cursor-pointer hover:bg-taupe-hover">
       <div className="flex flex-col">
         <span className="mb-1 text-lg font-semibold"> {name} </span>
-        <span className="mb-1"> {url} </span>
+        <a href={url} rel="noopener noreferrer" target="_blank">
+          <span className="mb-1 w-[20px] text-slate-400 hover:text-purple-800">
+            Link
+          </span>
+        </a>
         <span> Last opened {dateString} </span>
       </div>
       {/* Row of Tags */}

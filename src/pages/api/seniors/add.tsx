@@ -33,6 +33,7 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
             location: z.string(),
             description: z.string(),
             students: z.array(z.string()),
+            folder: z.string(),
           });
 
           const body = bodySchema.parse(JSON.parse(req.body));
@@ -43,7 +44,7 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
               location: body.location,
               description: body.description,
               StudentIDs: body.students,
-              folder: `THIS NEEDS TO BE FIXED ONCE A FOLDER IS CRREATED YUP`,
+              folder: body.folder,
             },
           });
 
