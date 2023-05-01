@@ -7,7 +7,8 @@ const uploadToFolder = async (req: NextApiRequest, res: NextApiResponse) => {
   const service = await drive(req, res);
 
   const fileData = JSON.parse(req.body);
-  const parentID = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a";
+  // const parentID = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a";
+  const parentID = fileData.folder.split("/").pop();
   const fileMetadata = {
     name: [fileData.fileName],
     mimeType: "application/vnd.google-apps.document",
@@ -29,8 +30,10 @@ const uploadToFolder = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json({
       message: "Successfully created document",
       folder: parentID,
-      fileID: file.data.id,
+      fileId: file.data.id,
       file: fileData.fileName,
+      description: fileData.description,
+      tags: fileData.tags,
     });
     return file.data.id;
   } catch (err) {

@@ -3,6 +3,7 @@ import { useState } from "react";
 import FileCard from "@components/FileCard";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import SearchBar from "@components/SearchBar";
+import AddFile from "@components/AddFile";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
 import { Approval } from "@prisma/client";
@@ -18,6 +19,7 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
   const [files, setFiles] = useState(senior.Files);
   const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
   const [filter, setFilter] = useState("");
+  const [showAddFilePopUp, setShowAddFilePopUp] = useState<boolean>(false);
 
   const sortFunction =
     sortMethod === "By Name"
@@ -36,29 +38,53 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
     .sort(sortFunction)
     .filter(({ name }) => name.toLowerCase().includes(filter.toLowerCase()));
 
+  const handlePopUp = () => {
+    setShowAddFilePopUp(!showAddFilePopUp);
+    // console.log(showAddFilePopUp);
+  };
+
   return (
-    <div className="container flex min-h-screen flex-col p-8">
-      <h1 className="text-teal mb-8 font-serif text-[3rem] leading-normal">
-        {senior.name}
-      </h1>
-      <div className="flex flex-row justify-between space-x-3 align-middle">
-        <SearchBar setFilter={setFilter} />
-        <div className="relative z-10">
-          <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
-        </div>
-      </div>
-      {/* styling for a TileGrid-like grid */}
-      <div className="mt-7 grid grid-cols-[repeat(auto-fill,_256px)] gap-10 text-center">
-        {filteredFiles.map(({ name, lastModified, url, Tags }) => (
-          <div key={url}>
-            <FileCard
-              name={name}
-              lastModified={new Date(lastModified)}
-              url={url}
-              Tags={Tags}
+    <div className="min-w-screen container relative flex min-h-screen flex-col">
+      {showAddFilePopUp ? (
+        <AddFile
+          showAddFilePopUp={showAddFilePopUp}
+          setShowAddFilePopUp={setShowAddFilePopUp}
+          seniorId={senior.id}
+          folder={senior.folder}
+        />
+      ) : null}
+      <div className="h-full w-full p-8">
+        <h1 className="text-teal mb-8 font-serif text-[3rem] leading-normal">
+          {senior.name}
+        </h1>
+        <div className="flex flex-row justify-between space-x-3 align-middle">
+          <SearchBar setFilter={setFilter} />
+          <div className="relative z-10">
+            <SortDropdown
+              sortMethod={sortMethod}
+              setSortMethod={setSortMethod}
             />
           </div>
-        ))}
+        </div>
+        {/* styling for a TileGrid-like grid */}
+        <div className="z-10 mt-7 grid grid-cols-[repeat(auto-fill,_256px)] gap-10 text-center">
+          <button
+            className="flex aspect-square flex-col items-center justify-center rounded-lg border bg-off-white p-5 text-left font-sans drop-shadow-md hover:cursor-pointer hover:bg-taupe-hover"
+            onClick={handlePopUp}
+          >
+            Add File
+          </button>
+          {filteredFiles.map(({ name, lastModified, url, Tags }, key) => (
+            <div key={key}>
+              <FileCard
+                name={name}
+                lastModified={new Date(lastModified)}
+                url={url}
+                Tags={Tags}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
