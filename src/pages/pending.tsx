@@ -15,7 +15,7 @@ export default function Pending() {
     <div>
     <Image
         src="/pending/orange dried flower thing.png"
-        alt="A circular photo of younger woman helping a senior citizen"
+        alt="A dried orange flower"
         height={300}
         width={300}
         objectFit="cover"
