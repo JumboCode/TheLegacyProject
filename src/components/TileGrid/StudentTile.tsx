@@ -19,20 +19,26 @@ export function StudentTile({
   const { data } = useSession();
   return (
     <div className="p4 relative flex h-64 w-64 flex-col items-center justify-center gap-4 rounded bg-white text-base font-medium text-gray-700 drop-shadow-md">
-      {data && data.user?.id !== student.id ? (
-        <div className="absolute top-2 right-2">
-          <TileEdit
-            handleDelete={() => {
-              fetch(`/api/student/${student.id}`, {
-                method: "DELETE",
-              });
-              setDeactivated((prev) => [...prev, student]);
-              setStudents((prev) => prev.filter((s) => s.id !== student.id));
-              refreshData();
-            }}
-          />
-        </div>
-      ) : null}
+      <div className="absolute top-2 right-2">
+        <TileEdit
+          options={
+            !data || data?.user?.id === student.id
+              ? []
+              : [
+                  {
+                    name: "Deactivate",
+                    onClick: () => {
+                      setDeactivated((prev) => [...prev, student]);
+                      setStudents((prev) =>
+                        prev.filter((s) => s.id !== student.id)
+                      );
+                      refreshData();
+                    },
+                  },
+                ]
+          }
+        />
+      </div>
       <div className="h-20 w-20 overflow-hidden rounded-full">
         <Image
           className="object-scale-down"
