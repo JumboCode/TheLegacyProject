@@ -10,6 +10,7 @@ import { CheckMark } from "@components/Icons";
 import { Cross } from "@components/Icons/Cross";
 import { useRouter } from "next/router";
 import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
+import cn from "classnames";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -87,19 +88,22 @@ const Home: NextPage<IAdminProps> = ({
         <div className="pl-9">
           <hr />
         </div>
-        <div className="m-2 flex w-full gap-1 p-1 pl-9">
+        <div className="flex w-full pl-9">
           {tabs.map((tab) => (
             <button
-              className="flex flex-row gap-1"
+              className={cn(
+                tab === selectedTab ? "bg-taupe-hover" : null,
+                "flex flex-row justify-center gap-1 p-4 py-2"
+              )}
               key={tab}
               onClick={() => setSelectedTab(tab)}
             >
-              {tab}
-              <div className="rounded-full bg-taupe-hover px-0.5">
-                {tab === "Pending" && pending.length > 0
-                  ? pending.length
-                  : null}
-              </div>
+              <p>{tab}</p>
+              {tab === "Pending" && pending.length > 0 ? (
+                <div className="rounded-full bg-neutral-400 px-0.5">
+                  {pending.length}
+                </div>
+              ) : null}
             </button>
           ))}
         </div>
