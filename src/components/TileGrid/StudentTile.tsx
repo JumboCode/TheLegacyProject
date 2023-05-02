@@ -18,7 +18,7 @@ export function StudentTile({
 }: IStudentTileProps) {
   const { data } = useSession();
 
-  const options = [];
+  const options: Parameters<typeof TileEdit>[0]["options"] = [];
   if (data && data?.user?.id !== student.id) {
     if (student.admin) {
       options.push({
@@ -46,9 +46,11 @@ export function StudentTile({
 
     options.push({
       name: "Deactivate",
-      onClick: () => {
+      onClick: (e) => {
+        e.preventDefault();
         setDeactivated((prev) => [...prev, student]);
         setStudents((prev) => prev.filter((s) => s.id !== student.id));
+        fetch(`/api/student/${student.id}/reject`, { method: "POST" });
         refreshData();
       },
     });

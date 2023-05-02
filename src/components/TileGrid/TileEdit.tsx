@@ -27,7 +27,7 @@ function TileEditMenu({ visible, setVisible, options }: ITileEditMenu) {
     <div
       className={cn(
         visible ? "flex" : "hidden",
-        "absolute  flex-col rounded bg-white drop-shadow-md"
+        "absolute right-0 z-10 flex-col rounded bg-white drop-shadow-md"
       )}
     >
       <form method="dialog">
