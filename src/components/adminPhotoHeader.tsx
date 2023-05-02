@@ -12,8 +12,8 @@ export interface IPhotoHeaderProps {
 const AdminPhotoHeader = ({ name, image, email }: IPhotoHeaderProps) => {
   return (
     <>
-      <div className="pb-1">
-        <div className="relative m-4 md:m-5 lg:m-9">
+      <div className="mb-10">
+        <div className="relative ">
           <Image
             className=" object-cover"
             src={"/student_home/header1.jpg"}
@@ -21,9 +21,9 @@ const AdminPhotoHeader = ({ name, image, email }: IPhotoHeaderProps) => {
               "Photo of flowers on an old book with a faded photo of two people"
             }
             width={2000}
-            height={500}
+            height={250}
           />
-          <div className="absolute right-0 -bottom-12 flex h-20 w-[100%] items-center bg-white bg-opacity-90 p-3 backdrop-blur-sm md:-bottom-10">
+          <div className="absolute right-0 -bottom-10 flex w-[100%] items-center bg-white bg-opacity-90 p-3 pl-9 backdrop-blur-sm">
             <Image
               className="rounded-xl"
               src={image ?? "/student_home/profile_photo_pic.jpeg"}
