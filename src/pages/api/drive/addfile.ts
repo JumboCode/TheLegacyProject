@@ -24,15 +24,15 @@ const uploadToFolder = async (req: NextApiRequest, res: NextApiResponse) => {
     mimeType: "application/vnd.google-apps.document",
     parents: [parentID],
   };
-  const media = {
-    mimeType: "text/plain",
-    body: fileData.description,
-  };
+  // const media = {
+  //   mimeType: "text/plain",
+  //   body: fileData.description,
+  // };
 
   try {
     const file = await (service as NonNullable<typeof service>).files.create({
       resource: fileMetadata,
-      media: media,
+      // media: media,
       fields: "id",
     });
     const googleFileId = (file as any).data.id;
