@@ -2,14 +2,15 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import AdminPhotoHeader from "@components/adminPhotoHeader";
 
 import Image from "next/image";
-import { AdminTile } from "@components/profileTile/adminGrid";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval, Senior, User } from "@prisma/client";
-import { MouseEvent, useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { CheckMark } from "@components/Icons";
 import { Cross } from "@components/Icons/Cross";
 import { useRouter } from "next/router";
 import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
+import SearchBar from "@components/SearchBar";
+import cn from "classnames";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -87,19 +88,26 @@ const Home: NextPage<IAdminProps> = ({
         <div className="pl-9">
           <hr />
         </div>
-        <div className="m-2 flex w-full gap-1 p-1 pl-9">
+        <div className="flex w-full bg-white pl-9">
           {tabs.map((tab) => (
             <button
-              className="flex flex-row gap-1"
+              disabled={tab === "Pending" && pending.length === 0}
+              className={cn(
+                tab === selectedTab ? "bg-neutral-100" : null,
+                tab === "Pending" && pending.length === 0
+                  ? "cursor-not-allowed opacity-50"
+                  : null,
+                "flex flex-row justify-center gap-1 p-4 py-2"
+              )}
               key={tab}
               onClick={() => setSelectedTab(tab)}
             >
-              {tab}
-              <div className="rounded-full bg-taupe-hover px-0.5">
-                {tab === "Pending" && pending.length > 0
-                  ? pending.length
-                  : null}
-              </div>
+              <p>{tab}</p>
+              {tab === "Pending" && pending.length > 0 ? (
+                <div className="rounded-full bg-neutral-400 px-0.5">
+                  {pending.length}
+                </div>
+              ) : null}
             </button>
           ))}
         </div>
@@ -123,18 +131,27 @@ function StudentBody({
   setStudents: React.Dispatch<React.SetStateAction<User[]>>;
   refreshData: () => void;
 }) {
+  const [filter, setFilter] = useState("");
+
   return (
-    <TileGrid>
-      {students.map((student) => (
-        <StudentTile
-          key={student.id}
-          student={student}
-          setDeactivated={setDeactivated}
-          setStudents={setStudents}
-          refreshData={refreshData}
-        />
-      ))}
-    </TileGrid>
+    <>
+      <div className="mx-9 mt-4">
+        <SearchBar setFilter={setFilter} />
+      </div>
+      <TileGrid>
+        {students
+          .filter(({ name }) => name?.includes(filter))
+          .map((student) => (
+            <StudentTile
+              key={student.id}
+              student={student}
+              setDeactivated={setDeactivated}
+              setStudents={setStudents}
+              refreshData={refreshData}
+            />
+          ))}
+      </TileGrid>
+    </>
   );
 }
 
@@ -148,18 +165,20 @@ function SeniorBody({
   refreshData: () => void;
 }) {
   return (
-    <TileGrid>
-      {seniors.map((senior) => (
-        <div key={senior.id}>
-          <SeniorTile
-            key={senior.id}
-            senior={senior}
-            setSeniors={setSeniors}
-            refreshData={refreshData}
-          />
-        </div>
-      ))}
-    </TileGrid>
+    <>
+      <TileGrid>
+        {seniors.map((senior) => (
+          <div key={senior.id}>
+            <SeniorTile
+              key={senior.id}
+              senior={senior}
+              setSeniors={setSeniors}
+              refreshData={refreshData}
+            />
+          </div>
+        ))}
+      </TileGrid>
+    </>
   );
 }
 
@@ -190,7 +209,10 @@ function PendingBody({
             width={48}
             height={48}
           />
-          <p className="mr-4 flex-grow">{user.name}</p>
+          <div className="ml-1 flex-grow">
+            <p className="text-base font-bold text-neutral-600">{user.name}</p>
+            <p className="text-sm font-light text-neutral-400">{user.email}</p>
+          </div>
           <button
             title="Reject"
             className="flex h-8 w-8 items-center justify-center rounded border-2 border-red-200 bg-red-100"
@@ -250,7 +272,10 @@ function DeactivatedBody({
             width={48}
             height={48}
           />
-          <p className="mr-4 flex-grow">{user.name}</p>
+          <div className="ml-1 flex-grow">
+            <p className="text-base font-bold text-neutral-600">{user.name}</p>
+            <p className="text-sm font-light text-neutral-400">{user.email}</p>
+          </div>
           <button
             title="Re-approve"
             className="flex h-8 w-8 items-center justify-center rounded border-2 border-green-200 bg-green-100"

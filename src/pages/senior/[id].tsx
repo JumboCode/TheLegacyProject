@@ -74,9 +74,10 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
           >
             Add File
           </button>
-          {filteredFiles.map(({ name, lastModified, url, Tags }, key) => (
+          {filteredFiles.map(({ id, name, lastModified, url, Tags }, key) => (
             <div key={key}>
               <FileCard
+                id={id}
                 name={name}
                 lastModified={new Date(lastModified)}
                 url={url}

@@ -54,7 +54,7 @@ export const getServerSideProps = async (
   } else {
     return {
       redirect: {
-        destination: user.admin ? "/admin" : "/student-home",
+        destination: user.admin ? "/admin-home" : "/student-home",
         permanent: false,
       },
     };

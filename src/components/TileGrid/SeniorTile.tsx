@@ -1,5 +1,6 @@
 import { TileEdit } from "./TileEdit";
 import { Senior } from "@prisma/client";
+import Link from "next/link";
 
 interface ISeniorTileProps {
   senior: Senior;
@@ -16,17 +17,30 @@ export function SeniorTile({
     <div className="p4 relative flex h-64 w-64 flex-col items-center justify-center gap-4 rounded bg-white text-base font-medium text-gray-700 drop-shadow-md">
       <div className="absolute top-2 right-2">
         <TileEdit
-          handleEdit={() => {}}
-          handleDelete={() => {
-            fetch(`/api/senior/${senior.id}`, {
-              method: "DELETE",
-            });
-            setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
-            refreshData();
-          }}
+          options={[
+            {
+              name: "Edit",
+              onClick: (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              },
+            },
+            {
+              name: "Delete",
+              onClick: (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                fetch(`/api/senior/${senior.id}`, {
+                  method: "DELETE",
+                });
+                setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
+                refreshData();
+              },
+            },
+          ]}
         />
       </div>
-      <p>{senior.name}</p>
+      <Link href={`/senior/${senior.id}`}>{senior.name}</Link>
       <p>{senior.location}</p>
     </div>
   );
