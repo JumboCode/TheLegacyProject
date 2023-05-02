@@ -54,7 +54,7 @@ export default function FilterDropdown({
           onMouseEnter={() => setShowOptions(true)}
           onMouseLeave={() => setShowOptions(false)}
         >
-          <div className="top-100 absolute z-50 flex max-h-[150px] w-full flex-col overflow-y-scroll bg-white">
+          <div className="top-100 absolute z-50 flex max-h-[150px] w-full flex-col overflow-y-auto bg-white">
             {filteredItems.map((item: string, index: number) => (
               <span
                 className="flex flex-row border border-[#e6e6e6] px-3 py-1 text-gray-700 hover:cursor-pointer hover:bg-blue-500 hover:text-white"
