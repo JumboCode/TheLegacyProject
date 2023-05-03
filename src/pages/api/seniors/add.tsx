@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@server/db/client";
 import { z } from "zod";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
+import drive from "../drive/drive";
+import { randomUUID } from "crypto";
 
 const add = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
@@ -34,8 +36,24 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
             description: z.string(),
             students: z.array(z.string()),
           });
-
           const body = bodySchema.parse(JSON.parse(req.body));
+
+          const baseFolder = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a"; // TODO: make env variable
+
+          const fileMetadata = {
+            name: [`${body.name}-${randomUUID()}`],
+            mimeType: "application/vnd.google-apps.folder",
+            parents: [baseFolder],
+          };
+
+          const service = await drive(req, res);
+          const file = await (
+            service as NonNullable<typeof service>
+          ).files.create({
+            resource: fileMetadata,
+            fields: "id",
+          });
+          const googleFolderId = (file as any).data.id;
 
           const senior = await prisma.senior.create({
             data: {
@@ -43,7 +61,7 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
               location: body.location,
               description: body.description,
               StudentIDs: body.students,
-              folder: `THIS NEEDS TO BE FIXED ONCE A FOLDER IS CRREATED YUP`,
+              folder: googleFolderId,
             },
           });
 
