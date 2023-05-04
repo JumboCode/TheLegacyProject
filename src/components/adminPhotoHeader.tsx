@@ -12,18 +12,15 @@ export interface IPhotoHeaderProps {
 const AdminPhotoHeader = ({ name, image, email }: IPhotoHeaderProps) => {
   return (
     <>
-      <div className="mb-10">
-        <div className="relative ">
+        <div className="relative flex flex-col">
           <Image
-            className=" object-cover"
-            src={"/student_home/header1.jpg"}
-            alt={
-              "Photo of flowers on an old book with a faded photo of two people"
-            }
+            className="object-cover"
+            src={"/student_home/header3.jpg"}
+            alt={ "Photo of flowers on an old book with a faded photo of two people"}
             width={2000}
-            height={250}
+            height={200}
           />
-          <div className="absolute right-0 -bottom-10 flex w-[100%] items-center bg-white bg-opacity-90 p-3 pl-9 backdrop-blur-sm">
+          <div className="absolute flex right-0 bottom-0 w-[100%] h-[90px] items-center bg-white bg-opacity-80 p-3 pl-9 backdrop-blur-sm">
             <Image
               className="rounded-xl"
               src={image ?? "/student_home/profile_photo_pic.jpeg"}
@@ -32,14 +29,13 @@ const AdminPhotoHeader = ({ name, image, email }: IPhotoHeaderProps) => {
               height={58.5}
             />
             <div className="flex flex-col pl-3 text-neutral-600">
-              <h5 className="text-base font-bold">{name ?? "Admin"}</h5>
-              <p className="text-sm font-light text-neutral-400">
+              <h5 className="text-lg font-bold">{name ?? "Admin"}</h5>
+              <p className="text-md font-light text-neutral-400">
                 {email ?? "email@legacy.org"}
               </p>
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };

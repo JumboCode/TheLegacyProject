@@ -10,7 +10,7 @@ const PhotoHeader = () => {
         <div className="relative m-4 md:m-5 lg:m-9">
           <Image
             className="rounded-2xl object-cover"
-            src={"/student_home/header1.jpg"}
+            src={"/student_home/header3.jpg"}
             alt={
               "Photo of flowers on an old book with a faded photo of two people"
             }
