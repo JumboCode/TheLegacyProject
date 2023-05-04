@@ -41,20 +41,47 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-items-center p-4">
-        <div className="h-full flex flex-row items-center justify-items-center gap-5">
-          <div className=""> 
+        <div className="h-full relative flex flex-row items-center justify-items-center gap-5">
+          <div className="p-10 z-10"> 
             {/* holds paragraph and email signup */}
             <h1 className="my-8 font-serif font-bold leading-tight text-dark-plum duration-500  
                            xl:text-6xl 
                            lg:text-left lg:text-5xl
-                           sm:text-center md:text-6xl sm:text-5xl">
+                           text-center sm:text-5xl text-4xl">
               Everyone has a story that's worth preserving.
             </h1>
-            <p className="my-8 text-2xl font-serif leading-[32px] text-[#515151] duration-500">
+            <p className="my-8 text-xl sm:text-2xl font-serif leading-tight sm:leading-[32px] text-[#515151] duration-500 text-center lg:text-left ">
               The Legacy Project tells the stories of our older generations to
               ensure that their legacies are preserved for years to come.
             </p>
             <EmailSignupBox />
+          </div>
+          <div className="absolute lg:hidden top-10 -left-4">
+              <Image
+                src="/home/pinkflower.png"
+                height={160}
+                width={160}
+                alt="Image of a branch with small dried pink flowers with a transparent background"
+                className="absolute z-0 duration-500"
+              ></Image>
+          </div>
+          <div className="absolute lg:hidden -bottom-4 -right-4 z-0">
+            <Image
+              src="/home/yellowflower.png"
+              height={146}
+              width={146}
+              alt="Image of a single yellow-orange dried flower with transparent background"
+              className="duration-500"
+          ></Image>
+          </div>
+          <div className="absolute lg:hidden -top-8 -right-4">
+              <Image
+                src="/home/paper.png"
+                height={184}
+                width={137}
+                alt="Image of an aged piece of paper with cursive writing onit"
+                className="duration-500"
+              ></Image>
           </div>
           <div className="relative lg:flex hidden shrink-0 m-4 duration-500
                           xl:h-[500px] xl:w-[500px]
