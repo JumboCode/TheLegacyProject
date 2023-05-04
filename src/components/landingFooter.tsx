@@ -18,12 +18,12 @@ const landingFooter = () => {
         <br></br>
         <div className="flex flex-col gap-3">
           <a href="mailto:arielle.galinsky@tufts.edu">
-            <button className="bg-light-sage py-1.5 px-5 text-sm rounded-lg">
+            <button className="bg-light-sage py-1.5 px-5 text-sm rounded-lg duration-150 hover:-translate-y-0.5">
               ✉️  Email
             </button>
           </a>
           <a href="https://www.instagram.com/tuftslegacyproject/">
-            <button className="bg-light-sage py-1.5 px-5 text-sm rounded-lg">
+            <button className="bg-light-sage py-1.5 px-5 text-sm rounded-lg duration-150 hover:-translate-y-0.5">
               🌿 Instagram
             </button>
           </a>
