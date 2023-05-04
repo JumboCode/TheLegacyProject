@@ -1,4 +1,6 @@
 import { File } from "@prisma/client";
+import Link from "next/link";
+import { useState } from "react";
 
 export interface ITagProps {
   name: string;
@@ -17,10 +19,18 @@ const Tag = ({ name, color }: ITagProps) => {
 
 export type IFileCardProps = Pick<
   File,
-  "name" | "lastModified" | "url" | "Tags"
+  "id" | "name" | "lastModified" | "url" | "Tags"
 >;
 
-const FileCard = ({ name, lastModified, url, Tags }: IFileCardProps) => {
+const FileCard = ({
+  id,
+  name,
+  lastModified: intialLastModified,
+  url,
+  Tags,
+}: IFileCardProps) => {
+  const [lastModified, setLastModified] = useState(intialLastModified);
+
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "numeric",
     hour12: true,
@@ -65,7 +75,24 @@ const FileCard = ({ name, lastModified, url, Tags }: IFileCardProps) => {
     <div className="flex aspect-square flex-col justify-between rounded-lg border bg-off-white p-5 text-left font-sans drop-shadow-md hover:cursor-pointer hover:bg-taupe-hover">
       <div className="flex flex-col">
         <span className="mb-1 text-lg font-semibold"> {name} </span>
-        <a href={url} rel="noopener noreferrer" target="_blank">
+        <a
+          href={url}
+          rel="noopener noreferrer"
+          target="_blank"
+          onClick={async () => {
+            const date = new Date();
+            setLastModified(date);
+            const res = await fetch(`/api/file/${id}/update`, {
+              method: "POST",
+            });
+            const newFile = await res.json();
+            if (newFile.error) {
+              console.error(newFile.error);
+              return;
+            }
+            setLastModified(new Date(newFile.lastModified));
+          }}
+        >
           <span className="mb-1 w-[20px] text-slate-400 hover:text-purple-800">
             Link
           </span>

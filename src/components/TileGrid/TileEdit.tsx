@@ -19,60 +19,43 @@ const TileEditBreadcrumbs = () => (
 interface ITileEditMenu {
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  handleEdit?: React.MouseEventHandler;
-  handleDelete?: React.MouseEventHandler;
+  options: { name: string; onClick: React.MouseEventHandler }[];
 }
 
-function TileEditMenu({
-  visible,
-  setVisible,
-  handleEdit,
-  handleDelete,
-}: ITileEditMenu) {
+function TileEditMenu({ visible, setVisible, options }: ITileEditMenu) {
   return (
     <div
       className={cn(
         visible ? "flex" : "hidden",
-        "absolute  flex-col rounded bg-white drop-shadow-md"
+        "absolute right-0 z-10 flex-col rounded bg-white drop-shadow-md"
       )}
     >
       <form method="dialog">
-        {handleEdit ? (
+        {options.map((option) => (
           <button
-            className=" border-b-[1px] border-b-gray-100 p-2"
-            onClick={(e) => {
-              handleEdit(e);
-              setVisible(false);
-            }}
-          >
-            Edit
-          </button>
-        ) : null}
-        {handleDelete ? (
-          <button
+            key={option.name}
             className="p-2"
             onClick={(e) => {
-              handleDelete(e);
+              option.onClick(e);
               setVisible(false);
             }}
           >
-            Delete
+            {option.name}
           </button>
-        ) : null}
+        ))}
       </form>
     </div>
   );
 }
 
 export interface TileEditProps {
-  handleEdit?: React.MouseEventHandler;
-  handleDelete?: React.MouseEventHandler;
+  options: { name: string; onClick: React.MouseEventHandler }[];
 }
 
-export function TileEdit({ handleEdit, handleDelete }: TileEditProps) {
+export function TileEdit({ options }: TileEditProps) {
   const [visible, setVisible] = useState(false);
 
-  return (
+  return options.length > 0 ? (
     <div
       className="relative"
       onBlur={(e) => {
@@ -89,9 +72,8 @@ export function TileEdit({ handleEdit, handleDelete }: TileEditProps) {
       <TileEditMenu
         visible={visible}
         setVisible={setVisible}
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
+        options={options}
       />
     </div>
-  );
+  ) : null;
 }
