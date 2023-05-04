@@ -16,11 +16,20 @@ const landingFooter = () => {
           stories of our elders</p>
         <br></br>
         <br></br>
-        <a href="https://www.instagram.com/tuftslegacyproject/">
-          <button className="bg-light-sage py-1.5 px-5 text-sm rounded-[20px]">
-            🌿Instagram
-          </button>
-        </a>
+        <div className="flex flex-col gap-3">
+          <a href="mailto:arielle.galinsky@tufts.edu">
+            <button className="bg-light-sage py-1.5 px-5 text-sm rounded-lg">
+              ✉️  Email
+            </button>
+          </a>
+          <a href="https://www.instagram.com/tuftslegacyproject/">
+            <button className="bg-light-sage py-1.5 px-5 text-sm rounded-lg">
+              🌿 Instagram
+            </button>
+          </a>
+          
+        </div>
+        
       </div>
     </>
   );
