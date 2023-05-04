@@ -42,15 +42,15 @@ const Home: NextPage = () => {
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-items-center p-4">
         <div className="h-full flex flex-row items-center justify-items-center gap-5">
-          <div className=""> 
+          <div className="p-10"> 
             {/* holds paragraph and email signup */}
             <h1 className="my-8 font-serif font-bold leading-tight text-dark-plum duration-500  
                            xl:text-6xl 
                            lg:text-left lg:text-5xl
-                           sm:text-center md:text-6xl sm:text-5xl">
+                           text-center sm:text-5xl text-4xl">
               Everyone has a story that's worth preserving.
             </h1>
-            <p className="my-8 text-2xl font-serif leading-[32px] text-[#515151] duration-500">
+            <p className="my-8 text-xl sm:text-2xl font-serif leading-tight sm:leading-[32px] text-[#515151] duration-500 text-center lg:text-left ">
               The Legacy Project tells the stories of our older generations to
               ensure that their legacies are preserved for years to come.
             </p>
