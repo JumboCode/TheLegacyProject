@@ -42,25 +42,23 @@ const Home: NextPage = () => {
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-items-center p-4">
         <div className="h-full flex flex-row items-center justify-items-center gap-5">
-          {" "}
           <div className=""> 
             {/* holds paragraph and email signup */}
-            {" "}
-            <h1 className="my-4 font-serif font-bold leading-tight text-dark-plum duration-500  
-                           xl:bg-indigo-100 xl:text-6xl 
-                           lg:text-left lg:text-5xl lg:bg-indigo-300
-                           md:bg-indigo-500 md:text-center md:text-6xl">
+            <h1 className="my-8 font-serif font-bold leading-tight text-dark-plum duration-500  
+                           xl:text-6xl 
+                           lg:text-left lg:text-5xl
+                           sm:text-center md:text-6xl sm:text-5xl">
               Everyone has a story that's worth preserving.
             </h1>
-            <p className="my-4 text-2xl leading-[32px] text-[#515151] duration-500">
-              The Legacy Project documents the stories of our older generations to
+            <p className="my-8 text-2xl font-serif leading-[32px] text-[#515151] duration-500">
+              The Legacy Project tells the stories of our older generations to
               ensure that their legacies are preserved for years to come.
             </p>
             <EmailSignupBox />
           </div>
           <div className="relative lg:flex hidden shrink-0 m-4 duration-500
-                          xl:h-[500px] xl:w-[500px] xl:bg-indigo-100
-                          lg:w-[350px] lg:h-[350px] lg:bg-indigo-300">
+                          xl:h-[500px] xl:w-[500px]
+                          lg:w-[350px] lg:h-[350px]">
 
               <Image
                 src="/home/accent.png"
@@ -73,7 +71,7 @@ const Home: NextPage = () => {
              {/* holds photo and dried flower accents */}
           </div>
         </div>
-        <div className="w-screen">
+        <div className="w-full">
           <PhotoCarousel show={4} />
         </div>
         <LandingFooter />

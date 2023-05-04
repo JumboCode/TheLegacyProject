@@ -18,7 +18,7 @@ module.exports = {
       'teal': '#22555A',
       'off-white': '#F5F5F5',
       'taupe': '#F5F0EA',
-      'taupe-hover': '#E9DED1',
+      'nav-taupe': '#ECE6DE',
       'dark-green': '#22555A',
       'dark-gray': '#515151',
       'dark-plum': '#000022',
