@@ -32,7 +32,7 @@ module.exports = {
     
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
-      serif: ['Merriweather', 'serif'],
+      serif: ['Playfair Display', 'serif'],
     },
   },
   plugins: [],
