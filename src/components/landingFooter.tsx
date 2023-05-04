@@ -10,7 +10,8 @@ const landingFooter = () => {
           The Legacy Project. We&apos;re here.
         </p>
         <br></br>
-        <p className="font-normal text-lg font-serif leading-[22px] opacity-80">We believe that the experiences and wisdom of our elders are valuable
+        <p className="font-normal text-lg font-serif opacity-80">
+          We believe that the experiences and wisdom of our elders are valuable
           treasures that should be passed down to future generations. Join us in
           our effort to honor the past and shape the future by preserving the 
           stories of our elders</p>
@@ -18,12 +19,12 @@ const landingFooter = () => {
         <br></br>
         <div className="flex flex-col gap-3">
           <a href="mailto:arielle.galinsky@tufts.edu">
-            <button className="bg-light-sage py-1.5 px-5 text-sm rounded-lg duration-150 hover:-translate-y-0.5">
+            <button className="bg-light-sage py-1.5 px-5 text-md rounded-lg duration-150 hover:-translate-y-0.5">
               ✉️  Email
             </button>
           </a>
           <a href="https://www.instagram.com/tuftslegacyproject/">
-            <button className="bg-light-sage py-1.5 px-5 text-sm rounded-lg duration-150 hover:-translate-y-0.5">
+            <button className="bg-light-sage py-1.5 px-5 text-md rounded-lg duration-150 hover:-translate-y-0.5">
               🌿 Instagram
             </button>
           </a>

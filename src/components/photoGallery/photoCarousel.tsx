@@ -57,14 +57,14 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full mb-[40px] ">
       {/* gallery title and description */}
-      <div className="flex flex-row h-full mx-auto mt-[50px] mb-[40px] justify-between lg:mt-[101px] lg:mb-0">
+      <div className="flex flex-row h-full mx-auto mt-[50px] justify-between lg:mt-[101px]">
         <div className="flex flex-col h-full gap-[24px] mb-[40px]">
           <span className="xl:text-6xl sm:text-5xl sm:text-center lg:text-left font-serif font-semibold text-black duration-500">
             Gallery
           </span>
-          <span className="w-full sm:text-xl lg:text-2xl font-medium font-serif leading-[160%] text-[#515151]">
+          <span className="w-full sm:text-lg lg:text-xl font-medium font-serif sm:leading-[32px] text-[#515151]">
             The Legacy Project is a Tufts organization dedicated to documenting and preserving stories of the elder generation. 
             Students create meaningful intergenerational connections through weekly visits to Medford Rehabilitation center, 
             forming one to one connection with residents, sharing lived experiences, and documenting their stories. These
@@ -90,7 +90,7 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
         </svg>
 
         <div className="relative flex flex-row w-full space-x-4 justify-between duration-500 \
-                        overflow-hidden xl:h-[300px] sm:bg-taupe lg:bg-indigo-100 lg:h-[270px] md:h-[240px] sm:h-[210px]">
+                        overflow-hidden xl:h-[300px] lg:h-[270px] md:h-[240px] sm:h-[210px]">
           {photos.map(
             (photo, index) =>
               index < show && (
