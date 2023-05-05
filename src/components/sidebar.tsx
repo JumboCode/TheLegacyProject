@@ -6,7 +6,7 @@ import SignIn from "./SignIn";
 
 const Sidebar = () => {
   return (
-    <div className="w-7/8 sticky top-0 flex h-screen flex-col items-center justify-between bg-taupe px-6 py-8 shadow-lg drop-shadow-lg">
+    <div className="w-7/8 sticky top-0 flex h-screen flex-col items-center justify-between bg-nav-taupe px-6 py-8 shadow-lg drop-shadow-lg">
       <div className="w-full items-center p-2">
         <div className="mb-10">
           <h1 className="text-left font-serif text-3xl">The Legacy Project</h1>

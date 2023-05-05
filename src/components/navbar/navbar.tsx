@@ -29,7 +29,7 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
   };
 
   return (
-    <nav className="top-0 z-50 flex flex-col bg-taupe shadow-md lg:sticky">
+    <nav className="top-0 z-50 flex flex-col bg-nav-taupe shadow-md lg:sticky">
       
 {/*       <div className={ cn(dropdownVisible ? "w-screen" : "w-11/12",
             "relative m-auto flex min-h-[5rem] items-center justify-between")}> */}
@@ -73,7 +73,7 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
             react and tailwind state here */}
         <div
           className={ cn(dropdownVisible ? "flex" : "hidden",
-            "absolute top-full shadow-drop-inner shadow-md pr-8 w-screen flex-col items-center justify-center space-y-4 bg-taupe py-4 lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none"
+            "absolute top-full shadow-drop-inner shadow-md pr-8 w-screen flex-col items-center justify-center space-y-4 bg-nav-taupe py-4 lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none"
           )}
         >
           {children}

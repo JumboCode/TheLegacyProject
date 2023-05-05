@@ -81,23 +81,19 @@ const Home: NextPage<IAdminProps> = ({
   }, [deactivated, pending, refreshData, selectedTab, seniors, students]);
 
   return (
-    <div className="h-max w-full bg-taupe">
+    <div className="h-max w-full">
       <AdminPhotoHeader name={me.name} image={me.image} email={me.email} />
-      {/* TODO: this horizontal bar is not responsive :( */}
       <div className="resize-y">
-        <div className="pl-9">
-          <hr />
-        </div>
-        <div className="flex w-full bg-white pl-9">
+        <div className="flex w-full bg-white pl-9 h-[50px]">
           {tabs.map((tab) => (
             <button
               disabled={tab === "Pending" && pending.length === 0}
               className={cn(
-                tab === selectedTab ? "bg-neutral-100" : null,
+                tab === selectedTab ? "border-b-4 border-dark-green" : null,
                 tab === "Pending" && pending.length === 0
                   ? "cursor-not-allowed opacity-50"
                   : null,
-                "flex flex-row justify-center gap-1 p-4 py-2"
+                "flex flex-row text-xl justify-center gap-1 p-3 py-3 hover:bg-neutral-100"
               )}
               key={tab}
               onClick={() => setSelectedTab(tab)}
@@ -110,10 +106,7 @@ const Home: NextPage<IAdminProps> = ({
               ) : null}
             </button>
           ))}
-        </div>
-        <div className="pl-9 shadow-sm">
-          <hr />
-        </div>
+      </div>
       </div>
       {body}
     </div>

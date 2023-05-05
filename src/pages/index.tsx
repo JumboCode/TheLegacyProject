@@ -1,9 +1,36 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { EmailSignupBox } from "@components/emailSignup";
 import { PhotoCarousel } from "@components/photoGallery";
 import LandingFooter from "@components/landingFooter";
 import Image from "next/image";
+
+function handleSubmit(event) {
+  alert("Confirm email: " + event.target.email.value);
+  event.target.email.value = "";
+  event.preventDefault();
+}
+
+const EmailSignupBox = () => {
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="flew-row flex content-center gap-3"
+    >
+      <input
+        type="email"
+        id="email"
+        className="w-3/4 rounded-lg border border-gray-300 bg-off-white p-2.5 text-lg text-dark-gray focus:border-blue-500 focus:ring-blue-500"
+        placeholder="john.doe@company.com"
+        required
+      />
+      <input
+        type="submit"
+        value="Join E-List"
+        className="text-lg w-1/4 rounded-lg bg-dark-green py-1.5 px-4 font-sans text-white duration-150 hover:-translate-y-0.5"
+      ></input>
+    </form>
+  );
+};
 
 const Home: NextPage = () => {
   return (
@@ -14,64 +41,64 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-items-center p-4">
-        <div className="mx-5 flex flex-row items-center justify-items-center gap-5">
-          {" "}
-          {/*holds left and right*/}
-          <div className="">
-            {" "}
-            {/*left: email signup*/}
-            <h1 className="my-4 font-serif text-5xl font-bold leading-tight text-dark-plum duration-500 md:text-[4rem]">
-              Everyone has a story worth preserving
+        <div className="h-full relative flex flex-row items-center justify-items-center gap-5">
+          <div className="p-10 z-10"> 
+            {/* holds paragraph and email signup */}
+            <h1 className="my-8 font-serif font-bold leading-tight text-dark-plum duration-500  
+                           xl:text-6xl 
+                           lg:text-left lg:text-5xl
+                           text-center sm:text-5xl text-4xl">
+              Everyone has a story that's worth preserving.
             </h1>
-            <p className="my-4 text-xl leading-[32px] text-[#515151] duration-500">
-              Legacy Project documents the stories of the elder generation to
+            <p className="my-8 text-xl sm:text-2xl font-serif leading-tight sm:leading-[32px] text-[#515151] duration-500 text-center lg:text-left ">
+              The Legacy Project tells the stories of our older generations to
               ensure that their legacies are preserved for years to come.
             </p>
             <EmailSignupBox />
           </div>
-          <div className="relative hidden h-[600px] w-[600px] shrink-0 items-center justify-center lg:flex">
-            {" "}
-            {/*right: photo*/}
-            <div className="overflow-hidden rounded-full">
-              <Image
-                src="/home/homepage-circlehq.jpeg"
-                alt="A circular photo of younger woman helping a senior citizen"
-                height={450}
-                width={450}
-                objectFit="cover"
-                className="absolute z-10 duration-500"
-              ></Image>
-            </div>
-            <div className="absolute top-0 -left-24">
+          <div className="absolute lg:hidden top-10 -left-4">
               <Image
                 src="/home/pinkflower.png"
-                height={323}
-                width={323}
+                height={160}
+                width={160}
                 alt="Image of a branch with small dried pink flowers with a transparent background"
                 className="absolute z-0 duration-500"
               ></Image>
-            </div>
-            <div className="absolute -bottom-10 -right-6 z-20">
-              <Image
-                src="/home/yellowflower.png"
-                height={246}
-                width={246}
-                alt="Image of a single yellow-orange dried flower with a transparent background"
-                className="duration-500"
-              ></Image>
-            </div>
-            <div className="absolute -top-20 -right-8">
+          </div>
+          <div className="absolute lg:hidden -bottom-4 -right-4 z-0">
+            <Image
+              src="/home/yellowflower.png"
+              height={146}
+              width={146}
+              alt="Image of a single yellow-orange dried flower with transparent background"
+              className="duration-500"
+          ></Image>
+          </div>
+          <div className="absolute lg:hidden -top-8 -right-4">
               <Image
                 src="/home/paper.png"
-                height={368}
-                width={274}
-                alt="Image of an aged piece of paper with cursive writing on it"
+                height={184}
+                width={137}
+                alt="Image of an aged piece of paper with cursive writing onit"
                 className="duration-500"
               ></Image>
-            </div>
+          </div>
+          <div className="relative lg:flex hidden shrink-0 m-4 duration-500
+                          xl:h-[500px] xl:w-[500px]
+                          lg:w-[350px] lg:h-[350px]">
+
+              <Image
+                src="/home/accent.png"
+                alt="A circular photo of a young woman working with an older woman, with dried
+                     flower accents around it."
+                layout="fill"
+                objectFit="cover"
+                className="">
+              </Image>
+             {/* holds photo and dried flower accents */}
           </div>
         </div>
-        <div className="w-screen">
+        <div className="w-full">
           <PhotoCarousel show={4} />
         </div>
         <LandingFooter />

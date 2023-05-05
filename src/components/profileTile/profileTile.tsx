@@ -73,20 +73,6 @@ const SeniorGrid = () => {
 
 export default SeniorGrid;
 
-// export const getServerSideProps = async (
-//   context: GetServerSidePropsContext
-// ) => {
-//   const session = await getServerAuthSession(context);
-
-//   if (!session || !session.user) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
-
 //   if (!prisma) {
 //     return {
 //       redirect: {
