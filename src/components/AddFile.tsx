@@ -10,7 +10,7 @@ type AddFileProps = {
 
 const Tag = ({ text }: { text: string }) => {
   return (
-    <div className="flex flex-row rounded-xl bg-gray-300 py-1 px-3">
+    <div className="my-0.5 mx-0.5 flex flex-row rounded-xl bg-gray-300 py-1 px-3">
       <small>{text}</small>
     </div>
   );
@@ -27,7 +27,7 @@ const TagSelector = ({
     "tag 1",
     "tag 2",
     "tag 3",
-    "somehting else",
+    "something else",
     "another tag",
     "last tag",
   ];
@@ -48,7 +48,7 @@ const TagSelector = ({
         }}
         selectedItems={selectedTags}
       />
-      <div className="flex flex-row p-3">
+      <div className="flex flex-row flex-wrap p-3">
         {selectedTags.map((tag: string, i) => (
           <Tag key={i} text={tag} />
         ))}
@@ -99,7 +99,7 @@ const AddFile = ({
       {showAddFilePopUp && (
         <div className="absolute z-50 flex h-full w-full flex-row items-center justify-center backdrop-blur-[2px] backdrop-brightness-75">
           {!confirm && !error ? (
-            <div className="flex h-[700px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
+            <div className="flex h-[700px] min-w-[400px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
               <div>
                 <span className="my-5 h-[34px] w-full font-sans text-sm leading-[22px] text-dark-gray">
                   File name
