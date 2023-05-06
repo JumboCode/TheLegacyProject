@@ -38,7 +38,7 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
   useEffect(() => {
     setPhotos([
       { filePath: "/gallery/Tufts Legacy-5.jpg", caption: "picture1" },
-      { filePath: "/gallery/Tufts Legacy-2.jpg", caption: "picture2" },
+      { filePath: "/gallery/Tufts Legacy-7.jpg", caption: "picture2" },
       { filePath: "/gallery/Tufts Legacy-270.jpg", caption: "picture3" },
       { filePath: "/gallery/Tufts Legacy-264.jpg", caption: "picture4" },
       { filePath: "/gallery/Tufts Legacy-265.jpg", caption: "picture5" },
