@@ -102,7 +102,7 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
                 <div
                   key={index}
                   className={
-                    "absolute ml-[32px] aspect-square h-full transition-all md:ml-[45px]"
+                    "absolute ml-0 aspect-square h-full transition-all lg:ml-[45px]"
                   }
                   style={{
                     left: (((index - activeIndex + show) % show) - 2) * 332,
