@@ -37,14 +37,14 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
 
   useEffect(() => {
     setPhotos([
-      { filePath: "/gallery/p1.png", caption: "picture1" },
-      { filePath: "/gallery/p2.png", caption: "picture2" },
-      { filePath: "/gallery/p3.png", caption: "picture3" },
-      { filePath: "/gallery/p4.png", caption: "picture4" },
-      { filePath: "/gallery/p5.png", caption: "picture5" },
-      { filePath: "/gallery/p6.png", caption: "picture6" },
-      { filePath: "/gallery/p3.png", caption: "picture3" },
-      { filePath: "/gallery/p4.png", caption: "picture4" },
+      { filePath: "/gallery/Tufts Legacy-5.jpg", caption: "picture1" },
+      { filePath: "/gallery/Tufts Legacy-2.jpg", caption: "picture2" },
+      { filePath: "/gallery/Tufts Legacy-270.jpg", caption: "picture3" },
+      { filePath: "/gallery/Tufts Legacy-264.jpg", caption: "picture4" },
+      { filePath: "/gallery/Tufts Legacy-265.jpg", caption: "picture5" },
+      { filePath: "/gallery/Tufts Legacy-261.jpg", caption: "picture6" },
+      { filePath: "/gallery/Tufts Legacy-255.jpg", caption: "picture3" },
+      { filePath: "/gallery/Tufts Legacy-258.jpg", caption: "picture4" },
     ]);
   }, []);
 
@@ -102,7 +102,7 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
                 <div
                   key={index}
                   className={
-                    "absolute ml-0 aspect-square h-full transition-all lg:ml-[45px]"
+                    "absolute ml-0 aspect-square h-full select-none transition-all lg:ml-[45px]"
                   }
                   style={{
                     left: (((index - activeIndex + show) % show) - 2) * 332,
