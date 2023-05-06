@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
       authorization: {
         params: {
-          prompt: "login",
+          prompt: "select_account",
           access_type: "offline",
           response_type: "code",
           scope:
