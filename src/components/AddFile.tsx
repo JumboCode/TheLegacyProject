@@ -10,7 +10,7 @@ type AddFileProps = {
 
 const Tag = ({ text }: { text: string }) => {
   return (
-    <div className="my-0.5 mx-0.5 flex flex-row rounded-xl bg-gray-300 py-1 px-3 text-base">
+    <div className="my-0.5 mx-0.5 flex flex-row rounded-lg bg-gray-300 py-1 px-3 text-base">
       <span>{text}</span>
     </div>
   );
