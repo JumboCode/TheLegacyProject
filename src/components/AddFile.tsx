@@ -24,12 +24,15 @@ const TagSelector = ({
   setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
   const tagList = [
-    "tag 1",
-    "tag 2",
-    "tag 3",
-    "something else",
-    "another tag",
-    "last tag",
+    "Getting to Know You",
+    "Early Childhood",
+    "Adolescence",
+    "Early Twenties and College",
+    "Career and Adulthood",
+    "Marriage",
+    "Parenthood and Family",
+    "Elder Years and Retirement",
+    "Beliefs, Values, and the Future",
   ];
 
   return (
