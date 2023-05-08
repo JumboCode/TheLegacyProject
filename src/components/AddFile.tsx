@@ -158,8 +158,8 @@ const AddFile = ({
                   </div>
                 </div>
               ) : (
-                <div className="flex h-[250px] max-w-[35%] flex-col justify-between text-base rounded-lg bg-white p-10">
-                  <span>Error in adding file...</span>
+                <div className="flex h-[250px] max-w-[35%] flex-col justify-between text-base rounded-lg bg-white p-10 text-center text-dark-gray">
+                  <span>There was an error adding your file. Please reach out to your club administrator for help.</span>
                   <div className="flex w-full flex-row justify-center">
                     <button
                       className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-base font-normal text-[#515151] hover:bg-gray-200"
