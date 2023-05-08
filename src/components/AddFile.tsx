@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import FilterDropdown from "@components/filterDropdown";
+import Tag from "@components/Tag";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -8,13 +9,15 @@ type AddFileProps = {
   folder: string;
 };
 
-const Tag = ({ text }: { text: string }) => {
-  return (
-    <div className="my-0.5 mx-0.5 flex flex-row rounded-lg bg-gray-300 py-1 px-3 text-base">
-      <span>{text}</span>
-    </div>
-  );
-};
+
+
+// const Tag = ({ text }: { text: string }) => {
+//   return (
+//     <div className="my-0.5 mx-0.5 flex flex-row rounded-lg bg-gray-300 py-1 px-3 text-base">
+//       <span>{text}</span>
+//     </div>
+//   );
+// };
 
 const TagSelector = ({
   selectedTags,
@@ -35,6 +38,18 @@ const TagSelector = ({
     "Beliefs, Values, and the Future",
   ];
 
+  const tagColors: string[] = [
+    "tag-rust",
+    "tag-tan",
+    "tag-gold",
+    "tag-moss",
+    "tag-teal",
+    "tag-blue",
+    "tag-violet",
+    "tag-rose",
+    "tag-steel",
+  ];
+
   return (
     <div>
       <span className="h-[34px] w-full font-sans text-base leading-[22px] text-dark-gray">
@@ -53,7 +68,11 @@ const TagSelector = ({
       />
       <div className="flex flex-row flex-wrap p-3">
         {selectedTags.map((tag: string, i) => (
-          <Tag key={i} text={tag} />
+          <div key={i}>
+            {tagColors[i]}
+            <Tag name={tag} color={'bg-' + tagColors[i]}/>
+          </div>
+          
         ))}
       </div>
     </div>
