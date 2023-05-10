@@ -18,16 +18,18 @@ const AdminPhotoHeader = ({ name, image, email }: IPhotoHeaderProps) => {
             src={"/student_home/header3.jpg"}
             alt={ "Photo of flowers on an old book with a faded photo of two people"}
             width={2000}
-            height={200}
+            height={150}
           />
-          <div className="absolute flex right-0 bottom-0 w-[100%] h-[90px] items-center bg-white bg-opacity-80 p-3 pl-9 backdrop-blur-sm">
-            <Image
-              className="rounded-xl"
-              src={image ?? "/student_home/profile_photo_pic.jpeg"}
-              alt={"Profile Photo"}
-              width={58.5}
-              height={58.5}
-            />
+          <div className="flex absolute right-0 bottom-0 w-[100%] h-[75px] items-center bg-white bg-opacity-80 p-3 pl-9 backdrop-blur-sm">
+            <div className="h-[58.5px] w-[58.5px]">
+              <Image
+                className="rounded-xl"
+                src={image ?? "/student_home/profile_photo_pic.jpeg"}
+                alt={"Profile Photo"}
+                width={58.5}
+                height={58.5}
+              />
+            </div>
             <div className="flex flex-col pl-3 text-neutral-600">
               <h5 className="text-lg font-bold">{name ?? "Admin"}</h5>
               <p className="text-md font-light text-neutral-400">
