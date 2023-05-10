@@ -121,7 +121,7 @@ const AddFile = ({
       {showAddFilePopUp && (
         <div className="border-2 border-red-500 absolute z-50 flex h-full md:w-full w-screen flex-row items-center justify-center backdrop-blur-[2px] backdrop-brightness-75">
           {!confirm && !error ? (
-            <div className="flex h-[700px] min-w-[400px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
+            <div className="flex min-h-[650px] min-w-[400px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
               <div>
                 <span className="my-5 h-[34px] w-full font-sans text-base leading-[22px] text-dark-gray">
                   File name
