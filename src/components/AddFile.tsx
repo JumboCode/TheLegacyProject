@@ -119,7 +119,7 @@ const AddFile = ({
   return (
     <>
       {showAddFilePopUp && (
-        <div className="absolute z-50 flex h-full w-full flex-row items-center justify-center backdrop-blur-[2px] backdrop-brightness-75">
+        <div className="border-2 border-red-500 absolute z-50 flex h-full md:w-full w-screen flex-row items-center justify-center backdrop-blur-[2px] backdrop-brightness-75">
           {!confirm && !error ? (
             <div className="flex h-[700px] min-w-[400px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
               <div>
