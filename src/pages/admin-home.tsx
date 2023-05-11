@@ -81,7 +81,8 @@ const Home: NextPage<IAdminProps> = ({
   }, [deactivated, pending, refreshData, selectedTab, seniors, students]);
 
   return (
-    <div className="h-max w-full">
+    
+    <div className="h-max w-full flex flex-col">
       <PhotoHeader name={me.name} image={me.image} email={me.email} />
       <div className="resize-y">
         <div className="flex w-full bg-white pl-9 h-[50px]">
