@@ -1,5 +1,5 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
-import AdminPhotoHeader from "@components/adminPhotoHeader";
+import PhotoHeader from "@components/photoHeader";
 
 import Image from "next/image";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
@@ -82,7 +82,7 @@ const Home: NextPage<IAdminProps> = ({
 
   return (
     <div className="h-max w-full">
-      <AdminPhotoHeader name={me.name} image={me.image} email={me.email} />
+      <PhotoHeader name={me.name} image={me.image} email={me.email} />
       <div className="resize-y">
         <div className="flex w-full bg-white pl-9 h-[50px]">
           {tabs.map((tab) => (
