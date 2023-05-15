@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import FilterDropdown from "@components/filterDropdown";
-import Tag from "@components/Tag";
+import Tag, { tagColors, tagList } from "@components/Tag";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -16,30 +16,6 @@ const TagSelector = ({
   selectedTags: string[];
   setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
-  const tagList = [
-    "Getting to Know You",
-    "Early Childhood",
-    "Adolescence",
-    "Early Twenties and College",
-    "Career and Adulthood",
-    "Marriage",
-    "Parenthood and Family",
-    "Elder Years and Retirement",
-    "Beliefs, Values, and the Future",
-  ];
-
-  const tagColors: string[] = [
-    "bg-tag-rust",
-    "bg-tag-tan",
-    "bg-tag-gold",
-    "bg-tag-moss",
-    "bg-tag-teal",
-    "bg-tag-blue",
-    "bg-tag-violet",
-    "bg-tag-rose",
-    "bg-tag-steel",
-  ];
-
   return (
     <div>
       <span className="h-[34px] w-full font-sans text-base leading-[22px] text-dark-gray">
@@ -60,7 +36,7 @@ const TagSelector = ({
         {selectedTags.map((tag: string, i: number) => (
           <div key={i}>
             {/* <Tag name={tag} color={"bg-" + tagColors[i % tagColors.length]} /> */}
-            <Tag name={tag} color={`${tagColors[i]}`} />
+            <Tag name={tag} color={tagColors.get(tag)} />
           </div>
         ))}
       </div>
