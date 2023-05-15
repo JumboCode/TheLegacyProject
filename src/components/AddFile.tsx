@@ -9,16 +9,6 @@ type AddFileProps = {
   folder: string;
 };
 
-
-
-// const Tag = ({ text }: { text: string }) => {
-//   return (
-//     <div className="my-0.5 mx-0.5 flex flex-row rounded-lg bg-gray-300 py-1 px-3 text-base">
-//       <span>{text}</span>
-//     </div>
-//   );
-// };
-
 const TagSelector = ({
   selectedTags,
   setSelectedTags,
@@ -39,15 +29,15 @@ const TagSelector = ({
   ];
 
   const tagColors: string[] = [
-    "tag-rust",
-    "tag-tan",
-    "tag-gold",
-    "tag-moss",
-    "tag-teal",
-    "tag-blue",
-    "tag-violet",
-    "tag-rose",
-    "tag-steel",
+    "bg-tag-rust",
+    "bg-tag-tan",
+    "bg-tag-gold",
+    "bg-tag-moss",
+    "bg-tag-teal",
+    "bg-tag-blue",
+    "bg-tag-violet",
+    "bg-tag-rose",
+    "bg-tag-steel",
   ];
 
   return (
@@ -67,12 +57,11 @@ const TagSelector = ({
         selectedItems={selectedTags}
       />
       <div className="flex flex-row flex-wrap p-3">
-        {selectedTags.map((tag: string, i) => (
+        {selectedTags.map((tag: string, i: number) => (
           <div key={i}>
-            {tagColors[i]}
-            <Tag name={tag} color={'bg-' + tagColors[i]}/>
+            {/* <Tag name={tag} color={"bg-" + tagColors[i % tagColors.length]} /> */}
+            <Tag name={tag} color={`${tagColors[i]}`} />
           </div>
-          
         ))}
       </div>
     </div>
@@ -119,7 +108,7 @@ const AddFile = ({
   return (
     <>
       {showAddFilePopUp && (
-        <div className="border-2 border-red-500 absolute z-50 flex h-full md:w-full w-screen flex-row items-center justify-center backdrop-blur-[2px] backdrop-brightness-75">
+        <div className="absolute z-50 flex h-full w-screen flex-row items-center justify-center border-2 border-red-500 backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
           {!confirm && !error ? (
             <div className="flex min-h-[650px] min-w-[400px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
               <div>
@@ -180,8 +169,11 @@ const AddFile = ({
                   </div>
                 </div>
               ) : (
-                <div className="flex h-[250px] max-w-[35%] flex-col justify-between text-base rounded-lg bg-white p-10 text-center text-dark-gray">
-                  <span>There was an error adding your file. Please reach out to your club administrator for help.</span>
+                <div className="flex h-[250px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10 text-center text-base text-dark-gray">
+                  <span>
+                    There was an error adding your file. Please reach out to
+                    your club administrator for help.
+                  </span>
                   <div className="flex w-full flex-row justify-center">
                     <button
                       className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-base font-normal text-[#515151] hover:bg-gray-200"
