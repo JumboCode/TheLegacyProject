@@ -36,7 +36,7 @@ const PhotoHeader = ({ name, image, email }: IPhotoHeaderProps) => {
             </div>
             <div className="flex flex-col pl-3 text-neutral-600">
               <h5 className="text-lg font-bold">{name ?? "Admin"}</h5>
-              <p className="text-md font-light text-neutral-400">
+              <p className="text-md font-light text-neutral-500">
                 {email ?? "email@legacy.org"}
               </p>
             </div>
