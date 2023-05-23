@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 type PhotoCardProps = {
-  width: string;
-  height: string;
+  // width: string;
+  // height: string;
   filePath: string;
   caption: string;
 };
-
 
 type PhotoProps = {
   filePath: string;
@@ -20,11 +19,11 @@ type CarouselProps = {
 
 const PhotoCard: React.FunctionComponent<PhotoCardProps> = ({
   filePath,
-  caption
+  caption,
 }: PhotoCardProps) => {
   return (
     <Image
-      className={"rounded-lg object-cover aspect-square h-full w-full"}
+      className={"aspect-square h-full w-full rounded-lg object-cover"}
       src={filePath}
       alt={caption}
       layout="fill"
@@ -37,16 +36,17 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   useEffect(() => {
-      setPhotos([
-        { filePath: "/gallery/p1.png", caption: "picture1" },
-        { filePath: "/gallery/p2.png", caption: "picture2" },
-        { filePath: "/gallery/p3.png", caption: "picture3" },
-        { filePath: "/gallery/p4.png", caption: "picture4" },
-        { filePath: "/gallery/p5.png", caption: "picture5" },
-        { filePath: "/gallery/p6.png", caption: "picture6" },
-      ]);
-    }, 
-    []);
+    setPhotos([
+      { filePath: "/gallery/Tufts Legacy-5.jpg", caption: "picture1" },
+      { filePath: "/gallery/Tufts Legacy-7.jpg", caption: "picture2" },
+      { filePath: "/gallery/Tufts Legacy-270.jpg", caption: "picture3" },
+      { filePath: "/gallery/Tufts Legacy-264.jpg", caption: "picture4" },
+      { filePath: "/gallery/Tufts Legacy-265.jpg", caption: "picture5" },
+      { filePath: "/gallery/Tufts Legacy-261.jpg", caption: "picture6" },
+      { filePath: "/gallery/Tufts Legacy-255.jpg", caption: "picture3" },
+      { filePath: "/gallery/Tufts Legacy-258.jpg", caption: "picture4" },
+    ]);
+  }, []);
 
   const nextIndex = () => {
     setActiveIndex(activeIndex === show - 1 ? 0 : activeIndex + 1);
@@ -57,23 +57,26 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
   };
 
   return (
-    <div className="w-full mb-[40px] ">
+    <div className="mb-[40px] w-full ">
       {/* gallery title and description */}
-      <div className="flex flex-row h-full mx-auto mt-[50px] justify-between lg:mt-[101px]">
-        <div className="flex flex-col h-full gap-[24px] mb-[40px]">
-          <span className="xl:text-6xl sm:text-5xl sm:text-center lg:text-left font-serif font-semibold text-black duration-500">
+      <div className="mx-auto mt-[50px] flex h-full flex-row justify-between lg:mt-[101px]">
+        <div className="mb-[40px] flex h-full flex-col gap-[24px]">
+          <span className="font-serif font-semibold text-black duration-500 sm:text-center sm:text-5xl lg:text-left xl:text-6xl">
             Gallery
           </span>
-          <span className="w-full sm:text-lg lg:text-xl font-medium font-serif sm:leading-[32px] text-[#515151]">
-            The Legacy Project is a Tufts organization dedicated to documenting and preserving stories of the elder generation. 
-            Students create meaningful intergenerational connections through weekly visits to Medford Rehabilitation center, 
-            forming one to one connection with residents, sharing lived experiences, and documenting their stories. These
-            individuals have made a significant impact on our community through their hard work and dedication.
+          <span className="w-full font-serif font-medium text-[#515151] sm:text-lg sm:leading-[32px] lg:text-xl">
+            The Legacy Project is a Tufts organization dedicated to documenting
+            and preserving stories of the elder generation. Students create
+            meaningful intergenerational connections through weekly visits to
+            Medford Rehabilitation center, forming one to one connection with
+            residents, sharing lived experiences, and documenting their stories.
+            These individuals have made a significant impact on our community
+            through their hard work and dedication.
           </span>
         </div>
       </div>
 
-      <div className="relative flex justify-center items-center">
+      <div className="relative flex items-center justify-center">
         <svg
           width="64"
           height="64"
@@ -89,15 +92,21 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
           />
         </svg>
 
-        <div className="relative flex flex-row w-full space-x-4 justify-between duration-500 \
-                        overflow-hidden xl:h-[300px] lg:h-[270px] md:h-[240px] sm:h-[210px]">
+        <div
+          className="\ relative flex h-[300px] w-full flex-row justify-between
+                        overflow-hidden duration-500"
+        >
           {photos.map(
             (photo, index) =>
               index < show && (
                 <div
                   key={index}
-                  className={"absolute h-full aspect-square"} 
-                  style = {{left: ((index - activeIndex + show) % show) * 332}}
+                  className={
+                    "absolute ml-0 aspect-square h-full select-none transition-all lg:ml-[45px]"
+                  }
+                  style={{
+                    left: (((index - activeIndex + show) % show) - 2) * 332,
+                  }}
                 >
                   <PhotoCard
                     filePath={`${photo.filePath}`}
@@ -108,17 +117,17 @@ const PhotoCarousel = ({ show }: CarouselProps) => {
           )}
         </div>
         <svg
-            width="64"
-            height="64"
-            viewBox="0 0 64 64"
-            fill="none"
-            onClick={() => nextIndex()}
-            className="hover:cursor-pointer"
-            xmlns="http://www.w3.org/2000/svg"
+          width="64"
+          height="64"
+          viewBox="0 0 64 64"
+          fill="none"
+          onClick={() => nextIndex()}
+          className="hover:cursor-pointer"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-              d="M22.9067 19.76L35.1201 32L22.9067 44.24L26.6667 48L42.6667 32L26.6667 16L22.9067 19.76Z"
-              fill="#000022"
+            d="M22.9067 19.76L35.1201 32L22.9067 44.24L26.6667 48L42.6667 32L26.6667 16L22.9067 19.76Z"
+            fill="#000022"
           />
         </svg>
       </div>
