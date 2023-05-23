@@ -8,7 +8,7 @@ import { useCallback, useMemo, useState } from "react";
 import { CheckMark } from "@components/Icons";
 import { Cross } from "@components/Icons/Cross";
 import { useRouter } from "next/router";
-import { SeniorTile, StudentTile } from "@components/TileGrid";
+import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
 import SearchBar from "@components/SearchBar";
 import cn from "classnames";
 
@@ -128,11 +128,7 @@ function StudentBody({
   const [filter, setFilter] = useState("");
 
   return (
-    <>
-      <div className="my-6">
-        <SearchBar setFilter={setFilter} />
-      </div>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <TileGrid>
         {students
           .filter(({ name }) => name?.includes(filter))
           .map((student) => (
@@ -146,8 +142,7 @@ function StudentBody({
               />
               </div>
           ))}
-      </div>
-    </>
+    </TileGrid>
   );
 }
 
@@ -161,8 +156,7 @@ function SeniorBody({
   refreshData: () => void;
 }) {
   return (
-    <>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <TileGrid>
         {seniors.map((senior) => (
           <div key={senior.id}>
             <SeniorTile
@@ -173,8 +167,7 @@ function SeniorBody({
             />
           </div>
         ))}
-      </div>
-    </>
+    </TileGrid>
   );
 }
 
