@@ -12,31 +12,29 @@ export interface IPhotoHeaderProps {
 const PhotoHeader = ({ name, image, email }: IPhotoHeaderProps) => {
   return (
     <>
-        <div className="relative flex flex-col">
-          <div className="h-[150px] w-full">
+        <div className="relative flex flex-col sm:h-[140px] md:h-[160px] w-auto m-6">
+          <div className="relative flex h-full w-full">
             <Image
-              className="object-cover"
+              className="object-cover rounded-md"
               src={"/student_home/header3.jpg"}
-              alt={ "Photo of flowers on an old book with a faded photo of two people"}
+              alt={"A black typewriter on a wooden desk with a notebook and old photos next to it."}
               layout="fill"
-              // width={2000}
-              // height={150}
             />
           </div>
           
-          <div className="flex absolute right-0 bottom-0 w-[100%] h-[75px] items-center bg-white bg-opacity-80 p-3 pl-9 backdrop-blur-sm">
-            <div className="h-[58.5px] w-[58.5px]">
+          <div className="absolute flex right-0 bottom-0 w-[100%] h-[50%] items-center bg-off-white bg-opacity-70 backdrop-blur-sm rounded-md \
+                          p-3 pl-8">
+            <div className="relative flex aspect-square h-full w-auto">
               <Image
-                className="rounded-xl"
-                src={image ?? "/student_home/profile_photo_pic.jpeg"}
+                className="rounded-sm"
+                src={image ?? "/student_home/genericprofile.png"}
                 alt={"Profile Photo"}
-                width={58.5}
-                height={58.5}
+                layout="fill"
               />
             </div>
-            <div className="flex flex-col pl-3 text-neutral-600">
-              <h5 className="text-lg font-bold">{name ?? "Admin"}</h5>
-              <p className="text-md font-light text-neutral-500">
+            <div className="flex flex-col pl-4 text-neutral-600">
+              <h5 className="sm:text-md md:text-lg font-bold">{name ?? "Admin"}</h5>
+              <p className="sm:text-sm md:text-md font-medium">
                 {email ?? "email@legacy.org"}
               </p>
             </div>

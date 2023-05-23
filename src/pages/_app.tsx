@@ -23,14 +23,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <SessionProvider session={session}>
         <div className="flex w-screen bg-taupe sm:flex-col md:flex-row">
           <span className="sm:inline md:hidden">
-            {" "}
-            <Navbar />{" "}
+            <Navbar />
           </span>
           <span className="sm:hidden md:inline">
-            {" "}
-            <Sidebar />{" "}
+            <Sidebar />
           </span>
-          <Component {...pageProps} />
+          <div className="w-full"> <Component {...pageProps} /> </div>
         </div>
       </SessionProvider>
     );

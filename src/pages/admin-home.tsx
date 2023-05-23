@@ -82,8 +82,8 @@ const Home: NextPage<IAdminProps> = ({
 
   return (
     
-    <div className="h-max w-full flex flex-col">
-      <PhotoHeader name={me.name} image={me.image} email={me.email} />
+    <div className="flex flex-col justify-center">
+          <PhotoHeader name={me.name} image={me.image} email={me.email} />
       <div className="resize-y">
         <div className="flex w-full bg-white pl-9 h-[50px]">
           {tabs.map((tab) => (
