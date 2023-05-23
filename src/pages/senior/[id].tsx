@@ -66,6 +66,7 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
             />
           </div>
         </div>
+        {/* styling for a TileGrid-like grid */}
         <div className="z-10 mt-7 grid grid-cols-[repeat(auto-fill,_256px)] gap-10 text-center">
           <button
             className="flex aspect-square flex-col items-center justify-center rounded-lg border bg-off-white p-5 text-left font-sans drop-shadow-md hover:cursor-pointer hover:bg-taupe-hover"

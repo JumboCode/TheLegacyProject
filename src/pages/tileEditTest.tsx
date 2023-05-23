@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { TileEdit } from "@components/TileGrid/TileEdit";
+import TileEdit from "@components/TileGrid/TileEdit";
+import SortDropdown from "@components/SortDropdown";
 
 const Home: NextPage = () => {
   return (
@@ -27,4 +28,5 @@ const Home: NextPage = () => {
 
 // Render sidebar instead of top navbar
 Home.displayName = "private";
+
 export default Home;
