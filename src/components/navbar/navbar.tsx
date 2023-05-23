@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+
 import Link from "next/link";
 import { NavbarItem } from "./index";
 import SignIn from "@components/SignIn";
@@ -15,7 +16,6 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     window.onscroll = () => {
-      console.log(window.scrollY);
       if (window.scrollY > 50) {
         setScrolling(true);
       } else {
@@ -30,16 +30,15 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
 
   return (
     <nav className="top-0 z-50 flex flex-col bg-nav-taupe shadow-md lg:sticky">
-      
-{/*       <div className={ cn(dropdownVisible ? "w-screen" : "w-11/12",
+      {/*       <div className={ cn(dropdownVisible ? "w-screen" : "w-11/12",
             "relative m-auto flex min-h-[5rem] items-center justify-between")}> */}
 
-      <div className="relative m-auto w-screen flex min-h-[5rem] items-center justify-between">
+      <div className="relative m-auto flex min-h-[5rem] w-screen items-center justify-between">
         {/* Logo */}
 
-          <div className="mr-6 py-1.5 pl-8 text-3xl font-serif leading-normal text-dark-plum">
-            <Link href="/">The Legacy Project</Link>
-          </div>
+        <div className="mr-6 py-1.5 pl-8 font-serif text-3xl leading-normal text-dark-plum">
+          <Link href="/">The Legacy Project</Link>
+        </div>
 
         {/* Mobile */}
         <button className="flex lg:hidden">
@@ -72,8 +71,9 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
         {/* Using templates is bad practice generally, but we have to mingle
             react and tailwind state here */}
         <div
-          className={ cn(dropdownVisible ? "flex" : "hidden",
-            "absolute top-full shadow-drop-inner shadow-md pr-8 w-screen flex-col items-center justify-center space-y-4 bg-nav-taupe py-4 lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none"
+          className={cn(
+            dropdownVisible ? "flex" : "hidden",
+            "absolute top-full w-screen flex-col items-center justify-center space-y-4 bg-nav-taupe py-4 pr-8 shadow-md lg:static lg:m-0 lg:flex lg:w-auto lg:flex-row lg:space-y-0 lg:border-t-0 lg:py-0 lg:shadow-none"
           )}
         >
           {children}
@@ -85,8 +85,7 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
 
 const Navbar = () => (
   <NavbarWrapper>
-    <NavbarItem label="About" to="/about" />
-    <NavbarItem label="Contact Us" to="/contact" />
+    <NavbarItem label="Contact Us" to="#contact" />
     <SignIn />
   </NavbarWrapper>
 );

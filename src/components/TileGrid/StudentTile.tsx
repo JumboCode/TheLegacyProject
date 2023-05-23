@@ -64,7 +64,7 @@ export function StudentTile({
       <div className="h-20 w-20 overflow-hidden rounded-full">
         <Image
           className="object-scale-down"
-          src={student.image ?? "/images/placeholder.png"}
+          src={student.image ?? "/student_home/genericprofile.png"}
           alt="Placeholder profile image"
           height={80}
           width={80}

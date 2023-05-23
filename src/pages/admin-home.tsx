@@ -31,6 +31,7 @@ const Home: NextPage<IAdminProps> = ({
   const [deactivated, setDeactivated] = useState(initialDeactivated);
   const [seniors, setSeniors] = useState(initialSeniors);
 
+
   const [selectedTab, setSelectedTab] = useState<Tabs>("Students");
 
   const router = useRouter();
@@ -136,13 +137,15 @@ function StudentBody({
         {students
           .filter(({ name }) => name?.includes(filter))
           .map((student) => (
+            <div>
             <StudentTile
               key={student.id}
               student={student}
               setDeactivated={setDeactivated}
               setStudents={setStudents}
               refreshData={refreshData}
-            />
+              />
+              </div>
           ))}
       </TileGrid>
     </>
@@ -198,12 +201,12 @@ function PendingBody({
         >
           <Image
             alt="Profile Picture"
-            src={user.image ?? ""}
+            src={user.image ?? "/student_home/genericprofile.png"}
             className="rounded"
             width={48}
             height={48}
           />
-          <div className="ml-1 flex-grow">
+          <div className="ml-1 flex-grow">          
             <p className="text-base font-bold text-neutral-600">{user.name}</p>
             <p className="text-sm font-light text-neutral-400">{user.email}</p>
           </div>
@@ -261,7 +264,7 @@ function DeactivatedBody({
         >
           <Image
             alt="Profile Picture"
-            src={user.image ?? ""}
+            src={user.image ?? "/student_home/genericprofile.png"}
             className="rounded"
             width={48}
             height={48}

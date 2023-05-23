@@ -22,20 +22,11 @@ const PhotoHeader = ({ name, image, email }: IPhotoHeaderProps) => {
             />
           </div>
           
-          <div className="absolute flex right-0 bottom-0 w-[100%] h-[50%] items-center bg-off-white bg-opacity-70 backdrop-blur-sm rounded-md \
-                          p-3 pl-8">
-            <div className="relative flex aspect-square h-full w-auto">
-              <Image
-                className="rounded-sm"
-                src={image ?? "/student_home/genericprofile.png"}
-                alt={"Profile Photo"}
-                layout="fill"
-              />
-            </div>
-            <div className="flex flex-col pl-4 text-neutral-600">
-              <h5 className="sm:text-md md:text-lg font-bold">{name ?? "Admin"}</h5>
-              <p className="sm:text-sm md:text-md font-medium">
-                {email ?? "email@legacy.org"}
+          <div className="absolute flex right-0 bottom-0 w-[100%] h-[35%] items-center bg-off-white bg-opacity-70 backdrop-blur-sm rounded-md \
+                          p-2">
+            <div className="flex flex-col pl-4">
+              <p className="text-2xl font-serif leading-normal text-dark-plum">
+                Hello{name == null ? " there" : ", " + name.split(' ').shift()}.
               </p>
             </div>
           </div>
