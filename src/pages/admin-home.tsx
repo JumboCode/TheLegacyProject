@@ -8,7 +8,7 @@ import { useCallback, useMemo, useState } from "react";
 import { CheckMark } from "@components/Icons";
 import { Cross } from "@components/Icons/Cross";
 import { useRouter } from "next/router";
-import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
+import { SeniorTile, StudentTile } from "@components/TileGrid";
 import SearchBar from "@components/SearchBar";
 import cn from "classnames";
 
@@ -82,8 +82,7 @@ const Home: NextPage<IAdminProps> = ({
   }, [deactivated, pending, refreshData, selectedTab, seniors, students]);
 
   return (
-    
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col h-full place-items-stretch p-6">
           <PhotoHeader name={me.name} image={me.image} email={me.email} />
       <div className="resize-y">
         <div className="flex w-full bg-white pl-9 h-[50px]">
@@ -130,14 +129,14 @@ function StudentBody({
 
   return (
     <>
-      <div className="mx-9 mt-4">
+      <div className="my-6">
         <SearchBar setFilter={setFilter} />
       </div>
-      <TileGrid>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {students
           .filter(({ name }) => name?.includes(filter))
           .map((student) => (
-            <div>
+            <div className="h-auto w-auto">
             <StudentTile
               key={student.id}
               student={student}
@@ -147,7 +146,7 @@ function StudentBody({
               />
               </div>
           ))}
-      </TileGrid>
+      </div>
     </>
   );
 }
@@ -163,7 +162,7 @@ function SeniorBody({
 }) {
   return (
     <>
-      <TileGrid>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {seniors.map((senior) => (
           <div key={senior.id}>
             <SeniorTile
@@ -174,7 +173,7 @@ function SeniorBody({
             />
           </div>
         ))}
-      </TileGrid>
+      </div>
     </>
   );
 }

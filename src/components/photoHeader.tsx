@@ -12,7 +12,7 @@ export interface IPhotoHeaderProps {
 const PhotoHeader = ({ name, image, email }: IPhotoHeaderProps) => {
   return (
     <>
-        <div className="relative flex flex-col sm:h-[140px] md:h-[160px] w-auto m-6">
+        <div className="relative flex flex-col sm:h-[140px] md:h-[160px] w-auto">
           <div className="relative flex h-full w-full">
             <Image
               className="object-cover rounded-md"
@@ -25,7 +25,7 @@ const PhotoHeader = ({ name, image, email }: IPhotoHeaderProps) => {
           <div className="absolute flex right-0 bottom-0 w-[100%] h-[35%] items-center bg-off-white bg-opacity-70 backdrop-blur-sm rounded-md \
                           p-2">
             <div className="flex flex-col pl-4">
-              <p className="text-2xl font-serif leading-normal text-dark-plum">
+              <p className="sm:text-xl md:text-2xl font-serif leading-normal text-dark-plum">
                 Hello{name == null ? " there" : ", " + name.split(' ').shift()}.
               </p>
             </div>

@@ -57,7 +57,7 @@ export function StudentTile({
   }
 
   return (
-    <div className="p4 relative flex h-64 w-64 flex-col items-center justify-center gap-4 rounded bg-white text-base font-medium text-gray-700 drop-shadow-md">
+    <div className="relative flex flex-col aspect-square items-center justify-center rounded bg-white text-base font-medium text-gray-700 drop-shadow-md">
       <div className="absolute top-2 right-2">
         <TileEdit options={options} />
       </div>
