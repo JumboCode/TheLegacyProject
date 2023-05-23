@@ -1,21 +1,7 @@
 import { File } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
-
-export interface ITagProps {
-  name: string;
-  color: string;
-}
-
-const Tag = ({ name, color }: ITagProps) => {
-  return (
-    <div
-      className={`${color} h-15 w-fit whitespace-nowrap rounded-lg py-2 px-3 text-center text-off-white`}
-    >
-      <span className=""> {name} </span>
-    </div>
-  );
-};
+import Tag, { tagColors } from "./Tag";
 
 export type IFileCardProps = Pick<
   File,
@@ -72,7 +58,7 @@ const FileCard = ({
   }
 
   return (
-    <div className="flex aspect-square flex-col justify-between rounded-lg border bg-off-white p-5 text-left font-sans drop-shadow-md hover:cursor-pointer hover:bg-taupe-hover">
+    <div className="hover:bg-taupe-hover flex aspect-square flex-col justify-between rounded-lg border bg-off-white p-5 text-left font-sans drop-shadow-md hover:cursor-pointer">
       <div className="flex flex-col">
         <span className="mb-1 text-lg font-semibold"> {name} </span>
         <a
@@ -100,11 +86,9 @@ const FileCard = ({
         <span> Last opened {dateString} </span>
       </div>
       {/* Row of Tags */}
-      <div className="flex flex-row flex-nowrap gap-2 overflow-x-scroll">
-        {Tags.map((name) => (
-          <div key={name} className="">
-            <Tag name={name} color={"bg-tag-rust"} />
-          </div>
+      <div className="flex flex-row flex-nowrap gap-2 overflow-x-auto">
+        {Tags.map((name, i) => (
+          <Tag key={i} name={name} color={tagColors.get(name)} />
         ))}
       </div>
     </div>
