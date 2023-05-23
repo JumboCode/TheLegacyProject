@@ -44,7 +44,7 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
   };
 
   return (
-    <div className="min-w-screen container relative flex min-h-screen flex-col">
+    <div className="container relative flex min-h-screen flex-col">
       {showAddFilePopUp ? (
         <AddFile
           showAddFilePopUp={showAddFilePopUp}
