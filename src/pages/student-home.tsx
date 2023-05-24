@@ -1,12 +1,11 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
+import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
 import Head from "next/head";
 import PhotoHeader from "@components/photoHeader";
-import { Approval, Senior, User } from "@prisma/client";
-import { useRouter } from "next/router";
+import { Approval } from "@prisma/client";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
-import { SeniorGrid } from "@components/profileTile";
-import { useCallback, useMemo, useState } from "react";
-import { TileData } from "@components/profileTile/profileTile";
+import { SeniorTile } from "@components/TileGrid";
 
 
 type IStudentProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
@@ -15,25 +14,32 @@ type IStudentProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
 
 const Home: NextPage<IStudentProps> = ({
   me, 
-  seniors
+  seniors: initialSeniors
 }) => {
-
-
-
+  const router = useRouter(); // call to refresh props
+  const refreshData = useCallback(() => {
+    router.replace(router.asPath);
+  }, [router]);
+  
+  const [seniors, setSeniors] = useState(initialSeniors);
   return (
     <>
-      <Head>
-        <title>The Legacy Project</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <div className="h-max bg-taupe">
+      <div className="flex flex-col h-full place-items-stretch p-6 gap-6">
         <PhotoHeader name={me.name} image={me.image} email={me.email}/>
-        <div className="px-3 md:px-5 lg:px-9">
-          <h1 className="mt-1 text-xl font-semibold">My Senior</h1>
-          <button className="my-3 inline-block h-0.5 w-1/3 min-w-[2in] bg-dark-teal md:w-[12%] lg:w-[12%] xl:w-[12%] 2xl:w-[12%]"></button>
+        <p className="pl-6 font-serif text-3xl"> 
+          {me.name == null ? "Your" : me.name.split(' ').shift() + "'s"} Seniors
+        </p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-3">
+          {seniors.map(
+            (senior) =>
+            (
+              <SeniorTile 
+                senior={senior}
+                setSeniors={setSeniors}
+                refreshData={refreshData}/>
+            )
+          )}
         </div>
-        <SeniorGrid name="Andrew" location="Boston" picture="" />
       </div>
     </>
   );
@@ -83,21 +89,9 @@ export const getServerSideProps = async (
   }
 
   const seniors = await prisma.senior.findMany();
-  const users = await prisma.user.findMany();
-  const students = users.filter(
-    ({ approved }) => approved === Approval.APPROVED
-  );
-  const pending = users.filter(({ approved }) => approved === Approval.PENDING);
-  const deactivated = users.filter(
-    ({ approved }) => approved === Approval.DENIED
-  );
-
   return {
     props: {
       me: user,
-      students,
-      pending,
-      deactivated,
       seniors,
     },
   };

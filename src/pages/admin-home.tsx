@@ -34,9 +34,7 @@ const Home: NextPage<IAdminProps> = ({
 
   const [selectedTab, setSelectedTab] = useState<Tabs>("Students");
 
-  const router = useRouter();
-  // Call this function whenever you want to
-  // refresh props!
+  const router = useRouter(); // call to refresh props
   const refreshData = useCallback(() => {
     router.replace(router.asPath);
   }, [router]);
@@ -130,7 +128,7 @@ function StudentBody({
   return (
     <>
       <SearchBar setFilter={setFilter}/>
-      <div className="bg-indigo-600 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-6">
           {students
             .filter(({ name }) => name?.includes(filter))
             .map((student) => (
