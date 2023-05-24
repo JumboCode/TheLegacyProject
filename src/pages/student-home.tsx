@@ -45,7 +45,7 @@ const Home: NextPage<IStudentProps> = ({
   );
 };
 
-// Render sidebar instead of top navbar
+// render sidebar instead of top navbar
 Home.displayName = "private";
 
 export default Home;
