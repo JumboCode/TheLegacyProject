@@ -157,7 +157,7 @@ function SeniorBody({
   refreshData: () => void;
 }) {
   return (
-    <TileGrid>
+  <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-6">
         {seniors.map((senior) => (
           <div key={senior.id}>
             <SeniorTile
@@ -168,7 +168,7 @@ function SeniorBody({
             />
           </div>
         ))}
-    </TileGrid>
+    </div>
   );
 }
 

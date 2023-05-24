@@ -70,17 +70,17 @@ export function StudentTile({
           width={75}
         />
       </div>
-        <div className="relative h-1/2 w-full p-2 flex flex-col font-medium text-center text-lg text-neutral-600">
+      <div className="relative h-1/2 w-full p-2 flex flex-col font-semibold text-center text-lg text-neutral-600">
           {data && student.name &&
-            <span className={"font-semibold break-words px-2" && student.admin ? "text-tag-rust font-bold" : ""}>
+            <span className={"text-xl break-words px-2" && student.admin ? "text-tag-rust font-bold" : ""}>
               {student.name} {student.admin ? "(Admin)" : ""}
             </span>
           }
 
           {student.email ? (
-            <p className="text-md font-base text-neutral-600 truncate px-2">{student.email}</p>
+            <p className="text-md font-medium text-neutral-600 truncate px-2">{student.email}</p>
             ) : null}
-        </div>
       </div>
+    </div>
   );
 }
