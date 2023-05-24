@@ -84,7 +84,7 @@ const Home: NextPage<IAdminProps> = ({
   return (
     <div className="flex flex-col h-full place-items-stretch p-6">
           <PhotoHeader name={me.name} image={me.image} email={me.email} />
-      <div className="resize-y">
+      <div className="resize-y my-3 ">
         <div className="flex w-full bg-white pl-9 h-[50px]">
           {tabs.map((tab) => (
             <button
@@ -128,21 +128,24 @@ function StudentBody({
   const [filter, setFilter] = useState("");
 
   return (
-    <TileGrid>
-        {students
-          .filter(({ name }) => name?.includes(filter))
-          .map((student) => (
-            <div className="h-auto w-auto">
-            <StudentTile
-              key={student.id}
-              student={student}
-              setDeactivated={setDeactivated}
-              setStudents={setStudents}
-              refreshData={refreshData}
-              />
-              </div>
-          ))}
-    </TileGrid>
+    <>
+      <SearchBar setFilter={setFilter}/>
+      <div className="bg-indigo-600 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-6">
+          {students
+            .filter(({ name }) => name?.includes(filter))
+            .map((student) => (
+              <div className="h-auto w-auto">
+              <StudentTile
+                key={student.id}
+                student={student}
+                setDeactivated={setDeactivated}
+                setStudents={setStudents}
+                refreshData={refreshData}
+                />
+                </div>
+            ))}
+      </div>
+    </>
   );
 }
 
