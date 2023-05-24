@@ -24,7 +24,7 @@ const Home: NextPage<IStudentProps> = ({
   const [seniors, setSeniors] = useState(initialSeniors);
   return (
     <>
-      <div className="flex flex-col h-full place-items-stretch p-6 gap-6">
+      <div className="flex flex-col h-full place-items-stretch p-8 gap-6">
         <PhotoHeader name={me.name} image={me.image} email={me.email}/>
         <p className="pl-6 font-serif text-3xl"> 
           {me.name == null ? "Your" : me.name.split(' ').shift() + "'s"} Seniors

@@ -80,20 +80,19 @@ const Home: NextPage<IAdminProps> = ({
   }, [deactivated, pending, refreshData, selectedTab, seniors, students]);
 
   return (
-    <div className="flex flex-col h-full place-items-stretch p-6">
+    <div className="flex flex-col h-full place-items-stretch p-8">
           <PhotoHeader name={me.name} image={me.image} email={me.email} />
-      <div className="resize-y my-3 ">
-        <div className="flex w-full bg-white pl-9 h-[50px]">
+      <div className="flex flew-row h-[50px] my-6 gap-6">
           {tabs.map((tab) => (
             <button
               disabled={tab === "Pending" && pending.length === 0}
               className={cn(
-                tab === selectedTab ? "border-b-4 border-dark-green" : null,
+                "text-xl justify-center px-9 py-3 rounded-lg drop-shadow-md",
+                tab === selectedTab ? "bg-light-sage hover:bg-dark-sage" : "bg-white hover:bg-nav-taupe",
                 tab === "Pending" && pending.length === 0
                   ? "cursor-not-allowed opacity-50"
-                  : null,
-                "flex flex-row text-xl justify-center gap-1 p-3 py-3 hover:bg-neutral-100"
-              )}
+                  : null
+                )}
               key={tab}
               onClick={() => setSelectedTab(tab)}
             >
@@ -105,7 +104,6 @@ const Home: NextPage<IAdminProps> = ({
               ) : null}
             </button>
           ))}
-      </div>
       </div>
       {body}
     </div>
@@ -156,19 +154,25 @@ function SeniorBody({
   setSeniors: React.Dispatch<React.SetStateAction<Senior[]>>;
   refreshData: () => void;
 }) {
+  const [filter, setFilter] = useState("");
+
   return (
-  <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-6">
-        {seniors.map((senior) => (
-          <div key={senior.id}>
-            <SeniorTile
-              key={senior.id}
-              senior={senior}
-              setSeniors={setSeniors}
-              refreshData={refreshData}
-            />
-          </div>
+  <>      
+    <SearchBar setFilter={setFilter}/>
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-6">
+        {seniors.filter(({ name }) => name?.includes(filter))
+          .map((senior) => (
+            <div key={senior.id}>
+              <SeniorTile
+                key={senior.id}
+                senior={senior}
+                setSeniors={setSeniors}
+                refreshData={refreshData}
+              />
+            </div>
         ))}
-    </div>
+      </div>
+    </>
   );
 }
 
