@@ -16,7 +16,7 @@ type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
 };
 
-const tabs = ["Students", "Seniors", "Pending", "Deactivated"] as const;
+const tabs = ["Students", "Seniors", "Pending"] as const;
 type Tabs = typeof tabs[number];
 
 const Home: NextPage<IAdminProps> = ({
@@ -67,41 +67,27 @@ const Home: NextPage<IAdminProps> = ({
           refreshData={refreshData}
         />
       );
-    } else if (selectedTab === "Deactivated") {
-      return (
-        <DeactivatedBody
-          deactivated={deactivated}
-          setDeactivated={setDeactivated}
-          setStudents={setStudents}
-          refreshData={refreshData}
-        />
-      );
     }
-  }, [deactivated, pending, refreshData, selectedTab, seniors, students]);
+  }, [pending, refreshData, selectedTab, seniors, students]);
 
   return (
     <div className="flex flex-col h-full place-items-stretch p-8">
-          <PhotoHeader name={me.name} image={me.image} email={me.email} />
+          <PhotoHeader admin={true} name={me.name} image={me.image} email={me.email} />
       <div className="flex flew-row h-[50px] my-6 gap-6">
           {tabs.map((tab) => (
             <button
               disabled={tab === "Pending" && pending.length === 0}
               className={cn(
-                "text-xl justify-center px-9 py-3 rounded-lg drop-shadow-md",
-                tab === selectedTab ? "bg-light-sage hover:bg-dark-sage" : "bg-white hover:bg-nav-taupe",
+                "text-xl justify-center px-9 py-3 rounded drop-shadow-md",
+                tab === selectedTab ? "bg-light-sage" : "bg-white hover:bg-nav-taupe",
                 tab === "Pending" && pending.length === 0
-                  ? "cursor-not-allowed opacity-50"
+                  ? "opacity-50"
                   : null
                 )}
               key={tab}
               onClick={() => setSelectedTab(tab)}
             >
               <p>{tab}</p>
-              {tab === "Pending" && pending.length > 0 ? (
-                <div className="rounded-full bg-neutral-400 px-0.5">
-                  {pending.length}
-                </div>
-              ) : null}
             </button>
           ))}
       </div>
@@ -137,7 +123,7 @@ function StudentBody({
                 setDeactivated={setDeactivated}
                 setStudents={setStudents}
                 refreshData={refreshData}
-                />
+              />
                 </div>
             ))}
       </div>
@@ -190,7 +176,7 @@ function PendingBody({
   refreshData: () => void;
 }) {
   return (
-    <ul className="mt-5 px-3 pb-9 md:px-5 lg:px-9">
+    <ul className="pb-9">
       {pending.map((user) => (
         <li
           className="flex flex-row items-center gap-2 rounded bg-white p-4 drop-shadow-md"
@@ -204,12 +190,13 @@ function PendingBody({
             height={48}
           />
           <div className="ml-1 flex-grow">          
-            <p className="text-base font-bold text-neutral-600">{user.name}</p>
-            <p className="text-sm font-light text-neutral-400">{user.email}</p>
+            <p className="text-lg font-bold text-neutral-600">{user.name}</p>
+            <p className="text-md text-neutral-600">{user.email}</p>
           </div>
           <button
             title="Reject"
-            className="flex h-8 w-8 items-center justify-center rounded border-2 border-red-200 bg-red-100"
+            className="flex h-8 p-5 items-center text-lg justify-center rounded \
+                       text-white bg-tag-rust hover:bg-[#B76056] drop-shadow-md"
             onClick={() => {
               fetch(`/api/student/${user.id}`, { method: "DELETE" });
               setPending((prev) => prev.filter((u) => u.id !== user.id));
@@ -217,13 +204,12 @@ function PendingBody({
               refreshData();
             }}
           >
-            <div className="fill-red-800 stroke-red-800">
-              <Cross />
-            </div>
+            Reject
           </button>
           <button
             title="Approve"
-            className="flex h-8 w-8 items-center justify-center rounded border-2 border-green-200 bg-green-100"
+            className="flex h-8 p-5 items-center justify-center rounded \
+                       text-white bg-dark-sage hover:bg-[#7F8E86] drop-shadow-md"
             onClick={() => {
               fetch(`/api/student/${user.id}/approve`, { method: "POST" });
               setPending((prev) => prev.filter((u) => u.id !== user.id));
@@ -231,58 +217,7 @@ function PendingBody({
               refreshData();
             }}
           >
-            <div className="fill-green-800 ">
-              <CheckMark />
-            </div>
-          </button>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function DeactivatedBody({
-  deactivated,
-  setDeactivated,
-  setStudents,
-  refreshData,
-}: {
-  deactivated: User[];
-  setDeactivated: React.Dispatch<React.SetStateAction<User[]>>;
-  setStudents: React.Dispatch<React.SetStateAction<User[]>>;
-  refreshData: () => void;
-}) {
-  return (
-    <ul className="mt-5 px-3 pb-9 md:px-5 lg:px-9">
-      {deactivated.map((user) => (
-        <li
-          className="flex flex-row items-center gap-2 rounded bg-white p-4 drop-shadow-md"
-          key={user.id}
-        >
-          <Image
-            alt="Profile Picture"
-            src={user.image ?? "/student_home/genericprofile.png"}
-            className="rounded"
-            width={48}
-            height={48}
-          />
-          <div className="ml-1 flex-grow">
-            <p className="text-base font-bold text-neutral-600">{user.name}</p>
-            <p className="text-sm font-light text-neutral-400">{user.email}</p>
-          </div>
-          <button
-            title="Re-approve"
-            className="flex h-8 w-8 items-center justify-center rounded border-2 border-green-200 bg-green-100"
-            onClick={() => {
-              fetch(`/api/student/${user.id}/approve`, { method: "POST" });
-              setDeactivated((prev) => prev.filter((u) => u.id !== user.id));
-              setStudents((prev) => [...prev, user]);
-              refreshData();
-            }}
-          >
-            <div className="fill-green-800 ">
-              <CheckMark />
-            </div>
+            Accept
           </button>
         </li>
       ))}

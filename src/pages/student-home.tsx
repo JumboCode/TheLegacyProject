@@ -24,11 +24,8 @@ const Home: NextPage<IStudentProps> = ({
   const [seniors, setSeniors] = useState(initialSeniors);
   return (
     <>
-      <div className="flex flex-col h-full place-items-stretch p-8 gap-6">
-        <PhotoHeader name={me.name} image={me.image} email={me.email}/>
-        <p className="pl-6 font-serif text-3xl"> 
-          {me.name == null ? "Your" : me.name.split(' ').shift() + "'s"} Seniors
-        </p>
+      <div className="flex flex-col h-full place-items-stsetch p-8 gap-6">
+        <PhotoHeader admin={false} name={me.name} image={me.image} email={me.email}/>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-3">
           {seniors.map(
             (senior) =>

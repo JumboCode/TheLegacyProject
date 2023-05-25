@@ -2,11 +2,6 @@
 const colors = require('tailwindcss/colors');
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
-  // safelist: [
-  //   {
-  //     pattern: /-*/,
-  //   }
-  // ],
   theme: {
     extend: {
       boxShadow: {
@@ -20,11 +15,11 @@ module.exports = {
       'taupe': '#F5F0EA',
       'nav-taupe': '#E8E0D5',
       'dark-green': '#22555A',
-      'light-sage': '#D3D9D6',
-      'dark-sage': '#98ADA2',
+      'light-sage': '#AEBDB6',
+      'dark-sage': '#94A59C',
       'dark-gray': '#515151',
       'dark-plum': '#000022',
-      'tag-rust': '#B05D54',
+      'tag-rust': '#C16E65',
       'tag-tan': '#AB7D55',
       'tag-gold': '#BA9D4F',
       'tag-moss': '#7F8E64',
@@ -40,6 +35,10 @@ module.exports = {
       sans: ['Inter', 'sans-serif'],
       serif: ['Playfair Display', 'serif'],
     },
+
+    letterSpacing: {
+      easy: 'letter-spacing: 0.0125em',
+    }
   },
   plugins: [],
 };

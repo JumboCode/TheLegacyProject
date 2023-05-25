@@ -44,7 +44,7 @@ export function SeniorTile({
       <div className="flex flex-col h-1/2 justify-end">
           <Image
             className="object-scale-down"
-            src={"/home/yellowflower.png"}
+            src={"/profile/seniorprofile_icon.png"}
             alt="Placeholder profile image"
             height={75}
             width={75}
