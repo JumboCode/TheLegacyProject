@@ -19,7 +19,7 @@ const PhotoHeader = ({ name, admin, image, email }: IPhotoHeaderProps) => {
           <div className="relative flex h-full w-full">
             <Image
               className="object-cover rounded"
-              src={"/student_home/header3.jpg"}
+              src={"/profile/header3.jpg"}
               alt={"A black typewriter on a wooden desk with a notebook and old photos next to it."}
               layout="fill"
             />

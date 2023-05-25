@@ -57,7 +57,7 @@ export function StudentTile({
   }
 
   return (
-    <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white text-base font-medium text-gray-700 drop-shadow-md">
+    <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white text-base font-medium drop-shadow-md">
       <div className="absolute top-2 right-2">
         <TileEdit options={options} />
       </div>
