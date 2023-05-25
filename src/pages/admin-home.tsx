@@ -2,13 +2,12 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import PhotoHeader from "@components/photoHeader";
 
 import Image from "next/image";
+import Link from "next/link";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval, Senior, User } from "@prisma/client";
 import { useCallback, useMemo, useState } from "react";
-import { CheckMark } from "@components/Icons";
-import { Cross } from "@components/Icons/Cross";
 import { useRouter } from "next/router";
-import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
+import { SeniorTile, StudentTile } from "@components/TileGrid";
 import SearchBar from "@components/SearchBar";
 import cn from "classnames";
 
@@ -18,6 +17,25 @@ type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
 
 const tabs = ["Students", "Seniors", "Pending"] as const;
 type Tabs = typeof tabs[number];
+
+const AddSeniorTile = () => (
+  <Link href={"/add-senior"}>
+    <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white hover:bg-off-white text-base font-medium text-gray-700 drop-shadow-md">
+      <div className="flex flex-col h-1/2 justify-end">
+        <Image
+          className="object-scale-down"
+          src={"/profile/addprofile_icon.png"}
+          alt="Add profile image"
+          height={75}
+          width={75}
+        />
+      </div>
+      <div className="relative h-1/2 w-full p-2 flex flex-col font-medium text-center text-lg text-neutral-600">
+          <span className="font-semibold break-words px-2"> Add New Senior </span>
+      </div>
+    </div>
+  </Link>
+);
 
 const Home: NextPage<IAdminProps> = ({
   me,
@@ -70,6 +88,7 @@ const Home: NextPage<IAdminProps> = ({
     }
   }, [pending, refreshData, selectedTab, seniors, students]);
 
+
   return (
     <div className="flex flex-col h-full place-items-stretch p-8">
           <PhotoHeader admin={true} name={me.name} image={me.image} email={me.email} />
@@ -79,7 +98,7 @@ const Home: NextPage<IAdminProps> = ({
               disabled={tab === "Pending" && pending.length === 0}
               className={cn(
                 "text-xl justify-center px-9 py-3 rounded drop-shadow-md",
-                tab === selectedTab ? "bg-light-sage" : "bg-white hover:bg-nav-taupe",
+                tab === selectedTab ? "bg-light-sage" : "bg-white hover:bg-off-white",
                 tab === "Pending" && pending.length === 0
                   ? "opacity-50"
                   : null
@@ -146,11 +165,14 @@ function SeniorBody({
   <>      
     <SearchBar setFilter={setFilter}/>
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-6">
+        <AddSeniorTile />
+
         {seniors.filter(({ name }) => name?.includes(filter))
           .map((senior) => (
             <div key={senior.id}>
               <SeniorTile
                 key={senior.id}
+                link={"/senior/" + senior.id}
                 senior={senior}
                 setSeniors={setSeniors}
                 refreshData={refreshData}
