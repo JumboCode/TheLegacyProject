@@ -21,16 +21,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
   } else {
     return (
       <SessionProvider session={session}>
-        <div className="flex w-screen bg-taupe sm:flex-col md:flex-row">
+        <div className="flex w-full h-full bg-taupe sm:flex-col md:flex-row">
           <span className="sm:inline md:hidden">
-            {" "}
-            <Navbar />{" "}
+            <Navbar />
           </span>
           <span className="sm:hidden md:inline">
-            {" "}
-            <Sidebar />{" "}
+            <Sidebar />
           </span>
-          <Component {...pageProps} />
+          <div className="w-full h-full"> <Component {...pageProps} /> </div>
         </div>
       </SessionProvider>
     );

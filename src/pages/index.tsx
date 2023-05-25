@@ -46,7 +46,7 @@ const Home: NextPage = () => {
             {/* holds paragraph and email signup */}
             <h1
               className="my-8 text-center font-serif text-4xl font-bold leading-tight  
-                           text-dark-plum 
+                           text-dark-plum
                            duration-500 sm:text-5xl
                            lg:text-left lg:text-5xl xl:text-6xl"
             >

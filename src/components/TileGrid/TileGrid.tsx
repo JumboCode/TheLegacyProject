@@ -4,10 +4,13 @@ interface ITileGridProps {
 
 export default function TileGrid({ children }: ITileGridProps) {
   return (
-    <div className="mx-auto flex w-full min-w-fit flex-col px-3 pb-9 md:px-5 lg:px-9">
-      <div className="mt-5 grid grid-cols-[repeat(auto-fill,_256px)] gap-10 text-center">
+    <div className="bg-indigo-600 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-auto text-center">
         {children}
-      </div>
     </div>
+    // <div className="flex flex-col w-full min-w-fit">
+    //   <div className="grid grid-cols-[repeat(auto-fill,_256px)] sm:gap-8 md:gap-10 text-center">
+    //     {children}
+    //   </div>
+    // </div>
   );
 }

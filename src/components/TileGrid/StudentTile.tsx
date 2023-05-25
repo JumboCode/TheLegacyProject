@@ -57,31 +57,29 @@ export function StudentTile({
   }
 
   return (
-    <div className="p4 relative flex h-64 w-64 flex-col items-center justify-center gap-4 rounded bg-white text-base font-medium text-gray-700 drop-shadow-md">
+    <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white text-base font-medium text-gray-700 drop-shadow-md">
       <div className="absolute top-2 right-2">
         <TileEdit options={options} />
       </div>
-      <div className="h-20 w-20 overflow-hidden rounded-full">
+      <div className="flex flex-col h-1/2 justify-end">
         <Image
           className="object-scale-down"
-          src={student.image ?? "/images/placeholder.png"}
+          src={student.image ?? "/student_home/genericprofile.png"}
           alt="Placeholder profile image"
-          height={80}
-          width={80}
-        ></Image>
+          height={75}
+          width={75}
+        />
       </div>
-      <div className="text-center">
-        <div className="flex w-full flex-row justify-center gap-2 text-base font-bold text-neutral-600">
-          <span>{student.name}</span>
-          {data && data.user?.id === student.id ? (
-            <span>(you)</span>
-          ) : student.admin ? (
-            <span>(admin)</span>
-          ) : null}
-        </div>
-        {student.email ? (
-          <p className="text-sm font-light text-neutral-400">{student.email}</p>
-        ) : null}
+      <div className="relative h-1/2 w-full p-2 flex flex-col font-semibold text-center text-lg text-neutral-600">
+          {data && student.name &&
+            <span className={"text-xl break-words px-2" && student.admin ? "text-tag-rust font-bold" : ""}>
+              {student.name} {student.admin ? "(Admin)" : ""}
+            </span>
+          }
+
+          {student.email ? (
+            <p className="text-md font-medium text-neutral-600 truncate px-2">{student.email}</p>
+            ) : null}
       </div>
     </div>
   );
