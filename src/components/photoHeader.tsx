@@ -14,7 +14,7 @@ export interface IPhotoHeaderProps {
 const PhotoHeader = ({ name, admin, image, email }: IPhotoHeaderProps) => {
   return (
     <>
-        <div className={cn("relative flex flex-col w-auto", 
+        <div className={cn("relative flex flex-col w-auto drop-shadow-md", 
                           admin ? "sm:h-[140px] md:h-[160px]" : "sm:h-[180px] md:h-[200px]")}>
           <div className="relative flex h-full w-full">
             <Image

@@ -21,9 +21,6 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
           name: z.string(),
           description: z.string(),
           fileType: z.string(),
-          // zod 3.20:
-          // lastModified: z.coerce.date(),
-          // zod 3.18:
           lastModified: z.string().transform(() => new Date()),
           url: z.string(),
           seniorId: z.string(),

@@ -119,6 +119,7 @@ function StudentBody({
               <div className="h-auto w-auto">
               <StudentTile
                 key={student.id}
+                link={"/student/" + student.id}
                 student={student}
                 setDeactivated={setDeactivated}
                 setStudents={setStudents}
@@ -151,6 +152,7 @@ function SeniorBody({
             <div key={senior.id}>
               <SeniorTile
                 key={senior.id}
+                link={"/senior/" + senior.id}
                 senior={senior}
                 setSeniors={setSeniors}
                 refreshData={refreshData}

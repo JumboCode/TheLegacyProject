@@ -1,9 +1,11 @@
-import type { GetServerSidePropsContext } from "next";
-import { useState } from "react";
+import Image from "next/image";
 import FileCard from "@components/FileCard";
-import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import SearchBar from "@components/SearchBar";
 import AddFile from "@components/AddFile";
+import SortDropdown, { SortMethod } from "@components/SortDropdown";
+
+import { useState } from "react";
+import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
 import { Approval } from "@prisma/client";
@@ -127,7 +129,7 @@ export const getServerSideProps = async (
   if (!user) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/",
         permanent: false,
       },
     };
@@ -142,6 +144,8 @@ export const getServerSideProps = async (
     };
   }
 
+  // await fetch ("/api/senior/" + seniorId, { method: "GET" });
+  // TODO: not using our beautiful API routes??
   const senior = await prisma.senior.findUnique({
     where: {
       id: seniorId, //get all information for given senior
