@@ -138,6 +138,7 @@ function StudentBody({
               <div className="h-auto w-auto">
               <StudentTile
                 key={student.id}
+                link={"/student/" + student.id}
                 student={student}
                 setDeactivated={setDeactivated}
                 setStudents={setStudents}
