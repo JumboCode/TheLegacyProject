@@ -44,7 +44,7 @@ export default function FilterDropdown({
     <div className="bg-red flex w-full flex-col">
       <input
         onChange={onChange}
-        className="mt-5 h-[46px] w-full border-[0.3px] border-[#e6e6e6] px-3 focus:outline-none"
+        className="h-[46px] w-full mb-2 px-3 border-2 border-nav-taupe focus:outline-none"
         onFocus={() => setShowOptions(true)}
         onClick={() => setShowOptions(true)}
       />
@@ -54,10 +54,12 @@ export default function FilterDropdown({
           onMouseEnter={() => setShowOptions(true)}
           onMouseLeave={() => setShowOptions(false)}
         >
-          <div className="top-100 absolute z-50 flex max-h-[150px] w-full flex-col overflow-y-auto bg-white">
+          <div className="top-100 absolute z-50 flex max-h-[150px] w-full flex-col overflow-y-auto \
+                          bg-white">
             {filteredItems.map((item: string, index: number) => (
               <span
-                className="flex flex-row border border-[#e6e6e6] px-3 py-1 text-gray-700 hover:cursor-pointer hover:bg-blue-500 hover:text-white"
+                className="flex flex-row pl-4 py-2 text-gray-700 border border-light-gray \
+                           shadow-inner hover:cursor-pointer hover:bg-nav-teal hover:text-white"
                 onClick={() => {
                   onItemSelect(index, item);
                 }}

@@ -19,12 +19,12 @@ export const tagColors = new Map<string, string>();
 tagColors.set("Getting to Know You", "bg-tag-rust");
 tagColors.set("Early Childhood", "bg-tag-tan");
 tagColors.set("Adolescence", "bg-tag-gold");
-tagColors.set("Early Twenties and College", "bg-tag-moss");
-tagColors.set("Career and Adulthood", "bg-tag-teal");
-tagColors.set("Marriage", "bg-tag-blue");
-tagColors.set("Parenthood and Family", "bg-tag-violet");
-tagColors.set("Elder Years and Retirement", "bg-tag-rose");
-tagColors.set("Beliefs); Values); and the Future", "bg-tag-steel");
+tagColors.set("Early Twenties and College", "bg-tag-lime");
+tagColors.set("Career and Adulthood", "bg-tag-moss");
+tagColors.set("Marriage", "bg-tag-teal");
+tagColors.set("Parenthood and Family", "bg-tag-blue");
+tagColors.set("Elder Years and Retirement", "bg-tag-violet");
+tagColors.set("Beliefs, Values, and the Future", "bg-tag-rose");
 
 const Tag = ({ name, color }: ITagProps) => {
   return (

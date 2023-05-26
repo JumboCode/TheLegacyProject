@@ -6,8 +6,6 @@ import SearchBar from "@components/SearchBar";
 import AddFile from "@components/AddFile";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
 
-import { useState } from "react";
-import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
 import { Approval } from "@prisma/client";

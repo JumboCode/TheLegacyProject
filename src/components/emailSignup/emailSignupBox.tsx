@@ -22,7 +22,7 @@ const EmailSignupBox = () => {
       <input
         type="submit"
         value="Join E-List"
-        className="text-l w-1/4 rounded-lg bg-dark-green py-1.5 px-4 font-sans text-white duration-150 hover:-translate-y-0.5"
+        className="text-l w-1/4 rounded-lg bg-teal py-1.5 px-4 font-sans text-white duration-150 hover:-translate-y-0.5"
       ></input>
     </form>
   );
