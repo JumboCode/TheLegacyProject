@@ -59,7 +59,7 @@ const AddFile = ({
     setShowAddFilePopUp(!showAddFilePopUp);
   };
 
-  const addFile = async () => {
+  const callAddFile = async () => {
     // POST file in drive
     const addFileRes = await fetch("/api/drive/addfile", {
       method: "POST",
@@ -83,11 +83,11 @@ const AddFile = ({
   return (
     <>
       {showAddFilePopUp && (
-        <div className="absolute z-50 flex h-full w-screen flex-row items-center justify-center backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
+        <div className="absolute z-50 flex h-full w-screen flex-row items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
           {!confirm && !error ? (
-            <div className="flex min-h-[650px] w-1/2 flex-col justify-between rounded-lg bg-white p-10">
+            <div className="flex min-h-[650px] w-1/2 mt-20 p-10 flex-col justify-between rounded-lg bg-white">
               <div>
-                <div className="mb-4 font-serif text-3xl"> Create New File </div>
+                <div className="mb-8 font-serif text-3xl"> Create New File </div>
                 <div className="mb-1 h-[34px] w-full font-sans text-lg text-neutral-600">
                   File name
                 </div>
@@ -124,7 +124,7 @@ const AddFile = ({
                 </button>
                 <button
                   className="mx-2 my-4 w-full p-3 max-w-[10rem] rounded drop-shadow-md bg-nav-teal text-lg font-normal text-white hover:bg-dark-teal"
-                  onClick={addFile}
+                  onClick={callAddFile}
                 >
                   Create
                 </button>

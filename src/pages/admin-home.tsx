@@ -8,6 +8,7 @@ import { Approval, Senior, User } from "@prisma/client";
 import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { SeniorTile, StudentTile } from "@components/TileGrid";
+import AddSenior, {AddSeniorTile} from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
 import cn from "classnames";
 
@@ -17,25 +18,6 @@ type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
 
 const tabs = ["Students", "Seniors", "Pending"] as const;
 type Tabs = typeof tabs[number];
-
-const AddSeniorTile = () => (
-  <Link href={"/add-senior"}>
-    <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white hover:bg-off-white font-medium drop-shadow-md">
-      <div className="flex flex-col h-1/2 justify-end">
-        <Image
-          className="object-scale-down"
-          src={"/profile/addprofile_icon.png"}
-          alt="Add profile image"
-          height={75}
-          width={75}
-        />
-      </div>
-      <div className="relative h-1/2 w-full p-2 flex flex-col font-medium text-center text-lg">
-          <span className="break-words px-2 text-neutral-800"> Add New Senior </span>
-      </div>
-    </div>
-  </Link>
-);
 
 const Home: NextPage<IAdminProps> = ({
   me,
@@ -90,8 +72,8 @@ const Home: NextPage<IAdminProps> = ({
 
 
   return (
-    <div className="flex flex-col h-full place-items-stretch p-8">
-          <PhotoHeader admin={true} name={me.name} image={me.image} email={me.email} />
+    <div className="relative flex flex-col h-full place-items-stretch p-8">
+      <PhotoHeader admin={true} name={me.name} image={me.image} email={me.email} />
       <div className="flex flew-row h-[50px] my-6 gap-6">
           {tabs.map((tab) => (
             <button
@@ -161,12 +143,14 @@ function SeniorBody({
   refreshData: () => void;
 }) {
   const [filter, setFilter] = useState("");
+  const [showAddSeniorPopUp, setShowAddSeniorPopUp] = useState<boolean>(false);
 
   return (
   <>      
     <SearchBar setFilter={setFilter}/>
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 text-center mt-6">
-        <AddSeniorTile />
+        <AddSenior showAddSeniorPopUp={showAddSeniorPopUp} 
+                       setShowAddSeniorPopUp={setShowAddSeniorPopUp}/>
 
         {seniors.filter(({ name }) => name?.includes(filter))
           .map((senior) => (
@@ -199,7 +183,7 @@ function PendingBody({
   refreshData: () => void;
 }) {
   return (
-    <ul className="pb-9">
+    <ul className="pb-9 min-h-screen">
       {pending.map((user) => (
         <li
           className="flex flex-row p-4 mb-8 gap-4 items-center rounded bg-white drop-shadow-md"
