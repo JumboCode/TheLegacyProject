@@ -25,7 +25,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           <span className="sm:inline md:hidden">
             <Navbar />
           </span>
-          <span className="sm:hidden md:inline">
+          <span className="min-w-[180px] md:w-1/5 xl:w-1/6 sm:hidden md:inline">
             <Sidebar />
           </span>
           <div className="w-full h-full"> <Component {...pageProps} /> </div>

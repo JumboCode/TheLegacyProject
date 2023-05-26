@@ -69,7 +69,7 @@ export function StudentTile({
         <div className="flex flex-col h-1/2 justify-end">
           <Image
             className="object-scale-down"
-            src={student.image ?? "/student_home/genericprofile.png"}
+            src={student.image ?? "/profile/genericprofile.png"}
             alt="Placeholder profile image"
             height={75}
             width={75}

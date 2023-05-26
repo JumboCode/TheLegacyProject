@@ -97,7 +97,7 @@ const Home: NextPage<IAdminProps> = ({
             <button
               disabled={tab === "Pending" && pending.length === 0}
               className={cn(
-                "text-xl justify-center px-9 py-3 rounded drop-shadow-md",
+                "text-xl justify-center px-9 py-3 rounded drop-shadow-md duration-150 hover:-translate-y-0.5",
                 tab === selectedTab ? "bg-light-sage" : "bg-white hover:bg-off-white",
                 tab === "Pending" && pending.length === 0
                   ? "opacity-50"
@@ -131,7 +131,7 @@ function StudentBody({
   return (
     <>
       <SearchBar setFilter={setFilter}/>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 text-center mt-6">
           {students
             .filter(({ name }) => name?.includes(filter))
             .map((student) => (
@@ -165,7 +165,7 @@ function SeniorBody({
   return (
   <>      
     <SearchBar setFilter={setFilter}/>
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-6">
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 text-center mt-6">
         <AddSeniorTile />
 
         {seniors.filter(({ name }) => name?.includes(filter))
@@ -202,12 +202,12 @@ function PendingBody({
     <ul className="pb-9">
       {pending.map((user) => (
         <li
-          className="flex flex-row items-center gap-2 rounded bg-white p-4 drop-shadow-md"
+          className="flex flex-row p-4 mb-8 gap-4 items-center rounded bg-white drop-shadow-md"
           key={user.id}
         >
           <Image
             alt="Profile Picture"
-            src={user.image ?? "/student_home/genericprofile.png"}
+            src={user.image ?? "/profile/genericprofile.png"}
             className="rounded"
             width={48}
             height={48}

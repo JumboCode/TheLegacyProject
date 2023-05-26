@@ -15,6 +15,7 @@ module.exports = {
       'offer-white': '#F0F0F0',
       'taupe': '#F5F0EA',
       'nav-taupe': '#E8E0D5',
+      'dark-taupe': '#d1c7b8',
       'dark-green': '#22555A',
       'light-sage': '#AEBDB6',
       'dark-sage': '#94A59C',

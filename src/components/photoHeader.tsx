@@ -38,7 +38,7 @@ const PhotoHeader = ({ name, admin, image, email }: IPhotoHeaderProps) => {
                 <span className="relative ml-4 bg-indigo-200 w-[70px] h-[70px]">
                   <Image 
                     className="object-cover rounded"
-                    src={image ?? "/student_home/genericprofile.png"}
+                    src={image ?? "/profile/genericprofile.png"}
                     alt="The student user's profile picture."
                     layout="fill"
                   />

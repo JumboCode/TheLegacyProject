@@ -36,10 +36,9 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
             description: z.string(),
             students: z.array(z.string()),
           });
+
           const body = bodySchema.parse(JSON.parse(req.body));
-
           const baseFolder = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a"; // TODO: make env variable
-
           const fileMetadata = {
             name: [`${body.name}-${randomUUID()}`],
             mimeType: "application/vnd.google-apps.folder",

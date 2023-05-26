@@ -59,7 +59,7 @@ export default function FilterDropdown({
             {filteredItems.map((item: string, index: number) => (
               <span
                 className="flex flex-row pl-4 py-2 text-gray-700 border border-light-gray \
-                           shadow-inner hover:cursor-pointer hover:bg-nav-teal hover:text-white"
+                           hover:cursor-pointer hover:bg-nav-teal hover:text-white"
                 onClick={() => {
                   onItemSelect(index, item);
                 }}
