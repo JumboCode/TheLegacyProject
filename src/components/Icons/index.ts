@@ -1,1 +1,0 @@
-export { CheckMark } from "./CheckMark";

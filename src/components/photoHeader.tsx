@@ -15,7 +15,7 @@ const PhotoHeader = ({ name, admin, image, email }: IPhotoHeaderProps) => {
   return (
     <>
         <div className={cn("relative flex flex-col w-auto drop-shadow-md", 
-                          admin ? "sm:h-[140px] md:h-[160px]" : "sm:h-[180px] md:h-[200px]")}>
+                          admin ? "xs:h-[140px] md:h-[160px]" : "xs:h-[180px] md:h-[200px]")}>
           <div className="relative flex h-full w-full">
             <Image
               className="object-cover rounded"
@@ -29,7 +29,7 @@ const PhotoHeader = ({ name, admin, image, email }: IPhotoHeaderProps) => {
                           admin ? "h-2/5" : "h-1/2")}>
           {admin ? 
             (
-              <span className="pl-4 sm:text-xl md:text-2xl font-serif tracking-normal text-dark-plum">
+              <span className="xs:pl-2 sm:pl-4 sm:text-xl md:text-2xl font-serif tracking-normal text-dark-plum">
                 Hello{name == null ? " there" : ", " + name.split(' ').shift()}.
               </span>
             ) : 

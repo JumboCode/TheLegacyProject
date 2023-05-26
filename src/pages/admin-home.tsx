@@ -7,8 +7,8 @@ import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval, Senior, User } from "@prisma/client";
 import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import { SeniorTile, StudentTile } from "@components/TileGrid";
-import AddSenior, {AddSeniorTile} from "@components/AddSenior";
+import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
+import AddSenior, { AddSeniorTile } from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
 import cn from "classnames";
 
@@ -72,14 +72,17 @@ const Home: NextPage<IAdminProps> = ({
 
 
   return (
-    <div className="relative flex flex-col h-full place-items-stretch p-8">
+    <div className="relative flex flex-col h-full place-items-stretch xs:p-4 sm:p-8">
       <PhotoHeader admin={true} name={me.name} image={me.image} email={me.email} />
-      <div className="flex flew-row h-[50px] my-6 gap-6">
+      <div className="flex flew-row  h-[50px] my-6 xs:gap-4 xs:justify-center \
+                      sm:gap-6 sm:justify-start">
           {tabs.map((tab) => (
             <button
               disabled={tab === "Pending" && pending.length === 0}
               className={cn(
-                "text-xl justify-center px-9 py-3 rounded drop-shadow-md duration-150 hover:-translate-y-0.5",
+                "rounded drop-shadow-md duration-150 hover:-translate-y-0.5",
+                "xs:w-full xs:text-lg xs:px-3 xs:py-3",
+                "sm:w-auto sm:text-xl sm:px-9 sm:py-3",
                 tab === selectedTab ? "bg-light-sage" : "bg-white hover:bg-off-white",
                 tab === "Pending" && pending.length === 0
                   ? "opacity-50"
@@ -113,7 +116,7 @@ function StudentBody({
   return (
     <>
       <SearchBar setFilter={setFilter}/>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 text-center mt-6">
+      <TileGrid>
           {students
             .filter(({ name }) => name?.includes(filter))
             .map((student) => (
@@ -128,7 +131,7 @@ function StudentBody({
               />
                 </div>
             ))}
-      </div>
+      </TileGrid>
     </>
   );
 }
@@ -203,7 +206,7 @@ function PendingBody({
           <button
             title="Reject"
             className="flex h-8 p-5 items-center text-lg justify-center rounded \
-                       text-white bg-tag-rust hover:bg-[#B76056] drop-shadow-md"
+                       text-white bg-tag-rust hover:bg-[#B76056] drop-shadow-md duration-150 hover:-translate-y-0.5"
             onClick={() => {
               fetch(`/api/student/${user.id}`, { method: "DELETE" });
               setPending((prev) => prev.filter((u) => u.id !== user.id));
@@ -216,7 +219,7 @@ function PendingBody({
           <button
             title="Approve"
             className="flex h-8 p-5 items-center justify-center rounded \
-                       text-white bg-dark-sage hover:bg-[#7F8E86] drop-shadow-md"
+                       text-white bg-dark-sage hover:bg-[#7F8E86] drop-shadow-md duration-150 hover:-translate-y-0.5 "
             onClick={() => {
               fetch(`/api/student/${user.id}/approve`, { method: "POST" });
               setPending((prev) => prev.filter((u) => u.id !== user.id));
@@ -224,7 +227,7 @@ function PendingBody({
               refreshData();
             }}
           >
-            Accept
+            Approve
           </button>
         </li>
       ))}

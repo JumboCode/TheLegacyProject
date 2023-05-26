@@ -8,6 +8,13 @@ module.exports = {
         'drop-inner': 'inset 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.2)',
       }
     },
+    screens: {
+      xs: '320px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px'
+    },
     colors: {
       'dark-teal': '#22555A',
       'nav-teal': '#0C5C5C',

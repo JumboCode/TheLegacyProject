@@ -133,16 +133,16 @@ const AddFile = ({
           ) : (
             <>
               {confirm ? (
-                <div className="flex h-[250px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
+                <div className="flex-row h-[250px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
                   <span>File added successfully!</span>
-                  <div className="flex w-full flex-row justify-center">
+                  {/* <div className="flex w-full flex-row justify-center"> */}
                     <button
                       className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-base font-normal text-[#515151] hover:bg-gray-200"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm
                     </button>
-                  </div>
+                  {/* </div> */}
                 </div>
               ) : (
                 <div className="flex h-[250px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10 text-center text-base text-neutral-600">
