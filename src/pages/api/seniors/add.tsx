@@ -34,7 +34,7 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
             name: z.string(),
             location: z.string(),
             description: z.string(),
-            students: z.array(z.string()),
+            StudentIDs: z.array(z.string()),
           });
 
           const body = bodySchema.parse(JSON.parse(req.body));
@@ -54,16 +54,16 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
           });
           const googleFolderId = (file as any).data.id;
 
+          console.log("Before creating senior...");
           const senior = await prisma.senior.create({
             data: {
               name: body.name,
               location: body.location,
               description: body.description,
-              StudentIDs: body.students,
+              StudentIDs: body.StudentIDs,
               folder: googleFolderId,
             },
           });
-
           res.status(200).json(senior);
         } else {
           res.status(500).json({
@@ -74,14 +74,14 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
         }
       } catch (error) {
         res.status(500).json({
-          error: `failed to create senior: ${error}`,
+          error: `Failed to create senior: ${error}`,
         });
       }
       break;
 
     default:
       res.status(500).json({
-        error: `method ${req.method} not implemented`,
+        error: `Method ${req.method} not implemented`,
       });
       break;
   }

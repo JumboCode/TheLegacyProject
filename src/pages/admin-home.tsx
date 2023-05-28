@@ -2,13 +2,12 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import PhotoHeader from "@components/photoHeader";
 
 import Image from "next/image";
-import Link from "next/link";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval, Senior, User } from "@prisma/client";
 import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
-import AddSenior, { AddSeniorTile } from "@components/AddSenior";
+import AddSenior from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
 import cn from "classnames";
 
@@ -152,8 +151,11 @@ function SeniorBody({
   <>      
     <SearchBar setFilter={setFilter}/>
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 text-center mt-6">
-        <AddSenior showAddSeniorPopUp={showAddSeniorPopUp} 
-                       setShowAddSeniorPopUp={setShowAddSeniorPopUp}/>
+        <AddSenior seniors={seniors}
+                   setSeniors={setSeniors}
+                   showAddSeniorPopUp={showAddSeniorPopUp} 
+                   setShowAddSeniorPopUp={setShowAddSeniorPopUp}
+                   />
 
         {seniors.filter(({ name }) => name?.includes(filter))
           .map((senior) => (

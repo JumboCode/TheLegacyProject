@@ -2,8 +2,11 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image"; 
 import cn from "classnames";
 import FilterDropdown from "@components/filterDropdown";
+import { Senior, File } from "@prisma/client"
 
 type AddSeniorProps = {
+  seniors: Senior [],
+  setSeniors: Dispatch<SetStateAction<Senior[]>>,
   showAddSeniorPopUp: boolean;
   setShowAddSeniorPopUp: Dispatch<SetStateAction<boolean>>;
 };
@@ -67,6 +70,8 @@ const StudentSelector = ({
 };
 
 const AddSenior = ({
+  seniors,
+  setSeniors,
   showAddSeniorPopUp,
   setShowAddSeniorPopUp,
 }: AddSeniorProps) => {
@@ -91,19 +96,26 @@ const AddSenior = ({
 
   const callAddSenior = async () => {
     // POST new senior model to database
-    // const AddSeniorRes = await fetch("/api/seniors/add", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     name: seniorName,
-    //     location: location,
-    //     description: description,
-    //     students: selectedStudents // TODO: should be list of student IDs, not names selected and listed
-    //   }),
-    // });
 
-    if (200 === 200) { // AddSeniorRes.status
+    const newSenior = {
+      name: seniorName,
+      location: location,
+      description: description,
+      StudentIDs: []
+    }
+    
+    const AddSeniorRes = await fetch("/api/seniors/add", {
+      method: "POST",
+      body: JSON.stringify(newSenior),
+    });
+
+    if (AddSeniorRes.status === 200) {
       setConfirm(true);
+      const newSeniorObj = await AddSeniorRes.json();
+      console.log(newSeniorObj);
+      setSeniors([...seniors, newSeniorObj]);
     } else {
+      console.log(AddSeniorRes.text().then((text) => { console.log(text); }));
       setError(true);
     }
   };
