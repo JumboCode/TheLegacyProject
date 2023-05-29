@@ -15,6 +15,9 @@ module.exports = {
       lg: '1024px',
       xl: '1280px'
     },
+    borders: {
+      test: 'border-4 border-red-400 border-dashed'
+    },
     colors: {
       'dark-teal': '#22555A',
       'nav-teal': '#0C5C5C',

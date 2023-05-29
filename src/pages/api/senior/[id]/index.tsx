@@ -115,6 +115,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           });
           res.status(200).json(deleteSenior);
+          // TODO: delete Google Drive resources for this Senior
           return;
         } else {
           res.status(500).json({

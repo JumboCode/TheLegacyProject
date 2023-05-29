@@ -18,7 +18,7 @@ export function SeniorTile({
 }: ISeniorTileProps) {
   return (
       <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white hover:bg-off-white text-base font-medium text-gray-700 drop-shadow-md">
-        <div className="absolute top-2 right-2">
+        <div className="absolute top-0 right-0">
           <TileEdit
             options={[
               {
@@ -44,7 +44,7 @@ export function SeniorTile({
           />
         </div>
         <Link href={link}>
-          <div className="flex flex-col h-full w-full justify-center bg-indigo-200">
+          <div className="flex flex-col h-full w-full justify-center">
             <div className="flex flex-col h-1/2 justify-end">
               <Image
                 className="object-scale-down"
