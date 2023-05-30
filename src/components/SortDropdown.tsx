@@ -45,8 +45,8 @@ export default function SortDropdown({
                 setSortMethod(method);
               }}
               className={cn(
-                method === sortMethod ? "bg-light-sage" : "bg-gray-50",
-                "px-5 pb-3 pt-4 text-left"
+                method === sortMethod ? "bg-light-sage" : "bg-off-white hover:bg-offer-white",
+                "px-5 pb-3 pt-4 text-center"
               )}
             >
               {method}

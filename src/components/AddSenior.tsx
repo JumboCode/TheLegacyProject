@@ -111,7 +111,6 @@ const AddSenior = ({
   const patchAddSenior = async () => {
     // PATCH existing senior model in databse
 
-    alert("Patching senior " + seniorPatch);
     const newerSenior = {
       name: seniorName,
       location: location,
@@ -127,7 +126,8 @@ const AddSenior = ({
     if (AddSeniorRes.status === 200) {
       setConfirm(true);
       const newerSeniorObj = await AddSeniorRes.json();
-      setSeniors([...seniors, newerSeniorObj]);
+      const newSeniors = seniors.filter((i) => { return (i.id !== newerSeniorObj.id); });
+      setSeniors([...newSeniors, newerSeniorObj]);
     } else {
       console.log(AddSeniorRes.text().then((text) => { console.log(text); }));
       setError(true);

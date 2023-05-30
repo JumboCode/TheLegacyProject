@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
 import AddSenior from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
+import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import cn from "classnames";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
@@ -31,6 +32,7 @@ const Home: NextPage<IAdminProps> = ({
   const [seniors, setSeniors] = useState(initialSeniors);
 
   const [selectedTab, setSelectedTab] = useState<Tabs>("Students");
+  const [sortMethod, setSortMethod] = useState<string>("By Name");
 
   const router = useRouter(); // call to refresh props
   const refreshData = useCallback(() => {
@@ -45,6 +47,8 @@ const Home: NextPage<IAdminProps> = ({
           setDeactivated={setDeactivated}
           setStudents={setStudents}
           refreshData={refreshData}
+          sortMethod={sortMethod}
+          setSortMethod={setSortMethod}
         />
       );
     } else if (selectedTab === "Seniors") {
@@ -52,6 +56,8 @@ const Home: NextPage<IAdminProps> = ({
         <SeniorBody
           seniors={seniors}
           setSeniors={setSeniors}
+          sortMethod={sortMethod}
+          setSortMethod={setSortMethod}
           refreshData={refreshData}
         />
       );
@@ -110,10 +116,14 @@ function StudentBody({
   refreshData: () => void;
 }) {
   const [filter, setFilter] = useState("");
+  const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
 
   return (
     <>
-      <SearchBar setFilter={setFilter}/>
+      <div className="flex flex-row justify-between space-x-3 align-middle z-10">
+        <SearchBar setFilter={setFilter}/>
+        <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
+      </div>
       <TileGrid>
           {students
             .filter(({ name }) => name?.includes(filter))
@@ -146,10 +156,14 @@ function SeniorBody({
   const [filter, setFilter] = useState("");
   const [showAddSeniorPopUp, setShowAddSeniorPopUp] = useState<boolean>(false);
   const [seniorPatch, setSeniorPatch] = useState<string>("");
+  const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
 
   return (
   <>      
-    <SearchBar setFilter={setFilter}/>
+      <div className="flex flex-row justify-between space-x-3 align-middle z-10">
+        <SearchBar setFilter={setFilter}/>
+        <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
+      </div>
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 text-center mt-6">
         <AddSenior
                    seniors={seniors}
