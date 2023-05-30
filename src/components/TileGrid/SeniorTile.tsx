@@ -2,12 +2,17 @@ import { TileEdit } from "./TileEdit";
 import { Senior } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { Dispatch, SetStateAction } from "react";
 
 interface ISeniorTileProps {
   senior: Senior;
   link: string;
   setSeniors: React.Dispatch<React.SetStateAction<Senior[]>>;
   refreshData: () => void;
+  showAddSeniorPopUp: boolean;
+  setShowAddSeniorPopUp: Dispatch<SetStateAction<boolean>>;
+  seniorPatch: boolean;
+  setSeniorPatch: Dispatch<SetStateAction<boolean>>;
 }
 
 export function SeniorTile({
@@ -15,32 +20,41 @@ export function SeniorTile({
   link,
   setSeniors,
   refreshData,
+  showAddSeniorPopUp,
+  setShowAddSeniorPopUp,
+  seniorPatch,
+  setSeniorPatch
 }: ISeniorTileProps) {
+
+  const options: Parameters<typeof TileEdit>[0]["options"] = [
+    {
+      name: "Edit",
+      onClick: (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setSeniorPatch(true);
+        setShowAddSeniorPopUp(true);
+      },
+    },
+    {
+      name: "Delete",
+      onClick: (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        fetch(`/api/senior/${senior.id}`, {
+          method: "DELETE",
+        });
+        setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
+        refreshData();
+      },
+    }
+  ];
+
   return (
       <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white hover:bg-off-white text-base font-medium text-gray-700 drop-shadow-md">
         <div className="absolute top-0 right-0">
           <TileEdit
-            options={[
-              {
-                name: "Edit",
-                onClick: (e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                },
-              },
-              {
-                name: "Delete",
-                onClick: (e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  fetch(`/api/senior/${senior.id}`, {
-                    method: "DELETE",
-                  });
-                  setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
-                  refreshData();
-                },
-              },
-            ]}
+            options={options}
           />
         </div>
         <Link href={link}>

@@ -9,6 +9,8 @@ type AddSeniorProps = {
   setSeniors: Dispatch<SetStateAction<Senior[]>>,
   showAddSeniorPopUp: boolean;
   setShowAddSeniorPopUp: Dispatch<SetStateAction<boolean>>;
+  seniorPatch: boolean;
+  setSeniorPatch: Dispatch<SetStateAction<boolean>>;
 };
 
 
@@ -74,6 +76,8 @@ const AddSenior = ({
   setSeniors,
   showAddSeniorPopUp,
   setShowAddSeniorPopUp,
+  seniorPatch,
+  setSeniorPatch
 }: AddSeniorProps) => {
   const [seniorName, setSeniorName] = useState<string>("");
   const [location, setLocation] = useState<string>("");
@@ -94,7 +98,11 @@ const AddSenior = ({
   }
 
 
-  const callAddSenior = async () => {
+  const patchAddSenior = () => {
+    setSeniorPatch(false);
+  };
+
+  const postAddSenior = async () => {
     // POST new senior model to database
 
     const newSenior = {
@@ -132,7 +140,9 @@ const AddSenior = ({
           {!confirm && !error ? (
                 <>
                   <div>
-                    <div className="mb-8 sm:text-center md:text-left font-serif text-3xl"> Add New Senior </div>
+                    <div className="mb-8 sm:text-center md:text-left font-serif text-3xl">
+                      { seniorPatch ? "Update" : "Add New" } Senior
+                    </div>
 
                     <div className="mb-1 h-[34px] w-full font-sans text-lg text-neutral-600"> Name </div>
                     <input
@@ -181,9 +191,9 @@ const AddSenior = ({
                     <button
                       className="mx-2 my-4 w-full p-3 max-w-[10rem] rounded drop-shadow-md bg-nav-teal text-lg font-normal text-white \
                                 hover:bg-dark-teal"
-                      onClick={callAddSenior}
+                      onClick={ seniorPatch ? patchAddSenior : postAddSenior }
                     >
-                      Create
+                      { seniorPatch ? "Update" : "Create" }
                     </button>
                   </div>
                 </>
@@ -231,7 +241,9 @@ const AddSenior = ({
               />
             </div>
             <div className="relative h-1/2 w-full p-2 flex flex-col font-medium text-center text-lg">
-                <span className="break-words px-2 text-neutral-800"> Add New Senior </span>
+                <span className="break-words px-2 text-neutral-800"> 
+                  Add New Senior 
+                </span>
             </div>
           </div>
         </button>

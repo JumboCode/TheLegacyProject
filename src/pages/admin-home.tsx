@@ -4,7 +4,7 @@ import PhotoHeader from "@components/photoHeader";
 import Image from "next/image";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval, Senior, User } from "@prisma/client";
-import { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
 import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
 import AddSenior from "@components/AddSenior";
@@ -29,7 +29,6 @@ const Home: NextPage<IAdminProps> = ({
   const [pending, setPending] = useState(initialPending);
   const [deactivated, setDeactivated] = useState(initialDeactivated);
   const [seniors, setSeniors] = useState(initialSeniors);
-
 
   const [selectedTab, setSelectedTab] = useState<Tabs>("Students");
 
@@ -106,8 +105,8 @@ function StudentBody({
   refreshData,
 }: {
   students: User[];
-  setDeactivated: React.Dispatch<React.SetStateAction<User[]>>;
-  setStudents: React.Dispatch<React.SetStateAction<User[]>>;
+  setDeactivated: Dispatch<SetStateAction<User[]>>;
+  setStudents: Dispatch<SetStateAction<User[]>>;
   refreshData: () => void;
 }) {
   const [filter, setFilter] = useState("");
@@ -146,15 +145,19 @@ function SeniorBody({
 }) {
   const [filter, setFilter] = useState("");
   const [showAddSeniorPopUp, setShowAddSeniorPopUp] = useState<boolean>(false);
+  const [seniorPatch, setSeniorPatch] = useState<boolean>(false);
 
   return (
   <>      
     <SearchBar setFilter={setFilter}/>
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 text-center mt-6">
-        <AddSenior seniors={seniors}
+        <AddSenior
+                   seniors={seniors}
                    setSeniors={setSeniors}
                    showAddSeniorPopUp={showAddSeniorPopUp} 
                    setShowAddSeniorPopUp={setShowAddSeniorPopUp}
+                   seniorPatch={seniorPatch} 
+                   setSeniorPatch={setSeniorPatch}
                    />
 
         {seniors.filter(({ name }) => name?.includes(filter))
@@ -166,6 +169,10 @@ function SeniorBody({
                 senior={senior}
                 setSeniors={setSeniors}
                 refreshData={refreshData}
+                showAddSeniorPopUp={showAddSeniorPopUp}
+                setShowAddSeniorPopUp={setShowAddSeniorPopUp}
+                seniorPatch={seniorPatch}
+                setSeniorPatch={setSeniorPatch}
               />
             </div>
         ))}

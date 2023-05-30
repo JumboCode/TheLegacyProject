@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 const TileEditBreadcrumbs = () => (
   <svg
@@ -27,7 +27,7 @@ function TileEditMenu({ visible, setVisible, options }: ITileEditMenu) {
     <div
       className={cn(
         visible ? "flex" : "hidden",
-        "absolute top-0 right-0 z-10 flex-col rounded bg-white drop-shadow-md"
+        "absolute top-0 right-0 z-10 flex-col text-center rounded bg-white drop-shadow-md"
       )}
     >
       <form method="dialog">
