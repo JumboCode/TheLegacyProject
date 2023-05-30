@@ -145,7 +145,7 @@ function SeniorBody({
 }) {
   const [filter, setFilter] = useState("");
   const [showAddSeniorPopUp, setShowAddSeniorPopUp] = useState<boolean>(false);
-  const [seniorPatch, setSeniorPatch] = useState<boolean>(false);
+  const [seniorPatch, setSeniorPatch] = useState<string>("");
 
   return (
   <>      

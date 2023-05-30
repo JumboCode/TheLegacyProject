@@ -62,13 +62,14 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         })) ?? { admin: false };
 
-        const SeniorUpdate = z.object({
+        const seniorSchema = z.object({
           name: z.string().optional(),
           location: z.string().optional(),
           description: z.string().optional(),
+          StudentIDs: z.array(z.string()),
         });
-
-        const { name, location, description } = SeniorUpdate.parse(req.body);
+        
+        const body = seniorSchema.parse(JSON.parse(req.body));
 
         if (admin) {
           const senior = await prisma.senior.update({
@@ -76,9 +77,10 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
               id: seniorId,
             },
             data: {
-              name,
-              location,
-              description,
+              name: body.name,
+              location: body.location,
+              description: body.description,
+              StudentIDs: body.StudentIDs
             },
           });
 

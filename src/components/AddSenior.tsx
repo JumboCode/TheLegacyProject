@@ -9,19 +9,26 @@ type AddSeniorProps = {
   setSeniors: Dispatch<SetStateAction<Senior[]>>,
   showAddSeniorPopUp: boolean;
   setShowAddSeniorPopUp: Dispatch<SetStateAction<boolean>>;
-  seniorPatch: boolean;
-  setSeniorPatch: Dispatch<SetStateAction<boolean>>;
+  seniorPatch: string;
+  setSeniorPatch: Dispatch<SetStateAction<string>>;
 };
 
 
-export const AddSeniorTile = ({showAddSeniorPopUp, setShowAddSeniorPopUp}: AddSeniorProps) => {
+type AddSeniorTileProps = {
+  showAddSeniorPopUp: boolean;
+  setShowAddSeniorPopUp: Dispatch<SetStateAction<boolean>>;
+  setSeniorPatch: Dispatch<SetStateAction<string>>;
+};
+
+export const AddSeniorTile = ({showAddSeniorPopUp, setShowAddSeniorPopUp, setSeniorPatch}: AddSeniorTileProps) => {
 
   const handlePopUp = () => {
     setShowAddSeniorPopUp(!showAddSeniorPopUp);
+    setSeniorPatch("");
   };
 
   return (
-  <button onClick={handlePopUp}>
+    <button onClick={handlePopUp}>
     <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white hover:bg-off-white font-medium drop-shadow-md">
       <div className="flex flex-col h-1/2 justify-end">
         <Image
@@ -33,10 +40,13 @@ export const AddSeniorTile = ({showAddSeniorPopUp, setShowAddSeniorPopUp}: AddSe
         />
       </div>
       <div className="relative h-1/2 w-full p-2 flex flex-col font-medium text-center text-lg">
-          <span className="break-words px-2 text-neutral-800"> Add New Senior </span>
+          <span className="break-words px-2 text-neutral-800"> 
+            Add New Senior 
+          </span>
       </div>
     </div>
-  </button>);
+  </button>
+  );
 };
 
 const StudentSelector = ({
@@ -98,8 +108,32 @@ const AddSenior = ({
   }
 
 
-  const patchAddSenior = () => {
-    setSeniorPatch(false);
+  const patchAddSenior = async () => {
+    // PATCH existing senior model in databse
+
+    alert("Patching senior " + seniorPatch);
+    const newerSenior = {
+      name: seniorName,
+      location: location,
+      description: description,
+      StudentIDs: []
+    }
+    
+    const AddSeniorRes = await fetch("/api/senior/" + seniorPatch, {
+      method: "PATCH",
+      body: JSON.stringify(newerSenior),
+    });
+
+    if (AddSeniorRes.status === 200) {
+      setConfirm(true);
+      const newerSeniorObj = await AddSeniorRes.json();
+      setSeniors([...seniors, newerSeniorObj]);
+    } else {
+      console.log(AddSeniorRes.text().then((text) => { console.log(text); }));
+      setError(true);
+    }
+    
+    setSeniorPatch(""); // empty string used as falsey value to indicate update or patch
   };
 
   const postAddSenior = async () => {
@@ -120,7 +154,6 @@ const AddSenior = ({
     if (AddSeniorRes.status === 200) {
       setConfirm(true);
       const newSeniorObj = await AddSeniorRes.json();
-      console.log(newSeniorObj);
       setSeniors([...seniors, newSeniorObj]);
     } else {
       console.log(AddSeniorRes.text().then((text) => { console.log(text); }));
@@ -135,8 +168,8 @@ const AddSenior = ({
         <div className="absolute top-0 left-0 z-50 flex h-full w-screen flex-row items-start justify-center \
                         text-left backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
           
-          <div className={cn("flex min-h-1/4 p-10 flex-col justify-between rounded-lg bg-white", 
-                          confirm || error ? "mt-[12.5%] w-2/5" : "sm:mt-10 md:mt-20 sm:w-4/5 md:w-1/2")}>
+          <div className={cn("sticky flex min-h-1/4 p-10 flex-col justify-between rounded-lg bg-white", 
+                          confirm || error ? "top-[12.5%] w-2/5" : "top-[5%] sm:w-4/5 md:w-1/2")}>
           {!confirm && !error ? (
                 <>
                   <div>
@@ -202,7 +235,7 @@ const AddSenior = ({
                   {confirm ? (
                     <div className="flex flex-col items-center">
                       <div className="mb-8 text-center font-serif text-3xl">
-                        {seniorName === "" ? "Senior" : seniorName} was added successfully!
+                        {seniorName === "" ? "Senior" : seniorName} was { seniorPatch ? "updated" : "added" } successfully!
                       </div>
                         <button
                         className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-lg font-normal drop-shadow-md hover:bg-offer-white"
@@ -229,24 +262,9 @@ const AddSenior = ({
         </div>
         )
       }
-        <button onClick={handlePopUp}>
-          <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white hover:bg-off-white font-medium drop-shadow-md">
-            <div className="flex flex-col h-1/2 justify-end">
-              <Image
-                className="object-scale-down"
-                src={"/profile/addprofile_icon.png"}
-                alt="Add profile image"
-                height={75}
-                width={75}
-              />
-            </div>
-            <div className="relative h-1/2 w-full p-2 flex flex-col font-medium text-center text-lg">
-                <span className="break-words px-2 text-neutral-800"> 
-                  Add New Senior 
-                </span>
-            </div>
-          </div>
-        </button>
+      <AddSeniorTile showAddSeniorPopUp={showAddSeniorPopUp} 
+                     setShowAddSeniorPopUp={setShowAddSeniorPopUp}
+                     setSeniorPatch={setSeniorPatch}/>
     </>
   );
 };

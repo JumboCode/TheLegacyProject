@@ -11,8 +11,8 @@ interface ISeniorTileProps {
   refreshData: () => void;
   showAddSeniorPopUp: boolean;
   setShowAddSeniorPopUp: Dispatch<SetStateAction<boolean>>;
-  seniorPatch: boolean;
-  setSeniorPatch: Dispatch<SetStateAction<boolean>>;
+  seniorPatch: string;
+  setSeniorPatch: Dispatch<SetStateAction<string>>;
 }
 
 export function SeniorTile({
@@ -32,7 +32,7 @@ export function SeniorTile({
       onClick: (e) => {
         e.stopPropagation();
         e.preventDefault();
-        setSeniorPatch(true);
+        setSeniorPatch(senior.id);
         setShowAddSeniorPopUp(true);
       },
     },
