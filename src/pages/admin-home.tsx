@@ -47,17 +47,14 @@ const Home: NextPage<IAdminProps> = ({
           setDeactivated={setDeactivated}
           setStudents={setStudents}
           refreshData={refreshData}
-          sortMethod={sortMethod}
-          setSortMethod={setSortMethod}
         />
       );
     } else if (selectedTab === "Seniors") {
       return (
         <SeniorBody
           seniors={seniors}
+          students={students} // for AddSenior
           setSeniors={setSeniors}
-          sortMethod={sortMethod}
-          setSortMethod={setSortMethod}
           refreshData={refreshData}
         />
       );
@@ -129,15 +126,15 @@ function StudentBody({
             .filter(({ name }) => name?.includes(filter))
             .map((student) => (
               <div className="h-auto w-auto">
-              <StudentTile
-                key={student.id}
-                link={"/student/" + student.id}
-                student={student}
-                setDeactivated={setDeactivated}
-                setStudents={setStudents}
-                refreshData={refreshData}
-              />
-                </div>
+                <StudentTile
+                  key={student.id}
+                  link={"/student/" + student.id}
+                  student={student}
+                  setDeactivated={setDeactivated}
+                  setStudents={setStudents}
+                  refreshData={refreshData}
+                />
+              </div>
             ))}
       </TileGrid>
     </>
@@ -146,10 +143,12 @@ function StudentBody({
 
 function SeniorBody({
   seniors,
+  students,
   setSeniors,
   refreshData,
 }: {
   seniors: Senior[];
+  students: User[];
   setSeniors: React.Dispatch<React.SetStateAction<Senior[]>>;
   refreshData: () => void;
 }) {
@@ -164,9 +163,10 @@ function SeniorBody({
         <SearchBar setFilter={setFilter}/>
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 text-center mt-6">
+    <TileGrid>
         <AddSenior
                    seniors={seniors}
+                   students={students}
                    setSeniors={setSeniors}
                    showAddSeniorPopUp={showAddSeniorPopUp} 
                    setShowAddSeniorPopUp={setShowAddSeniorPopUp}
@@ -190,7 +190,7 @@ function SeniorBody({
               />
             </div>
         ))}
-      </div>
+      </TileGrid>
     </>
   );
 }

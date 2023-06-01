@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import FilterDropdown from "@components/filterDropdown";
-import Tag, { tagColors, tagList } from "@components/Tag";
+import TagBlock, { tagList, tagMap } from "@components/Tag";
+import { Tag } from "@prisma/client";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -13,32 +14,21 @@ const TagSelector = ({
   selectedTags,
   setSelectedTags,
 }: {
-  selectedTags: string[];
-  setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedTags: Tag[];
+  setSelectedTags: React.Dispatch<React.SetStateAction<Tag[]>>;
 }) => {
   return (
     <div>
       <div className="h-[34px] mb-1 w-full font-sans text-lg text-neutral-600">
         Tags
       </div>
-      <FilterDropdown
+      <FilterDropdown<Tag>
         items={tagList}
-        onItemSelect={(idx: number, item: string) => {
-          if (!selectedTags.includes(item)) {
-            setSelectedTags([...selectedTags, item]);
-          } else {
-            setSelectedTags(selectedTags.filter((i) => i != item));
-          }
-        }}
+        filterMatch={(tag, text) => tag.name.indexOf(text) != -1}
+        display={(tag) => (<TagBlock name={tag.name} color={tag.color}/>)}
         selectedItems={selectedTags}
+        setSelectedItems={setSelectedTags}
       />
-      <div className="flex flex-row flex-wrap my-2">
-        {selectedTags.map((tag: string, i: number) => (
-          <div key={i}>
-            <Tag name={tag} color={tagColors.get(tag)} />
-          </div>
-        ))}
-      </div>
     </div>
   );
 };
@@ -53,7 +43,7 @@ const AddFile = ({
   const [description, setDescription] = useState<string>("");
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
   const handleCancel = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
@@ -92,7 +82,7 @@ const AddFile = ({
                   File name
                 </div>
                 <input
-                  className="mb-5 h-[46px] w-full rounded border-2 border-solid border-nav-taupe px-3"
+                  className="mb-5 h-[46px] w-full rounded border-2 border-nav-taupe px-3"
                   type="text"
                   value={fileName}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -103,7 +93,7 @@ const AddFile = ({
                   Description
                 </div>
                 <textarea
-                  className="mb-4 h-1/2 w-full rounded border-2 border-solid border-nav-taupe bg-off-white p-[12px] text-start text-base"
+                  className="mb-4 h-1/2 w-full rounded border-2 border-nav-taupe bg-off-white p-[12px] text-start text-base"
                   placeholder=""
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                     setDescription(e.target.value)

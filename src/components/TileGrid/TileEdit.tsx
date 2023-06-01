@@ -34,7 +34,7 @@ function TileEditMenu({ visible, setVisible, options }: ITileEditMenu) {
         {options.map((option) => (
           <button
             key={option.name}
-            className="p-2 px-3"
+            className="p-2 px-4"
             onClick={(e) => {
               option.onClick(e);
               setVisible(false);
@@ -57,7 +57,7 @@ export function TileEdit({ options }: TileEditProps) {
 
   return options.length > 0 ? (
     <div
-      className="relative p-2 h-16 w-16"
+      className="absolute top-0 right-0 w-auto p-1"
       onMouseLeave={(e) => { setVisible(false); }}
     >
       <button

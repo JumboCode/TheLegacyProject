@@ -1,7 +1,6 @@
 import { File } from "@prisma/client";
-import Link from "next/link";
 import { useState } from "react";
-import Tag, { tagColors } from "./Tag";
+import TagBlock, { Tag, tagMap } from "./Tag";
 
 export type IFileCardProps = Pick<
   File,
@@ -39,7 +38,7 @@ const FileCard = ({
       lastModified.getDay() == currentDate.getDay() &&
       lastModified.getHours() <= currentDate.getHours()
     ) {
-      // TODAY
+      // Today
       dateString =
         "today at " + lastModified.toLocaleTimeString(undefined, timeOptions);
     }
@@ -47,13 +46,13 @@ const FileCard = ({
       lastModified.getDay() == currentDate.getDay() - 1 &&
       lastModified.getHours() > currentDate.getHours()
     ) {
-      // YESTERDAY
+      // Yesterday
       dateString =
         "yesterday at " +
         lastModified.toLocaleTimeString(undefined, timeOptions);
     }
   } else {
-    // ALL OTHER TIMES
+    // All other times
     dateString = lastModified.toLocaleDateString(undefined, dateOptions);
   }
 
@@ -87,8 +86,8 @@ const FileCard = ({
       </div>
       {/* Row of Tags */}
       <div className="flex flex-row flex-nowrap gap-2 overflow-x-auto">
-        {Tags.map((name, i) => (
-          <Tag key={i} name={name} color={tagColors.get(name)} />
+        {Tags.map((tagName, i) => (
+          <TagBlock key={i} name={tagName} color={tagMap} />
         ))}
       </div>
     </div>

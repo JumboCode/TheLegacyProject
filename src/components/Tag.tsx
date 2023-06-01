@@ -1,39 +1,27 @@
-export interface ITagProps {
-  name: string;
-  color: string | undefined;
-}
+import { Tag } from "@prisma/client";
 
-export const tagList = [
-  "Getting to Know You",
-  "Early Childhood",
-  "Adolescence",
-  "Early Twenties and College",
-  "Career and Adulthood",
-  "Marriage",
-  "Parenthood and Family",
-  "Elder Years and Retirement",
-  "Beliefs, Values, and the Future",
+export const tagList: Tag[] = [
+  { name: "Getting to Know You", color: "bg-tag-rust"},
+  { name: "Early Childhood", color: "bg-tag-tan"},
+  { name: "Adolescence", color: "bg-tag-gold"},
+  { name: "Early Twenties and College", color: "bg-tag-lime"},
+  { name: "Career and Adulthood", color: "bg-tag-moss"},
+  { name: "Marriage", color: "bg-tag-teal"},
+  { name: "Parenthood and Family", color: "bg-tag-blue"},
+  { name: "Elder Years and Retirement", color: "bg-tag-violet"},
+  { name: "Beliefs, Values, and the Future", color: "bg-tag-rose"}
 ];
 
-export const tagColors = new Map<string, string>();
-tagColors.set("Getting to Know You", "bg-tag-rust");
-tagColors.set("Early Childhood", "bg-tag-tan");
-tagColors.set("Adolescence", "bg-tag-gold");
-tagColors.set("Early Twenties and College", "bg-tag-lime");
-tagColors.set("Career and Adulthood", "bg-tag-moss");
-tagColors.set("Marriage", "bg-tag-teal");
-tagColors.set("Parenthood and Family", "bg-tag-blue");
-tagColors.set("Elder Years and Retirement", "bg-tag-violet");
-tagColors.set("Beliefs, Values, and the Future", "bg-tag-rose");
+export const tagMap = new Map<string, string>( tagList.map((tag) => [tag.name, tag.color]));
 
-const Tag = ({ name, color }: ITagProps) => {
+const TagBlock = ({ name, color }: Tag) => {
   return (
     <div
-      className={`${color} my-0.5 mr-1 whitespace-nowrap rounded-xl py-1 px-3 text-off-white`}
+      className={`${color} my-0.5 mr-1 whitespace-nowrap rounded py-1 px-3 text-off-white`}
     >
       <span className="">{name}</span>
     </div>
   );
 };
 
-export default Tag;
+export default TagBlock;

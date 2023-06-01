@@ -54,9 +54,10 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
           folder={senior.folder}
         />
       ) : null}
-      <div className="w-full p-8">
+      <div className="w-full p-8 gap-2">
         <h1 className="font-serif text-5xl leading-normal sm:text-center md:text-left mb-4">
           {senior.name}
+          <h2 className="font-serif text-xl"> {senior.location} </h2>
         </h1>
         <div className="w-full mb-8 border-solid bg-nav-taupe drop-shadow-md">
           <p className="rounded bg-nav-taupe p-4 max-h-[100px] sm:text-lg md:text-md overflow-scroll">

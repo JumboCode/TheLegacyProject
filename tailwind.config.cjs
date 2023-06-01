@@ -10,10 +10,10 @@ module.exports = {
     },
     screens: {
       xs: '320px',
-      sm: '640px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px'
+      sm: '680px',
+      md: '900px',
+      lg: '1280px',
+      xl: '1480px'
     },
     borders: {
       test: 'border-4 border-red-400 border-dashed'
@@ -21,12 +21,12 @@ module.exports = {
     colors: {
       'dark-teal': '#22555A',
       'nav-teal': '#0C5C5C',
+      'light-teal': '#a7bfbf', 
       'off-white': '#F5F5F5',
       'offer-white': '#F0F0F0',
       'taupe': '#F5F0EA',
       'nav-taupe': '#E8E0D5',
-      'dark-taupe': '#d1c7b8',
-      'dark-green': '#22555A',
+      'dark-taupe': '#D1C7B8',
       'light-sage': '#AEBDB6',
       'dark-sage': '#94A59C',
       'dark-gray': '#515151',

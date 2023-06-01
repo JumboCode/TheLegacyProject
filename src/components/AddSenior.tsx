@@ -2,10 +2,12 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image"; 
 import cn from "classnames";
 import FilterDropdown from "@components/filterDropdown";
-import { Senior, File } from "@prisma/client"
+import { Senior, User } from "@prisma/client"
+import senior from "src/pages/api/senior/[id]";
 
 type AddSeniorProps = {
   seniors: Senior [],
+  students: User [],
   setSeniors: Dispatch<SetStateAction<Senior[]>>,
   showAddSeniorPopUp: boolean;
   setShowAddSeniorPopUp: Dispatch<SetStateAction<boolean>>;
@@ -50,49 +52,53 @@ export const AddSeniorTile = ({showAddSeniorPopUp, setShowAddSeniorPopUp, setSen
 };
 
 const StudentSelector = ({
+  students,
   selectedStudents,
-  setSelectedStudents,
+  setSelectedStudents
 }: {
-  selectedStudents: string[];
-  setSelectedStudents: React.Dispatch<React.SetStateAction<string[]>>;
+  students: User [];
+  selectedStudents: User [];
+  setSelectedStudents: React.Dispatch<React.SetStateAction<User[]>>;
 }) => {
+
   return (
     <div>
       <div className="h-[34px] mb-1 w-full font-sans text-lg text-neutral-600">
         Students
       </div>
-      <FilterDropdown
-        items={["TODO: STUDENT LIST"]}
-        onItemSelect={(idx: number, item: string) => {
-          if (!selectedStudents.includes(item)) {
-            setSelectedStudents([...selectedStudents, item]);
-          } else {
-            setSelectedStudents(selectedStudents.filter((i) => i != item));
-          }
-        }}
+      <FilterDropdown<User>
+        items={students}
+        filterMatch={(usr, term) => ((usr.name ?? "").indexOf(term) != -1)}
+        display={(usr: User) => (
+          <div className="m-1 whitespace-nowrap rounded py-1 px-3 bg-nav-taupe">
+            {usr.name}
+          </div>
+        )}
         selectedItems={selectedStudents}
+        setSelectedItems={setSelectedStudents}
       />
-      <div className="flex flex-row flex-wrap my-2">
-        {selectedStudents.map((student: string, i: number) => (
-          <p key={i}> {student} </p>
-        ))}
-      </div>
     </div>
   );
 };
 
+type SeniorData = {
+  name: string,
+  location: string,
+  description: string,
+}
+
 const AddSenior = ({
   seniors,
+  students,
   setSeniors,
   showAddSeniorPopUp,
   setShowAddSeniorPopUp,
   seniorPatch,
   setSeniorPatch
 }: AddSeniorProps) => {
-  const [seniorName, setSeniorName] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
+  const emptySenior: SeniorData = { name: "", location: "", description: "" }
+  const [seniorData, setSeniorData] = useState<SeniorData>(emptySenior);
+  const [selectedStudents, setSelectedStudents] = useState<User []>([]);
 
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -107,20 +113,18 @@ const AddSenior = ({
     setError(false);
   }
 
-
   const patchAddSenior = async () => {
-    // PATCH existing senior model in databse
-
-    const newerSenior = {
-      name: seniorName,
-      location: location,
-      description: description,
-      StudentIDs: []
+    // put accumulated students into senior model data
+    const seniorModel = {
+      ...seniorData,
+      Students: selectedStudents,
+      StudentIDs: selectedStudents.map((usr) => usr.id)
     }
     
+    // PATCH existing senior model in database
     const AddSeniorRes = await fetch("/api/senior/" + seniorPatch, {
       method: "PATCH",
-      body: JSON.stringify(newerSenior),
+      body: JSON.stringify(seniorModel),
     });
 
     if (AddSeniorRes.status === 200) {
@@ -133,22 +137,21 @@ const AddSenior = ({
       setError(true);
     }
     
+    setSeniorData(emptySenior);
     setSeniorPatch(""); // empty string used as falsey value to indicate update or patch
   };
 
   const postAddSenior = async () => {
-    // POST new senior model to database
-
-    const newSenior = {
-      name: seniorName,
-      location: location,
-      description: description,
-      StudentIDs: []
+    // put accumulated students into senior model data
+    const seniorModel = {
+      ...seniorData,
+      StudentIDs: selectedStudents.map((usr) => usr.id)
     }
-    
+
+    // POST new senior model to database
     const AddSeniorRes = await fetch("/api/seniors/add", {
       method: "POST",
-      body: JSON.stringify(newSenior),
+      body: JSON.stringify(seniorModel),
     });
 
     if (AddSeniorRes.status === 200) {
@@ -159,6 +162,9 @@ const AddSenior = ({
       console.log(AddSeniorRes.text().then((text) => { console.log(text); }));
       setError(true);
     }
+
+    setSeniorData(emptySenior);
+    setSelectedStudents([]);
   };
 
   return (
@@ -181,24 +187,25 @@ const AddSenior = ({
                     <input
                       className="mb-5 h-[46px] w-full rounded border-2 border-solid border-nav-taupe px-3"
                       type="text"
-                      value={seniorName}
+                      value={seniorData.name}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setSeniorName(e.target.value)
+                        setSeniorData({...seniorData, name: e.target.value })
                       }
                     />
 
                     <StudentSelector
+                      students={students}
                       selectedStudents={selectedStudents}
                       setSelectedStudents={setSelectedStudents}
                     />
 
-                    <div className="mb-1 h-[34px] w-full font-sans text-lg text-neutral-600"> Location </div>
+                    <div className="mb-1 h-[34px] w-full  font-sans text-lg text-neutral-600"> Location </div>
                     <input
                       className="mb-5 h-[46px] w-full rounded border-2 border-solid border-nav-taupe px-3"
                       type="text"
-                      value={location}
+                      value={seniorData.location}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setLocation(e.target.value)
+                        setSeniorData({...seniorData, location: e.target.value })
                       }
                     />
 
@@ -208,7 +215,7 @@ const AddSenior = ({
                       className="mb-4 h-1/2 min-h-[46px] w-full rounded border-2 border-solid border-nav-taupe bg-off-white p-[12px] text-start text-base"
                       placeholder=""
                       onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                        setDescription(e.target.value)
+                        setSeniorData({...seniorData, description: e.target.value })
                       }
                     />
                   </div>
@@ -235,7 +242,7 @@ const AddSenior = ({
                   {confirm ? (
                     <div className="flex flex-col items-center">
                       <div className="mb-8 text-center font-serif text-3xl">
-                        {seniorName === "" ? "Senior" : seniorName} was { seniorPatch ? "updated" : "added" } successfully!
+                        Senior was { seniorPatch ? "updated" : "added" } successfully!
                       </div>
                         <button
                         className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-lg font-normal drop-shadow-md hover:bg-offer-white"
