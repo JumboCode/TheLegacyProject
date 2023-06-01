@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    output = "@prisma/client"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+// Necessary for Next auth
+model Account {
+    id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+    userId             String  @db.ObjectId
+    type               String
+    provider           String
+    providerAccountId  String
+    refresh_token      String? @db.String
+    access_token       String? @db.String
+    expires_at         Int?
+    token_type         String?
+    scope              String?
+    id_token           String? @db.String
+    session_state      String?
+    oauth_token_secret String?
+    oauth_token        String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
+model Session {
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    sessionToken String   @unique
+    userId       String   @db.ObjectId
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+    id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    admin         Boolean   @default(false)
+    Account       Account[]
+    Session       Session[]
+    SeniorIDs     String[]  @db.ObjectId
+    Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])
+    approved      Approval  @default(PENDING)
+}
+
+enum Approval {
+    PENDING
+    APPROVED
+    DENIED
+}
+
+model Senior {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
+    location    String
+    description String
+    StudentIDs  String[] @db.ObjectId
+    Students    User[]   @relation(fields: [StudentIDs], references: [id])
+    folder      String
+    Files       File[]
+}
+
+model Tag {
+    id           String    @id @default(auto()) @map("_id") @db.ObjectId   
+    name         String
+    color        String
+    FileIDs      String[]  @db.ObjectId
+    Files        File[]    @relation(fields: [FileIDs], references: [id])
+}
+
+model File {
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    name         String
+    description  String
+    filetype     String
+    lastModified DateTime
+    url          String
+    seniorId     String   @db.ObjectId
+    senior       Senior   @relation(fields: [seniorId], references: [id])
+    TagIDs       String[]   @db.ObjectId
+    Tags         Tag[]    @relation(fields: [TagIDs], references: [id])
+}

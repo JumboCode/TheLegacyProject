@@ -15,6 +15,7 @@ type ISeniorProfileProps = Awaited<
 >["props"] & {
   redirect: undefined;
 };
+
 type SerialzedFile = ISeniorProfileProps["senior"]["Files"][number];
 
 const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
@@ -54,7 +55,7 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
           folder={senior.folder}
         />
       ) : null}
-      <div className="w-full p-8 gap-2">
+      <div className="w-full p-8">
         <h1 className="font-serif text-5xl leading-normal sm:text-center md:text-left mb-4">
           {senior.name}
           <h2 className="font-serif text-xl"> {senior.location} </h2>

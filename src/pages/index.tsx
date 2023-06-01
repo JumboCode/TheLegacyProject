@@ -2,35 +2,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { PhotoCarousel } from "@components/photoGallery";
 import LandingFooter from "@components/landingFooter";
+import { EmailSignupBox } from "@components/emailSignup";
 import Image from "next/image";
-
-function handleSubmit(event) {
-  alert("Confirm email: " + event.target.email.value);
-  event.target.email.value = "";
-  event.preventDefault();
-}
-
-const EmailSignupBox = () => {
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="flew-row flex content-center gap-3"
-    >
-      <input
-        type="email"
-        id="email"
-        className="w-3/4 rounded-lg border border-gray-300 bg-off-white p-2.5 text-lg text-dark-gray focus:border-blue-500 focus:ring-blue-500"
-        placeholder="john.doe@company.com"
-        required
-      />
-      <input
-        type="submit"
-        value="Join E-List"
-        className="w-1/4 rounded-lg bg-nav-teal py-1.5 px-4 font-sans text-lg text-white duration-150 hover:-translate-y-0.5"
-      ></input>
-    </form>
-  );
-};
 
 const Home: NextPage = () => {
   return (

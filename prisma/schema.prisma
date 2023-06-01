@@ -3,6 +3,7 @@
 
 generator client {
     provider = "prisma-client-js"
+    output = "@prisma/client"
 }
 
 datasource db {
@@ -69,14 +70,6 @@ model Senior {
     Students    User[]   @relation(fields: [StudentIDs], references: [id])
     folder      String
     Files       File[]
-}
-
-model Tag {
-    id           String  @id @default(auto()) @map("_id") @db.ObjectId   
-    name         String
-    color        String
-    FileIDs      String[]  @db.ObjectId
-    Files        File[]  @relation(fields: [FileIDs], references: [id])
 }
 
 model File {
