@@ -1,6 +1,6 @@
-import { Tag } from "@prisma/client";
+export type TagProps = { name: string, color: string };
 
-export const tagList: Tag[] = [
+export const tagList: TagProps[] = [
   { name: "Getting to Know You", color: "bg-tag-rust"},
   { name: "Early Childhood", color: "bg-tag-tan"},
   { name: "Adolescence", color: "bg-tag-gold"},
@@ -12,16 +12,16 @@ export const tagList: Tag[] = [
   { name: "Beliefs, Values, and the Future", color: "bg-tag-rose"}
 ];
 
-export const tagMap = new Map<string, string>( tagList.map((tag) => [tag.name, tag.color]));
+export const tagMap = new Map<string, string>(tagList.map((tag) => [tag.name, tag.color]));
 
-const TagBlock = ({ name, color }: Tag) => {
+const Tag = ({ name, color }: TagProps) => {
   return (
     <div
-      className={`${color} my-0.5 mr-1 whitespace-nowrap rounded py-1 px-3 text-off-white`}
+      className={`${color} m-1 whitespace-nowrap rounded py-1 px-3 text-off-white`}
     >
       <span className="">{name}</span>
     </div>
   );
 };
 
-export default TagBlock;
+export default Tag;

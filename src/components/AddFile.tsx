@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import FilterDropdown from "@components/filterDropdown";
-import TagBlock, { tagList, tagMap } from "@components/Tag";
-import { Tag } from "@prisma/client";
+import Tag, { TagProps, tagList } from "@components/Tag";
+import Prisma from "@prisma/client"
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -14,18 +14,18 @@ const TagSelector = ({
   selectedTags,
   setSelectedTags,
 }: {
-  selectedTags: Tag[];
-  setSelectedTags: React.Dispatch<React.SetStateAction<Tag[]>>;
+  selectedTags: TagProps[];
+  setSelectedTags: React.Dispatch<React.SetStateAction<TagProps[]>>;
 }) => {
   return (
     <div>
       <div className="h-[34px] mb-1 w-full font-sans text-lg text-neutral-600">
         Tags
       </div>
-      <FilterDropdown<Tag>
+      <FilterDropdown<TagProps>
         items={tagList}
         filterMatch={(tag, text) => tag.name.indexOf(text) != -1}
-        display={(tag) => (<TagBlock name={tag.name} color={tag.color}/>)}
+        display={(tag) => (<Tag name={tag.name} color={tag.color}/>)}
         selectedItems={selectedTags}
         setSelectedItems={setSelectedTags}
       />
@@ -43,7 +43,7 @@ const AddFile = ({
   const [description, setDescription] = useState<string>("");
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<TagProps[]>([]);
 
   const handleCancel = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
@@ -57,7 +57,7 @@ const AddFile = ({
         fileName: fileName,
         description: description,
         fileType: "Google Document",
-        seniorId,
+        seniorId: seniorId,
         tags: selectedTags,
         folder: folder,
       }),

@@ -3,7 +3,6 @@
 
 generator client {
     provider = "prisma-client-js"
-    output = "@prisma/client"
 }
 
 datasource db {
@@ -81,6 +80,5 @@ model File {
     url          String
     seniorId     String   @db.ObjectId
     senior       Senior   @relation(fields: [seniorId], references: [id])
-    TagIDs       String[]   @db.ObjectId
-    Tags         Tag[]    @relation(fields: [TagIDs], references: [id])
+    Tags         String[]
 }

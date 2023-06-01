@@ -1,6 +1,7 @@
 import { File } from "@prisma/client";
+import Link from "next/link";
 import { useState } from "react";
-import TagBlock, { Tag, tagMap } from "./Tag";
+import Tag, { tagMap } from "./Tag";
 
 export type IFileCardProps = Pick<
   File,
@@ -86,8 +87,8 @@ const FileCard = ({
       </div>
       {/* Row of Tags */}
       <div className="flex flex-row flex-nowrap gap-2 overflow-x-auto">
-        {Tags.map((tagName, i) => (
-          <TagBlock key={i} name={tagName} color={tagMap} />
+        {Tags.map((name, i) => (
+          <Tag key={i} name={name} color={tagMap.get(name) ?? ""} />
         ))}
       </div>
     </div>

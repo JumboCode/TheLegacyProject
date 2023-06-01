@@ -75,7 +75,6 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
           </div>
         </div>
 
-        {/* <div className="z-10 mt-7 grid grid-cols-[repeat(auto-fill,_256px)] gap-10 text-center"> */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-6">
 
         <button className="relative w-auto flex flex-col aspect-square justify-center items-center rounded \ 
@@ -94,14 +93,14 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
             Create New File
           </div>
         </button>
-          {filteredFiles.map(({ id, name, lastModified, url, Tags }, key) => (
+          {filteredFiles.map((file, key) => (
             <div key={key}>
               <FileCard
-                id={id}
-                name={name}
-                lastModified={new Date(lastModified)}
-                url={url}
-                Tags={Tags}
+                id={file.id}
+                name={file.name}
+                lastModified={new Date(file.lastModified)}
+                url={file.url}
+                Tags={file.Tags}
               />
             </div>
           ))}
@@ -184,6 +183,8 @@ export const getServerSideProps = async (
       },
     };
   }
+
+  console.log(senior.Files);
 
   return {
     props: {
