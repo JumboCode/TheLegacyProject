@@ -34,7 +34,7 @@ function TileEditMenu({ visible, setVisible, options }: ITileEditMenu) {
         {options.map((option) => (
           <button
             key={option.name}
-            className="p-2 px-4"
+            className="w-full p-2 px-4 hover:bg-offer-white"
             onClick={(e) => {
               option.onClick(e);
               setVisible(false);
@@ -63,7 +63,7 @@ export function TileEdit({ options }: TileEditProps) {
       <button
         onClick={() => setVisible(true)}
         type="button"
-        className="relative h-8 w-8"
+        className="relative h-10 w-12 pr-4"
       >
         <TileEditBreadcrumbs />
       </button>

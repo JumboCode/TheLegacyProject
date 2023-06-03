@@ -2,6 +2,7 @@ import { Approval } from "@prisma/client";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { prisma } from "@server/db/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 
 const student = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
@@ -67,6 +68,48 @@ const student = async (req: NextApiRequest, res: NextApiResponse) => {
       }
       break;
 
+    case "PATCH":
+      try {
+        /*
+         * Allow change of Student's Seniors if admin
+         */
+        const { admin } = (await prisma.user.findUnique({
+          where: {
+            id: userId,
+          },
+          select: {
+            admin: true, //return admin boolean field for given user id
+          },
+        })) ?? { admin: false };
+
+        const studentSchema = z.object({
+          SeniorIDs: z.array(z.string())
+        });
+        const body = studentSchema.parse(JSON.parse(req.body));
+
+        if (admin) {
+          const student = (await prisma.user.update({
+            where : {
+              id: studentId,
+            },
+            data: {
+              ...body
+            }
+          }));
+
+        res.status(200).json(student);
+        } else {
+          res.status(500).json({
+            error: "This route is protected. In order to access it, please sign in as admin."
+          });
+        }
+      } catch (error) {
+        res.status(500).json({
+          error: `Failed to update student: ${error}`
+        });
+      }
+      break;
+
     case "DELETE":
       try {
         const { admin } = (await prisma.user.findUnique({
@@ -100,7 +143,7 @@ const student = async (req: NextApiRequest, res: NextApiResponse) => {
         }
       } catch (error) {
         res.status(500).json({
-          error: `failed to delete student: ${error}`,
+          error: `Failed to delete student: ${error}`
         });
       }
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import FileCard from "@components/FileCard";
 import SearchBar from "@components/SearchBar";
 import AddFile from "@components/AddFile";
+import TileGrid from "@components/TileGrid";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
 
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
@@ -75,9 +76,8 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
           </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-6">
-
-        <button className="relative w-auto flex flex-col aspect-square justify-center items-center rounded \ 
+        <TileGrid>
+          <button className="relative w-auto flex flex-col aspect-square justify-center items-center rounded \ 
                            bg-white hover:bg-off-white text-base drop-shadow-md"
                 onClick={handlePopUp}>
           <div className="flex flex-col justify-end">
@@ -104,7 +104,7 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
               />
             </div>
           ))}
-        </div>
+        </TileGrid>
       </div>
     </div>
   );
@@ -116,7 +116,6 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const session = await getServerAuthSession(context);
-
   const seniorId = z.string().parse(context.query.id);
 
   if (!session || !session.user) {
@@ -183,8 +182,6 @@ export const getServerSideProps = async (
       },
     };
   }
-
-  console.log(senior.Files);
 
   return {
     props: {

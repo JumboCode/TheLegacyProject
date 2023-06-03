@@ -7,12 +7,12 @@ import { Dispatch, SetStateAction } from "react";
 interface ISeniorTileProps {
   senior: Senior;
   link: string;
-  setSeniors: React.Dispatch<React.SetStateAction<Senior[]>>;
+  setSeniors?: React.Dispatch<React.SetStateAction<Senior[]>>;
   refreshData: () => void;
-  showAddSeniorPopUp: boolean;
-  setShowAddSeniorPopUp: Dispatch<SetStateAction<boolean>>;
-  seniorPatch: string;
-  setSeniorPatch: Dispatch<SetStateAction<string>>;
+  showAddSeniorPopUp?: boolean;
+  setShowAddSeniorPopUp?: Dispatch<SetStateAction<boolean>>;
+  seniorPatch?: string;
+  setSeniorPatch?: Dispatch<SetStateAction<string>>;
 }
 
 export function SeniorTile({
@@ -32,6 +32,7 @@ export function SeniorTile({
       onClick: (e) => {
         e.stopPropagation();
         e.preventDefault();
+        if (!setSeniorPatch || !setShowAddSeniorPopUp) { return; }
         setSeniorPatch(senior.id);
         setShowAddSeniorPopUp(true);
       },
@@ -44,11 +45,14 @@ export function SeniorTile({
         fetch(`/api/senior/${senior.id}`, {
           method: "DELETE",
         });
+        if (!setSeniors) { return; }
         setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
         refreshData();
       },
     }
   ];
+
+  console.log(senior.name + "'s Students: " + senior.StudentIDs.toString());
 
   return (
       <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white hover:bg-off-white text-base font-medium text-gray-700 drop-shadow-md">

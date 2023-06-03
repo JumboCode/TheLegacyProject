@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
 import { useCallback, useState, useEffect } from "react";
 import PhotoHeader from "@components/photoHeader";
-import { SeniorTile } from "@components/TileGrid";
-import seniors from "../api/student/[id]/seniors";
+import TileGrid, { SeniorTile } from "@components/TileGrid";
 
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
@@ -19,13 +18,14 @@ const StudentProfilePage = ({ student }: IStudentProps) => {
     router.replace(router.asPath);
   }, [router]);
   
+  console.log("Their Seniors: " + student.Seniors);
   const [seniors, setSeniors] = useState(student.Seniors);
   
   return (
     <>
       <div className="flex flex-col h-full place-items-stsetch p-8 gap-6">
         <PhotoHeader admin={false} name={student.name} image={student.image} email={student.email}/>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-3">
+        <TileGrid >
           {seniors.map(
             (senior) => (
               <SeniorTile 
@@ -35,7 +35,7 @@ const StudentProfilePage = ({ student }: IStudentProps) => {
                 refreshData={refreshData}/>
             )
           )}
-        </div>
+        </TileGrid>
       </div>
     </>
   );

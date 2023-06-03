@@ -113,30 +113,83 @@ const AddSenior = ({
     setError(false);
   }
 
+  const updateSeniorStudents = async (seniorID: string) => {
+    let currRes = await fetch("/api/senior/" + seniorID + "/students", {
+      method: "GET",
+      body: null
+    });
+
+    if (currRes.status != 200) { 
+      const error = await currRes.json();
+      return currRes;
+    }
+
+    const oldStudentsData = await currRes.json();
+    const oldStudents = oldStudentsData["students"] as User[];
+
+    const removedStudents = oldStudents.filter((usr) => !selectedStudents.includes(usr, 0));
+    const newStudents = selectedStudents.filter((usr) => !oldStudents.includes(usr, 0));
+
+    removedStudents.map(async (usr) => {
+      // remove this Senior from Student
+      currRes = await fetch ("/api/student/" + usr.id, {
+        method: "PATCH",
+        body: JSON.stringify({
+          SeniorIDs: usr.SeniorIDs.filter((id) => id != seniorID) 
+        })
+      });
+      
+      if (currRes.status != 200) { return currRes; }
+      console.log("Removed " + usr.name + " from senior " + seniorID);
+    });
+
+    newStudents.map(async (usr) => {
+      // add this Senior from Student
+      currRes = await fetch ("/api/student/" + usr.id, {
+        method: "PATCH",
+        body: JSON.stringify({
+          SeniorIDs: [...usr.SeniorIDs, seniorID] 
+        })
+      });
+
+      if (currRes.status != 200) { return currRes; }
+      console.log("Added " + usr.name + " to senior " + seniorID);
+    });
+
+    return currRes;
+  };
+
+
   const patchAddSenior = async () => {
     // put accumulated students into senior model data
     const seniorModel = {
       ...seniorData,
-      Students: selectedStudents,
       StudentIDs: selectedStudents.map((usr) => usr.id)
     }
-    
+
     // PATCH existing senior model in database
-    const AddSeniorRes = await fetch("/api/senior/" + seniorPatch, {
+    let currRes = await fetch("/api/senior/" + seniorPatch, {
       method: "PATCH",
       body: JSON.stringify(seniorModel),
     });
+    const newerSeniorObj = await currRes.json();
+    
+    if (currRes.status === 200) {
+      // PATCH students models previously and newly associated with senior model
+      currRes = await updateSeniorStudents(seniorPatch);
 
-    if (AddSeniorRes.status === 200) {
-      setConfirm(true);
-      const newerSeniorObj = await AddSeniorRes.json();
-      const newSeniors = seniors.filter((i) => { return (i.id !== newerSeniorObj.id); });
-      setSeniors([...newSeniors, newerSeniorObj]);
-    } else {
-      console.log(AddSeniorRes.text().then((text) => { console.log(text); }));
+      if (currRes.status === 200) {
+        setConfirm(true);
+        const newSeniors = seniors.filter((i) => (i.id !== newerSeniorObj.id));
+        setSeniors([...newSeniors, newerSeniorObj]);
+      }
+    }
+    // check after both API calls
+    if (currRes.status != 200) {
+      console.log(currRes.text().then((text) => { console.log(text); }));
       setError(true);
     }
-    
+
     setSeniorData(emptySenior);
     setSeniorPatch(""); // empty string used as falsey value to indicate update or patch
   };
@@ -145,21 +198,28 @@ const AddSenior = ({
     // put accumulated students into senior model data
     const seniorModel = {
       ...seniorData,
-      StudentIDs: selectedStudents.map((usr) => usr.id)
+      StudentIDs: selectedStudents.map((usr) => { console.log(usr.id); return  usr.id; })
     }
 
     // POST new senior model to database
-    const AddSeniorRes = await fetch("/api/seniors/add", {
+    let currRes = await fetch("/api/seniors/add", {
       method: "POST",
       body: JSON.stringify(seniorModel),
     });
+    const newSeniorObj = await currRes.json();
 
-    if (AddSeniorRes.status === 200) {
-      setConfirm(true);
-      const newSeniorObj = await AddSeniorRes.json();
-      setSeniors([...seniors, newSeniorObj]);
-    } else {
-      console.log(AddSeniorRes.text().then((text) => { console.log(text); }));
+    if (currRes.status === 200) {
+      // PATCH students models previously and newly associated with senior model
+      currRes = await updateSeniorStudents(newSeniorObj.id);
+
+      if (currRes.status === 200) {
+        setConfirm(true);
+        setSeniors([...seniors, newSeniorObj]);
+      }
+    } 
+    // check after both API calls
+    if (currRes.status != 200) {
+      console.log(currRes.text().then((text) => { console.log(text); }));
       setError(true);
     }
 
@@ -171,7 +231,7 @@ const AddSenior = ({
     <>
       {showAddSeniorPopUp && 
         (
-        <div className="absolute top-0 left-0 z-50 flex h-full w-screen flex-row items-start justify-center \
+        <div className="absolute top-0 left-0 z-50 flex h-screen w-screen flex-row items-center justify-center \
                         text-left backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
           
           <div className={cn("sticky flex min-h-1/4 p-10 flex-col justify-between rounded-lg bg-white", 
@@ -242,7 +302,7 @@ const AddSenior = ({
                   {confirm ? (
                     <div className="flex flex-col items-center">
                       <div className="mb-8 text-center font-serif text-3xl">
-                        Senior was { seniorPatch ? "updated" : "added" } successfully!
+                        { seniorPatch ? "Updated" : "Added" } successfully!
                       </div>
                         <button
                         className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-lg font-normal drop-shadow-md hover:bg-offer-white"
