@@ -2,8 +2,8 @@ import "../styles/globals.css";
 import type { AppType } from "next/app";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { Navbar } from "@components/navbar";
-import Sidebar from "@components/sidebar";
+import Navbar from "@components/Navbar";
+import Sidebar from "@components/Sidebar";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -12,7 +12,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   if (Component.displayName == "public") {
     return (
       <SessionProvider session={session}>
-        <div className="flex h-full w-screen flex-col bg-taupe">
+        <div className="flex flex-col h-full w-full items-center bg-tan">
           <Navbar />
           <Component {...pageProps} />
         </div>
@@ -21,7 +21,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   } else {
     return (
       <SessionProvider session={session}>
-        <div className="flex w-full h-full bg-taupe sm:flex-col md:flex-row">
+        <div className="flex w-full h-full bg-tan sm:flex-col md:flex-row">
           <span className="sm:inline md:hidden">
             <Navbar />
           </span>

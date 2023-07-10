@@ -2,7 +2,7 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import Head from "next/head";
-import PhotoHeader from "@components/photoHeader";
+import PhotoHeader from "@components/PhotoHeader";
 import { Approval } from "@prisma/client";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { SeniorTile } from "@components/TileGrid";

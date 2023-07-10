@@ -25,7 +25,7 @@ const AddProfile = <T extends { selectName: string [] }>({
 }: ProfileProps<T>) => {
   return (
     <>
-      <div className="absolute inset-y-0 right-0 h-screen w-[84%] bg-taupe font-sans">
+      <div className="absolute inset-y-0 right-0 h-screen w-[84%] bg-tan font-sans">
         <ProfileHeader title={"Add New Member"} icon={null} />
         <AddProfileForm
           placeholdData={placeholdData}
