@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 const colors = require('tailwindcss/colors');
-module.exports = {
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -23,6 +25,10 @@ module.exports = {
       'nav-teal': '#0C5C5C',
       'light-teal': '#a7bfbf', 
       'off-white': '#F5F5F5',
+      'tan': '#F5F0EA',
+      'med-tan': '#E8E0D5',
+      'dark-tan': '#d4ccc1',
+      'dark-green': '#22555A',
       'offer-white': '#F0F0F0',
       'taupe': '#F5F0EA',
       'nav-taupe': '#E8E0D5',
@@ -49,8 +55,12 @@ module.exports = {
     },
 
     letterSpacing: {
-      easy: 'letter-spacing: 0.0125em',
+      easy: '.015em',
+    },
+
+    screen: {
+      'xs': '320px'
     }
   },
   plugins: [],
-};
+});

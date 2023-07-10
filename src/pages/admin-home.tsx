@@ -1,5 +1,5 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
-import PhotoHeader from "@components/photoHeader";
+import PhotoHeader from "@components/PhotoHeader";
 
 import Image from "next/image";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";

@@ -58,7 +58,7 @@ const FileCard = ({
   }
 
   return (
-    <div className="hover:bg-taupe-hover flex aspect-square flex-col justify-between rounded-lg border bg-off-white p-5 text-left font-sans drop-shadow-md hover:cursor-pointer">
+    <div className="hover:bg-tan-hover flex aspect-square flex-col justify-between rounded-lg border bg-off-white p-5 text-left font-sans drop-shadow-md hover:cursor-pointer">
       <div className="flex flex-col">
         <span className="mb-1 text-lg font-semibold"> {name} </span>
         <a

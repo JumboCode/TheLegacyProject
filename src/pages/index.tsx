@@ -1,9 +1,36 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { PhotoCarousel } from "@components/photoGallery";
-import LandingFooter from "@components/landingFooter";
-import { EmailSignupBox } from "@components/emailSignup";
+import PhotoCarousel from "@components/PhotoCarousel";
+import LandingFooter from "@components/LandingFooter";
 import Image from "next/image";
+
+function handleSubmit(event) {
+  alert("Confirm email: " + event.target.email.value);
+  event.target.email.value = "";
+  event.preventDefault();
+}
+
+const EmailSignupBox = () => {
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="flew-row flex content-center gap-3"
+    >
+      <input
+        type="email"
+        id="email"
+        className="w-3/4 rounded-lg border border-gray-300 bg-off-white p-2.5 text-lg text-dark-gray focus:border-blue-500 focus:ring-blue-500"
+        placeholder="john.doe@company.com"
+        required
+      />
+      <input
+        type="submit"
+        value="Join E-List"
+        className="w-1/4 rounded-lg bg-dark-green py-2 px-4 font-sans text-lg text-white duration-150 hover:-translate-y-0.5"
+      ></input>
+    </form>
+  );
+};
 
 const Home: NextPage = () => {
   return (
@@ -13,21 +40,20 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-items-center p-4">
-        <div className="relative flex h-full flex-row items-center justify-items-center gap-5">
-          <div className="z-10 p-10">
-            {/* holds paragraph and email signup */}
+      <main className="flex flex-col w-screen min-h-screen">
+        <div className="relative flex w-screen h-full flex-row items-center justify-center bg-med-tan">
+          {/* holds hero section and email signup */}
+          <div className="z-10 p-16">
             <h1
-              className="my-8 text-center font-serif text-4xl font-bold leading-tight  
-                           text-dark-plum
-                           duration-500 sm:text-5xl
-                           lg:text-left lg:text-5xl xl:text-6xl"
+              className="my-8 text-center font-serif font-bold 
+                           duration-500 text-5xl
+                           lg:text-left"
             >
               Everyone has a story that's worth preserving.
             </h1>
-            <p className="my-8 text-center font-serif text-xl leading-tight text-[#515151] duration-500 sm:text-2xl sm:leading-[32px] lg:text-left ">
+            <p className="my-8 text-center font-serif text-2xl lg:text-left tracking-easy">
               The Legacy Project tells the stories of our older generations to
-              ensure that their legacies are preserved for years to come.
+              ensure that their legacy is memorialized for years to come.
             </p>
             <EmailSignupBox />
           </div>
@@ -40,7 +66,7 @@ const Home: NextPage = () => {
               className="absolute z-0 duration-500"
             ></Image>
           </div>
-          <div className="absolute -bottom-4 -right-4 z-0 lg:hidden">
+          <div className="absolute -bottom-0 -right-0 z-0 lg:hidden">
             <Image
               src="/home/yellowflower.png"
               height={146}
@@ -49,7 +75,7 @@ const Home: NextPage = () => {
               className="duration-500"
             ></Image>
           </div>
-          <div className="absolute -top-8 -right-4 lg:hidden">
+          <div className="absolute -top-8 -right-0 lg:hidden">
             <Image
               src="/home/paper.png"
               height={184}
@@ -71,13 +97,12 @@ const Home: NextPage = () => {
               objectFit="cover"
               className=""
             ></Image>
-            {/* holds photo and dried flower accents */}
           </div>
         </div>
-        <div className="w-full">
-          <PhotoCarousel show={8} />
+        <div className="flex flex-col text-wrap px-10 items-center w-full">
+          <PhotoCarousel />
+          <LandingFooter />
         </div>
-        <LandingFooter />
       </main>
     </>
   );
