@@ -11,7 +11,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="h-max bg-taupe">
+      <div className="h-max bg-tan">
         <TileEdit
           id="1"
           handleDelete={() =>

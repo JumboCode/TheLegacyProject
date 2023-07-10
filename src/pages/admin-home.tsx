@@ -1,5 +1,5 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
-import PhotoHeader from "@components/photoHeader";
+import PhotoHeader from "@components/PhotoHeader";
 
 import Image from "next/image";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
@@ -79,7 +79,7 @@ const Home: NextPage<IAdminProps> = ({
               disabled={tab === "Pending" && pending.length === 0}
               className={cn(
                 "text-xl justify-center px-9 py-3 rounded drop-shadow-md",
-                tab === selectedTab ? "bg-light-sage" : "bg-white hover:bg-nav-taupe",
+                tab === selectedTab ? "bg-light-sage" : "bg-white hover:bg-med-tan",
                 tab === "Pending" && pending.length === 0
                   ? "opacity-50"
                   : null
