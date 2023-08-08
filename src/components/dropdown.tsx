@@ -21,7 +21,7 @@ type ItemProps = {
 };
 
 function Item({ text, onClick, selected, bgColor }: ItemProps) {
-  let [styles, setStyles] = useState<string>("");
+  const [styles, setStyles] = useState<string>("");
 
   useEffect(() => {
     setStyles(
@@ -29,7 +29,7 @@ function Item({ text, onClick, selected, bgColor }: ItemProps) {
         selected ? `bg-${bgColor}-600 text-white` : ""
       }`
     );
-  });
+  }, [bgColor, selected]);
 
   return (
     <div className={styles} onClick={onClick}>
@@ -44,7 +44,7 @@ export default function Dropdown({
   selected,
   setSelected,
 }: DropdownProps): JSX.Element {
-  let [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const styles = () => {
     return "md:min-w-[10rem] absolute shadow-lg box-shadow-lg drop-shadow-lg";

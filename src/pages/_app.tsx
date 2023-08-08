@@ -13,7 +13,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     return (
       <SessionProvider session={session}>
         <div className="flex flex-col h-full w-full items-center bg-tan">
-          <Navbar />
+          <Navbar displayName={Component.displayName}/>
           <Component {...pageProps} />
         </div>
       </SessionProvider>
@@ -21,12 +21,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
   } else {
     return (
       <SessionProvider session={session}>
-        <div className="flex w-full h-full bg-tan sm:flex-col md:flex-row">
-          <span className="sm:inline md:hidden">
-            <Navbar />
+        <div className="flex w-full h-full bg-tan flex-col md:flex-row">
+          <span className="inline md:hidden">
+            <Navbar displayName={Component.displayName ?? "private"}/>
           </span>
-          <span className="sm:hidden md:inline">
-            <Sidebar />
+          <span className="w-[195px] min-w-[195px] hidden md:inline">
+            <Sidebar displayName={Component.displayName ?? "private"}/>
           </span>
           <div className="w-full h-full"> <Component {...pageProps} /> </div>
         </div>

@@ -1,9 +1,12 @@
+import Image from "next/image";
 import type { GetServerSidePropsContext } from "next";
 import { useState } from "react";
-import FileCard from "@components/FileCard";
-import SortDropdown, { SortMethod } from "@components/SortDropdown";
+import FileTile from "@components/TileGrid/FileTile";
 import SearchBar from "@components/SearchBar";
 import AddFile from "@components/AddFile";
+import TileGrid from "@components/TileGrid";
+import SortDropdown, { SortMethod } from "@components/SortDropdown";
+
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
 import { Approval } from "@prisma/client";
@@ -13,10 +16,11 @@ type ISeniorProfileProps = Awaited<
 >["props"] & {
   redirect: undefined;
 };
+
 type SerialzedFile = ISeniorProfileProps["senior"]["Files"][number];
 
 const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
-  const [files, setFiles] = useState(senior.Files);
+  const [files, _] = useState(senior.Files);
   const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
   const [filter, setFilter] = useState("");
   const [showAddFilePopUp, setShowAddFilePopUp] = useState<boolean>(false);
@@ -40,11 +44,10 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
 
   const handlePopUp = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
-    // console.log(showAddFilePopUp);
   };
 
   return (
-    <div className="container relative flex min-h-screen flex-col">
+    <div className="relative flex min-h-screen flex-col">
       {showAddFilePopUp ? (
         <AddFile
           showAddFilePopUp={showAddFilePopUp}
@@ -53,10 +56,16 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
           folder={senior.folder}
         />
       ) : null}
-      <div className="h-full w-full p-8">
-        <h1 className="text-teal mb-8 font-serif text-[3rem] leading-normal">
+      <div className="w-full p-8">
+        <h1 className="font-serif text-5xl leading-normal sm:text-center md:text-left mb-4">
           {senior.name}
+          <h2 className="font-serif text-xl"> {senior.location} </h2>
         </h1>
+        <div className="w-full mb-8 border-solid bg-nav-taupe drop-shadow-md">
+          <p className="rounded bg-nav-taupe p-4 max-h-[100px] sm:text-lg md:text-md overflow-scroll">
+          {senior.description} 
+          </p>
+        </div>
         <div className="flex flex-row justify-between space-x-3 align-middle">
           <SearchBar setFilter={setFilter} />
           <div className="relative z-10">
@@ -66,26 +75,36 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
             />
           </div>
         </div>
-        {/* styling for a TileGrid-like grid */}
-        <div className="z-10 mt-7 grid grid-cols-[repeat(auto-fill,_256px)] gap-10 text-center">
-          <button
-            className="flex aspect-square flex-col items-center justify-center rounded-lg border bg-off-white p-5 text-left font-sans drop-shadow-md hover:cursor-pointer hover:bg-tan-hover"
-            onClick={handlePopUp}
-          >
-            Add File
-          </button>
-          {filteredFiles.map(({ id, name, lastModified, url, Tags }, key) => (
+
+        <TileGrid>
+          <button className="relative w-auto flex flex-col aspect-square justify-center items-center rounded \ 
+                           bg-white hover:bg-off-white text-base drop-shadow-md"
+                onClick={handlePopUp}>
+          <div className="flex flex-col justify-end">
+            <Image
+              className="object-scale-down"
+              src={"/profile/addfile_icon.png"}
+              alt="Add file icon"
+              height={75}
+              width={75}
+            />
+          </div>
+          <div className="relative w-full p-2 flex flex-col text-center text-lg text-neutral-800">
+            Create New File
+          </div>
+        </button>
+          {filteredFiles.map((file, key) => (
             <div key={key}>
-              <FileCard
-                id={id}
-                name={name}
-                lastModified={new Date(lastModified)}
-                url={url}
-                Tags={Tags}
+              <FileTile
+                id={file.id}
+                name={file.name}
+                lastModified={new Date(file.lastModified)}
+                url={file.url}
+                Tags={file.Tags}
               />
             </div>
           ))}
-        </div>
+        </TileGrid>
       </div>
     </div>
   );
@@ -97,7 +116,6 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const session = await getServerAuthSession(context);
-
   const seniorId = z.string().parse(context.query.id);
 
   if (!session || !session.user) {
@@ -127,7 +145,7 @@ export const getServerSideProps = async (
   if (!user) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/",
         permanent: false,
       },
     };
@@ -142,6 +160,8 @@ export const getServerSideProps = async (
     };
   }
 
+  // await fetch ("/api/senior/" + seniorId, { method: "GET" });
+  // TODO: not using our beautiful API routes??
   const senior = await prisma.senior.findUnique({
     where: {
       id: seniorId, //get all information for given senior

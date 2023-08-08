@@ -4,16 +4,10 @@ import PhotoCarousel from "@components/PhotoCarousel";
 import LandingFooter from "@components/LandingFooter";
 import Image from "next/image";
 
-function handleSubmit(event) {
-  alert("Confirm email: " + event.target.email.value);
-  event.target.email.value = "";
-  event.preventDefault();
-}
-
 const EmailSignupBox = () => {
   return (
     <form
-      onSubmit={handleSubmit}
+      // TODO: add email e-list integration with SendGrid
       className="flew-row flex content-center gap-3"
     >
       <input
@@ -49,7 +43,7 @@ const Home: NextPage = () => {
                            duration-500 text-5xl
                            lg:text-left"
             >
-              Everyone has a story that's worth preserving.
+              Everyone has a story that&apos;s worth preserving.
             </h1>
             <p className="my-8 text-center font-serif text-2xl lg:text-left tracking-easy">
               The Legacy Project tells the stories of our older generations to

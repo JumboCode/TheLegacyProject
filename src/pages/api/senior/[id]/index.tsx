@@ -15,7 +15,6 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const seniorId = z.string().parse(req.query.id);
-
   const userId = session.user.id;
 
   switch (req.method) {
@@ -43,7 +42,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(200).json(senior);
       } catch (error) {
         res.status(500).json({
-          error: `failed to fetch senior: ${error}`,
+          error: `Failed to fetch senior: ${error}`,
         });
       }
       break;
@@ -51,7 +50,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
     case "PATCH":
       try {
         /*
-         * Allow change of location of Senior if admin
+         * Allow change of senior information if admin
          */
         const { admin } = (await prisma.user.findUnique({
           where: {
@@ -62,13 +61,14 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         })) ?? { admin: false };
 
-        const SeniorUpdate = z.object({
+        const seniorSchema = z.object({
           name: z.string().optional(),
           location: z.string().optional(),
           description: z.string().optional(),
+          StudentIDs: z.array(z.string()),
         });
-
-        const { name, location, description } = SeniorUpdate.parse(req.body);
+        
+        const body = seniorSchema.parse(JSON.parse(req.body));
 
         if (admin) {
           const senior = await prisma.senior.update({
@@ -76,9 +76,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
               id: seniorId,
             },
             data: {
-              name,
-              location,
-              description,
+              ...body
             },
           });
 
@@ -92,7 +90,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
         }
       } catch (error) {
         res.status(500).json({
-          error: `failed to update location of senior: ${error}`,
+          error: `Failed to update location of senior: ${error}`,
         });
       }
       break;
@@ -115,6 +113,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           });
           res.status(200).json(deleteSenior);
+          // TODO: delete Google Drive resources for this Senior
           return;
         } else {
           res.status(500).json({

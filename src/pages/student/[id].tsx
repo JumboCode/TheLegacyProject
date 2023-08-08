@@ -1,56 +1,57 @@
-import type { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import Head from "next/head";
 import PhotoHeader from "@components/PhotoHeader";
-import { Approval } from "@prisma/client";
+import TileGrid, { SeniorTile } from "@components/TileGrid";
+
+import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
-import { SeniorTile } from "@components/TileGrid";
+import { z } from "zod";
 
 
 type IStudentProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
 };
 
-const Home: NextPage<IStudentProps> = ({
-  me, 
-  seniors: initialSeniors
-}) => {
+const StudentProfilePage = ({ student }: IStudentProps) => {
   const router = useRouter(); // call to refresh props
   const refreshData = useCallback(() => {
     router.replace(router.asPath);
   }, [router]);
   
-  const [seniors, setSeniors] = useState(initialSeniors);
+  console.log("Their Seniors: " + student.Seniors);
+  const [seniors, setSeniors] = useState(student.Seniors);
+  
   return (
     <>
       <div className="flex flex-col h-full place-items-stsetch p-8 gap-6">
-        <PhotoHeader admin={false} name={me.name} image={me.image} email={me.email}/>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-center mt-3">
+        <PhotoHeader admin={false} name={student.name} image={student.image} email={student.email}/>
+        <TileGrid >
           {seniors.map(
-            (senior) =>
-            (
+            (senior) => (
               <SeniorTile 
+                key={student.id}
                 senior={senior}
+                link={"/senior/" + senior.id}
                 setSeniors={setSeniors}
                 refreshData={refreshData}/>
             )
           )}
-        </div>
+        </TileGrid>
       </div>
     </>
   );
 };
 
 // render sidebar instead of top navbar
-Home.displayName = "private";
+StudentProfilePage.displayName = "private";
 
-export default Home;
+export default StudentProfilePage;
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const session = await getServerAuthSession(context);
+  const studentId = z.string().parse(context.query.id);
 
   if (!session || !session.user) {
     return {
@@ -70,13 +71,12 @@ export const getServerSideProps = async (
     };
   }
 
-  const user = await prisma.user.findUnique({
-    where: {
-      id: session.user.id,
-    },
+  const student = await prisma.user.findUnique({
+    where: { id: studentId },
+    include: { Seniors: true }
   });
 
-  if (!user) {
+  if (!student) {
     return {
       redirect: {
         destination: "/",
@@ -84,12 +84,10 @@ export const getServerSideProps = async (
       },
     };
   }
-
-  const seniors = await prisma.senior.findMany();
+  
   return {
     props: {
-      me: user,
-      seniors,
+      student: student,
     },
   };
 };

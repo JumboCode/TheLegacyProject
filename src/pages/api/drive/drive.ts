@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "@server/db/client";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { google } from "googleapis";
 

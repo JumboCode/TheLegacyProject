@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@server/db/client";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
+import { z } from "zod";
+
 
 const students = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
@@ -12,56 +14,57 @@ const students = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const { id: seniorId } = req.query;
-  if (typeof seniorId !== "string") {
+  const seniorID = z.string().parse(req.query.id);
+
+  if (typeof seniorID !== "string") {
     res.status(500).json({
-      error: `seniorId must be a string`,
+      error: `SeniorID must be a string`,
     });
     return;
   }
 
   const userId = session.user.id;
 
+  const { admin } = (await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      admin: true, //return admin boolean field for given user id
+    },
+  })) ?? { admin: false };
+  
+  if (!admin) {
+    res.status(500).json({
+      error:
+        "This route is protected. In order to access it, please sign in as admin.",
+    });
+    return;
+  }
+
   switch (req.method) {
     case "GET":
       try {
-        const { admin } = (await prisma.user.findUnique({
+        const result = await prisma.senior.findUnique({
           where: {
-            id: userId,
+            id: seniorID,
           },
-          select: {
-            admin: true, //return admin boolean field for given user id
+          include: {
+            Students: true,
           },
-        })) ?? { admin: false };
+        });
 
-        if (admin) {
-          const result = await prisma.senior.findUnique({
-            where: {
-              id: seniorId,
-            },
-            include: {
-              Students: true,
-            },
-          });
-
-          if (!result) {
-            res.status(404).json({
-              error: `senior with id ${seniorId} not found`,
-            });
-            return;
-          }
-
-          res.status(200).json({ students: result.Students });
-        } else {
-          res.status(500).json({
-            error:
-              "This route is protected. In order to access it, please sign in as admin.",
+        if (!result) {
+          res.status(404).json({
+            error: `Senior with id ${seniorID} not found`,
           });
           return;
         }
+        
+        res.status(200).json({ students: result.Students });
       } catch (error) {
         res.status(500).json({
-          error: `failed to fetch students: ${error}`,
+          error: `Failed to fetch students: ${error}`,
         });
       }
       break;

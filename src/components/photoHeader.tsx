@@ -14,12 +14,12 @@ export interface IPhotoHeaderProps {
 const PhotoHeader = ({ name, admin, image, email }: IPhotoHeaderProps) => {
   return (
     <>
-        <div className={cn("relative flex flex-col w-auto", 
-                          admin ? "sm:h-[140px] md:h-[160px]" : "sm:h-[180px] md:h-[200px]")}>
+        <div className={cn("relative flex flex-col w-auto drop-shadow-md", 
+                          admin ? "xs:h-[140px] md:h-[160px]" : "xs:h-[180px] md:h-[200px]")}>
           <div className="relative flex h-full w-full">
             <Image
               className="object-cover rounded"
-              src={"/student_home/header3.jpg"}
+              src={"/profile/header3.jpg"}
               alt={"A black typewriter on a wooden desk with a notebook and old photos next to it."}
               layout="fill"
             />
@@ -29,7 +29,7 @@ const PhotoHeader = ({ name, admin, image, email }: IPhotoHeaderProps) => {
                           admin ? "h-2/5" : "h-1/2")}>
           {admin ? 
             (
-              <span className="pl-4 sm:text-xl md:text-2xl font-serif tracking-normal text-dark-plum">
+              <span className="xs:pl-2 sm:pl-4 text-2xl font-serif tracking-normal text-dark-plum">
                 Hello{name == null ? " there" : ", " + name.split(' ').shift()}.
               </span>
             ) : 
@@ -38,13 +38,13 @@ const PhotoHeader = ({ name, admin, image, email }: IPhotoHeaderProps) => {
                 <span className="relative ml-4 bg-indigo-200 w-[70px] h-[70px]">
                   <Image 
                     className="object-cover rounded"
-                    src={image ?? "/student_home/genericprofile.png"}
+                    src={image ?? "/profile/genericprofile.png"}
                     alt="The student user's profile picture."
                     layout="fill"
                   />
                 </span>
                 <span className="flex flex-col pl-4 gap-2 justify-center"> 
-                  <p className="sm:text-xl md:text-2xl font-serif text-dark-plum">{name}</p>
+                  <p className="text-2xl font-serif text-dark-plum">{name}</p>
                   <p className="text-md text-neutral-600">{email}</p>
                 </span>
               </span>

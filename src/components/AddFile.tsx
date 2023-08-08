@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import FilterDropdown from "@components/filterDropdown";
-import Tag, { tagColors, tagList } from "@components/Tag";
+import Tag, { TagProps, tagList } from "@components/Tag";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -13,33 +13,21 @@ const TagSelector = ({
   selectedTags,
   setSelectedTags,
 }: {
-  selectedTags: string[];
-  setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedTags: TagProps[];
+  setSelectedTags: React.Dispatch<React.SetStateAction<TagProps[]>>;
 }) => {
   return (
     <div>
-      <span className="h-[34px] w-full font-sans text-base leading-[22px] text-dark-gray">
+      <div className="h-[34px] mb-1 w-full font-sans text-lg text-neutral-600">
         Tags
-      </span>
-      <FilterDropdown
-        items={tagList}
-        onItemSelect={(idx: number, item: string) => {
-          if (!selectedTags.includes(item)) {
-            setSelectedTags([...selectedTags, item]);
-          } else {
-            setSelectedTags(selectedTags.filter((i) => i != item));
-          }
-        }}
-        selectedItems={selectedTags}
-      />
-      <div className="flex flex-row flex-wrap p-3">
-        {selectedTags.map((tag: string, i: number) => (
-          <div key={i}>
-            {/* <Tag name={tag} color={"bg-" + tagColors[i % tagColors.length]} /> */}
-            <Tag name={tag} color={tagColors.get(tag)} />
-          </div>
-        ))}
       </div>
+      <FilterDropdown<TagProps>
+        items={tagList}
+        filterMatch={(tag, text) => tag.name.indexOf(text) != -1}
+        display={(tag) => (<Tag name={tag.name} color={tag.color}/>)}
+        selectedItems={selectedTags}
+        setSelectedItems={setSelectedTags}
+      />
     </div>
   );
 };
@@ -54,13 +42,13 @@ const AddFile = ({
   const [description, setDescription] = useState<string>("");
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<TagProps[]>([]);
 
   const handleCancel = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
   };
 
-  const addFile = async () => {
+  const callAddFile = async () => {
     // POST file in drive
     const addFileRes = await fetch("/api/drive/addfile", {
       method: "POST",
@@ -68,8 +56,8 @@ const AddFile = ({
         fileName: fileName,
         description: description,
         fileType: "Google Document",
-        seniorId,
-        tags: selectedTags,
+        seniorId: seniorId,
+        tags: selectedTags.map((tagProp) => tagProp.name),
         folder: folder,
       }),
     });
@@ -84,27 +72,28 @@ const AddFile = ({
   return (
     <>
       {showAddFilePopUp && (
-        <div className="absolute z-50 flex h-full w-screen flex-row items-center justify-center backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
+        <div className="absolute z-50 flex h-full w-screen flex-row items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
           {!confirm && !error ? (
-            <div className="flex min-h-[650px] min-w-[400px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
+            <div className="flex min-h-[650px] w-1/2 mt-20 p-10 flex-col justify-between rounded-lg bg-white">
               <div>
-                <span className="my-5 h-[34px] w-full font-sans text-base leading-[22px] text-dark-gray">
+                <div className="mb-8 font-serif text-3xl"> Create New File </div>
+                <div className="mb-1 h-[34px] w-full font-sans text-lg text-neutral-600">
                   File name
-                </span>
+                </div>
                 <input
-                  className="my-5 h-[46px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] px-3"
+                  className="mb-5 h-[46px] w-full rounded border-2 border-nav-taupe px-3"
                   type="text"
                   value={fileName}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setFilename(e.target.value)
                   }
                 />
-                <span className="mt-[1rem] h-[34px] w-full text-base leading-[22px] text-dark-gray">
+                <div className="mb-1 h-[34px] w-full text-lg text-neutral-600">
                   Description
-                </span>
+                </div>
                 <textarea
-                  className="my-5 h-[123px] max-h-[123px] min-h-[123px] w-full rounded border-[0.3px] border-solid border-[#e6e6e6] bg-[#F5F6FA] p-[12px] text-start text-base"
-                  placeholder="Write a detailed description"
+                  className="mb-4 h-1/2 w-full rounded border-2 border-nav-taupe bg-off-white p-[12px] text-start text-base"
+                  placeholder=""
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                     setDescription(e.target.value)
                   }
@@ -117,14 +106,14 @@ const AddFile = ({
 
               <div className="flex w-full flex-row justify-center">
                 <button
-                  className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-base font-normal text-[#515151] hover:bg-gray-200"
+                  className="mx-2 my-4 w-full p-3 max-w-[10rem] rounded drop-shadow-md bg-off-white text-lg font-normal hover:bg-offer-white"
                   onClick={handleCancel}
                 >
-                  Cancel{" "}
+                  Cancel
                 </button>
                 <button
-                  className="mx-1 w-full max-w-[10rem] rounded bg-teal-800 p-3 text-base font-normal text-[#FFFFFF] hover:bg-dark-teal"
-                  onClick={addFile}
+                  className="mx-2 my-4 w-full p-3 max-w-[10rem] rounded drop-shadow-md bg-nav-teal text-lg font-normal text-white hover:bg-dark-teal"
+                  onClick={callAddFile}
                 >
                   Create
                 </button>
@@ -133,11 +122,11 @@ const AddFile = ({
           ) : (
             <>
               {confirm ? (
-                <div className="flex h-[250px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
+                <div className="flex-row self-center h-[250px] max-w-[35%] flex-col place-content-center gap-y-10 rounded-lg bg-white p-10 text-center text-lg">
                   <span>File added successfully!</span>
                   <div className="flex w-full flex-row justify-center">
                     <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-base font-normal text-[#515151] hover:bg-gray-200"
+                      className="mx-1 w-full max-w-[10rem] rounded bg-nav-teal p-3 text-md font-serif font-normal text-white hover:bg-dark-teal"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm
@@ -145,14 +134,14 @@ const AddFile = ({
                   </div>
                 </div>
               ) : (
-                <div className="flex h-[250px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10 text-center text-base text-dark-gray">
+                <div className="flex self-center h-[250px] max-w-[35%] flex-col place-content-center gap-y-10 rounded-lg bg-white p-10 text-center text-lg">
                   <span>
                     There was an error adding your file. Please reach out to
-                    your club administrator for help.
+                    your club administrator for assistance.
                   </span>
                   <div className="flex w-full flex-row justify-center">
                     <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-base font-normal text-[#515151] hover:bg-gray-200"
+                      className="mx-1 w-full max-w-[10rem] rounded bg-nav-teal p-3 text-md font-serif font-normal text-white hover:bg-dark-teal"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm

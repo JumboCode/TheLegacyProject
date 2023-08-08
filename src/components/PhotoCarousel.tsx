@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import next from "next/types";
-import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "../../tailwind.config.cjs";
 
 type PhotoProps = {
   filePath: string;
@@ -16,7 +13,22 @@ const PhotoCarousel = () => {
   const [show, setShow] = useState<number>(1);
   const widthRef = useRef<HTMLHeadingElement>(null);
   
-  const carouselHeight = getCarouselHeight();
+  const [elemWidth, setElemWidth] = useState<number>(0);
+    
+  useEffect(() => {
+    function handleResize() { 
+      setElemWidth(widthRef.current ? widthRef.current.offsetWidth : 0);
+      const showVal = widthRef.current ? Math.floor(widthRef.current.offsetWidth / 250) : 1;
+      setShow(showVal || 1);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => { window.removeEventListener("resize", handleResize) }
+  }, []);
+
+  const carouselHeight = elemWidth / show;
+  const carouselPad = 20;
+
   useEffect(() => {
     setPhotos([
       { filePath: "/gallery/Tufts Legacy-5.jpg", caption: "picture1" },
@@ -28,26 +40,7 @@ const PhotoCarousel = () => {
       { filePath: "/gallery/Tufts Legacy-255.jpg", caption: "picture3" },
       { filePath: "/gallery/Tufts Legacy-258.jpg", caption: "picture4" },
     ]);
-  }, []);
-
-  function getCarouselHeight() {
-    const [elemWidth, setElemWidth] = useState<number>(0);
-    
-    useEffect(() => {
-      function handleResize() { 
-        setElemWidth(widthRef.current ? widthRef.current.offsetWidth : 0);
-        const showVal = widthRef.current ? Math.floor(widthRef.current.offsetWidth / 250) : 1;
-        setShow(showVal || 1);
-      }
-      window.addEventListener("resize", handleResize);
-      handleResize();
-      return () => { window.removeEventListener("resize", handleResize) }
-    }, []);
-
-    return elemWidth / show;
-  }
-  
-  const carouselPad = 20;
+  }, []);  
 
   const nextIndex = () => {
     setActiveIndex(activeIndex === show - 1 ? 0 : activeIndex - 1);
@@ -94,30 +87,32 @@ const PhotoCarousel = () => {
         </svg>
 
         <div
-          className="relative flex w-full flex-row justify-between overflow-hidden ease-in-out"
+          className="relative flex w-full flex-row justify-between ease-in-out overflow-hidden"
           style={{height: carouselHeight - carouselPad}}
           ref={widthRef}
         >
           {
           photos.map(
             (photo, index) =>
+              (
                 <div
-                  key={index}
-                  className={
-                    "absolute aspect-square object-cover h-full select-none transition-all"
-                  }
-                  style={{
-                    left: (((index - activeIndex + show) % show)) * (carouselHeight + (carouselPad / 2)),
-                    height: carouselHeight - carouselPad
-                  }}
-                >
-                  <Image
-                    className="object-cover"
-                    layout="fill"
-                    src={photo.filePath}
-                    alt={photo.caption}
-                  />
-                </div>
+                key={index}
+                className={
+                  "absolute aspect-square object-cover h-full select-none transition-all"
+                }
+                style={{
+                  left: ((index - activeIndex + show) % show) * (carouselHeight + carouselPad / 2),
+                  height: carouselHeight - carouselPad
+                }}
+              >
+                <Image
+                  className="object-cover"
+                  layout="fill"
+                  src={photo.filePath}
+                  alt={photo.caption}
+                />
+              </div>
+              )
           )}
         </div>
         <svg

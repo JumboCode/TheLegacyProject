@@ -6,7 +6,7 @@ import React, {
 } from "react";
 
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
+import SignIn from "./SignIn";
 import cn from "classnames";
 
 const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
@@ -84,8 +84,8 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
   );
 };
 
-const Navbar = () => {
-  const { data: session } = useSession();
+const Navbar = ({ displayName }: { displayName: string}) => {
+  // const { data: session } = useSession();
 
   return (
     <NavbarWrapper>
@@ -93,16 +93,7 @@ const Navbar = () => {
         <Link href="#contact"> Contact Us </Link>   
       </span>
 
-      {session && session.user ? 
-      (
-        <span className="text-[1.25rem] font-serif duration-150 hover:-translate-y-1"
-              onClick={() => signOut({ callbackUrl: "/" })}> Sign Out </span>
-      )
-      :
-      (
-        <span className="text-[1.25rem] font-serif duration-150 hover:-translate-y-1"
-              onClick={() => signIn("google", { callbackUrl: "/home" })}> Sign In </span>
-      )}
+      <SignIn isPublic={displayName === "public"}/>
     </NavbarWrapper>
   );
 }

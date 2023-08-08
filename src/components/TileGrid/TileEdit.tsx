@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 const TileEditBreadcrumbs = () => (
   <svg
@@ -27,14 +27,14 @@ function TileEditMenu({ visible, setVisible, options }: ITileEditMenu) {
     <div
       className={cn(
         visible ? "flex" : "hidden",
-        "absolute right-0 z-10 flex-col rounded bg-white drop-shadow-md"
+        "absolute top-0 right-0 z-10 flex-col text-center rounded bg-white drop-shadow-md"
       )}
     >
       <form method="dialog">
         {options.map((option) => (
           <button
             key={option.name}
-            className="p-2"
+            className="w-full p-2 px-4 hover:bg-offer-white"
             onClick={(e) => {
               option.onClick(e);
               setVisible(false);
@@ -57,15 +57,13 @@ export function TileEdit({ options }: TileEditProps) {
 
   return options.length > 0 ? (
     <div
-      className="relative"
-      onBlur={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget)) setVisible(false);
-      }}
+      className="absolute top-0 right-0 w-auto p-1"
+      onMouseLeave={() => { setVisible(false); }}
     >
       <button
         onClick={() => setVisible(true)}
         type="button"
-        className="relative h-6 w-8"
+        className="relative h-10 w-12 pr-4"
       >
         <TileEditBreadcrumbs />
       </button>
