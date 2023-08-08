@@ -17,9 +17,9 @@ export const tagMap = new Map<string, string>(tagList.map((tag) => [tag.name, ta
 const Tag = ({ name, color }: TagProps) => {
   return (
     <div
-      className={`${color} m-1 whitespace-nowrap rounded py-1 px-3 text-off-white`}
+      className={`${color} place-content-center align-middle m-1 whitespace-nowrap rounded py-2 px-3 text-off-white`}
     >
-      <span className="">{name}</span>
+      {name}
     </div>
   );
 };

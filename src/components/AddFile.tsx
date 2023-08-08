@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import FilterDropdown from "@components/filterDropdown";
 import Tag, { TagProps, tagList } from "@components/Tag";
-import Prisma from "@prisma/client"
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -58,7 +57,7 @@ const AddFile = ({
         description: description,
         fileType: "Google Document",
         seniorId: seniorId,
-        tags: selectedTags,
+        tags: selectedTags.map((tagProp) => tagProp.name),
         folder: folder,
       }),
     });
@@ -123,26 +122,26 @@ const AddFile = ({
           ) : (
             <>
               {confirm ? (
-                <div className="flex-row h-[250px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10">
+                <div className="flex-row self-center h-[250px] max-w-[35%] flex-col place-content-center gap-y-10 rounded-lg bg-white p-10 text-center text-lg">
                   <span>File added successfully!</span>
-                  {/* <div className="flex w-full flex-row justify-center"> */}
+                  <div className="flex w-full flex-row justify-center">
                     <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-base font-normal text-[#515151] hover:bg-gray-200"
+                      className="mx-1 w-full max-w-[10rem] rounded bg-nav-teal p-3 text-md font-serif font-normal text-white hover:bg-dark-teal"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm
                     </button>
-                  {/* </div> */}
+                  </div>
                 </div>
               ) : (
-                <div className="flex h-[250px] max-w-[35%] flex-col justify-between rounded-lg bg-white p-10 text-center text-base text-neutral-600">
+                <div className="flex self-center h-[250px] max-w-[35%] flex-col place-content-center gap-y-10 rounded-lg bg-white p-10 text-center text-lg">
                   <span>
                     There was an error adding your file. Please reach out to
-                    your club administrator for help.
+                    your club administrator for assistance.
                   </span>
                   <div className="flex w-full flex-row justify-center">
                     <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-base font-normal text-[#515151] hover:bg-gray-200"
+                      className="mx-1 w-full max-w-[10rem] rounded bg-nav-teal p-3 text-md font-serif font-normal text-white hover:bg-dark-teal"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm

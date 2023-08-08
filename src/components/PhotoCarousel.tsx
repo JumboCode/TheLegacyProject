@@ -17,6 +17,8 @@ const PhotoCarousel = () => {
   const widthRef = useRef<HTMLHeadingElement>(null);
   
   const carouselHeight = getCarouselHeight();
+  const carouselPad = 20;
+
   useEffect(() => {
     setPhotos([
       { filePath: "/gallery/Tufts Legacy-5.jpg", caption: "picture1" },
@@ -47,7 +49,6 @@ const PhotoCarousel = () => {
     return elemWidth / show;
   }
   
-  const carouselPad = 20;
 
   const nextIndex = () => {
     setActiveIndex(activeIndex === show - 1 ? 0 : activeIndex - 1);
@@ -94,30 +95,32 @@ const PhotoCarousel = () => {
         </svg>
 
         <div
-          className="relative flex w-full flex-row justify-between overflow-hidden ease-in-out"
+          className="relative flex w-full flex-row justify-between ease-in-out overflow-hidden"
           style={{height: carouselHeight - carouselPad}}
           ref={widthRef}
         >
           {
           photos.map(
             (photo, index) =>
+              (
                 <div
-                  key={index}
-                  className={
-                    "absolute aspect-square object-cover h-full select-none transition-all"
-                  }
-                  style={{
-                    left: (((index - activeIndex + show) % show)) * (carouselHeight + (carouselPad / 2)),
-                    height: carouselHeight - carouselPad
-                  }}
-                >
-                  <Image
-                    className="object-cover"
-                    layout="fill"
-                    src={photo.filePath}
-                    alt={photo.caption}
-                  />
-                </div>
+                key={index}
+                className={
+                  "absolute aspect-square object-cover h-full select-none transition-all"
+                }
+                style={{
+                  left: ((index - activeIndex + show) % show) * (carouselHeight + carouselPad / 2),
+                  height: carouselHeight - carouselPad
+                }}
+              >
+                <Image
+                  className="object-cover"
+                  layout="fill"
+                  src={photo.filePath}
+                  alt={photo.caption}
+                />
+              </div>
+              )
           )}
         </div>
         <svg

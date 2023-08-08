@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useCallback, useState, useEffect } from "react";
-import PhotoHeader from "@components/photoHeader";
+import PhotoHeader from "@components/PhotoHeader";
 import TileGrid, { SeniorTile } from "@components/TileGrid";
 
 import type { GetServerSidePropsContext, NextPage } from "next";

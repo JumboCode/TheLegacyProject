@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { GetServerSidePropsContext } from "next";
 import { useState } from "react";
-import FileCard from "@components/FileCard";
+import FileTile from "@components/TileGrid/FileTile";
 import SearchBar from "@components/SearchBar";
 import AddFile from "@components/AddFile";
 import TileGrid from "@components/TileGrid";
@@ -95,7 +95,7 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
         </button>
           {filteredFiles.map((file, key) => (
             <div key={key}>
-              <FileCard
+              <FileTile
                 id={file.id}
                 name={file.name}
                 lastModified={new Date(file.lastModified)}

@@ -73,17 +73,16 @@ const Home: NextPage<IAdminProps> = ({
 
 
   return (
-    <div className="relative flex flex-col h-full place-items-stretch xs:p-4 sm:p-8">
+    <div className="relative flex flex-col h-full place-items-stretch p-4 sm:p-8">
       <PhotoHeader admin={true} name={me.name} image={me.image} email={me.email} />
-      <div className="flex flew-row  h-[50px] my-6 xs:gap-4 xs:justify-center \
+      <div className="flex flew-row  h-[50px] my-6 gap-4 justify-center \
                       sm:gap-6 sm:justify-start">
           {tabs.map((tab) => (
             <button
               disabled={tab === "Pending" && pending.length === 0}
               className={cn(
                 "rounded drop-shadow-md duration-150 hover:-translate-y-0.5",
-                "xs:w-full xs:text-lg xs:px-3 xs:py-3",
-                "sm:w-auto sm:text-xl sm:px-9 sm:py-3",
+                "w-full text-lg px-3 py-3 sm:w-auto sm:text-xl sm:px-9 sm:py-3",
                 tab === selectedTab ? "bg-light-sage" : "bg-white hover:bg-off-white",
                 tab === "Pending" && pending.length === 0
                   ? "opacity-50"
