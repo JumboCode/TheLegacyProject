@@ -9,9 +9,7 @@ interface ISeniorTileProps {
   link: string;
   setSeniors?: React.Dispatch<React.SetStateAction<Senior[]>>;
   refreshData: () => void;
-  showAddSeniorPopUp?: boolean;
   setShowAddSeniorPopUp?: Dispatch<SetStateAction<boolean>>;
-  seniorPatch?: string;
   setSeniorPatch?: Dispatch<SetStateAction<string>>;
 }
 
@@ -20,9 +18,7 @@ export function SeniorTile({
   link,
   setSeniors,
   refreshData,
-  showAddSeniorPopUp,
   setShowAddSeniorPopUp,
-  seniorPatch,
   setSeniorPatch
 }: ISeniorTileProps) {
 

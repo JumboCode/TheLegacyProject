@@ -20,7 +20,7 @@ type ISeniorProfileProps = Awaited<
 type SerialzedFile = ISeniorProfileProps["senior"]["Files"][number];
 
 const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
-  const [files, setFiles] = useState(senior.Files);
+  const [files, _] = useState(senior.Files);
   const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
   const [filter, setFilter] = useState("");
   const [showAddFilePopUp, setShowAddFilePopUp] = useState<boolean>(false);

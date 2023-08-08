@@ -44,14 +44,13 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
             mimeType: "application/vnd.google-apps.folder",
             parents: [baseFolder],
           };
+          const fileCreateData = {
+            resource: fileMetadata,
+            fields: "id"
+          }
 
           const service = await drive(req, res);
-          const file = await (
-            service as NonNullable<typeof service>
-          ).files.create({
-            resource: fileMetadata,
-            fields: "id",
-          });
+          const file = await (service as NonNullable<typeof service>).files.create(fileCreateData);
           const googleFolderId = (file as any).data.id;
 
           console.log("Before creating senior...");

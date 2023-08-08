@@ -58,7 +58,7 @@ export function TileEdit({ options }: TileEditProps) {
   return options.length > 0 ? (
     <div
       className="absolute top-0 right-0 w-auto p-1"
-      onMouseLeave={(e) => { setVisible(false); }}
+      onMouseLeave={() => { setVisible(false); }}
     >
       <button
         onClick={() => setVisible(true)}

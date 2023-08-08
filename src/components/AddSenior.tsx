@@ -3,7 +3,6 @@ import Image from "next/image";
 import cn from "classnames";
 import FilterDropdown from "@components/filterDropdown";
 import { Senior, User } from "@prisma/client"
-import senior from "src/pages/api/senior/[id]";
 
 type AddSeniorProps = {
   seniors: Senior [],
@@ -120,7 +119,6 @@ const AddSenior = ({
     });
 
     if (currRes.status != 200) { 
-      const error = await currRes.json();
       return currRes;
     }
 

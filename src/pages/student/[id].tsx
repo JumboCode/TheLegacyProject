@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import PhotoHeader from "@components/PhotoHeader";
 import TileGrid, { SeniorTile } from "@components/TileGrid";
 
-import type { GetServerSidePropsContext, NextPage } from "next";
+import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
 
@@ -29,6 +29,7 @@ const StudentProfilePage = ({ student }: IStudentProps) => {
           {seniors.map(
             (senior) => (
               <SeniorTile 
+                key={student.id}
                 senior={senior}
                 link={"/senior/" + senior.id}
                 setSeniors={setSeniors}

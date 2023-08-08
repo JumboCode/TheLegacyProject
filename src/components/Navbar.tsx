@@ -7,7 +7,6 @@ import React, {
 
 import Link from "next/link";
 import SignIn from "./SignIn";
-import { signIn, signOut, useSession } from "next-auth/react";
 import cn from "classnames";
 
 const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
@@ -86,7 +85,7 @@ const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
 };
 
 const Navbar = ({ displayName }: { displayName: string}) => {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   return (
     <NavbarWrapper>

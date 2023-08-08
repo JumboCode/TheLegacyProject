@@ -28,11 +28,12 @@ const Home: NextPage<IAdminProps> = ({
 }) => {
   const [students, setStudents] = useState(initialStudents);
   const [pending, setPending] = useState(initialPending);
-  const [deactivated, setDeactivated] = useState(initialDeactivated);
+  const [_, setDeactivated] = useState(initialDeactivated);
   const [seniors, setSeniors] = useState(initialSeniors);
 
   const [selectedTab, setSelectedTab] = useState<Tabs>("Students");
-  const [sortMethod, setSortMethod] = useState<string>("By Name");
+  // TODO: implement sorting for seniors
+  // const [sortMethod, setSortMethod] = useState<string>("By Name");
 
   const router = useRouter(); // call to refresh props
   const refreshData = useCallback(() => {
@@ -124,9 +125,8 @@ function StudentBody({
           {students
             .filter(({ name }) => name?.includes(filter))
             .map((student) => (
-              <div className="h-auto w-auto">
+              <div className="h-auto w-auto" key={student.id}>
                 <StudentTile
-                  key={student.id}
                   link={"/student/" + student.id}
                   student={student}
                   setDeactivated={setDeactivated}
@@ -182,9 +182,7 @@ function SeniorBody({
                 senior={senior}
                 setSeniors={setSeniors}
                 refreshData={refreshData}
-                showAddSeniorPopUp={showAddSeniorPopUp}
                 setShowAddSeniorPopUp={setShowAddSeniorPopUp}
-                seniorPatch={seniorPatch}
                 setSeniorPatch={setSeniorPatch}
               />
             </div>

@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import next from "next/types";
-import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "../../tailwind.config.cjs";
 
 type PhotoProps = {
   filePath: string;
@@ -16,7 +13,20 @@ const PhotoCarousel = () => {
   const [show, setShow] = useState<number>(1);
   const widthRef = useRef<HTMLHeadingElement>(null);
   
-  const carouselHeight = getCarouselHeight();
+  const [elemWidth, setElemWidth] = useState<number>(0);
+    
+  useEffect(() => {
+    function handleResize() { 
+      setElemWidth(widthRef.current ? widthRef.current.offsetWidth : 0);
+      const showVal = widthRef.current ? Math.floor(widthRef.current.offsetWidth / 250) : 1;
+      setShow(showVal || 1);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => { window.removeEventListener("resize", handleResize) }
+  }, []);
+
+  const carouselHeight = elemWidth / show;
   const carouselPad = 20;
 
   useEffect(() => {
@@ -30,25 +40,7 @@ const PhotoCarousel = () => {
       { filePath: "/gallery/Tufts Legacy-255.jpg", caption: "picture3" },
       { filePath: "/gallery/Tufts Legacy-258.jpg", caption: "picture4" },
     ]);
-  }, []);
-
-  function getCarouselHeight() {
-    const [elemWidth, setElemWidth] = useState<number>(0);
-    
-    useEffect(() => {
-      function handleResize() { 
-        setElemWidth(widthRef.current ? widthRef.current.offsetWidth : 0);
-        const showVal = widthRef.current ? Math.floor(widthRef.current.offsetWidth / 250) : 1;
-        setShow(showVal || 1);
-      }
-      window.addEventListener("resize", handleResize);
-      handleResize();
-      return () => { window.removeEventListener("resize", handleResize) }
-    }, []);
-
-    return elemWidth / show;
-  }
-  
+  }, []);  
 
   const nextIndex = () => {
     setActiveIndex(activeIndex === show - 1 ? 0 : activeIndex - 1);

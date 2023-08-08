@@ -72,11 +72,12 @@ const approve = async (req: NextApiRequest, res: NextApiResponse) => {
         const baseFolder = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a"; // TODO: make env variable
 
         const service = await drive(req, res);
-        await (service as NonNullable<typeof service>).permissions.create({
+        const permData = {
           resource: permission,
           fileId: baseFolder,
           fields: "id",
-        });
+        };
+        await (service as NonNullable<typeof service>).permissions.create(permData);
 
         res.status(200).json(student);
       } catch (error) {
