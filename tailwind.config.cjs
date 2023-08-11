@@ -10,6 +10,9 @@ module.exports = withMT({
         'drop-inner': 'inset 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.2)',
       }
     },
+    backgroundImage: {
+        'paper': "url('../../public/landing/paper-texture.png')"
+    },
     screens: {
       xs: '320px',
       sm: '680px',
@@ -22,7 +25,7 @@ module.exports = withMT({
     },
     colors: {
       'dark-teal': '#22555A',
-      'nav-teal': '#0C5C5C',
+      'nav-teal': '#36696E',
       'light-teal': '#a7bfbf', 
       'off-white': '#F5F5F5',
       'tan': '#F5F0EA',
@@ -30,7 +33,6 @@ module.exports = withMT({
       'dark-tan': '#d4ccc1',
       'dark-green': '#22555A',
       'offer-white': '#F0F0F0',
-      'taupe': '#F5F0EA',
       'nav-taupe': '#E8E0D5',
       'dark-taupe': '#D1C7B8',
       'light-sage': '#AEBDB6',

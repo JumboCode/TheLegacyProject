@@ -53,7 +53,7 @@ const Home: NextPage = () => {
           </div>
           <div className="absolute top-10 -left-4 lg:hidden">
             <Image
-              src="/home/pinkflower.png"
+              src="/landing/pinkflower.png"
               height={160}
               width={160}
               alt="Image of a branch with small dried pink flowers with a transparent background"
@@ -62,7 +62,7 @@ const Home: NextPage = () => {
           </div>
           <div className="absolute -bottom-0 -right-0 z-0 lg:hidden">
             <Image
-              src="/home/yellowflower.png"
+              src="/landing/yellowflower.png"
               height={146}
               width={146}
               alt="Image of a single yellow-orange dried flower with transparent background"
@@ -71,7 +71,7 @@ const Home: NextPage = () => {
           </div>
           <div className="absolute -top-8 -right-0 lg:hidden">
             <Image
-              src="/home/paper.png"
+              src="/landing/paper.png"
               height={184}
               width={137}
               alt="Image of an aged piece of paper with cursive writing onit"
@@ -84,12 +84,11 @@ const Home: NextPage = () => {
                           xl:h-[500px] xl:w-[500px]"
           >
             <Image
-              src="/home/accent.png"
+              src="/landing/accent.png"
               alt="A circular photo of a young woman working with an older woman, with dried
                      flower accents around it."
               layout="fill"
               objectFit="cover"
-              className=""
             ></Image>
           </div>
         </div>
