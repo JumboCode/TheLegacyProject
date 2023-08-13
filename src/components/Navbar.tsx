@@ -58,7 +58,7 @@ const Navbar = ({ displayName }: { displayName: string}) => {
           : 
           "hidden sm:flex flex-row align-center gap-[20px] pr-[40px]"}
       >
-        <div className="font-serif m-auto font-medium text-xl z-20 duration-150 hover:-translate-y-0.5">
+        <div className="font-serif m-auto font-medium text-lg z-20 duration-150 hover:-translate-y-0.5">
           <Link href="/">About Us</Link>
         </div>
         <SignIn isPublic={displayName === "public"}/>
