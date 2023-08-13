@@ -1,100 +1,69 @@
-import React, {
-  FunctionComponent,
-  PropsWithChildren,
-  useEffect,
-  useState,
-} from "react";
+import React, { useState } from "react";
 
 import Link from "next/link";
 import SignIn from "./SignIn";
-import cn from "classnames";
 
-const NavbarWrapper: FunctionComponent<PropsWithChildren> = ({ children }) => {
+const Navbar = ({ displayName }: { displayName: string}) => {
+  
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [scrolling, setScrolling] = useState(false);
-
-  useEffect(() => {
-    window.onscroll = () => {
-      if (window.scrollY > 50) {
-        setScrolling(true);
-      } else {
-        setScrolling(false);
-      }
-    };
-  }, []);
-
   const handleMenuClick: React.MouseEventHandler = () => {
     setDropdownVisible((visible) => !visible);
   };
 
   return (
-    <nav className="top-0 z-50 flex flex-col bg-tan shadow-md">
-      <div className="relative m-auto flex min-h-[5rem] w-screen items-center justify-between">
-        {/* Logo */}
-        <div className="mr-6 py-1.5 pl-8 font-serif text-3xl lg:shadow-none">
-          <Link href="/">The Legacy Project</Link>
-        </div>
+    <nav className="top-0 z-10 h-[60px] w-full flex flex-row items-center justify-between">
 
-        {/* Mobile */}
-        <button className="flex lg:hidden">
-          {dropdownVisible ? (
-            // close icon
-            <div className="pr-6" onClick={handleMenuClick}>
+      {/* Logo */}
+      <div className="pl-[20px] sm:pl-[40px] font-serif font-medium text-2xl">
+        <Link href="/">The Legacy Project</Link>
+      </div>
+
+      {/* Menu Option vs. Menu Close */}
+      <div className="visible z-10 pr-[20px] sm:pr-[40px]">
+        <span onClick={handleMenuClick}>
+          { dropdownVisible ? 
+            (
               <svg
-                className="h-8 w-8"
+                className="h-10 w-10"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="1.5"
               >
-                <line x1="18" y1="4" x2="4" y2="18" />
-                <line x1="4" y1="4" x2="18" y2="18" />
+                <line x1="18.5" y1="5.5" x2="5.5" y2="18.5" />
+                <line x1="5.5" y1="5.5" x2="18.5" y2="18.5" />
               </svg>
-            </div>
-          ) : (
-            // hamburger icon
-            <div className="pr-6" onClick={handleMenuClick}>
-              <svg className="h-8 w-8"
-                   viewBox="0 0 24 24"
-                   fill="none"
-                   stroke="currentColor"
-                   strokeWidth="2">
-                <line x1="2" y1="6" x2="22" y2="6"/>
-                <line x1="2" y1="12" x2="22" y2="12"/>
-                <line x1="2" y1="18" x2="22" y2="18"/>
-              </svg>
-            </div>
-          )}
-        </button>
+            )
+            :
+            (
+                <svg className="h-10 w-10 visible sm:hidden"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                >
+                  <line x1="2" y1="6.5" x2="22" y2="6.5"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <line x1="2" y1="17.5" x2="22" y2="17.5"/>
+                </svg>  
+            )
+          }
+        </span>
+      </div>
 
-        {/* Using templates is bad practice generally, but we have to mingle
-            react and tailwind state here */}
-        <div
-          className={cn(
-            dropdownVisible ? "flex" : "hidden",
-            "absolute top-full w-full flex-col items-center gap-y-8 py-4 \
-             bg-tan shadow-inner shadow-md border-t-2 border-med-tan \
-             lg:static lg:flex lg:pr-8 lg:w-auto lg:gap-x-4 lg:border-0 lg:flex-row lg:space-y-0 lg:shadow-none"
-          )}
-        >
-          {children}
+    {/* Navbar Content */}
+      <div className=
+        { dropdownVisible ? 
+          "flex sm:hidden flex-col absolute top-[60px] right-[0px] align-right gap-[20px] p-[20px] bg-tan border-t-2 border-dark-tan" 
+          : 
+          "hidden sm:flex flex-row align-center gap-[20px] pr-[40px]"}
+      >
+        <div className="font-serif m-auto font-medium text-lg z-20 duration-150 hover:-translate-y-0.5">
+          <Link href="/">About Us</Link>
         </div>
+        <SignIn isPublic={displayName === "public"}/>
       </div>
     </nav>
-  );
-};
-
-const Navbar = ({ displayName }: { displayName: string}) => {
-  // const { data: session } = useSession();
-
-  return (
-    <NavbarWrapper>
-      <span className="text-[1.25rem] w-auto font-serif duration-150 hover:-translate-y-1">
-        <Link href="#contact"> Contact Us </Link>   
-      </span>
-
-      <SignIn isPublic={displayName === "public"}/>
-    </NavbarWrapper>
   );
 }
 

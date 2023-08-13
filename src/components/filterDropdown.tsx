@@ -63,7 +63,7 @@ export default function FilterDropdown<T extends Named>({
       <div className="bg-red flex w-full flex-col">
         <input
           onChange={onChange}
-          className="h-[46px] w-full mb-2 px-3 border-2 border-nav-taupe focus:outline-none rounded"
+          className="h-[46px] w-full mb-2 px-3 border-2 border-legacy-tan focus:outline-none rounded"
           onFocus={() => setShowOptions(true)}
           onClick={() => setShowOptions(true)}
         />
@@ -78,7 +78,7 @@ export default function FilterDropdown<T extends Named>({
               {filteredItems.map((item: T, index: number) => (
                 <span
                   className="flex flex-row pl-2 py-2 text-gray-700 items-center border border-light-gray \
-                            hover:cursor-pointer hover:bg-nav-teal hover:text-white"
+                            hover:cursor-pointer hover:bg-legacy-teal hover:text-white"
                   onClick={() => {
                     onItemSelect(index, item);
                   }}

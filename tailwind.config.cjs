@@ -10,11 +10,14 @@ module.exports = withMT({
         'drop-inner': 'inset 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.2)',
       }
     },
+    backgroundImage: {
+        'paper': "url('../../public/landing/paper-texture.png')"
+    },
     screens: {
       xs: '320px',
       sm: '680px',
       md: '900px',
-      lg: '1280px',
+      lg: '1180px',
       xl: '1480px'
     },
     borders: {
@@ -22,22 +25,21 @@ module.exports = withMT({
     },
     colors: {
       'dark-teal': '#22555A',
-      'nav-teal': '#0C5C5C',
-      'light-teal': '#a7bfbf', 
+      'legacy-teal': '#36696E',
+      'light-teal': '#A7BFBF', 
+      'dark-rust': '#8A423A',
       'off-white': '#F5F5F5',
       'tan': '#F5F0EA',
       'med-tan': '#E8E0D5',
-      'dark-tan': '#d4ccc1',
+      'dark-tan': '#D4CCC1',
       'dark-green': '#22555A',
       'offer-white': '#F0F0F0',
-      'taupe': '#F5F0EA',
-      'nav-taupe': '#E8E0D5',
-      'dark-taupe': '#D1C7B8',
+      'legacy-tan': '#E8E0D5',
       'light-sage': '#AEBDB6',
       'dark-sage': '#94A59C',
       'dark-gray': '#515151',
       'dark-plum': '#000022',
-      'tag-rust': '#C16E65',
+      'tag-rust': '#A8584F',
       'tag-tan': '#AB7D55',
       'tag-gold': '#BA9D4F',
       'tag-lime': '#A3A865',

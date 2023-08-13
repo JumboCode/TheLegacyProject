@@ -53,22 +53,6 @@ const PhotoCarousel = () => {
   return (
     <div className="flex flex-col w-full place-content-center py-8 gap-y-8"
     >
-      {/* gallery title and description */}
-      <div className="flex flex-col justify-center w-full gap-y-4">
-        <span className="font-serif font-semibold text-center sm:text-left text-3xl sm:text-4xl">
-          About Us
-        </span>
-        <p className="font-serif font-medium tracking-easy text-center text-lg sm:text-left sm:text-xl">
-          The Legacy Project is a Tufts organization dedicated to documenting
-          and preserving stories of the elder generation. Students create
-          meaningful intergenerational connections through weekly visits to
-          Medford Rehabilitation center, forming one to one connection with
-          residents, sharing lived experiences, and documenting their stories.
-          These individuals have made a significant impact on our community
-          through their hard work and dedication.
-        </p>
-      </div>
-
       {/* photo carousel */}
       <div className="relative flex items-center justify-center">
         <svg

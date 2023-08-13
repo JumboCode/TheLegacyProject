@@ -81,7 +81,7 @@ const AddFile = ({
                   File name
                 </div>
                 <input
-                  className="mb-5 h-[46px] w-full rounded border-2 border-nav-taupe px-3"
+                  className="mb-5 h-[46px] w-full rounded border-2 border-legacy-tan px-3"
                   type="text"
                   value={fileName}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -92,7 +92,7 @@ const AddFile = ({
                   Description
                 </div>
                 <textarea
-                  className="mb-4 h-1/2 w-full rounded border-2 border-nav-taupe bg-off-white p-[12px] text-start text-base"
+                  className="mb-4 h-1/2 w-full rounded border-2 border-legacy-tan bg-off-white p-[12px] text-start text-base"
                   placeholder=""
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                     setDescription(e.target.value)
@@ -112,7 +112,7 @@ const AddFile = ({
                   Cancel
                 </button>
                 <button
-                  className="mx-2 my-4 w-full p-3 max-w-[10rem] rounded drop-shadow-md bg-nav-teal text-lg font-normal text-white hover:bg-dark-teal"
+                  className="mx-2 my-4 w-full p-3 max-w-[10rem] rounded drop-shadow-md bg-legacy-teal text-lg font-normal text-white hover:bg-dark-teal"
                   onClick={callAddFile}
                 >
                   Create
@@ -126,7 +126,7 @@ const AddFile = ({
                   <span>File added successfully!</span>
                   <div className="flex w-full flex-row justify-center">
                     <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-nav-teal p-3 text-md font-serif font-normal text-white hover:bg-dark-teal"
+                      className="mx-1 w-full max-w-[10rem] rounded bg-legacy-teal p-3 text-md font-serif font-normal text-white hover:bg-dark-teal"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm
@@ -141,7 +141,7 @@ const AddFile = ({
                   </span>
                   <div className="flex w-full flex-row justify-center">
                     <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-nav-teal p-3 text-md font-serif font-normal text-white hover:bg-dark-teal"
+                      className="mx-1 w-full max-w-[10rem] rounded bg-legacy-teal p-3 text-md font-serif font-normal text-white hover:bg-dark-teal"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm
