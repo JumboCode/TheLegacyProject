@@ -10,22 +10,11 @@ type ButtonProps = {
 }
 
 const Button = ({ text, color, hover, action, link } : ButtonProps) => {
-  if (action) {
-    return (
-      <button
-          className={`h-[40px] bg-${color} rounded duration-150 hover:bg-${hover} hover:-translate-y-0.5`}
-          onClick={action}
-        >
-          <span className="m-[10px] w-auto align-center font-serif text-md tracking-easy text-white">
-            {text}
-          </span>
-      </button>
-    );
-  }
+  if (link) {
     return (
       <Link href={link ?? "/"}>
         <button
-            className={`h-[40px] bg-${color} rounded duration-150 hover:bg-${hover} hover:-translate-y-0.5`}
+            className={`w-auto h-[40px] bg-${color} rounded duration-150 hover:bg-${hover} hover:-translate-y-0.5`}
           >
             <span className="m-[10px] w-auto align-center font-serif text-md tracking-easy text-white">
               {text}
@@ -33,6 +22,20 @@ const Button = ({ text, color, hover, action, link } : ButtonProps) => {
         </button>
       </Link>
     );
+  }
+  else {
+    return (
+      <button
+          className={`w-auto h-[40px] bg-${color} rounded duration-150 hover:bg-${hover} hover:-translate-y-0.5`}
+          onClick={action ?? undefined}
+        >
+          <span className="m-[10px] w-auto align-center font-serif text-md tracking-easy text-white">
+            {text}
+          </span>
+      </button>
+    );
+  }
+    
 }
 
 export default Button;

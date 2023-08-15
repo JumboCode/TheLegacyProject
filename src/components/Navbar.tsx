@@ -14,7 +14,7 @@ const Navbar = ({ displayName }: { displayName: string}) => {
     <nav className="top-0 z-10 h-[60px] w-full flex flex-row items-center justify-between">
 
       {/* Logo */}
-      <div className="pl-[20px] sm:pl-[40px] font-serif font-medium text-2xl">
+      <div className="pl-[20px] sm:pl-[40px] font-serif font-medium text-xl md:text-2xl">
         <Link href="/">The Legacy Project</Link>
       </div>
 
@@ -24,11 +24,11 @@ const Navbar = ({ displayName }: { displayName: string}) => {
           { dropdownVisible ? 
             (
               <svg
-                className="h-10 w-10"
+                className="h-8 w-8"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="1.5"
+                strokeWidth="2"
               >
                 <line x1="18.5" y1="5.5" x2="5.5" y2="18.5" />
                 <line x1="5.5" y1="5.5" x2="18.5" y2="18.5" />
@@ -36,11 +36,11 @@ const Navbar = ({ displayName }: { displayName: string}) => {
             )
             :
             (
-                <svg className="h-10 w-10 visible sm:hidden"
+                <svg className="h-8 w-8 visible sm:hidden"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="1.5"
+                    strokeWidth="2"
                 >
                   <line x1="2" y1="6.5" x2="22" y2="6.5"/>
                   <line x1="2" y1="12" x2="22" y2="12"/>

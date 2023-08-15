@@ -28,6 +28,7 @@ module.exports = withMT({
       test: 'border-4 border-red-400 border-dashed'
     },
     colors: {
+      'dark': '#343434',
       'dark-teal': '#22555A',
       'legacy-teal': '#36696E',
       'light-teal': '#A7BFBF', 
