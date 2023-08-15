@@ -35,7 +35,6 @@ const Button = ({ text, color, hover, action, link } : ButtonProps) => {
       </button>
     );
   }
-    
 }
 
 export default Button;

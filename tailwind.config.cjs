@@ -21,7 +21,7 @@ module.exports = withMT({
       xs: '320px',
       sm: '680px',
       md: '900px',
-      lg: '1280px',
+      lg: '1180px',
       xl: '1480px'
     },
     borders: {
