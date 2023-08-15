@@ -3,14 +3,14 @@ import FlowerBox from "@components/FlowerBox";
 import Button from "./Button";
 
 const landingFooter = () => {
-  function onEmailSubmit(event: FormEvent) {
-    event.preventDefault();
+  // function onEmailSubmit(event: FormEvent) {
+  //   event.preventDefault();
 
-    if ('email' in event.target) {
-      const inputEmail = event.target.email.value;
+  //   if ('email' in event.target) {
+  //     const inputEmail = event.target.email.value;
       
-    }
-  };
+  //   }
+  // };
 
   return (
     <div className="mb-[40px]">
