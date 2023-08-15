@@ -8,6 +8,10 @@ module.exports = withMT({
     extend: {
       boxShadow: {
         'drop-inner': 'inset 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.2)',
+      },
+
+      rotate: {
+        '60': '60deg'
       }
     },
     backgroundImage: {
@@ -24,6 +28,7 @@ module.exports = withMT({
       test: 'border-4 border-red-400 border-dashed'
     },
     colors: {
+      'dark': '#343434',
       'dark-teal': '#22555A',
       'legacy-teal': '#36696E',
       'light-teal': '#A7BFBF', 
