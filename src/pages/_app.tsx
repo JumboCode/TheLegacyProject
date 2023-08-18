@@ -14,7 +14,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     return (
       <SessionProvider session={session}>
         {/* bg-paper bg-repeat bg-blend-multiply */}
-        <div className="flex flex-col h-full w-full items-center bg-tan">  
+        <div className="flex flex-col h-full w-full items-center bg-off-white">  
           <Navbar displayName={Component.displayName}/>
           <Component {...pageProps} />
         </div>

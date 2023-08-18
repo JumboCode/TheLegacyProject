@@ -69,7 +69,7 @@ const StudentSelector = ({
         items={students}
         filterMatch={(usr, term) => ((usr.name ?? "").indexOf(term) != -1)}
         display={(usr: User) => (
-          <div className="m-1 whitespace-nowrap rounded py-1 px-3 bg-legacy-tan">
+          <div className="m-1 whitespace-nowrap rounded py-1 px-3 bg-tan">
             {usr.name}
           </div>
         )}
@@ -243,7 +243,7 @@ const AddSenior = ({
 
                     <div className="mb-1 h-[34px] w-full font-sans text-lg text-neutral-600"> Name </div>
                     <input
-                      className="mb-5 h-[46px] w-full rounded border-2 border-solid border-legacy-tan px-3"
+                      className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3"
                       type="text"
                       value={seniorData.name}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -259,7 +259,7 @@ const AddSenior = ({
 
                     <div className="mb-1 h-[34px] w-full  font-sans text-lg text-neutral-600"> Location </div>
                     <input
-                      className="mb-5 h-[46px] w-full rounded border-2 border-solid border-legacy-tan px-3"
+                      className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3"
                       type="text"
                       value={seniorData.location}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -270,7 +270,7 @@ const AddSenior = ({
 
                     <div className="mb-1 h-[34px] w-full text-lg text-neutral-600"> Description </div>
                     <textarea
-                      className="mb-4 h-1/2 min-h-[46px] w-full rounded border-2 border-solid border-legacy-tan bg-off-white p-[12px] text-start text-base"
+                      className="mb-4 h-1/2 min-h-[46px] w-full rounded border-2 border-solid border-tan bg-off-white p-[12px] text-start text-base"
                       placeholder=""
                       onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                         setSeniorData({...seniorData, description: e.target.value })

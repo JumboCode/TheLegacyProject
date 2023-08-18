@@ -7,15 +7,15 @@ const SignIn = ({ isPublic } : { isPublic: boolean }) => {
   return session && session.user ? (
     isPublic ? 
       (
-        <Button text="Home" color="legacy-teal" hover="dark-teal"
+        <Button text="Home" color="bg-teal" hover="hover:bg-dark-teal"
                 action={() => { window.location.href = "/home" }}/>
       ) :
-      ( <Button text="Sign Out" color="legacy-teal" hover="dark-teal"
+      ( <Button text="Sign Out" color="bg-teal" hover="hover:bg-dark-teal"
                 action={() => signOut({ callbackUrl: "/" })}/> 
       )
     ) : 
     (
-      <Button text="Sign In" color="legacy-teal" hover="dark-teal"
+      <Button text="Sign In" color="bg-teal" hover="hover:bg-dark-teal"
               action={() => signIn("google", { callbackUrl: "/home" })}/>
     );
 };
