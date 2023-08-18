@@ -10,7 +10,8 @@ import Image from "next/image";
 
 const Home: NextPage = () => {
 
-  const chapterInitForm = "https://forms.gle/CKcsXkvNGqfaAdBx8";
+  // TODO: make env variables
+  const chapterInitForm = "https://forms.gle/gBdmpsW6JFnYvwRf7";
   const chapterResources = "https://drive.google.com/drive/folders/1vw8rc5sU0bYJkgH75VZOjI6IF-XAWEmG?usp=share_link"
   const legacyInstagram = "https://instagram.com/thelegacyprojectus?igshid=MzRlODBiNWFlZA=="
 

@@ -1,7 +1,7 @@
 import React, { FormEvent, FocusEvent, useState } from "react";
 import FlowerBox from "@components/FlowerBox";
 
-const landingFooter = () => {
+const LandingFooter = () => {
   const [email, setEmail] = useState<string>("");
   const [eList, setEList] = useState<Set<string>>(new Set<string>());
 
@@ -23,12 +23,14 @@ const landingFooter = () => {
     if (email && validEmailRegex.test(email)) {
       setButtonText("Subscribed!");
       setButtonStyle("bg-light-teal");  // no hover
+
+
     }
     else {
       setButtonText("Invalid email");
       setButtonStyle("bg-light-rust");  // no hover
     }
-  };
+  }
 
   return (
     <div className="mb-[40px]">
@@ -36,9 +38,9 @@ const landingFooter = () => {
           <p className="text-3xl xl:text-4xl self-center font-semibold font-serif">
             There are millions of stories waiting to be told. It&apos;s your moment to change that.
           </p>
-          <p className="self-center text-lg font-serif">
-            Leave a lasting legacy on your college or university campus by spearheading a chapter of
-            The Legacy Project at your school today.
+          <p className="self-center w-3/4 text-lg font-serif">
+            Leave a lasting legacy on your college or university campus by founding a chapter of
+            The Legacy Project at your school today. Join our E-List below for updates.
           </p>
             <form className="flex flex-col w-3/4 justify-center mx-auto sm:flex-row gap-[20px]"
                   method="post"
@@ -65,4 +67,4 @@ const landingFooter = () => {
   );
 };
 
-export default landingFooter;
+export default LandingFooter;
