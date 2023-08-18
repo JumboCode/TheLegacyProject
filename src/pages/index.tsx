@@ -3,6 +3,7 @@ import Head from "next/head";
 import PhotoCarousel from "@components/PhotoCarousel";
 import LandingFooter from "@components/LandingFooter";
 import FlowerBox from "@components/FlowerBox";
+
 import Button from "@components/Button"
 import Image from "next/image";
 
@@ -34,6 +35,7 @@ const Home: NextPage = () => {
                   the purpose of building strong intergenerational relationships and documenting the life histories of
                   seniors, ensuring that their legacies are preserved for years to come.
                 </p>
+
                 <p className="text-center lg:text-left font-serif text-md md:text-lg xl:text-xl tracking-easy">
                   Join an ever-growing network of college students across the country passionate about telling stories,
                   and form a Legacy Project chapter at your school or university today.  Fill out the form below and we
@@ -51,6 +53,7 @@ const Home: NextPage = () => {
               </span>
             </div>
             {/* Action Items Buttons */}
+          
             <div className="flex flex-row w-full flex-wrap place-items-center justify-center gap-[20px]">
                 <Button text="Start a Chapter" 
                         color="bg-tag-rust" hover="hover:bg-dark-rust" link={chapterInitForm} />
@@ -59,6 +62,7 @@ const Home: NextPage = () => {
                 <Button text="TLP Instagram" 
                         color="bg-tag-rust" hover="hover:bg-dark-rust" link={legacyInstagram} />
             </div>
+
           </FlowerBox>
         <div className="flex flex-col justify-center w-full gap-y-4 md:py-[40px]">
           <span className="font-serif font-semibold text-center sm:text-left text-3xl sm:text-4xl">
@@ -78,6 +82,7 @@ const Home: NextPage = () => {
             Through The Legacy Project in 2021 to showcase and celebrate their life accounts, both for the seniors
             themselves and their families.
           </p>
+
           <p className="font-serif">
             Little did she know that, in the state right next over, Katie Furey, a sophomore in college home for the
             pandemic, started a similar project of her own. Katie had always been close with her grandmother, Mary,
@@ -87,6 +92,7 @@ const Home: NextPage = () => {
             with these wonderful people on the other side of the glass who were experiencing a loneliness perhaps even
             more pronounced than the loneliness Katie and her peers were facing as the pandemic ramped up.
           </p>
+
           <p className="font-serif">
             The United Nations Millennium Fellowship being hosted through Tufts University presented a perfect
             opportunity for Katie to put her idea into action. Using the program’s framework, Katie partnered with
@@ -94,6 +100,7 @@ const Home: NextPage = () => {
             home on Zoom, connecting with them and learning tidbits of their life stories, which she is working on
             compiling as a series of vignettes.  
           </p>
+
           <p className="font-serif">
             Arielle and Katie met in 2020, quickly connecting over their aligned passions to build intergenerational
             connections provide a platform for local seniors to share their stories, and preserve such histories
@@ -105,6 +112,7 @@ const Home: NextPage = () => {
             TLP chapter as a founding member. Together, the three women helped to build it into an organization of
             nearly 30 students passionate about empowering local seniors with the platform to amplify their stories.
           </p>
+
           <p className="font-serif">
             Having watched the Tufts chapter grow over the past two years, Arielle, Katie, and Wanda decided to establish
             TLP as a nonprofit organization with the goal of spreading TLP’s mission across the country - preserving
