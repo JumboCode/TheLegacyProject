@@ -14,7 +14,7 @@ const Button = ({ text, color, hover, action, link } : ButtonProps) => {
     return (
       <Link href={link ?? "/"}>
         <button
-            className={`w-auto h-[40px] bg-${color} rounded duration-150 hover:bg-${hover} hover:-translate-y-0.5`}
+            className={`w-auto h-[40px] ${color} rounded duration-150 ${hover} hover:-translate-y-0.5`}
           >
             <span className="m-[10px] w-auto align-center font-serif text-md tracking-easy text-white">
               {text}
@@ -26,7 +26,7 @@ const Button = ({ text, color, hover, action, link } : ButtonProps) => {
   else {
     return (
       <button
-          className={`w-auto h-[40px] bg-${color} rounded duration-150 hover:bg-${hover} hover:-translate-y-0.5`}
+          className={`w-auto h-[40px] ${color} rounded duration-150 ${hover} hover:-translate-y-0.5`}
           onClick={action ?? undefined}
         >
           <span className="m-[10px] w-auto align-center font-serif text-md tracking-easy text-white">
@@ -35,7 +35,6 @@ const Button = ({ text, color, hover, action, link } : ButtonProps) => {
       </button>
     );
   }
-    
 }
 
 export default Button;

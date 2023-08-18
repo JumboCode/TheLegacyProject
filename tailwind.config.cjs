@@ -28,18 +28,18 @@ module.exports = withMT({
       test: 'border-4 border-red-400 border-dashed'
     },
     colors: {
-      'dark': '#343434',
+      'charcoal': '#343434',
+      'teal': '#36696E',
       'dark-teal': '#22555A',
-      'legacy-teal': '#36696E',
-      'light-teal': '#A7BFBF', 
+      'light-teal': '#5E898D', 
       'dark-rust': '#8A423A',
+      'light-rust': '#C58078',
       'off-white': '#F5F5F5',
+      'dark-tan': '#D4CCC1',
       'tan': '#F5F0EA',
       'med-tan': '#E8E0D5',
-      'dark-tan': '#D4CCC1',
       'dark-green': '#22555A',
       'offer-white': '#F0F0F0',
-      'legacy-tan': '#E8E0D5',
       'light-sage': '#AEBDB6',
       'dark-sage': '#94A59C',
       'dark-gray': '#515151',
@@ -53,7 +53,6 @@ module.exports = withMT({
       'tag-blue': '#586D87',
       'tag-violet': '#6F617F',
       'tag-rose': '#A0687F',
-      ...colors,
     },
     
     fontFamily: {

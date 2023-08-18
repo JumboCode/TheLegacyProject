@@ -63,7 +63,7 @@ export default function FilterDropdown<T extends Named>({
       <div className="bg-red flex w-full flex-col">
         <input
           onChange={onChange}
-          className="h-[46px] w-full mb-2 px-3 border-2 border-legacy-tan focus:outline-none rounded"
+          className="h-[46px] w-full mb-2 px-3 border-2 border-tan focus:outline-none rounded"
           onFocus={() => setShowOptions(true)}
           onClick={() => setShowOptions(true)}
         />

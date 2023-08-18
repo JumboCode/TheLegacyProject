@@ -81,7 +81,7 @@ const AddFile = ({
                   File name
                 </div>
                 <input
-                  className="mb-5 h-[46px] w-full rounded border-2 border-legacy-tan px-3"
+                  className="mb-5 h-[46px] w-full rounded border-2 border-tan px-3"
                   type="text"
                   value={fileName}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -92,7 +92,7 @@ const AddFile = ({
                   Description
                 </div>
                 <textarea
-                  className="mb-4 h-1/2 w-full rounded border-2 border-legacy-tan bg-off-white p-[12px] text-start text-base"
+                  className="mb-4 h-1/2 w-full rounded border-2 border-tan bg-off-white p-[12px] text-start text-base"
                   placeholder=""
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                     setDescription(e.target.value)

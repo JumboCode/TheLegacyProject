@@ -61,8 +61,8 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
           {senior.name}
           <h2 className="font-serif text-xl"> {senior.location} </h2>
         </h1>
-        <div className="w-full mb-8 border-solid bg-legacy-tan drop-shadow-md">
-          <p className="rounded bg-legacy-tan p-4 max-h-[100px] sm:text-lg md:text-md overflow-scroll">
+        <div className="w-full mb-8 border-solid bg-tan drop-shadow-md">
+          <p className="rounded bg-tan p-4 max-h-[100px] sm:text-lg md:text-md overflow-scroll">
           {senior.description} 
           </p>
         </div>

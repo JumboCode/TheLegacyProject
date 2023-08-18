@@ -4,7 +4,7 @@ import SignIn from "./SignIn";
 const Sidebar = ({ displayName } : { displayName: string }) => {
   return (
     // <div className="w-7/8 sticky top-0 flex h-screen flex-col items-center justify-between bg-med-tan px-6 py-8 shadow-lg drop-shadow-lg">
-    <div className="flex w-full sticky top-0 flex h-screen flex-col items-center justify-between bg-legacy-tan px-6 py-8 shadow-xl drop-shadow-xl">
+    <div className="flex w-full sticky top-0 flex h-screen flex-col items-center justify-between bg-tan px-6 py-8 shadow-xl drop-shadow-xl">
       <div className="w-full items-center p-2">
         <div className="mb-10">
           <Link href="/">
