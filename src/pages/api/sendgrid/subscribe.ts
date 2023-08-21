@@ -1,13 +1,17 @@
+import type { NextApiRequest, NextApiResponse } from "next";
 import sendgrid from "@sendgrid/mail";
 import { Client } from "@sendgrid/client"
 
-const client = new Client();
-client.setApiKey(process.env.SENDGRID_API_KEY);
-
-async function subscribe(req, res) {
+const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
-    const subscribeRes = await client.request({
+    const client = new Client();
+    if (!process.env.SENDGRID_API_KEY) {
+      throw new Error("No SendGrid API key variable in environment file.")
+    }
+    client.setApiKey(process.env.SENDGRID_API_KEY);
+
+    const [subscribeRes, subscribeBody] = await client.request({
       method: "PUT",
       url: "/v3/marketing/contacts",
       body: {
@@ -24,12 +28,12 @@ async function subscribe(req, res) {
 
     });
     
-    const subscribeStatus = subscribeRes.body.job_id;
+    const subscribeStatus = subscribeBody.job_id;
   } catch (error) {
-    return res.status(error.statusCode || 500).json({ error: error.message });
+      res.status(500).json(error);
   }
 
-  return res.status(200).json({ error: "" });
+  res.status(200).json({ error: "" });
 }
 
 export default subscribe;

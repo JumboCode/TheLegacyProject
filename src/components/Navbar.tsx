@@ -11,7 +11,7 @@ const Navbar = ({ displayName }: { displayName: string}) => {
   };
 
   return (
-    <nav className="top-0 z-10 h-[60px] w-full flex flex-row items-center justify-between">
+    <nav className="top-0 h-[60px] w-full flex flex-row items-center justify-between">
 
       {/* Logo */}
       <div className="pl-[20px] sm:pl-[40px] font-serif font-medium text-xl md:text-2xl">
@@ -54,14 +54,15 @@ const Navbar = ({ displayName }: { displayName: string}) => {
     {/* Navbar Content */}
       <div className=
         { dropdownVisible ? 
-          "flex sm:hidden flex-col absolute top-[60px] right-[0px] align-right gap-[20px] p-[20px] bg-tan border-t-2 border-dark-tan" 
+          "flex flex-col sm:hidden absolute items-center w-full z-20 top-[60px] gap-[20px] p-[20px]  align-right \
+           bg-off-white shadow-inner"
           : 
           "hidden sm:flex flex-row align-center gap-[20px] pr-[40px]"}
       >
-        <div className="font-serif m-auto font-medium text-lg z-20 duration-150 hover:-translate-y-0.5">
+        <div className="font-serif m-auto font-medium text-lg duration-150 hover:-translate-y-0.5">
           <Link href="/">About Us</Link>
         </div>
-        <SignIn isPublic={displayName === "public"}/>
+         <SignIn isPublic={displayName === "public"}/>
       </div>
     </nav>
   );

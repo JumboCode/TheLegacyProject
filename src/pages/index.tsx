@@ -27,8 +27,7 @@ const Home: NextPage = () => {
           {/* Hero Section and Action Items Buttons */}
             <div className="flex flex-row w-full items-center md:px-[40px] lg:px-[60px]">
               <div className="flex flex-col items-center lg:items-start gap-[20px] lg:mr-[20px]">
-                <h1 className="mb-[10px] font-serif font-semibold text-3xl lg:text-4xl \
-                              text-center lg:text-left">
+                <h1 className="mb-[10px] font-serif font-semibold text-3xl lg:text-4xl text-center lg:text-left">
                   Everyone has a story that&apos;s worth preserving.
                 </h1>
                 <p className="text-center lg:text-left font-serif text-md md:text-lg xl:text-xl tracking-easy">
