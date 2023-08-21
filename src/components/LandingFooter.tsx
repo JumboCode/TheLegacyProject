@@ -13,21 +13,43 @@ const LandingFooter = () => {
     setButtonText("Join Us");
   }
 
-  function onEmailSubmit(event: FormEvent) {
+  const onEmailSubmit= async (event: FormEvent) => {
     event.preventDefault();
-    eList.add(email);
-    setEList(eList);
 
-    const validEmailRegex = new RegExp(/^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/);
+    const pattern = ["([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))",
+                     "+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])"]
+                    .join()
+                    
+    const validEmailRegex = new RegExp(pattern);
     // if box isn't empty and content is a valid email, add it to the set
+    
     if (email && validEmailRegex.test(email)) {
+      eList.add(email);
+      setEList(eList);
+
+      // // use SendGrid 'subscribe' route to send a test email
+      // const res = await fetch(
+      //   "/api/sendgrid/subscribe",
+      //   {
+      //     body: JSON.stringify({ to: email }),
+      //     headers: { "Content-Type": "application/json" },
+      //     method: "POST",
+      //   }
+      // );
+
+      // const { error } = await res.json();
+      // if (error) {
+      //   console.log(error);
+      //   setButtonText("Invalid Email");
+      //   setButtonStyle("bg-light-rust");  // no hover
+      //   return;
+      // }
+      
       setButtonText("Subscribed!");
       setButtonStyle("bg-light-teal");  // no hover
-
-
     }
     else {
-      setButtonText("Invalid email");
+      setButtonText("Invalid Email");
       setButtonStyle("bg-light-rust");  // no hover
     }
   }
