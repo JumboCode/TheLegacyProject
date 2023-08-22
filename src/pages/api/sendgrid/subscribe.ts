@@ -1,9 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import sendgrid from "@sendgrid/mail";
 import { Client } from "@sendgrid/client"
 
 const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
-
   try {
     const client = new Client();
     if (!process.env.SENDGRID_API_KEY) {
@@ -19,21 +17,16 @@ const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     })
 
-    const welcomeRes = await sendgrid.send({
-      to: req.body.to, // Your email where you'll receive emails
-      from: "exec@thelegacyproj.org", // your website email address here
-      subject: "Hello from the Legacy Project, Inc.",
-      html: "<h1> Welcome to the Legacy Project! </h1>You've been successfully subcribed to the Legacy Project. \
-             To unsubscribe, reach out to <i>exec@thelegacyproj.org</i> directly, and we'll take you off our e-list."
+    if (subscribeRes.statusCode != 220) {
+      throw new Error("Validation error in submitting new email contact.")
+    }
 
-    });
-    
-    const subscribeStatus = subscribeBody.job_id;
+    // TODO: check for no-longer-pending import contacts status?    
   } catch (error) {
       res.status(500).json(error);
   }
 
-  res.status(200).json({ error: "" });
+  res.status(200);
 }
 
 export default subscribe;
