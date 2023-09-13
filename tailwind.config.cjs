@@ -14,9 +14,6 @@ module.exports = withMT({
         '60': '60deg'
       }
     },
-    backgroundImage: {
-        'paper': "url('../../public/landing/paper-texture.png')"
-    },
     screens: {
       xs: '320px',
       sm: '680px',

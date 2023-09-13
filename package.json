@@ -17,6 +17,8 @@
     "@sendgrid/mail": "^7.7.0",
     "classnames": "^2.3.2",
     "googleapis": "^117.0.0",
+    "mongo": "^0.1.0",
+    "mongodb": "^6.0.0",
     "next": "12.3.1",
     "next-auth": "^4.12.3",
     "react": "18.2.0",

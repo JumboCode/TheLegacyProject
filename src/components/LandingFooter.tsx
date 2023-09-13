@@ -27,23 +27,23 @@ const LandingFooter = () => {
       eList.add(email);
       setEList(eList);
 
-      // // use SendGrid 'subscribe' route to send a test email
-      // const res = await fetch(
-      //   "/api/sendgrid/subscribe",
-      //   {
-      //     body: JSON.stringify({ to: email }),
-      //     headers: { "Content-Type": "application/json" },
-      //     method: "POST",
-      //   }
-      // );
+      // use SendGrid 'subscribe' route to send a test email
+      const res = await fetch(
+        "/api/sendgrid/subscribe",
+        {
+          body: JSON.stringify({ to: email }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        }
+      );
 
-      // const { error } = await res.json();
-      // if (error) {
-      //   console.log(error);
-      //   setButtonText("Invalid Email");
-      //   setButtonStyle("bg-light-rust");  // no hover
-      //   return;
-      // }
+      const { error } = await res.json();
+      if (error) {
+        console.log(error);
+        setButtonText("Invalid Email");
+        setButtonStyle("bg-light-rust");  // no hover
+        return;
+      }
       
       setButtonText("Subscribed!");
       setButtonStyle("bg-light-teal");  // no hover
