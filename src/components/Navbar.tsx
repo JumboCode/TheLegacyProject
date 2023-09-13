@@ -11,7 +11,7 @@ const Navbar = ({ displayName }: { displayName: string}) => {
   };
 
   return (
-    <nav className="top-0 h-[60px] w-full flex flex-row items-center justify-between">
+    <nav className="top-0 h-[60px] w-full flex flex-row items-center justify-between z-10">
 
       {/* Logo */}
       <div className="pl-[20px] sm:pl-[40px] font-serif font-medium text-xl md:text-2xl">
