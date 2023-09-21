@@ -54,7 +54,7 @@ const Home: NextPage<IAdminProps> = ({
       return (
         <SeniorBody
           seniors={seniors}
-          students={students} // for AddSenior
+          students={students}
           setSeniors={setSeniors}
           refreshData={refreshData}
         />
@@ -74,15 +74,15 @@ const Home: NextPage<IAdminProps> = ({
 
 
   return (
-    <div className="relative flex flex-col h-full place-items-stretch p-8">
+    <div className="relative flex flex-col h-full w-full place-items-stretch p-8">
       <PhotoHeader admin={true} name={me.name} />
       <div className="flex flew-row h-[40px] bg-med-tan mb-6 justify-center sm:justify-start / 
-                      border border-darker-tan">
+                      border-l border-r border-b border-darker-tan">
           {tabs.map((tab) => (
             <button
               disabled={tab === "Pending" && pending.length === 0}
               className={cn(
-                "w-full sm:w-auto text-md font-serif duration-150 hover:bg-darker-tan",
+                "w-full sm:w-auto text-md duration-150 hover:bg-darker-tan",
                 tab === selectedTab ? "bg-light-sage" : "bg-dark-tan",
                 )}
               key={tab}

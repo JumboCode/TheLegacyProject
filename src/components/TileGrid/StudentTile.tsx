@@ -60,31 +60,25 @@ export function StudentTile({
   }
 
   return (
-    <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white hover:bg-off-white text-base font-medium text-gray-700 drop-shadow-md">
+    <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white hover:bg-off-white font-medium drop-shadow-md">
        <div className="absolute top-0 right-0">
         <TileEdit options={options} />
        </div>
           <Link href={link}> 
-          <div className="flex flex-col h-full w-full justify-center">
-            <div className="flex flex-col h-1/2 justify-end">
+          <div className="flex flex-col h-full w-full items-center justify-center">
+            <div className="relative object-cover h-[60px] w-[60px]">
               <Image
-                className="object-scale-down"
                 src={student.image ?? "/profile/genericprofile.png"}
                 alt="Placeholder profile image"
-                height={75}
-                width={75}
+                layout="fill"
               />
             </div>
-            <div className="relative h-1/2 w-full p-2 flex flex-col font-semibold text-center text-lg text-neutral-600">
+            <div className="relative flex flex-col w-full pt-2 px-4 font-semibold text-center text-sm">
                 {data && student.name &&
-                  <span className={"text-xl break-words px-2" && student.admin ? "text-tag-rust font-bold" : ""}>
+                  <p className={student.admin ? "break-words text-tag-rust font-bold" : ""}>
                     {student.name} {student.admin ? "(Admin)" : ""}
-                  </span>
-                }
-
-                {student.email ? (
-                  <p className="text-md font-medium text-neutral-600 truncate px-2">{student.email}</p>
-                  ) : null}
+                  </p>
+}
               </div>
             </div>
           </Link>
