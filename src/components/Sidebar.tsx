@@ -1,31 +1,51 @@
 import Link from "next/link";
-import SignIn from "./SignIn";
+import Image from "next/image";
+import { signOut } from "next-auth/react";
+
+const SidebarItem = ({ label } : { label: string }) => {
+  return (
+    <div className="w-full px-4 p-2 text-lg text-left font-serif duration-150 hover:bg-darker-tan">
+      <div className="duration-150 hover:translate-x-1">{label}</div>
+    </div>
+  );
+};
 
 const Sidebar = ({ displayName } : { displayName: string }) => {
   return (
-    // <div className="w-7/8 sticky top-0 flex h-screen flex-col items-center justify-between bg-med-tan px-6 py-8 shadow-lg drop-shadow-lg">
-    <div className="flex w-full sticky top-0 flex h-screen flex-col items-center justify-between bg-tan px-6 py-8 shadow-xl drop-shadow-xl">
-      <div className="w-full items-center p-2">
-        <div className="mb-10">
-          <Link href="/">
-            <h1 className="rounded p-4 bg-tan text-left font-serif text-3xl drop-shadow-md /
-                           duration-150 hover:-translate-y-0.5">
-              The Legacy Project
-            </h1>
+    <div className="flex flex-col w-[160px] h-screen top-0 py-12 justify-start gap-20 \
+                    bg-med-tan border-r border-darker-tan">
+          <div className="flex flex-col p-4 place-items-center">
+            <Link href="/">
+              <h1 className="font-serif text-center text-2xl duration-150 hover:-translate-y-0.5 z-10">
+                The Legacy Project
+              </h1>
+            </Link>
+
+            <span className="absolute h-[60px] aspect-square left-3 top-[48px] rotate-45 opacity-60">
+              <Image 
+                src="/landing/pink-flower.png"
+                layout="fill"
+                objectFit="cover"
+              />
+            </span>
+
+            <span className="absolute h-[60px] aspect-square top-[70px] left-[88px] opacity-40">
+              <Image 
+                src="/landing/yellow-flower.png"
+                layout="fill"
+                objectFit="cover"
+              />
+            </span>
+          </div>
+
+        <div className="flex flex-col w-full bg-dark-tan border border-darker-tan">
+          <Link href="/home">
+            <SidebarItem label="Home"/>
           </Link>
-        </div>
-
-        <Link href="/home">
-          <button className="w-full rounded bg-legacy-teal px-5 py-3 text-center font-serif text-xl text-white \
-                             drop-shadow-md hover:bg-dark-teal duration-150 hover:-translate-y-0.5">
-            Home
+          <button onClick={() => signOut({ callbackUrl: "/" })}>
+            <SidebarItem label="Sign Out"/>
           </button>
-        </Link>
-      </div>
-
-      <div className="w-full items-center p-2">
-        <SignIn isPublic={displayName === "public"}/>
-      </div>
+        </div>
     </div>
   );
 };
