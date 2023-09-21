@@ -32,7 +32,7 @@ const Navbar = ({ displayName }: { displayName: string}) => {
           { dropdownVisible ? 
             (
               <svg
-                className="h-8 w-8 sm:hidden text-darkest-tan "
+                className="h-8 w-8 sm:hidden text-darkest-tan"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"

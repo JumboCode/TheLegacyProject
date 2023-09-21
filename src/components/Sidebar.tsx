@@ -4,7 +4,7 @@ import { signOut } from "next-auth/react";
 
 const SidebarItem = ({ label } : { label: string }) => {
   return (
-    <div className="w-full px-4 p-2 text-lg text-left font-serif duration-150 hover:bg-darker-tan">
+    <div className="w-full px-4 p-2 text-md text-left font-serif duration-150 hover:bg-darker-tan">
       <div className="duration-150 hover:translate-x-1">{label}</div>
     </div>
   );
