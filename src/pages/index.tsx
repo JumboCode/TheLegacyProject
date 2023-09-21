@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+
 import PhotoCarousel from "@components/PhotoCarousel";
 import LandingFooter from "@components/LandingFooter";
 import FlowerBox from "@components/FlowerBox";
@@ -22,7 +23,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col w-screen min-h-screen px-[40px]">
+      <main className="flex flex-col w-screen min-h-screen px-[40px] z-0">
         <FlowerBox>
           {/* Hero Section and Action Items Buttons */}
             <div className="flex flex-row w-full items-center md:px-[40px] lg:px-[60px]">
@@ -64,7 +65,7 @@ const Home: NextPage = () => {
             </div>
 
           </FlowerBox>
-        <div className="flex flex-col justify-center w-full gap-y-4 px-[40px] md:py-[40px]">
+        <div className="flex flex-col justify-center w-full gap-y-4 px-[40px] py-[20px]">
           <span className="font-serif font-semibold text-center sm:text-left text-3xl sm:text-4xl">
             About Us
           </span>
