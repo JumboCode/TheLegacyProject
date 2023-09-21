@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import FilterDropdown from "@components/filterDropdown";
+import FilterDropdown from "@components/FilterDropdown";
 import Tag, { TagProps, tagList } from "@components/Tag";
 
 type AddFileProps = {

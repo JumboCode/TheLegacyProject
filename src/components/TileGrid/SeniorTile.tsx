@@ -51,7 +51,7 @@ export function SeniorTile({
   console.log(senior.name + "'s Students: " + senior.StudentIDs.toString());
 
   return (
-      <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white hover:bg-off-white text-base font-medium text-gray-700 drop-shadow-md">
+      <div className="relative w-auto flex flex-col aspect-square items-center rounded bg-white hover:bg-off-white font-medium drop-shadow-md">
           <TileEdit
             options={options}
           />
@@ -59,14 +59,13 @@ export function SeniorTile({
           <div className="flex flex-col h-full w-full justify-center">
             <div className="flex flex-col h-1/2 justify-end">
               <Image
-                className="object-scale-down"
                 src={"/profile/seniorprofile_icon.png"}
                 alt="Placeholder profile image"
-                height={75}
-                width={75}
+                height={100}
+                width={100}
               />
             </div>
-            <div className="relative h-1/2 w-full p-2 flex flex-col font-medium text-center text-lg text-neutral-600">
+            <div className="relative h-1/2 w-full p-2 flex flex-col font-medium text-center text-md text-neutral-600">
                 <span className="font-semibold break-words px-2"> {senior.name} </span>
                 <p className="text-md font-base text-neutral-600 truncate px-2">{senior.location}</p>
             </div>

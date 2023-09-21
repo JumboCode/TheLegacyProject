@@ -25,7 +25,6 @@ module.exports = withMT({
       test: 'border-4 border-red-400 border-dashed'
     },
     colors: {
-      'charcoal': '#343434',
       'teal': '#36696E',
       'dark-teal': '#22555A',
       'light-teal': '#5E898D', 
@@ -33,8 +32,10 @@ module.exports = withMT({
       'light-rust': '#C58078',
       'light-moss': '#CDD3C8',
       'off-white': '#F5F5F5',
-      'dark-tan': '#D4CCC1',
       'tan': '#F5F0EA',
+      'dark-tan': '#D4CCC1',
+      'darker-tan': '#CAC2B7',
+      'darkest-tan': '#665E53',
       'med-tan': '#E8E0D5',
       'dark-green': '#22555A',
       'offer-white': '#F0F0F0',
@@ -65,7 +66,7 @@ module.exports = withMT({
     screen: {
       "xs": "320px",
       "sm":	"640px",
-      "md":	"768px",
+      "md":	"760px",
       "lg":	"1024px",
       "xl":	"1280px",
       "2x":	"1536px"

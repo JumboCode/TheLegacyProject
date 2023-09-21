@@ -6,8 +6,8 @@ interface FlowerBoxProps {
 
 const FlowerBox = ({ children }: FlowerBoxProps) => {
   return (
-      <div className="relative flex flex-col p-[20px] sm:p-[40px] md:mx-[40px] content-center text-center \
-                      bg-med-tan overflow-hidden z-10">
+      <div className="relative flex flex-col p-[20px] mt-[40px] sm:p-[40px] md:mx-[40px] content-center text-center \
+                      bg-med-tan border border-dark-tan overflow-hidden z-10">
         <span className="flex flex-col z-10 gap-[20px]"> 
           {children}
         </span>

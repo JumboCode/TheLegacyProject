@@ -54,7 +54,7 @@ const Home: NextPage<IAdminProps> = ({
       return (
         <SeniorBody
           seniors={seniors}
-          students={students} // for AddSenior
+          students={students}
           setSeniors={setSeniors}
           refreshData={refreshData}
         />
@@ -74,25 +74,21 @@ const Home: NextPage<IAdminProps> = ({
 
 
   return (
-    <div className="relative flex flex-col h-full place-items-stretch p-4 sm:p-8">
-      <PhotoHeader admin={true} name={me.name} image={me.image} email={me.email} />
-      <div className="flex flew-row  h-[50px] my-6 gap-4 justify-center \
-                      sm:gap-6 sm:justify-start">
+    <div className="relative flex flex-col h-full w-full place-items-stretch p-8">
+      <PhotoHeader admin={true} name={me.name} />
+      <div className="flex flew-row h-[40px] bg-med-tan mb-6 justify-center sm:justify-start / 
+                      border-l border-r border-b border-darker-tan">
           {tabs.map((tab) => (
             <button
               disabled={tab === "Pending" && pending.length === 0}
               className={cn(
-                "rounded drop-shadow-md duration-150 hover:-translate-y-0.5",
-                "w-full text-lg px-3 py-3 sm:w-auto sm:text-xl sm:px-9 sm:py-3",
-                tab === selectedTab ? "bg-light-sage" : "bg-white hover:bg-off-white",
-                tab === "Pending" && pending.length === 0
-                  ? "opacity-50"
-                  : null
+                "w-full sm:w-auto text-md duration-150 hover:bg-darker-tan",
+                tab === selectedTab ? "bg-light-sage" : "bg-dark-tan",
                 )}
               key={tab}
               onClick={() => setSelectedTab(tab)}
             >
-              <p>{tab}</p>
+              <div className="px-6 sm:px-auto duration-150 hover:-translate-y-0.5"> {tab} </div>
             </button>
           ))}
       </div>

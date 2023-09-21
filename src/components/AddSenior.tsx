@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image"; 
 import cn from "classnames";
-import FilterDropdown from "@components/filterDropdown";
+import FilterDropdown from "@components/FilterDropdown";
 import { Senior, User } from "@prisma/client"
 
 type AddSeniorProps = {

@@ -24,7 +24,7 @@ const StudentProfilePage = ({ student }: IStudentProps) => {
   return (
     <>
       <div className="flex flex-col h-full place-items-stsetch p-8 gap-6">
-        <PhotoHeader admin={false} name={student.name} image={student.image} email={student.email}/>
+        <PhotoHeader admin={false} name={student.name}/>
         <TileGrid >
           {seniors.map(
             (senior) => (
