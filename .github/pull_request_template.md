@@ -4,7 +4,7 @@
 
 ## Screenshots
 
-<!-- If you're making UI changes, please include all sscreenshots -->
+<!-- If you're making UI changes, please include screenshots and describe the expected user flow. -->
 
 ## Test
 
@@ -16,4 +16,4 @@
 
 ## Additional Documentations
 
-<!-- Describe documentations and references that would be helpful for us to review the code -->
+<!-- Describe any documentations or references that would be helpful for us to review your code -->
