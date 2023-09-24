@@ -82,7 +82,7 @@ This section outlines some guidelines and expectations for development.
 
 ### Making Changes
 
-We prefer small and iterative changes, as they will be easier to review. To start a developing a new feature, the general development process is as follow:
+We prefer small and iterative changes, as they will be easier to review. To start developing a new feature, the general development process is as follow:
 
 1. `git checkout main`
 2. `git checkout -b <Your GitHub username>/<feature>`
