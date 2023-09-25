@@ -1,6 +1,6 @@
 import { TileEdit } from "./TileEdit";
 import { Senior } from "@prisma/client";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
 

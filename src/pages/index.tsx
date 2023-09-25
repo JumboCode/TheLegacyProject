@@ -6,7 +6,7 @@ import LandingFooter from "@components/LandingFooter";
 import FlowerBox from "@components/FlowerBox";
 
 import Button from "@components/Button"
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 
 const Home: NextPage = () => {
