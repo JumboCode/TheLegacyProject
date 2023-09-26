@@ -25,7 +25,7 @@ export const metadata: Metadata = {
  * Define default font.
  *
  * @link {https://nextjs.org/docs/app/building-your-application/optimizing/fonts}
- * @todo Talk with Giyatri to get new font
+ * @todo Talk with Gayatri to get new font
  */
 const inter = Inter({
   subsets: ["latin"],
