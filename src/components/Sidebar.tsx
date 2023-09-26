@@ -43,6 +43,7 @@ const Sidebar = ({ displayName } : { displayName: string }) => {
           </div>
 
         <div className="flex flex-col w-full bg-dark-tan border border-darker-tan">
+          {/* TODO(nickbar01234) - Point this to something... */}
           <Link href="/home">
             <SidebarItem label="Home"/>
           </Link>

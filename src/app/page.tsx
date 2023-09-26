@@ -1,4 +1,5 @@
-import type { NextPage } from "next";
+"use client";
+
 import Head from "next/head";
 
 import PhotoCarousel from "@components/PhotoCarousel";
@@ -8,8 +9,7 @@ import FlowerBox from "@components/FlowerBox";
 import Button from "@components/Button"
 import Image from "next/legacy/image";
 
-
-const Home: NextPage = () => {
+const HomePage = () => {
 
   // TODO: make env variables
   const chapterInitForm = "https://forms.gle/gBdmpsW6JFnYvwRf7";
@@ -63,7 +63,6 @@ const Home: NextPage = () => {
                 <Button text="TLP Instagram" 
                         color="bg-tag-rust" hover="hover:bg-dark-rust" link={legacyInstagram} />
             </div>
-
           </FlowerBox>
         <div className="flex flex-col justify-center w-full gap-y-4 px-[40px] py-[20px]">
           <span className="font-serif font-semibold text-center sm:text-left text-3xl sm:text-4xl">
@@ -129,6 +128,7 @@ const Home: NextPage = () => {
     </>
   );
 };
-Home.displayName = "public";
 
-export default Home;
+HomePage.displayName = "public";
+
+export default HomePage;
