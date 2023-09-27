@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { signOut } from "next-auth/react";
 
 const SidebarItem = ({ label } : { label: string }) => {
@@ -26,6 +26,8 @@ const Sidebar = ({ displayName } : { displayName: string }) => {
                 src="/landing/pink-flower.png"
                 layout="fill"
                 objectFit="cover"
+                // TODO(nickbar01234) - Write a more descriptive alt
+                alt="Pink flower"
               />
             </span>
 
@@ -34,11 +36,14 @@ const Sidebar = ({ displayName } : { displayName: string }) => {
                 src="/landing/yellow-flower.png"
                 layout="fill"
                 objectFit="cover"
+                // TODO(nickbar01234) - Write a more descriptive alt
+                alt="Yellow flower"
               />
             </span>
           </div>
 
         <div className="flex flex-col w-full bg-dark-tan border border-darker-tan">
+          {/* TODO(nickbar01234) - Point this to something... */}
           <Link href="/home">
             <SidebarItem label="Home"/>
           </Link>

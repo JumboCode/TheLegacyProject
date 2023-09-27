@@ -1,7 +1,7 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import PhotoHeader from "@components/PhotoHeader";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval, Senior, User } from "@prisma/client";
 import React, { useCallback, useMemo, useState, Dispatch, SetStateAction } from "react";

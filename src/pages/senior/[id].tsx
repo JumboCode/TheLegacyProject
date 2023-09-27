@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import type { GetServerSidePropsContext } from "next";
 import { useState } from "react";
 import FileTile from "@components/TileGrid/FileTile";

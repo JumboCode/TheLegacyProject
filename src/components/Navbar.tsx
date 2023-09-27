@@ -1,7 +1,9 @@
+"use client";
+
 import React, { useState } from "react";
 
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 
 const Navbar = ({ displayName }: { displayName: string}) => {

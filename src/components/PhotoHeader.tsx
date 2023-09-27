@@ -1,7 +1,7 @@
 // Photo Header for Student Home Page
 
 import React from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import cn from "classnames";
 
 export interface IPhotoHeaderProps {
