@@ -6,7 +6,7 @@ import TileGrid, { SeniorTile } from "@components/TileGrid";
 import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
-
+import { prisma } from "@server/db/client";
 
 type IStudentProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;

@@ -11,6 +11,7 @@ import AddSenior from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import cn from "classnames";
+import { prisma } from "@server/db/client";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;

@@ -10,6 +10,7 @@ import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
 import { Approval } from "@prisma/client";
+import { prisma } from "@server/db/client";
 
 type ISeniorProfileProps = Awaited<
   ReturnType<typeof getServerSideProps>
