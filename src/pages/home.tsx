@@ -1,6 +1,7 @@
 import { Approval } from "@prisma/client";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { GetServerSidePropsContext } from "next";
+import { prisma } from "@server/db/client";
 
 export default function Home() {
   return <div></div>;
