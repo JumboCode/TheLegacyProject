@@ -1,6 +1,13 @@
 # Description
 
-<!-- Include a summary of your changes and the related issues. -->
+<!-- Include a summary of your changes -->
+
+## Issues
+
+<!-- Reference the issue that you're working on (if exists) -->
+<!-- When you references an issue, Github will automatically link the PR to Github -->
+<!-- For example, "Resolve #1" links your PR to the first issue -->
+<!-- For a full list of keywords, see here https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue -->
 
 ## Screenshots
 
