@@ -4,9 +4,15 @@ import PhotoHeader from "@components/PhotoHeader";
 import Image from "next/legacy/image";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval, Senior, User } from "@prisma/client";
-import React, { useCallback, useMemo, useState, Dispatch, SetStateAction } from "react";
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { useRouter } from "next/router";
-import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
+import TileGrid, { SeniorTile, UserTile } from "@components/TileGrid";
 import AddSenior from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
@@ -18,7 +24,7 @@ type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
 };
 
 const tabs = ["Students", "Seniors", "Pending"] as const;
-type Tabs = typeof tabs[number];
+type Tabs = (typeof tabs)[number];
 
 const Home: NextPage<IAdminProps> = ({
   me,
@@ -73,25 +79,29 @@ const Home: NextPage<IAdminProps> = ({
     }
   }, [pending, refreshData, selectedTab, seniors, students]);
 
-
   return (
-    <div className="relative flex flex-col h-full w-full place-items-stretch p-8">
+    <div className="relative flex h-full w-full flex-col place-items-stretch p-8">
       <PhotoHeader admin={true} name={me.name} />
-      <div className="flex flew-row h-[40px] bg-med-tan mb-6 justify-center sm:justify-start / 
-                      border-l border-r border-b border-darker-tan">
-          {tabs.map((tab) => (
-            <button
-              disabled={tab === "Pending" && pending.length === 0}
-              className={cn(
-                "w-full sm:w-auto text-md duration-150 hover:bg-darker-tan",
-                tab === selectedTab ? "bg-light-sage" : "bg-dark-tan",
-                )}
-              key={tab}
-              onClick={() => setSelectedTab(tab)}
-            >
-              <div className="px-6 sm:px-auto duration-150 hover:-translate-y-0.5"> {tab} </div>
-            </button>
-          ))}
+      <div
+        className="flew-row / mb-6 flex h-[40px] justify-center border-b border-l 
+                      border-r border-darker-tan bg-med-tan sm:justify-start"
+      >
+        {tabs.map((tab) => (
+          <button
+            disabled={tab === "Pending" && pending.length === 0}
+            className={cn(
+              "text-md w-full duration-150 hover:bg-darker-tan sm:w-auto",
+              tab === selectedTab ? "bg-light-sage" : "bg-dark-tan"
+            )}
+            key={tab}
+            onClick={() => setSelectedTab(tab)}
+          >
+            <div className="sm:px-auto px-6 duration-150 hover:-translate-y-0.5">
+              {" "}
+              {tab}{" "}
+            </div>
+          </button>
+        ))}
       </div>
       {body}
     </div>
@@ -114,24 +124,24 @@ function StudentBody({
 
   return (
     <>
-      <div className="flex flex-row justify-between space-x-3 align-middle z-10">
-        <SearchBar setFilter={setFilter}/>
+      <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
+        <SearchBar setFilter={setFilter} />
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
       <TileGrid>
-          {students
-            .filter(({ name }) => name?.includes(filter))
-            .map((student) => (
-              <div className="h-auto w-auto" key={student.id}>
-                <StudentTile
-                  link={"/student/" + student.id}
-                  student={student}
-                  setDeactivated={setDeactivated}
-                  setStudents={setStudents}
-                  refreshData={refreshData}
-                />
-              </div>
-            ))}
+        {students
+          .filter(({ name }) => name?.includes(filter))
+          .map((student) => (
+            <div className="h-auto w-auto" key={student.id}>
+              <UserTile
+                link={"/student/" + student.id}
+                student={student}
+                setDeactivated={setDeactivated}
+                setStudents={setStudents}
+                refreshData={refreshData}
+              />
+            </div>
+          ))}
       </TileGrid>
     </>
   );
@@ -154,26 +164,17 @@ function SeniorBody({
   const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
 
   return (
-  <>      
-      <div className="flex flex-row justify-between space-x-3 align-middle z-10">
-        <SearchBar setFilter={setFilter}/>
+    <>
+      <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
+        <SearchBar setFilter={setFilter} />
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
-    <TileGrid>
-        <AddSenior
-                   seniors={seniors}
-                   students={students}
-                   setSeniors={setSeniors}
-                   showAddSeniorPopUp={showAddSeniorPopUp} 
-                   setShowAddSeniorPopUp={setShowAddSeniorPopUp}
-                   seniorPatch={seniorPatch} 
-                   setSeniorPatch={setSeniorPatch}
-                   />
-
-        {seniors.filter(({ name }) => name?.includes(filter))
+      <TileGrid>
+        {seniors
+          .filter(({ name }) => name?.includes(filter))
           .map((senior) => (
             <div key={senior.id}>
-              <SeniorTile
+              <UserTile
                 key={senior.id}
                 link={"/senior/" + senior.id}
                 senior={senior}
@@ -183,7 +184,16 @@ function SeniorBody({
                 setSeniorPatch={setSeniorPatch}
               />
             </div>
-        ))}
+          ))}
+        <AddSenior
+          seniors={seniors}
+          students={students}
+          setSeniors={setSeniors}
+          showAddSeniorPopUp={showAddSeniorPopUp}
+          setShowAddSeniorPopUp={setShowAddSeniorPopUp}
+          seniorPatch={seniorPatch}
+          setSeniorPatch={setSeniorPatch}
+        />
       </TileGrid>
     </>
   );
@@ -203,10 +213,10 @@ function PendingBody({
   refreshData: () => void;
 }) {
   return (
-    <ul className="pb-9 min-h-screen">
+    <ul className="min-h-screen pb-9">
       {pending.map((user) => (
         <li
-          className="flex flex-row p-4 mb-8 gap-4 items-center rounded bg-white drop-shadow-md"
+          className="mb-8 flex flex-row items-center gap-4 rounded bg-white p-4 drop-shadow-md"
           key={user.id}
         >
           <Image
@@ -216,14 +226,14 @@ function PendingBody({
             width={48}
             height={48}
           />
-          <div className="ml-1 flex-grow">          
-            <p className="text-lg font-bold text-neutral-600">{user.name}</p>
+          <div className="ml-1 flex-grow">
+            <p className="text-neutral-600 text-lg font-bold">{user.name}</p>
             <p className="text-md text-neutral-600">{user.email}</p>
           </div>
           <button
             title="Reject"
-            className="flex h-8 p-5 items-center text-lg justify-center rounded \
-                       text-white bg-tag-rust hover:bg-[#B76056] drop-shadow-md duration-150 hover:-translate-y-0.5"
+            className="\ flex h-8 items-center justify-center rounded bg-tag-rust p-5
+                       text-lg text-white drop-shadow-md duration-150 hover:-translate-y-0.5 hover:bg-[#B76056]"
             onClick={() => {
               fetch(`/api/student/${user.id}`, { method: "DELETE" });
               setPending((prev) => prev.filter((u) => u.id !== user.id));
@@ -235,8 +245,8 @@ function PendingBody({
           </button>
           <button
             title="Approve"
-            className="flex h-8 p-5 items-center justify-center rounded \
-                       text-white bg-dark-sage hover:bg-[#7F8E86] drop-shadow-md duration-150 hover:-translate-y-0.5 "
+            className="\ flex h-8 items-center justify-center rounded bg-dark-sage
+                       p-5 text-white drop-shadow-md duration-150 hover:-translate-y-0.5 hover:bg-[#7F8E86] "
             onClick={() => {
               fetch(`/api/student/${user.id}/approve`, { method: "POST" });
               setPending((prev) => prev.filter((u) => u.id !== user.id));
