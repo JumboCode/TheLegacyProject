@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React, { useState } from "react";
-import "../../styles/globals.css"; // Import your font styles
+import "@fontsource/merriweather";
 
 const TileEditBreadcrumbs = () => (
   <svg
