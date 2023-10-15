@@ -12,7 +12,7 @@ import React, {
   SetStateAction,
 } from "react";
 import { useRouter } from "next/router";
-import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
+import TileGrid, { SeniorTile, UserTile } from "@components/TileGrid";
 import AddSenior from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
@@ -134,7 +134,7 @@ function StudentBody({
           .filter(({ name }) => name?.includes(filter))
           .map((student) => (
             <div className="h-auto w-auto" key={student.id}>
-              <StudentTile
+              <UserTile
                 link={"/student/" + student.id}
                 student={student}
                 setDeactivated={setDeactivated}
@@ -185,7 +185,7 @@ function SeniorBody({
           .filter(({ name }) => name?.includes(filter))
           .map((senior) => (
             <div key={senior.id}>
-              <SeniorTile
+              <UserTile
                 key={senior.id}
                 link={"/senior/" + senior.id}
                 senior={senior}
