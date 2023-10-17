@@ -34,21 +34,23 @@ export const AddSeniorTile = ({
 
   return (
     <button onClick={handlePopUp}>
-      <div className="relative flex aspect-square w-auto flex-col items-center rounded bg-white font-medium drop-shadow-md hover:bg-off-white">
-        <div className="flex h-1/2 flex-col justify-end">
-          <Image
-            className="object-scale-down"
-            src={"/profile/addprofile_icon.png"}
-            alt="Add profile image"
-            height={75}
-            width={75}
-          />
-        </div>
-        <div className="relative flex h-1/2 w-full flex-col p-2 text-center text-lg font-medium">
-          <span className="text-neutral-800 break-words px-2">
-            Add New Senior
-          </span>
-        </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "10px",
+          width: "160px",
+          height: "202.5px",
+          borderRadius: "8px",
+          border: "1px solid #22555A",
+          fontFamily: "Merriweather",
+          color: "#22555A",
+        }}
+      >
+        <div style={{ fontSize: "40px", fontWeight: "600" }}>+</div>
+        <div style={{ fontSize: "18px" }}>New Senior</div>
       </div>
     </button>
   );
