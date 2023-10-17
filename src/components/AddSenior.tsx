@@ -1,5 +1,4 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import Image from "next/legacy/image";
 import cn from "classnames";
 import FilterDropdown from "@components/FilterDropdown";
 import { Senior, User } from "@prisma/client";
