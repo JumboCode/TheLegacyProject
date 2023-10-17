@@ -180,7 +180,6 @@ function SeniorBody({
           seniorPatch={seniorPatch}
           setSeniorPatch={setSeniorPatch}
         />
-
         {seniors
           .filter(({ name }) => name?.includes(filter))
           .map((senior) => (
