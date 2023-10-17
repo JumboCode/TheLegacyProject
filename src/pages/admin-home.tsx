@@ -170,6 +170,15 @@ function SeniorBody({
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
       <TileGrid>
+        <AddSenior
+          seniors={seniors}
+          students={students}
+          setSeniors={setSeniors}
+          showAddSeniorPopUp={showAddSeniorPopUp}
+          setShowAddSeniorPopUp={setShowAddSeniorPopUp}
+          seniorPatch={seniorPatch}
+          setSeniorPatch={setSeniorPatch}
+        />
         {seniors
           .filter(({ name }) => name?.includes(filter))
           .map((senior) => (
@@ -185,15 +194,6 @@ function SeniorBody({
               />
             </div>
           ))}
-        <AddSenior
-          seniors={seniors}
-          students={students}
-          setSeniors={setSeniors}
-          showAddSeniorPopUp={showAddSeniorPopUp}
-          setShowAddSeniorPopUp={setShowAddSeniorPopUp}
-          seniorPatch={seniorPatch}
-          setSeniorPatch={setSeniorPatch}
-        />
       </TileGrid>
     </>
   );
