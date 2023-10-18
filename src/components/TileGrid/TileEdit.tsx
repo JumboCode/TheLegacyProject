@@ -64,31 +64,34 @@ function TileEditMenu({ visible, setVisible, options }: ITileEditMenu) {
       style={{ borderRadius: "6px", paddingInline: "10px" }}
     >
       <form method="dialog">
-        {options.map((option) => (
-          <button
-            key={option.name}
-            className="w-full p-2 px-4 hover:bg-offer-white"
-            style={{
-              color: options[0] === option ? "#22555A" : "#EF6767",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            onClick={(e) => {
-              option.onClick(e);
-              setVisible(false);
-            }}
-          >
-            <span
+        {options.map((option, index) => (
+          <>
+            <button
+              key={option.name}
+              className="w-full p-2 px-4 hover:bg-offer-white"
               style={{
-                marginRight: "20px",
-                fontFamily: "Merriweather",
+                color: options[0] === option ? "#22555A" : "#EF6767",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+              onClick={(e) => {
+                option.onClick(e);
+                setVisible(false);
               }}
             >
-              {option.name}
-            </span>
-            {options[0] === option ? EditIcon() : TrashIcon()}
-          </button>
+              <span
+                style={{
+                  marginRight: "20px",
+                  fontFamily: "Merriweather",
+                }}
+              >
+                {option.name}
+              </span>
+              {options[0] === option ? EditIcon() : TrashIcon()}
+            </button>
+            {index !== options.length - 1 && <hr />}
+          </>
         ))}
       </form>
     </div>
