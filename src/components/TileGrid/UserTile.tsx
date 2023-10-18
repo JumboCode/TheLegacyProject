@@ -60,17 +60,6 @@ export function UserTile({
           },
         });
       }
-
-      options.push({
-        name: "Deactivate",
-        onClick: (e) => {
-          e.preventDefault();
-          setDeactivated((prev) => [...prev, student]);
-          setStudents((prev) => prev.filter((s) => s.id !== student.id));
-          fetch(`/api/student/${student.id}/reject`, { method: "POST" });
-          refreshData();
-        },
-      });
     }
   } else if (senior) {
     options.push({
@@ -104,20 +93,10 @@ export function UserTile({
   }
 
   return (
-    <div
-      style={{ backgroundColor: "white", borderRadius: "8px", width: "160px" }}
-    >
-      <div
-        className="drop-shadow-md hover:bg-off-white"
-        style={{
-          width: "160px",
-          height: "160px",
-          borderRadius: "8px 8px 0px 0px",
-          backgroundColor: "white",
-        }}
-      >
+    <div className="w-40 rounded-lg bg-white">
+      <div className="h-40 w-40 rounded-lg bg-white drop-shadow-md hover:bg-off-white">
         <Link href={link}>
-          <div style={{ width: "100%", height: "100%", objectFit: "cover" }}>
+          <div className="h-full w-full object-cover">
             {student ? (
               <Image
                 src={
@@ -125,55 +104,33 @@ export function UserTile({
                 }
                 alt="Placeholder profile image"
                 layout="fill"
-                style={{
-                  borderRadius: "8px 8px 0px 0px",
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                }}
+                className="max-h-full max-w-full rounded-lg"
               />
             ) : (
               <Image
                 src={"/profile/seniorprofile_icon.png"}
                 alt="Placeholder profile image"
                 layout="fill"
-                style={{
-                  borderRadius: "8px 8px 0px 0px",
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                }}
+                className="max-h-full max-w-full rounded-lg"
               />
             )}
           </div>
         </Link>
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "8px",
-        }}
-      >
-        <p
-          style={{
-            color: "#22555A",
-            textOverflow: "ellipsis",
-            fontSize: "14px",
-            fontFamily: "Merriweather",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {data && student && student.name
-            ? student.name + (student.admin ? " (Admin)" : "")
-            : data && senior && senior.name
-            ? senior.name
-            : null}
-        </p>
-        {/* @TODO: Add senior's location after discussing */}
-        {/* <p className="text-md font-base text-neutral-600 truncate px-2">
-          {senior && senior.location}
-        </p> */}
+      <div className="flex items-center justify-between p-2">
+        <div className="overflow-hidden">
+          <p className="overflow-hidden text-ellipsis whitespace-nowrap font-['Merriweather'] text-sm text-[#22555A]">
+            {data && student && student.name
+              ? student.name + (student.admin ? " (Admin)" : "")
+              : data && senior && senior.name
+              ? senior.name
+              : null}
+          </p>
+          {/* @TODO: Add pronouns once we add to student field */}
+          <p className="text-md font-base text-neutral-600 mt-[5px] truncate font-['Merriweather'] text-[10px] text-[#22555A]">
+            {senior && senior.location}
+          </p>
+        </div>
         <TileEdit options={options} />
       </div>
     </div>

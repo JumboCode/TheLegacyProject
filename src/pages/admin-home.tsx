@@ -12,7 +12,7 @@ import React, {
   SetStateAction,
 } from "react";
 import { useRouter } from "next/router";
-import TileGrid, { SeniorTile, UserTile } from "@components/TileGrid";
+import TileGrid, { UserTile } from "@components/TileGrid";
 import AddSenior from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
@@ -124,7 +124,7 @@ function StudentBody({
   const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
 
   return (
-    <>
+    <div className="pb-12">
       <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
         <SearchBar setFilter={setFilter} />
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
@@ -144,7 +144,7 @@ function StudentBody({
             </div>
           ))}
       </TileGrid>
-    </>
+    </div>
   );
 }
 
@@ -165,7 +165,7 @@ function SeniorBody({
   const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
 
   return (
-    <>
+    <div className="pb-12">
       <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
         <SearchBar setFilter={setFilter} />
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
@@ -196,7 +196,7 @@ function SeniorBody({
             </div>
           ))}
       </TileGrid>
-    </>
+    </div>
   );
 }
 
