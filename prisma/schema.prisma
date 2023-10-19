@@ -83,7 +83,7 @@ model Senior {
     location    String
     description String
     StudentIDs  String[] @db.ObjectId
-    Students    User[]   @relation(fields: [StudentIDs], references: [id], onDelete: Cascade)
+    Students    User[]   @relation(fields: [StudentIDs], references: [id])
     folder      String
     Files       File[]
 }
