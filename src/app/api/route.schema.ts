@@ -14,7 +14,9 @@ export const unauthorizedErrorSchema = z.object({
  */
 export const unknownErrorSchema = z.object({
   code: z.literal("UNKNOWN"),
-  message: z.string(),
+  message: z
+    .string()
+    .default("Unknown error. Please contact the developers for help"),
 });
 
 export const unauthorizedErrorResponse = unauthorizedErrorSchema.parse({
