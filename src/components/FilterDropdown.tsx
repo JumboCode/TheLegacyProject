@@ -20,7 +20,7 @@ function Check(props: JSX.IntrinsicElements["svg"]) {
   );
 }
 
-type Named = { name: string | null }
+type Named = { name: string | null };
 
 type FilterDropdownProps<T extends Named> = {
   items: T[];
@@ -35,14 +35,13 @@ export default function FilterDropdown<T extends Named>({
   filterMatch,
   display,
   selectedItems,
-  setSelectedItems
+  setSelectedItems,
 }: FilterDropdownProps<T>) {
-
   const [filterText, setFilterText] = useState("");
   const [showOptions, setShowOptions] = useState(false);
 
   const filteredItems = useMemo(
-    () => items.filter((i) => filterMatch(i, filterText)), 
+    () => items.filter((i) => filterMatch(i, filterText)),
     [filterText]
   );
 
@@ -56,14 +55,14 @@ export default function FilterDropdown<T extends Named>({
     } else {
       setSelectedItems(selectedItems.filter((i) => i != item));
     }
-  }
+  };
 
   return (
     <>
       <div className="bg-red flex w-full flex-col">
         <input
           onChange={onChange}
-          className="h-[46px] w-full mb-2 px-3 border-2 border-tan focus:outline-none rounded"
+          className="mb-2 h-[46px] w-full rounded border-2 border-tan px-3 focus:outline-none"
           onFocus={() => setShowOptions(true)}
           onClick={() => setShowOptions(true)}
         />
@@ -73,12 +72,14 @@ export default function FilterDropdown<T extends Named>({
             onMouseEnter={() => setShowOptions(true)}
             onMouseLeave={() => setShowOptions(false)}
           >
-            <div className="top-100 absolute z-50 flex max-h-[150px] w-full flex-col overflow-y-auto \
-                            bg-white">
+            <div
+              className="top-100 \ absolute z-50 flex max-h-[150px] w-full flex-col overflow-y-auto
+                            bg-white"
+            >
               {filteredItems.map((item: T, index: number) => (
                 <span
-                  className="flex flex-row pl-2 py-2 text-gray-700 items-center border border-light-gray \
-                            hover:cursor-pointer hover:bg-legacy-teal hover:text-white"
+                  className="border-light-gray \ hover:bg-legacy-teal  flex flex-row items-center border py-2
+                            pl-2 text-gray-700 hover:cursor-pointer hover:font-bold"
                   onClick={() => {
                     onItemSelect(index, item);
                   }}
@@ -92,11 +93,9 @@ export default function FilterDropdown<T extends Named>({
           </div>
         )}
       </div>
-      <div className="flex flex-row flex-wrap my-2">
+      <div className="my-2 flex flex-row flex-wrap">
         {selectedItems.map((item: T, i: number) => (
-          <div key={i}>
-            {display(item)}
-          </div>
+          <div key={i}>{display(item)}</div>
         ))}
       </div>
     </>
