@@ -318,14 +318,18 @@ const AddSenior = ({
                     <div className="mr-2 flex-1 flex-col">
                       <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
                         {" "}
-                        First Name{" "}
+                        First name{" "}
                       </div>
                       <input
                         className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
                         type="text"
                         // value={seniorData.name}
+                        value={seniorData.firstName}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setSeniorData({ ...seniorData, name: e.target.value })
+                          setSeniorData({
+                            ...seniorData,
+                            firstName: e.target.value,
+                          })
                         }
                       />
                     </div>
@@ -333,17 +337,18 @@ const AddSenior = ({
                     <div className="ml-4 flex-1 flex-col">
                       <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
                         {" "}
-                        Last Name{" "}
+                        Last name{" "}
                       </div>
                       <input
                         className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
                         type="text"
                         // value={seniorData.name}
-                        onBlur={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setSeniorData((seniorData) => ({
+                        value={seniorData.lastName}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setSeniorData({
                             ...seniorData,
-                            name: seniorData.name + e.target.value,
-                          }))
+                            lastName: e.target.value,
+                          })
                         }
                       />
                     </div>
@@ -394,10 +399,10 @@ const AddSenior = ({
                     Cancel
                   </button>
                   <button
-                    className="bg-legacy-teal \ font-large mx-2 my-4 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md hover:bg-off-white"
+                    className="bg-legacy-teal \ font-large mx-2 my-4 w-full max-w-[10rem] rounded-lg bg-white p-3 text-lg text-dark-teal drop-shadow-md hover:bg-off-white"
                     onClick={seniorPatch ? patchAddSenior : postAddSenior}
                   >
-                    {seniorPatch ? "Update" : "Create"}
+                    {seniorPatch ? "Update" : "Save"}
                   </button>
                 </div>
               </>
