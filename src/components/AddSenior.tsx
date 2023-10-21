@@ -65,14 +65,17 @@ const StudentSelector = ({
   return (
     <div>
       <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
-        Students
+        Assign students
       </div>
       <FilterDropdown<User>
         items={students}
         filterMatch={(usr, term) => (usr.name ?? "").indexOf(term) != -1}
         display={(usr: User) => (
-          <div className="m-1 whitespace-nowrap rounded bg-tan px-3 py-1 text-black">
+          <div className="m-1 flex whitespace-nowrap rounded-full bg-amber-red px-4 py-2 text-white">
             {usr.name}
+            <div className="flex1 ml-3">
+              <button type="button">&#x2715;</button>
+            </div>
           </div>
         )}
         selectedItems={selectedStudents}
@@ -84,6 +87,8 @@ const StudentSelector = ({
 
 type SeniorData = {
   name: string;
+  firstName: string;
+  lastName: string;
   location: string;
   description: string;
 };
@@ -97,7 +102,13 @@ const AddSenior = ({
   seniorPatch,
   setSeniorPatch,
 }: AddSeniorProps) => {
-  const emptySenior: SeniorData = { name: "", location: "", description: "" };
+  const emptySenior: SeniorData = {
+    name: "",
+    firstName: "",
+    lastName: "",
+    location: "",
+    description: "",
+  };
   const [seniorData, setSeniorData] = useState<SeniorData>(emptySenior);
   const [selectedStudents, setSelectedStudents] = useState<User[]>([]);
   const [currentImage, setCurrentImage] = useState<string | StaticImageData>(
@@ -247,7 +258,7 @@ const AddSenior = ({
     setSelectedStudents([]);
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageReplace = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
 
     if (!files || files.length === 0) return;
@@ -288,7 +299,7 @@ const AddSenior = ({
                     {seniorPatch ? "Update" : "Add New"} Senior
                   </div>
                   <div>
-                    <div className=" relative mb-5 flex h-2 w-2 flex-col items-center justify-center gap-10 rounded bg-white p-8">
+                    <div className=" relative mb-5 flex h-2 w-2 flex-col items-center justify-center gap-10 rounded bg-white p-10">
                       <Image
                         src={currentImage}
                         alt="Description"
@@ -297,50 +308,46 @@ const AddSenior = ({
                       <input
                         type="file"
                         className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
-                        onChange={handleFileChange}
+                        onChange={handleImageReplace}
                       />
                     </div>
                   </div>
 
                   {/* Separated First and Last name into two different div classes, need to concatenate into seniorData.name*/}
-                  <div className="flex flex-col">
-                    <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
-                      {" "}
-                      First Name{" "}
+                  <div className="flex">
+                    <div className="mr-2 flex-1 flex-col">
+                      <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
+                        {" "}
+                        First Name{" "}
+                      </div>
+                      <input
+                        className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
+                        type="text"
+                        // value={seniorData.name}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setSeniorData({ ...seniorData, name: e.target.value })
+                        }
+                      />
                     </div>
-                    <input
-                      className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
-                      type="text"
-                      // value={seniorData.name}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setSeniorData({ ...seniorData, name: e.target.value })
-                      }
-                    />
-                  </div>
 
-                  <div className="flex flex-col">
-                    <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
-                      {" "}
-                      Last Name{" "}
+                    <div className="ml-4 flex-1 flex-col">
+                      <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
+                        {" "}
+                        Last Name{" "}
+                      </div>
+                      <input
+                        className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
+                        type="text"
+                        // value={seniorData.name}
+                        onBlur={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setSeniorData((seniorData) => ({
+                            ...seniorData,
+                            name: seniorData.name + e.target.value,
+                          }))
+                        }
+                      />
                     </div>
-                    <input
-                      className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
-                      type="text"
-                      // value={seniorData.name}
-                      onBlur={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setSeniorData((seniorData) => ({
-                          ...seniorData,
-                          name: seniorData.name + e.target.value,
-                        }))
-                      }
-                    />
                   </div>
-
-                  <StudentSelector
-                    students={students}
-                    selectedStudents={selectedStudents}
-                    setSelectedStudents={setSelectedStudents}
-                  />
 
                   <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
                     {" "}
@@ -350,6 +357,7 @@ const AddSenior = ({
                     className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
                     type="text"
                     value={seniorData.location}
+                    placeholder="Where are you and your senior meeting?"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setSeniorData({ ...seniorData, location: e.target.value })
                     }
@@ -371,9 +379,15 @@ const AddSenior = ({
                   />
                 </div>
 
-                <div className="flex w-full flex-row justify-center">
+                <StudentSelector
+                  students={students}
+                  selectedStudents={selectedStudents}
+                  setSelectedStudents={setSelectedStudents}
+                />
+
+                <div className="top-0 flex w-full flex-row justify-center">
                   <button
-                    className="\ font-large mx-2 my-4 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal
+                    className="\ font-large mx-2 my-4 w-full max-w-[10rem] rounded-lg bg-white p-2 text-lg text-dark-teal
                                 drop-shadow-md hover:bg-off-white"
                     onClick={handlePopUp}
                   >

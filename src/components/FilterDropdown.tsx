@@ -61,6 +61,7 @@ export default function FilterDropdown<T extends Named>({
     <>
       <div className="bg-red flex w-full flex-col">
         <input
+          placeholder="Select student(s)"
           onChange={onChange}
           className="mb-2 h-[46px] w-full rounded border-2 border-tan px-3 focus:outline-none"
           onFocus={() => setShowOptions(true)}
@@ -93,7 +94,7 @@ export default function FilterDropdown<T extends Named>({
           </div>
         )}
       </div>
-      <div className="my-2 flex flex-row flex-wrap">
+      <div className="flex flex-row flex-wrap space-y-2">
         {selectedItems.map((item: T, i: number) => (
           <div key={i}>{display(item)}</div>
         ))}
