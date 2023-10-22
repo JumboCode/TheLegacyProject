@@ -74,7 +74,16 @@ const StudentSelector = ({
           <div className="m-1 flex whitespace-nowrap rounded-full bg-amber-red px-4 py-2 text-white">
             {usr.name}
             <div className="flex1 ml-3">
-              <button type="button">&#x2715;</button>
+              <button
+                type="button"
+                onClick={() =>
+                  setSelectedStudents(
+                    selectedStudents.filter((item) => item.id !== usr.id)
+                  )
+                }
+              >
+                &#x2715;
+              </button>
             </div>
           </div>
         )}
@@ -87,8 +96,8 @@ const StudentSelector = ({
 
 type SeniorData = {
   name: string;
-  firstName: string;
-  lastName: string;
+  // firstName: string;
+  // lastName: string;
   location: string;
   description: string;
 };
@@ -104,8 +113,8 @@ const AddSenior = ({
 }: AddSeniorProps) => {
   const emptySenior: SeniorData = {
     name: "",
-    firstName: "",
-    lastName: "",
+    // firstName: "",
+    // lastName: "",
     location: "",
     description: "",
   };
@@ -323,18 +332,18 @@ const AddSenior = ({
                       <input
                         className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
                         type="text"
-                        // value={seniorData.name}
-                        value={seniorData.firstName}
+                        value={seniorData.name}
+                        // value={seniorData.firstName}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData({
                             ...seniorData,
-                            firstName: e.target.value,
+                            name: e.target.value,
                           })
                         }
                       />
                     </div>
 
-                    <div className="ml-4 flex-1 flex-col">
+                    {/* <div className="ml-4 flex-1 flex-col">
                       <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
                         {" "}
                         Last name{" "}
@@ -342,16 +351,16 @@ const AddSenior = ({
                       <input
                         className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
                         type="text"
-                        // value={seniorData.name}
-                        value={seniorData.lastName}
+                        value={seniorData.name}
+                        // value={seniorData.lastName}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData({
                             ...seniorData,
-                            lastName: e.target.value,
+                            name: e.target.value,
                           })
                         }
                       />
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
