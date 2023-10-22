@@ -96,8 +96,6 @@ const StudentSelector = ({
 
 type SeniorData = {
   name: string;
-  // firstName: string;
-  // lastName: string;
   location: string;
   description: string;
 };
@@ -113,8 +111,6 @@ const AddSenior = ({
 }: AddSeniorProps) => {
   const emptySenior: SeniorData = {
     name: "",
-    // firstName: "",
-    // lastName: "",
     location: "",
     description: "",
   };
@@ -128,6 +124,8 @@ const AddSenior = ({
 
   const handlePopUp = () => {
     setShowAddSeniorPopUp(!showAddSeniorPopUp);
+    setSeniorData(emptySenior);
+    setSelectedStudents([]);
   };
 
   const handleConfirm = () => {
@@ -332,8 +330,6 @@ const AddSenior = ({
                       <input
                         className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
                         type="text"
-                        value={seniorData.name}
-                        // value={seniorData.firstName}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData({
                             ...seniorData,
@@ -343,7 +339,7 @@ const AddSenior = ({
                       />
                     </div>
 
-                    {/* <div className="ml-4 flex-1 flex-col">
+                    <div className="ml-4 flex-1 flex-col">
                       <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
                         {" "}
                         Last name{" "}
@@ -351,16 +347,14 @@ const AddSenior = ({
                       <input
                         className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
                         type="text"
-                        value={seniorData.name}
-                        // value={seniorData.lastName}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setSeniorData({
+                        onBlur={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setSeniorData((seniorData) => ({
                             ...seniorData,
-                            name: e.target.value,
-                          })
+                            name: seniorData.name + " " + e.target.value,
+                          }))
                         }
                       />
-                    </div> */}
+                    </div>
                   </div>
 
                   <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
