@@ -94,7 +94,7 @@ export default function FilterDropdown<T extends Named>({
           </div>
         )}
       </div>
-      <div className="flex flex-row flex-wrap space-y-2">
+      <div className="my-2 flex flex-row flex-wrap">
         {selectedItems.map((item: T, i: number) => (
           <div key={i}>{display(item)}</div>
         ))}
