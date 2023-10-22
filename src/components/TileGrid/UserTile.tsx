@@ -131,7 +131,8 @@ export function UserTile({
             {senior && senior.location}
           </p>
         </div>
-        <TileEdit options={options} />
+        {/* @TODO: Check if we still want a demote button or not */}
+        {student && !student.admin && <TileEdit options={options} />}
       </div>
     </div>
   );
