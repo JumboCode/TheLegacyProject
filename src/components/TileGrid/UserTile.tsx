@@ -1,96 +1,24 @@
-import { TileEdit } from "./TileEdit";
 import { Senior, User } from "@prisma/client";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { ReactNode } from "react";
 import "@fontsource/merriweather";
 
 interface UserTileProps {
   student?: User;
   senior?: Senior;
   link: string;
-  setDeactivated?: Dispatch<SetStateAction<User[]>>;
-  setStudents?: Dispatch<SetStateAction<User[]>>;
-  setSeniors?: Dispatch<SetStateAction<Senior[]>>;
-  refreshData: () => void;
-  setShowAddSeniorPopUp?: Dispatch<SetStateAction<boolean>>;
-  setSeniorPatch?: Dispatch<SetStateAction<string>>;
+  dropdownComponent?: ReactNode;
 }
 
 export function UserTile({
   student,
   senior,
   link,
-  setDeactivated,
-  setStudents,
-  setSeniors,
-  refreshData,
-  setShowAddSeniorPopUp,
-  setSeniorPatch,
+  dropdownComponent,
 }: UserTileProps) {
   const { data } = useSession();
-
-  const options: Parameters<typeof TileEdit>[0]["options"] = [];
-
-  if (student && setStudents && setDeactivated) {
-    if (data && data?.user?.id !== student.id) {
-      if (student.admin) {
-        options.push({
-          name: "Demote",
-          onClick: () => {
-            setStudents((prev) =>
-              prev.map((s) =>
-                s.id === student.id ? { ...s, admin: false } : s
-              )
-            );
-            fetch(`/api/student/${student.id}/demote`, { method: "POST" });
-            refreshData();
-          },
-        });
-      } else {
-        options.push({
-          name: "Promote",
-          onClick: () => {
-            setStudents((prev) =>
-              prev.map((s) => (s.id === student.id ? { ...s, admin: true } : s))
-            );
-            fetch(`/api/student/${student.id}/promote`, { method: "POST" });
-            refreshData();
-          },
-        });
-      }
-    }
-  } else if (senior) {
-    options.push({
-      name: "Edit",
-      onClick: (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        if (!setSeniorPatch || !setShowAddSeniorPopUp) {
-          return;
-        }
-        setSeniorPatch(senior.id);
-        setShowAddSeniorPopUp(true);
-      },
-    });
-
-    options.push({
-      name: "Delete",
-      onClick: (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        fetch(`/api/senior/${senior.id}`, {
-          method: "DELETE",
-        });
-        if (!setSeniors) {
-          return;
-        }
-        setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
-        refreshData();
-      },
-    });
-  }
 
   return (
     <div className="w-40 rounded-lg bg-white">
@@ -131,8 +59,7 @@ export function UserTile({
             {senior && senior.location}
           </p>
         </div>
-        {/* @TODO: Check if we still want a demote button or not */}
-        {student && !student.admin && <TileEdit options={options} />}
+        {dropdownComponent}
       </div>
     </div>
   );
