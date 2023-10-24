@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import PhotoHeader from "@components/PhotoHeader";
-import TileGrid, { SeniorTile, UserTile } from "@components/TileGrid";
+import TileGrid, { UserTile } from "@components/TileGrid";
 
 import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
@@ -26,15 +26,15 @@ const StudentProfilePage = ({ student }: IStudentProps) => {
       <div className="place-items-stsetch flex h-full flex-col gap-6 p-8">
         <PhotoHeader admin={false} name={student.name} />
         <TileGrid>
-          {seniors.map((senior) => (
-            <UserTile
-              key={senior.id}
-              link={"/senior/" + senior.id}
-              senior={senior}
-              setSeniors={setSeniors}
-              refreshData={refreshData}
-            />
-          ))}
+          {seniors.map((senior) => {
+            return (
+              <UserTile
+                key={senior.id}
+                link={"/senior/" + senior.id}
+                senior={senior}
+              />
+            );
+          })}
         </TileGrid>
       </div>
     </>
