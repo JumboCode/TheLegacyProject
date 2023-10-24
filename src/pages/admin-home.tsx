@@ -19,6 +19,7 @@ import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import cn from "classnames";
 import { prisma } from "@server/db/client";
 import PendingCard from "@components/PendingCard";
+import { TileEdit } from "@components/TileGrid/TileEdit";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -132,17 +133,51 @@ function StudentBody({
       <TileGrid>
         {students
           .filter(({ name }) => name?.includes(filter))
-          .map((student) => (
-            <div className="h-auto w-auto" key={student.id}>
-              <UserTile
-                link={"/student/" + student.id}
-                student={student}
-                setDeactivated={setDeactivated}
-                setStudents={setStudents}
-                refreshData={refreshData}
-              />
-            </div>
-          ))}
+          .map((student) => {
+            const options: Parameters<typeof TileEdit>[0]["options"] = [];
+
+            if (student.admin) {
+              options.push({
+                name: "Demote",
+                onClick: () => {
+                  setStudents((prev) =>
+                    prev.map((s) =>
+                      s.id === student.id ? { ...s, admin: false } : s
+                    )
+                  );
+                  fetch(`/api/student/${student.id}/demote`, {
+                    method: "POST",
+                  });
+                  refreshData();
+                },
+              });
+            } else {
+              options.push({
+                name: "Promote",
+                onClick: () => {
+                  setStudents((prev) =>
+                    prev.map((s) =>
+                      s.id === student.id ? { ...s, admin: true } : s
+                    )
+                  );
+                  fetch(`/api/student/${student.id}/promote`, {
+                    method: "POST",
+                  });
+                  refreshData();
+                },
+              });
+            }
+
+            return (
+              <div className="h-auto w-auto" key={student.id}>
+                <UserTile
+                  link={"/student/" + student.id}
+                  student={student}
+                  dropdownComponent={<TileEdit options={options} />}
+                />
+              </div>
+            );
+          })}
       </TileGrid>
     </div>
   );
@@ -182,19 +217,49 @@ function SeniorBody({
         />
         {seniors
           .filter(({ name }) => name?.includes(filter))
-          .map((senior) => (
-            <div key={senior.id}>
-              <UserTile
-                key={senior.id}
-                link={"/senior/" + senior.id}
-                senior={senior}
-                setSeniors={setSeniors}
-                refreshData={refreshData}
-                setShowAddSeniorPopUp={setShowAddSeniorPopUp}
-                setSeniorPatch={setSeniorPatch}
-              />
-            </div>
-          ))}
+          .map((senior) => {
+            const options: Parameters<typeof TileEdit>[0]["options"] = [];
+
+            options.push({
+              name: "Edit",
+              onClick: (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                if (!setSeniorPatch || !setShowAddSeniorPopUp) {
+                  return;
+                }
+                setSeniorPatch(senior.id);
+                setShowAddSeniorPopUp(true);
+              },
+            });
+
+            options.push({
+              name: "Delete",
+              onClick: (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                fetch(`/api/senior/${senior.id}`, {
+                  method: "DELETE",
+                });
+                if (!setSeniors) {
+                  return;
+                }
+                setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
+                refreshData();
+              },
+            });
+
+            return (
+              <div key={senior.id}>
+                <UserTile
+                  key={senior.id}
+                  link={"/senior/" + senior.id}
+                  senior={senior}
+                  dropdownComponent={<TileEdit options={options} />}
+                />
+              </div>
+            );
+          })}
       </TileGrid>
     </div>
   );
