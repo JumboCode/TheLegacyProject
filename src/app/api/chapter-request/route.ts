@@ -9,92 +9,22 @@ export const POST = async (request: NextRequest) => {
   const chapterRequest = ChapterRequest.safeParse(await request.json());
   if (!chapterRequest.success) {
     const error = chapterRequest.error.format();
-    if (error.firstName) {
+    if (
+      error.firstName ||
+      error.lastName ||
+      error.universityEmail ||
+      error.phoneNumber ||
+      error.university ||
+      error.universityAddress ||
+      error.leadershipExperience ||
+      error.motivation ||
+      error.availabilities ||
+      error.questions
+    ) {
       return NextResponse.json(
         ChapterRequestResponse.parse({
-          code: "INVALID_FIRST_NAME",
-          message: "Invalid first name provided",
-        }),
-        { status: 400 }
-      );
-    }
-    if (error.lastName) {
-      return NextResponse.json(
-        ChapterRequestResponse.parse({
-          code: "INVALID_LAST_NAME",
-          message: "Invalid last name provided",
-        }),
-        { status: 400 }
-      );
-    }
-    if (error.universityEmail) {
-      return NextResponse.json(
-        ChapterRequestResponse.parse({
-          code: "INVALID_EMAIL",
-          message: "Invalid email provided",
-        }),
-        { status: 400 }
-      );
-    }
-    if (error.phoneNumber) {
-      return NextResponse.json(
-        ChapterRequestResponse.parse({
-          code: "INVALID_PHONE_NUMBER",
-          message: "Invalid phone number provided",
-        }),
-        { status: 400 }
-      );
-    }
-    if (error.university) {
-      return NextResponse.json(
-        ChapterRequestResponse.parse({
-          code: "INVALID_UNIVERSITY",
-          message: "Invalid university name provided",
-        }),
-        { status: 400 }
-      );
-    }
-    if (error.universityAddress) {
-      return NextResponse.json(
-        ChapterRequestResponse.parse({
-          code: "INVALID_UNIVERSITY_ADDRESS",
-          message: "Invalid university address provided",
-        }),
-        { status: 400 }
-      );
-    }
-    if (error.leadershipExperience) {
-      return NextResponse.json(
-        ChapterRequestResponse.parse({
-          code: "INVALID_LEADERSHIP_EXPERIENCE",
-          message: "Invalid leadership experience provided",
-        }),
-        { status: 400 }
-      );
-    }
-    if (error.motivation) {
-      return NextResponse.json(
-        ChapterRequestResponse.parse({
-          code: "INVALID_MOTIVATION",
-          message: "Invalid motivation provided",
-        }),
-        { status: 400 }
-      );
-    }
-    if (error.availabilities) {
-      return NextResponse.json(
-        ChapterRequestResponse.parse({
-          code: "INVALID_AVAILABILITY",
-          message: "Invalid availability provided",
-        }),
-        { status: 400 }
-      );
-    }
-    if (error.questions) {
-      return NextResponse.json(
-        ChapterRequestResponse.parse({
-          code: "INVALID_QUESTION",
-          message: "Invalid question provided",
+          code: "INVALID_FORM",
+          message: "Invalid form submission",
         }),
         { status: 400 }
       );
@@ -102,7 +32,7 @@ export const POST = async (request: NextRequest) => {
       return NextResponse.json(
         ChapterRequestResponse.parse({
           code: "UNKNOWN",
-          message: "Invalid request, unknown error",
+          data: "Forgot to handle an error",
         }),
         { status: 500 }
       );
@@ -127,6 +57,7 @@ export const POST = async (request: NextRequest) => {
         { status: 400 }
       );
     }
+
     // If the data is valid, save it to the database via prisma client
     const prismaResponse = await prisma.chapterRequest.create({
       data: {

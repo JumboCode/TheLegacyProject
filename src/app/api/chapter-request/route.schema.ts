@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { z } from "zod";
 
 /*
@@ -16,14 +17,14 @@ export const ChapterRequest = z.object({
   firstName: z.string(),
   lastName: z.string(),
   universityEmail: z.string().email("This is not a valid email"),
-  phoneNumber: z.string(),
+  phoneNumber: z.string().length(10, "Phone number must be 10 digits"),
   university: z.string(),
   universityAddress: z.string(),
   leadershipExperience: z.string(),
   motivation: z.string(),
   availabilities: z.string(),
   questions: z.string(),
-});
+}) satisfies z.ZodType<Prisma.ChapterRequestCreateInput>;
 
 export const ChapterRequestResponse = z.discriminatedUnion("code", [
   z.object({
@@ -32,48 +33,12 @@ export const ChapterRequestResponse = z.discriminatedUnion("code", [
     data: z.any(),
   }),
   z.object({
-    code: z.literal("INVALID_FIRST_NAME"),
-    message: z.literal("Invalid first name provided"),
-  }),
-  z.object({
-    code: z.literal("INVALID_LAST_NAME"),
-    message: z.literal("Invalid last name provided"),
-  }),
-  z.object({
-    code: z.literal("INVALID_EMAIL"),
-    message: z.literal("Invalid email provided"),
-  }),
-  z.object({
-    code: z.literal("INVALID_PHONE_NUMBER"),
-    message: z.literal("Invalid phone number provided"),
-  }),
-  z.object({
-    code: z.literal("INVALID_UNIVERSITY"),
-    message: z.literal("Invalid university name provided"),
-  }),
-  z.object({
-    code: z.literal("INVALID_UNIVERSITY_ADDRESS"),
-    message: z.literal("Invalid university address provided"),
-  }),
-  z.object({
-    code: z.literal("INVALID_LEADERSHIP_EXPERIENCE"),
-    message: z.literal("Invalid leadership experience provided"),
-  }),
-  z.object({
-    code: z.literal("INVALID_MOTIVATION"),
-    message: z.literal("Invalid motivation provided"),
-  }),
-  z.object({
-    code: z.literal("INVALID_AVAILABILITY"),
-    message: z.literal("Invalid availability provided"),
-  }),
-  z.object({
-    code: z.literal("INVALID_QUESTION"),
-    message: z.literal("Invalid question provided"),
+    code: z.literal("INVALID_FORM"),
+    message: z.literal("Invalid form submission"),
   }),
   z.object({
     code: z.literal("UNKNOWN"),
-    message: z.literal("Invalid request, unknown error"),
+    data: z.any(),
   }),
   z.object({
     code: z.literal("DUPLICATE_EMAIL"),
