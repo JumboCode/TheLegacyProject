@@ -288,25 +288,25 @@ const AddSenior = ({
     <>
       {showAddSeniorPopUp && (
         <div
-          className="\ absolute bottom-10 left-0 top-10 z-50 flex h-screen w-screen flex-row items-center justify-center
-                        text-left backdrop-blur-[2px] backdrop-brightness-75 md:w-full"
+          className="\ absolute bottom-10 left-0 top-10 z-50 flex h-[90%] w-screen flex-row items-center justify-center
+                        text-left md:w-full"
         >
           <div
             className={cn(
-              "top-5% flex max-h-screen flex-col justify-between overflow-auto rounded-lg bg-dark-teal p-10 font-merriweather text-white",
+              "top-5% flex h-[100%] w-[60%] flex-col justify-between overflow-auto rounded-lg bg-dark-teal p-10 font-merriweather text-white",
               confirm || error
-                ? "top-[12.5%] w-2/5"
-                : "top-[5%] sm:w-4/5 md:w-1/2"
+                ? "top-[5.5%] w-2/5"
+                : "top-[2.5%] sm:w-4/5 md:w-1/2"
             )}
           >
             {!confirm && !error ? (
               <>
                 <div>
-                  <div className="mb-8 font-serif text-3xl font-bold sm:text-center md:text-left">
+                  <div className="mb-5 font-serif text-3xl font-bold sm:text-center md:text-left">
                     {seniorPatch ? "Update" : "Add New"} Senior
                   </div>
                   <div>
-                    <div className=" relative mb-5 flex h-2 w-2 flex-col items-center justify-center gap-10 rounded bg-white p-10">
+                    <div className=" relative mb-4 flex h-2 w-2 flex-col items-center justify-center gap-10 rounded bg-white p-10">
                       <Image
                         src={currentImage}
                         alt="Description"
@@ -328,7 +328,7 @@ const AddSenior = ({
                         First name{" "}
                       </div>
                       <input
-                        className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
+                        className="mb-3 h-[36px] w-full rounded border-2 border-solid border-tan px-3 text-black"
                         type="text"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData({
@@ -345,7 +345,7 @@ const AddSenior = ({
                         Last name{" "}
                       </div>
                       <input
-                        className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
+                        className="mb-3 h-[36px] w-full rounded border-2 border-solid border-tan px-3 text-black"
                         type="text"
                         onBlur={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData((seniorData) => ({
@@ -362,7 +362,7 @@ const AddSenior = ({
                     Location{" "}
                   </div>
                   <input
-                    className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3 text-black"
+                    className="mb-3 h-[36px] w-full rounded border-2 border-solid border-tan px-3 text-black"
                     type="text"
                     value={seniorData.location}
                     placeholder="Where are you and your senior meeting?"
@@ -376,7 +376,7 @@ const AddSenior = ({
                     Description{" "}
                   </div>
                   <textarea
-                    className="mb-4 h-1/2 min-h-[46px] w-full rounded border-2 border-solid border-tan bg-white p-[12px] text-start text-base text-black"
+                    className="h-1/8 mb-3 min-h-[20px] w-full rounded border-2 border-solid border-tan bg-white p-[12px] text-start text-base text-black"
                     placeholder="Write a brief description about the senior"
                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                       setSeniorData({
@@ -385,28 +385,28 @@ const AddSenior = ({
                       })
                     }
                   />
-                </div>
 
-                <StudentSelector
-                  students={students}
-                  selectedStudents={selectedStudents}
-                  setSelectedStudents={setSelectedStudents}
-                />
+                  <StudentSelector
+                    students={students}
+                    selectedStudents={selectedStudents}
+                    setSelectedStudents={setSelectedStudents}
+                  />
 
-                <div className="top-0 flex w-full flex-row justify-center">
-                  <button
-                    className="\ font-large mx-2 my-4 w-full max-w-[10rem] rounded-lg bg-white p-2 text-lg text-dark-teal
+                  <div className="top-0 flex w-full flex-row justify-center">
+                    <button
+                      className="\ font-large mx-2 my-4 w-full max-w-[10rem] rounded-lg bg-white p-2 text-lg text-dark-teal
                                 drop-shadow-md hover:bg-off-white"
-                    onClick={handlePopUp}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="bg-legacy-teal \ font-large mx-2 my-4 w-full max-w-[10rem] rounded-lg bg-white p-3 text-lg text-dark-teal drop-shadow-md hover:bg-off-white"
-                    onClick={seniorPatch ? patchAddSenior : postAddSenior}
-                  >
-                    {seniorPatch ? "Update" : "Save"}
-                  </button>
+                      onClick={handlePopUp}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="bg-legacy-teal \ font-large mx-2 my-4 w-full max-w-[10rem] rounded-lg bg-white p-2 text-lg text-dark-teal drop-shadow-md hover:bg-off-white"
+                      onClick={seniorPatch ? patchAddSenior : postAddSenior}
+                    >
+                      {seniorPatch ? "Update" : "Save"}
+                    </button>
+                  </div>
                 </div>
               </>
             ) : (

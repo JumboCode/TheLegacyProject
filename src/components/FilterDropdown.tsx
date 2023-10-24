@@ -1,4 +1,10 @@
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+library.add(fas);
 
 function Check(props: JSX.IntrinsicElements["svg"]) {
   return (
@@ -60,13 +66,18 @@ export default function FilterDropdown<T extends Named>({
   return (
     <>
       <div className="bg-red flex w-full flex-col">
-        <input
+        <div
           placeholder="Select student(s)"
           onChange={onChange}
-          className="mb-2 h-[46px] w-full rounded border-2 border-tan px-3 focus:outline-none"
+          className="mb-2 h-[36px] w-full flex-row items-end justify-end rounded border-2 border-tan bg-white px-3 text-gray-400 focus:outline-none"
           onFocus={() => setShowOptions(true)}
           onClick={() => setShowOptions(true)}
-        />
+        >
+          <div className=" flex h-[32px] flex-row items-center justify-between">
+            Select student(s)
+            <FontAwesomeIcon icon="caret-down" className=" text-dark-teal" />
+          </div>
+        </div>
         {showOptions && (
           <div
             className="relative w-full"
