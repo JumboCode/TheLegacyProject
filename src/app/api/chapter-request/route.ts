@@ -6,21 +6,23 @@ export const POST = async (request: NextRequest) => {
   // Validate the data in the request
   // If the data is invalid, return a 400 response
   // with a JSON body containing the validation errors
-  const chapterRequest = ChapterRequest.safeParse(await request.json());
+
+  const chapterRequest = ChapterRequest.safeParse(
+    // Validate a proper JSON was passed in as well
+    await request.json().catch(() => {
+      return NextResponse.json(
+        ChapterRequestResponse.parse({
+          code: "UNKNOWN",
+          message: "Unknown error received",
+        }),
+        { status: 500 }
+      );
+    })
+  );
   if (!chapterRequest.success) {
     const error = chapterRequest.error.format();
-    if (
-      error.firstName ||
-      error.lastName ||
-      error.universityEmail ||
-      error.phoneNumber ||
-      error.university ||
-      error.universityAddress ||
-      error.leadershipExperience ||
-      error.motivation ||
-      error.availabilities ||
-      error.questions
-    ) {
+    // Check if any field fails the schema
+    if (Object.values(error).some((field) => !!field)) {
       return NextResponse.json(
         ChapterRequestResponse.parse({
           code: "INVALID_FORM",
@@ -32,7 +34,7 @@ export const POST = async (request: NextRequest) => {
       return NextResponse.json(
         ChapterRequestResponse.parse({
           code: "UNKNOWN",
-          data: "Forgot to handle an error",
+          message: "Unknown error received",
         }),
         { status: 500 }
       );
@@ -40,7 +42,6 @@ export const POST = async (request: NextRequest) => {
   } else {
     const body = chapterRequest.data;
     // Check if the email already exists
-    // console.log(prisma.chapterRequest);
     const hasSameEmail = await prisma.chapterRequest.findFirst({
       where: {
         universityEmail: body.universityEmail,
@@ -59,7 +60,7 @@ export const POST = async (request: NextRequest) => {
     }
 
     // If the data is valid, save it to the database via prisma client
-    const prismaResponse = await prisma.chapterRequest.create({
+    await prisma.chapterRequest.create({
       data: {
         firstName: body.firstName,
         lastName: body.lastName,
@@ -77,7 +78,6 @@ export const POST = async (request: NextRequest) => {
       ChapterRequestResponse.parse({
         code: "SUCCESS",
         message: "Chapter request successfully submitted",
-        data: prismaResponse,
       }),
       { status: 200 }
     );

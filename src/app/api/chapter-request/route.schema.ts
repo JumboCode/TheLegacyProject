@@ -22,6 +22,7 @@ export const ChapterRequest = z.object({
   universityAddress: z.string(),
   leadershipExperience: z.string(),
   motivation: z.string(),
+  // TODO: Figure out if availabilities should have a better type
   availabilities: z.string(),
   questions: z.string(),
 }) satisfies z.ZodType<Prisma.ChapterRequestCreateInput>;
@@ -30,7 +31,6 @@ export const ChapterRequestResponse = z.discriminatedUnion("code", [
   z.object({
     code: z.literal("SUCCESS"),
     message: z.literal("Chapter request successfully submitted"),
-    data: z.any(),
   }),
   z.object({
     code: z.literal("INVALID_FORM"),
@@ -38,7 +38,7 @@ export const ChapterRequestResponse = z.discriminatedUnion("code", [
   }),
   z.object({
     code: z.literal("UNKNOWN"),
-    data: z.any(),
+    message: z.literal("Unknown error received"),
   }),
   z.object({
     code: z.literal("DUPLICATE_EMAIL"),
