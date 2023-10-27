@@ -69,8 +69,8 @@ export default function FilterDropdown<T extends Named>({
         <div
           onChange={onChange}
           className="mb-2 h-[36px] w-full flex-row items-end justify-end rounded-md border-2 border-tan bg-white px-3 text-gray-400 focus:outline-none"
-          onFocus={() => setShowOptions(true)}
-          onClick={() => setShowOptions(true)}
+          // onFocus={() => setShowOptions(true)}   @deprecated due to selector not supporting typing to search for student names
+          onClick={() => setShowOptions(!showOptions)}
         >
           <div className=" flex h-[32px] flex-row items-center justify-between text-sm">
             Select student(s)

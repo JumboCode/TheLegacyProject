@@ -283,19 +283,16 @@ const AddSenior = ({
 
     reader.readAsDataURL(selectedFile);
   };
-  //         className="\ absolute bottom-10 left-0 top-10 z-50 flex h-[90%] w-screen flex-row items-center justify-center
-  //                       text-left md:w-full"
-
   return (
     <>
       {showAddSeniorPopUp && (
         <div
-          className="absolute bottom-0 left-0 top-10 z-50 flex h-[85%] w-screen flex-row items-center justify-center
+          className="absolute bottom-0 left-0 top-10 z-50 flex w-screen flex-row items-center justify-center
                         text-left md:w-full"
         >
           <div
             className={cn(
-              "top-5% flex h-[100%] w-[60%] max-w-[495px] flex-col justify-between overflow-auto rounded-lg bg-dark-teal px-6 py-9 font-merriweather text-white",
+              "top-5% flex h-[85%] w-[60%] max-w-[495px] flex-col justify-between overflow-auto rounded-lg bg-dark-teal px-6 py-9 font-merriweather text-white",
               confirm || error
                 ? "top-[5.5%] w-2/5"
                 : "top-[2.5%] sm:w-4/5 md:w-1/2"
@@ -397,14 +394,15 @@ const AddSenior = ({
 
                   <div className="top-0 flex max-h-[36px] w-full flex-row justify-center">
                     <button
-                      className=" mx-2 flex max-h-[36px] w-24 max-w-[10rem] items-center justify-items-center rounded-xl bg-white px-4 py-2
-                                text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
+                      className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
+                                  px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
                       onClick={handlePopUp}
                     >
                       Cancel
                     </button>
                     <button
-                      className=" bg-legacy-teal mx-2 h-auto max-h-[36px] w-24 max-w-[10rem] rounded-xl bg-white p-2 text-lg font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
+                      className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
+                      px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
                       onClick={seniorPatch ? patchAddSenior : postAddSenior}
                     >
                       {seniorPatch ? "Update" : "Save"}
