@@ -67,13 +67,12 @@ export default function FilterDropdown<T extends Named>({
     <>
       <div className="bg-red flex w-full flex-col">
         <div
-          placeholder="Select student(s)"
           onChange={onChange}
-          className="mb-2 h-[36px] w-full flex-row items-end justify-end rounded border-2 border-tan bg-white px-3 text-gray-400 focus:outline-none"
+          className="mb-2 h-[36px] w-full flex-row items-end justify-end rounded-md border-2 border-tan bg-white px-3 text-gray-400 focus:outline-none"
           onFocus={() => setShowOptions(true)}
           onClick={() => setShowOptions(true)}
         >
-          <div className=" flex h-[32px] flex-row items-center justify-between">
+          <div className=" flex h-[32px] flex-row items-center justify-between text-sm">
             Select student(s)
             <FontAwesomeIcon icon="caret-down" className=" text-dark-teal" />
           </div>

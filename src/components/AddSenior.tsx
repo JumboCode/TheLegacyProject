@@ -283,17 +283,19 @@ const AddSenior = ({
 
     reader.readAsDataURL(selectedFile);
   };
+  //         className="\ absolute bottom-10 left-0 top-10 z-50 flex h-[90%] w-screen flex-row items-center justify-center
+  //                       text-left md:w-full"
 
   return (
     <>
       {showAddSeniorPopUp && (
         <div
-          className="\ absolute bottom-10 left-0 top-10 z-50 flex h-[90%] w-screen flex-row items-center justify-center
+          className="absolute bottom-0 left-0 top-10 z-50 flex h-[85%] w-screen flex-row items-center justify-center
                         text-left md:w-full"
         >
           <div
             className={cn(
-              "top-5% flex h-[100%] w-[60%] flex-col justify-between overflow-auto rounded-lg bg-dark-teal p-10 font-merriweather text-white",
+              "top-5% flex h-[100%] w-[60%] max-w-[495px] flex-col justify-between overflow-auto rounded-lg bg-dark-teal px-6 py-9 font-merriweather text-white",
               confirm || error
                 ? "top-[5.5%] w-2/5"
                 : "top-[2.5%] sm:w-4/5 md:w-1/2"
@@ -302,7 +304,7 @@ const AddSenior = ({
             {!confirm && !error ? (
               <>
                 <div>
-                  <div className="mb-5 font-serif text-3xl font-bold sm:text-center md:text-left">
+                  <div className="mb-5 font-serif text-xl font-extrabold sm:text-center md:text-left">
                     {seniorPatch ? "Update" : "Add New"} Senior
                   </div>
                   <div>
@@ -320,15 +322,16 @@ const AddSenior = ({
                     </div>
                   </div>
 
-                  {/* Separated First and Last name into two different div classes, need to concatenate into seniorData.name*/}
+                  {/* Todo: First and Last name values are stored into the seniorData.name field. Seperate into two fields
+                  later as seniorData.name propgates to backend*/}
                   <div className="flex">
                     <div className="mr-2 flex-1 flex-col">
-                      <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
+                      <div className="text-neutral-600 mb-2 h-[19px] w-full font-merriweather text-base">
                         {" "}
                         First name{" "}
                       </div>
                       <input
-                        className="mb-3 h-[36px] w-full rounded border-2 border-solid border-tan px-3 text-black"
+                        className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
                         type="text"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData({
@@ -339,13 +342,13 @@ const AddSenior = ({
                       />
                     </div>
 
-                    <div className="ml-4 flex-1 flex-col">
-                      <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
+                    <div className="ml-2 flex-1 flex-col">
+                      <div className="text-neutral-600 mb-2 h-[19px] w-full font-merriweather text-base">
                         {" "}
                         Last name{" "}
                       </div>
                       <input
-                        className="mb-3 h-[36px] w-full rounded border-2 border-solid border-tan px-3 text-black"
+                        className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
                         type="text"
                         onBlur={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData((seniorData) => ({
@@ -357,12 +360,12 @@ const AddSenior = ({
                     </div>
                   </div>
 
-                  <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
+                  <div className="text-neutral-600 mb-2 h-5 w-full font-merriweather text-base">
                     {" "}
                     Location{" "}
                   </div>
                   <input
-                    className="mb-3 h-[36px] w-full rounded border-2 border-solid border-tan px-3 text-black"
+                    className="mb-3 h-9 w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
                     type="text"
                     value={seniorData.location}
                     placeholder="Where are you and your senior meeting?"
@@ -371,12 +374,12 @@ const AddSenior = ({
                     }
                   />
 
-                  <div className="text-neutral-600 mb-1 h-[34px] w-full text-lg">
+                  <div className="text-neutral-600 mb-5 h-2 w-full text-base">
                     {" "}
                     Description{" "}
                   </div>
                   <textarea
-                    className="h-1/8 mb-3 min-h-[20px] w-full rounded border-2 border-solid border-tan bg-white p-[12px] text-start text-base text-black"
+                    className="h-25 mb-3 min-h-[20px] w-full rounded-md border-2 border-solid border-tan bg-white p-[10px] text-start text-sm text-black"
                     placeholder="Write a brief description about the senior"
                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                       setSeniorData({
@@ -392,16 +395,16 @@ const AddSenior = ({
                     setSelectedStudents={setSelectedStudents}
                   />
 
-                  <div className="top-0 flex w-full flex-row justify-center">
+                  <div className="top-0 flex max-h-[36px] w-full flex-row justify-center">
                     <button
-                      className="\ font-large mx-2 my-4 w-full max-w-[10rem] rounded-lg bg-white p-2 text-lg text-dark-teal
-                                drop-shadow-md hover:bg-off-white"
+                      className=" mx-2 flex max-h-[36px] w-24 max-w-[10rem] items-center justify-items-center rounded-xl bg-white px-4 py-2
+                                text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
                       onClick={handlePopUp}
                     >
                       Cancel
                     </button>
                     <button
-                      className="bg-legacy-teal \ font-large mx-2 my-4 w-full max-w-[10rem] rounded-lg bg-white p-2 text-lg text-dark-teal drop-shadow-md hover:bg-off-white"
+                      className=" bg-legacy-teal mx-2 h-auto max-h-[36px] w-24 max-w-[10rem] rounded-xl bg-white p-2 text-lg font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
                       onClick={seniorPatch ? patchAddSenior : postAddSenior}
                     >
                       {seniorPatch ? "Update" : "Save"}
