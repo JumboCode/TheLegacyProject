@@ -20,25 +20,13 @@ export const POST = async (request: NextRequest) => {
     })
   );
   if (!chapterRequest.success) {
-    const error = chapterRequest.error.format();
-    // Check if any field fails the schema
-    if (Object.values(error).some((field) => !!field)) {
-      return NextResponse.json(
-        ChapterRequestResponse.parse({
-          code: "INVALID_FORM",
-          message: "Invalid form submission",
-        }),
-        { status: 400 }
-      );
-    } else {
-      return NextResponse.json(
-        ChapterRequestResponse.parse({
-          code: "UNKNOWN",
-          message: "Unknown error received",
-        }),
-        { status: 500 }
-      );
-    }
+    return NextResponse.json(
+      ChapterRequestResponse.parse({
+        code: "INVALID_FORM",
+        message: "Invalid form submission",
+      }),
+      { status: 400 }
+    );
   } else {
     const body = chapterRequest.data;
     // Check if the email already exists

@@ -48,7 +48,7 @@ const MOCK_INVALID_FORM: IChapterRequestResponse = {
  *
  * In addition, using Zod schemas to parse the response will make the input/output well-typed, making the code cleaner.
  */
-export const chapterRequest = async (
+export const createChapterRequest = async (
   request: IRequest,
   mock?: ChapterRequestResponseCode
 ) => {
@@ -61,7 +61,6 @@ export const chapterRequest = async (
   } else if (mock === "UNKNOWN") {
     return ChapterRequestResponse.parse(MOCK_UNKNOWN);
   }
-  console.log("here");
   const { body, ...options } = request;
   const response = await fetch("/api/chapter-request", {
     method: "POST",
