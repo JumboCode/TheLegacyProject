@@ -46,11 +46,13 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
           };
           const fileCreateData = {
             resource: fileMetadata,
-            fields: "id"
-          }
+            fields: "id",
+          };
 
           const service = await drive(req, res);
-          const file = await (service as NonNullable<typeof service>).files.create(fileCreateData);
+          const file = await (
+            service as NonNullable<typeof service>
+          ).files.create(fileCreateData);
           const googleFolderId = (file as any).data.id;
 
           console.log("Before creating senior...");
@@ -63,6 +65,22 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
               folder: googleFolderId,
             },
           });
+
+          const prismaStudentsToAdd = await prisma.user.findMany({
+            where: { id: { in: body.StudentIDs } },
+          });
+
+          for (const student of prismaStudentsToAdd) {
+            await prisma.user.update({
+              where: {
+                id: student.id,
+              },
+              data: {
+                SeniorIDs: [...student.SeniorIDs, senior.id],
+              },
+            });
+          }
+
           res.status(200).json(senior);
         } else {
           res.status(500).json({
@@ -72,6 +90,7 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
           return;
         }
       } catch (error) {
+        console.log("Error", error);
         res.status(500).json({
           error: `Failed to create senior: ${error}`,
         });

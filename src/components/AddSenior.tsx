@@ -4,7 +4,7 @@ import cn from "classnames";
 import FilterDropdown from "@components/FilterDropdown";
 import { Senior, User } from "@prisma/client";
 import ImageIcon from "../../public/icons/icon_add_photo.png";
-import { text } from "stream/consumers";
+import { patchSenior } from "src/app/api/senior/[id]/route.client";
 
 type AddSeniorProps = {
   seniors: Senior[];
@@ -136,59 +136,6 @@ const AddSenior = ({
     setError(false);
   };
 
-  const updateSeniorStudents = async (seniorID: string) => {
-    let currRes = await fetch("/api/senior/" + seniorID + "/students", {
-      method: "GET",
-      body: null,
-    });
-
-    if (currRes.status != 200) {
-      return currRes;
-    }
-
-    const oldStudentsData = await currRes.json();
-    const oldStudents = oldStudentsData["students"] as User[];
-
-    const removedStudents = oldStudents.filter(
-      (usr) => !selectedStudents.includes(usr, 0)
-    );
-    const newStudents = selectedStudents.filter(
-      (usr) => !oldStudents.includes(usr, 0)
-    );
-
-    removedStudents.map(async (usr) => {
-      // remove this Senior from Student
-      currRes = await fetch("/api/student/" + usr.id, {
-        method: "PATCH",
-        body: JSON.stringify({
-          SeniorIDs: usr.SeniorIDs.filter((id) => id != seniorID),
-        }),
-      });
-
-      if (currRes.status != 200) {
-        return currRes;
-      }
-      console.log("Removed " + usr.name + " from senior " + seniorID);
-    });
-
-    newStudents.map(async (usr) => {
-      // add this Senior from Student
-      currRes = await fetch("/api/student/" + usr.id, {
-        method: "PATCH",
-        body: JSON.stringify({
-          SeniorIDs: [...usr.SeniorIDs, seniorID],
-        }),
-      });
-
-      if (currRes.status != 200) {
-        return currRes;
-      }
-      console.log("Added " + usr.name + " to senior " + seniorID);
-    });
-
-    return currRes;
-  };
-
   const patchAddSenior = async () => {
     // put accumulated students into senior model data
     const seniorModel = {
@@ -197,29 +144,20 @@ const AddSenior = ({
     };
 
     // PATCH existing senior model in database
-    let currRes = await fetch("/api/senior/" + seniorPatch, {
-      method: "PATCH",
-      body: JSON.stringify(seniorModel),
+    const currRes = await patchSenior({
+      seniorId: seniorPatch,
+      body: seniorModel,
     });
-    const newerSeniorObj = await currRes.json();
 
-    if (currRes.status === 200) {
+    if (currRes.code === "SUCCESS") {
+      const newerSeniorObj = currRes.data;
       // PATCH students models previously and newly associated with senior model
-      currRes = await updateSeniorStudents(seniorPatch);
-
-      if (currRes.status === 200) {
-        setConfirm(true);
-        const newSeniors = seniors.filter((i) => i.id !== newerSeniorObj.id);
-        setSeniors([...newSeniors, newerSeniorObj]);
-      }
+      setConfirm(true);
+      const newSeniors = seniors.filter((i) => i.id !== newerSeniorObj.id);
+      setSeniors([...newSeniors, newerSeniorObj]);
     }
     // check after both API calls
-    if (currRes.status != 200) {
-      console.log(
-        currRes.text().then((text) => {
-          console.log(text);
-        })
-      );
+    if (currRes.code != "SUCCESS") {
       setError(true);
     }
 
@@ -238,7 +176,7 @@ const AddSenior = ({
     };
 
     // POST new senior model to database
-    let currRes = await fetch("/api/seniors/add", {
+    const currRes = await fetch("/api/seniors/add", {
       method: "POST",
       body: JSON.stringify(seniorModel),
     });
@@ -246,12 +184,8 @@ const AddSenior = ({
 
     if (currRes.status === 200) {
       // PATCH students models previously and newly associated with senior model
-      currRes = await updateSeniorStudents(newSeniorObj.id);
-
-      if (currRes.status === 200) {
-        setConfirm(true);
-        setSeniors([...seniors, newSeniorObj]);
-      }
+      setConfirm(true);
+      setSeniors([...seniors, newSeniorObj]);
     }
     // check after both API calls
     if (currRes.status != 200) {
