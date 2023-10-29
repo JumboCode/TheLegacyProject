@@ -287,8 +287,8 @@ const AddSenior = ({
     <>
       {showAddSeniorPopUp && (
         <div
-          className="absolute bottom-0 left-0 top-10 z-50 flex w-screen flex-row items-center justify-center
-                        text-left md:w-full"
+          className="absolute left-1/2 top-1/2 z-50 flex w-screen -translate-x-1/2 -translate-y-1/2 transform
+                        flex-row items-center justify-center text-left md:w-full"
         >
           <div
             className={cn(

@@ -36,6 +36,9 @@ type FilterDropdownProps<T extends Named> = {
   setSelectedItems: Dispatch<SetStateAction<T[]>>;
 };
 
+/**
+ * @deprecated Bad
+ */
 export default function FilterDropdown<T extends Named>({
   items,
   filterMatch,
@@ -48,7 +51,7 @@ export default function FilterDropdown<T extends Named>({
 
   const filteredItems = useMemo(
     () => items.filter((i) => filterMatch(i, filterText)),
-    [filterText]
+    [items, filterMatch, filterText]
   );
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
