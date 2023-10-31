@@ -18,13 +18,13 @@ const TagSelector = ({
 }) => {
   return (
     <div>
-      <div className="h-[34px] mb-1 w-full font-sans text-lg text-neutral-600">
+      <div className="text-neutral-600 mb-1 h-[34px] w-full font-sans text-lg">
         Tags
       </div>
       <FilterDropdown<TagProps>
         items={tagList}
         filterMatch={(tag, text) => tag.name.indexOf(text) != -1}
-        display={(tag) => (<Tag name={tag.name} color={tag.color}/>)}
+        display={(tag) => <Tag name={tag.name} color={tag.color} />}
         selectedItems={selectedTags}
         setSelectedItems={setSelectedTags}
       />
@@ -74,10 +74,13 @@ const AddFile = ({
       {showAddFilePopUp && (
         <div className="absolute z-50 flex h-full w-screen flex-row items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
           {!confirm && !error ? (
-            <div className="flex min-h-[650px] w-1/2 mt-20 p-10 flex-col justify-between rounded-lg bg-white">
+            <div className="mt-20 flex min-h-[650px] w-1/2 flex-col justify-between rounded-lg bg-white p-10">
               <div>
-                <div className="mb-8 font-serif text-3xl"> Create New File </div>
-                <div className="mb-1 h-[34px] w-full font-sans text-lg text-neutral-600">
+                <div className="mb-8 font-serif text-3xl">
+                  {" "}
+                  Create New File{" "}
+                </div>
+                <div className="text-neutral-600 mb-1 h-[34px] w-full font-sans text-lg">
                   File name
                 </div>
                 <input
@@ -88,7 +91,7 @@ const AddFile = ({
                     setFilename(e.target.value)
                   }
                 />
-                <div className="mb-1 h-[34px] w-full text-lg text-neutral-600">
+                <div className="text-neutral-600 mb-1 h-[34px] w-full text-lg">
                   Description
                 </div>
                 <textarea
@@ -106,13 +109,13 @@ const AddFile = ({
 
               <div className="flex w-full flex-row justify-center">
                 <button
-                  className="mx-2 my-4 w-full p-3 max-w-[10rem] rounded drop-shadow-md bg-off-white text-lg font-normal hover:bg-offer-white"
+                  className="mx-2 my-4 w-full max-w-[10rem] rounded bg-off-white p-3 text-lg font-normal drop-shadow-md hover:bg-offer-white"
                   onClick={handleCancel}
                 >
                   Cancel
                 </button>
                 <button
-                  className="mx-2 my-4 w-full p-3 max-w-[10rem] rounded drop-shadow-md bg-legacy-teal text-lg font-normal text-white hover:bg-dark-teal"
+                  className="bg-legacy-teal mx-2 my-4 w-full max-w-[10rem] rounded p-3 text-lg font-normal text-white drop-shadow-md hover:bg-dark-teal"
                   onClick={callAddFile}
                 >
                   Create
@@ -122,11 +125,11 @@ const AddFile = ({
           ) : (
             <>
               {confirm ? (
-                <div className="flex-row self-center h-[250px] max-w-[35%] flex-col place-content-center gap-y-10 rounded-lg bg-white p-10 text-center text-lg">
+                <div className="h-[250px] max-w-[35%] flex-row flex-col place-content-center gap-y-10 self-center rounded-lg bg-white p-10 text-center text-lg">
                   <span>File added successfully!</span>
                   <div className="flex w-full flex-row justify-center">
                     <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-legacy-teal p-3 text-md font-serif font-normal text-white hover:bg-dark-teal"
+                      className="bg-legacy-teal text-md mx-1 w-full max-w-[10rem] rounded p-3 font-serif font-normal text-white hover:bg-dark-teal"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm
@@ -134,14 +137,14 @@ const AddFile = ({
                   </div>
                 </div>
               ) : (
-                <div className="flex self-center h-[250px] max-w-[35%] flex-col place-content-center gap-y-10 rounded-lg bg-white p-10 text-center text-lg">
+                <div className="flex h-[250px] max-w-[35%] flex-col place-content-center gap-y-10 self-center rounded-lg bg-white p-10 text-center text-lg">
                   <span>
                     There was an error adding your file. Please reach out to
                     your club administrator for assistance.
                   </span>
                   <div className="flex w-full flex-row justify-center">
                     <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-legacy-teal p-3 text-md font-serif font-normal text-white hover:bg-dark-teal"
+                      className="bg-legacy-teal text-md mx-1 w-full max-w-[10rem] rounded p-3 font-serif font-normal text-white hover:bg-dark-teal"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm

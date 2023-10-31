@@ -53,6 +53,7 @@ module.exports = withMT({
       "tag-blue": "#586D87",
       "tag-violet": "#6F617F",
       "tag-rose": "#A0687F",
+      "amber-red": "#A96257",
       "sunset-orange": "#EF6767",
     },
 
