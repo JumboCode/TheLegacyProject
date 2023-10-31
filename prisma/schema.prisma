@@ -61,8 +61,8 @@ model User {
     SeniorIDs     String[]  @db.ObjectId
     Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])
     approved      Approval  @default(PENDING)
-    ChapterIDs    String[]  @db.ObjectId
-    Chapter       Chapter[] @relation(fields: [ChapterIDs], references: [id])
+    ChapterID     String    @db.ObjectId
+    Chapter       Chapter   @relation(fields: [ChapterID], references: [id])
 }
 
 enum Approval {
@@ -119,8 +119,9 @@ model ChapterRequest {
   id                   String    @id @default(auto()) @map("_id") @db.ObjectId
   chapterName          String
   location             String
-  numMembers           String
-  yearsActive          String
-  StudentIDs           String[] @db.ObjectId
-  execBoard            User[]   @relation(fields: [StudentIDs], references: [id])
+  dateCreated          DateTime  @default(now())
+  StudentIDs           String[]  @db.ObjectId
+  students             User[] 
 }
+
+//npx prisma generate
