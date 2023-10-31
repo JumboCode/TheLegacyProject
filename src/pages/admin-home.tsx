@@ -18,6 +18,7 @@ import SearchBar from "@components/SearchBar";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import cn from "classnames";
 import { prisma } from "@server/db/client";
+import PendingCard from "@components/PendingCard";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -213,53 +214,13 @@ function PendingBody({
   setStudents: React.Dispatch<React.SetStateAction<User[]>>;
   refreshData: () => void;
 }) {
+  // TODO(nickbar01234) - Enforce that name field is non-null.
   return (
-    <ul className="min-h-screen pb-9">
+    <>
       {pending.map((user) => (
-        <li
-          className="mb-8 flex flex-row items-center gap-4 rounded bg-white p-4 drop-shadow-md"
-          key={user.id}
-        >
-          <Image
-            alt="Profile Picture"
-            src={user.image ?? "/profile/genericprofile.png"}
-            className="rounded"
-            width={48}
-            height={48}
-          />
-          <div className="ml-1 flex-grow">
-            <p className="text-neutral-600 text-lg font-bold">{user.name}</p>
-            <p className="text-md text-neutral-600">{user.email}</p>
-          </div>
-          <button
-            title="Reject"
-            className="\ flex h-8 items-center justify-center rounded bg-tag-rust p-5
-                       text-lg text-white drop-shadow-md duration-150 hover:-translate-y-0.5 hover:bg-[#B76056]"
-            onClick={() => {
-              fetch(`/api/student/${user.id}`, { method: "DELETE" });
-              setPending((prev) => prev.filter((u) => u.id !== user.id));
-              setDeactivated((prev) => [...prev, user]);
-              refreshData();
-            }}
-          >
-            Reject
-          </button>
-          <button
-            title="Approve"
-            className="\ flex h-8 items-center justify-center rounded bg-dark-sage
-                       p-5 text-white drop-shadow-md duration-150 hover:-translate-y-0.5 hover:bg-[#7F8E86] "
-            onClick={() => {
-              fetch(`/api/student/${user.id}/approve`, { method: "POST" });
-              setPending((prev) => prev.filter((u) => u.id !== user.id));
-              setStudents((prev) => [...prev, user]);
-              refreshData();
-            }}
-          >
-            Approve
-          </button>
-        </li>
+        <PendingCard key={user.id} name={user.name ?? ""} />
       ))}
-    </ul>
+    </>
   );
 }
 

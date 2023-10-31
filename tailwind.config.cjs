@@ -54,8 +54,10 @@ module.exports = withMT({
       "tag-violet": "#6F617F",
       "tag-rose": "#A0687F",
       "amber-red": "#A96257",
+      "sunset-orange": "#EF6767",
     },
 
+    // TODO(nickbar01234) - Deprecate font
     fontFamily: {
       sans: ["Inter", "sans-serif"],
       serif: ["Playfair Display", "serif"],
