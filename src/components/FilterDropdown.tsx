@@ -1,10 +1,6 @@
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-
+import { fas, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-library.add(fas);
 
 function Check(props: JSX.IntrinsicElements["svg"]) {
   return (
@@ -36,9 +32,6 @@ type FilterDropdownProps<T extends Named> = {
   setSelectedItems: Dispatch<SetStateAction<T[]>>;
 };
 
-/**
- * @deprecated Bad
- */
 export default function FilterDropdown<T extends Named>({
   items,
   filterMatch,
@@ -72,12 +65,11 @@ export default function FilterDropdown<T extends Named>({
         <div
           onChange={onChange}
           className="mb-2 h-[36px] w-full flex-row items-end justify-end rounded-md border-2 border-tan bg-white px-3 text-gray-400 focus:outline-none"
-          // onFocus={() => setShowOptions(true)}   @deprecated due to selector not supporting typing to search for student names
           onClick={() => setShowOptions(!showOptions)}
         >
           <div className=" flex h-[32px] flex-row items-center justify-between text-sm">
             Select student(s)
-            <FontAwesomeIcon icon="caret-down" className=" text-dark-teal" />
+            <FontAwesomeIcon icon={faCaretDown} className=" text-dark-teal" />
           </div>
         </div>
         {showOptions && (

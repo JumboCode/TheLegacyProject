@@ -4,6 +4,7 @@ import cn from "classnames";
 import FilterDropdown from "@components/FilterDropdown";
 import { Senior, User } from "@prisma/client";
 import ImageIcon from "../../public/icons/icon_add_photo.png";
+import { text } from "stream/consumers";
 
 type AddSeniorProps = {
   seniors: Senior[];
@@ -64,7 +65,7 @@ const StudentSelector = ({
 }) => {
   return (
     <div>
-      <div className="text-neutral-600 mb-1 h-[34px] w-full font-merriweather text-lg">
+      <div className="text-neutral-600 font-merriweather mb-1 h-[34px] w-full text-lg">
         Assign students
       </div>
       <FilterDropdown<User>
@@ -126,6 +127,7 @@ const AddSenior = ({
     setShowAddSeniorPopUp(!showAddSeniorPopUp);
     setSeniorData(emptySenior);
     setSelectedStudents([]);
+    setCurrentImage(ImageIcon);
   };
 
   const handleConfirm = () => {
@@ -292,7 +294,7 @@ const AddSenior = ({
         >
           <div
             className={cn(
-              "top-5% flex h-[85%] w-[60%] max-w-[495px] flex-col justify-between overflow-auto rounded-lg bg-dark-teal px-6 py-9 font-merriweather text-white",
+              "top-5% font-merriweather flex h-[85%] w-[60%] max-w-[495px] flex-col justify-between overflow-auto rounded-lg bg-dark-teal px-6 py-9 text-white",
               confirm || error
                 ? "top-[5.5%] w-2/5"
                 : "top-[2.5%] sm:w-4/5 md:w-1/2"
@@ -323,7 +325,7 @@ const AddSenior = ({
                   later as seniorData.name propgates to backend*/}
                   <div className="flex">
                     <div className="mr-2 flex-1 flex-col">
-                      <div className="text-neutral-600 mb-2 h-[19px] w-full font-merriweather text-base">
+                      <div className="font-merriweather mb-2 h-[19px] w-full text-base text-white">
                         {" "}
                         First name{" "}
                       </div>
@@ -340,7 +342,7 @@ const AddSenior = ({
                     </div>
 
                     <div className="ml-2 flex-1 flex-col">
-                      <div className="text-neutral-600 mb-2 h-[19px] w-full font-merriweather text-base">
+                      <div className="font-merriweather mb-2 h-[19px] w-full text-base text-white">
                         {" "}
                         Last name{" "}
                       </div>
@@ -357,7 +359,7 @@ const AddSenior = ({
                     </div>
                   </div>
 
-                  <div className="text-neutral-600 mb-2 h-5 w-full font-merriweather text-base">
+                  <div className="font-merriweather mb-2 h-5 w-full text-base text-white">
                     {" "}
                     Location{" "}
                   </div>
@@ -371,7 +373,7 @@ const AddSenior = ({
                     }
                   />
 
-                  <div className="text-neutral-600 mb-5 h-2 w-full text-base">
+                  <div className="mb-5 h-2 w-full text-base text-white">
                     {" "}
                     Description{" "}
                   </div>

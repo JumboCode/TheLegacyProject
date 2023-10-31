@@ -59,7 +59,6 @@ module.exports = withMT({
     fontFamily: {
       sans: ["Inter", "sans-serif"],
       serif: ["Playfair Display", "serif"],
-      merriweather: ["Merriweather", "serif"],
     },
 
     letterSpacing: {
