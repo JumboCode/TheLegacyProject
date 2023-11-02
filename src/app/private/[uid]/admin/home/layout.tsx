@@ -49,7 +49,7 @@ const AdminHomeLayout = ({ children }: IAdminHomeLayout) => {
                 (isResourcesSelected ? " text-dark-teal" : " text-black")
               }
             >
-              RESOURCES
+              RESOURCESf
             </Link>
             {isResourcesSelected ? (
               <hr style={{ border: "1px solid black", width: "100%" }} />
