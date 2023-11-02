@@ -1,15 +1,20 @@
 "use client";
 
+import SearchBar from "@components/SearchBar";
+import SortDropdown from "@components/SortDropdown";
 import { HeaderContainer } from "@components/container/index";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 interface IAdminHomeLayout {
   children: React.ReactNode;
 }
 
 const AdminHomeLayout = ({ children }: IAdminHomeLayout) => {
+  const [filter, setFilter] = useState("");
+
   const pathname = usePathname() ?? "";
   const searchParams = useSearchParams();
 
@@ -58,6 +63,12 @@ const AdminHomeLayout = ({ children }: IAdminHomeLayout) => {
         </div>
         <hr style={{ border: "0.5px solid black", width: "100%" }} />
       </div>
+      {isChaptersSelected && (
+        <div className="mb-6 mt-6 flex gap-2.5">
+          <SearchBar setFilter={setFilter} />
+          <SortDropdown sortMethod={() => {}} setSortMethod={() => {}} />
+        </div>
+      )}
       {children}
     </HeaderContainer>
   );

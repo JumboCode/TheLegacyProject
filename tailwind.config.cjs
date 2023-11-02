@@ -33,6 +33,7 @@ module.exports = withMT({
       "light-rust": "#C58078",
       "light-moss": "#CDD3C8",
       "off-white": "#F5F5F5",
+      "light-gray": "#D2D2D2",
       tan: "#F5F0EA",
       "dark-tan": "#D4CCC1",
       "darker-tan": "#CAC2B7",
