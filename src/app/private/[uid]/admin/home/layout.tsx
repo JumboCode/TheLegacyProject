@@ -1,12 +1,21 @@
+"use client";
+
 import { HeaderContainer } from "@components/container/index";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface IAdminHomeLayout {
   children: React.ReactNode;
 }
 
 const AdminHomeLayout = ({ children }: IAdminHomeLayout) => {
+  const pathname = usePathname() ?? "";
+  const searchParams = useSearchParams();
+
+  const isChaptersSelected = !!searchParams?.get("chapters");
+  const isResourcesSelected = !!searchParams?.get("resources");
+
   return (
     <HeaderContainer
       header="Home"
@@ -16,16 +25,35 @@ const AdminHomeLayout = ({ children }: IAdminHomeLayout) => {
       <div style={{ width: "fit-content" }}>
         <div className="flex gap-6">
           <div>
-            <Link href="/chapters" className="text-xl text-dark-teal">
+            <Link
+              replace
+              href={pathname + "/?chapters=true"}
+              className={
+                "text-xl" +
+                (isChaptersSelected ? " text-dark-teal" : " text-black")
+              }
+            >
               CHAPTERS
             </Link>
-            <hr style={{ border: "1px solid black", width: "100%" }} />
+
+            {isChaptersSelected ? (
+              <hr style={{ border: "1px solid black", width: "100%" }} />
+            ) : null}
           </div>
           <div>
-            <Link href="/resources" className="text-xl text-dark-teal">
+            <Link
+              replace
+              href={pathname + "/?resources=true"}
+              className={
+                "text-xl" +
+                (isResourcesSelected ? " text-dark-teal" : " text-black")
+              }
+            >
               RESOURCES
             </Link>
-            <hr style={{ border: "1px solid black", width: "100%" }} />
+            {isResourcesSelected ? (
+              <hr style={{ border: "1px solid black", width: "100%" }} />
+            ) : null}
           </div>
         </div>
         <hr style={{ border: "0.5px solid black", width: "100%" }} />
