@@ -66,7 +66,6 @@ const AdminHomeLayout = ({ children }: IAdminHomeLayout) => {
       {isChaptersSelected && (
         <div className="mb-6 mt-6 flex gap-2.5">
           <SearchBar setFilter={setFilter} />
-          <SortDropdown sortMethod={() => {}} setSortMethod={() => {}} />
         </div>
       )}
       {children}
