@@ -19,6 +19,7 @@ import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import cn from "classnames";
 import { prisma } from "@server/db/client";
 import PendingCard from "@components/PendingCard";
+<<<<<<< HEAD
 import { TileEdit } from "@components/TileGrid/TileEdit";
 import { UserTile } from "@components/TileGrid/UserTile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
