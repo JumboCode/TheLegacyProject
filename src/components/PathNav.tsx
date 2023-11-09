@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 "use client";
 
 import React from "react";
@@ -59,11 +60,40 @@ import TestPage from "../app/private/[uid]/admin/home/chapter/page";
 >>>>>>> 0487a52 (created specific chapter page)
 
 // const PathNav = () => {
+=======
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import TestPage from "../app/private/[uid]/admin/home/chapter/page";
+
+const PathNav = () => {
+  return (
+    <Router>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/test">Test</Link>
+          </li>
+          {/* <li>
+            <Link to="/"></Link>
+          </li> */}
+        </ul>
+      </nav>
+      <Routes>
+        <Route path="/test" element={<TestPage />} />
+      </Routes>
+    </Router>
+  );
+};
+export default PathNav;
+
+// const Navigation = () => {
+>>>>>>> 74df88e (started on path structure)
 //   return (
 //     <Router>
 //       <nav>
 //         <ul>
 //           <li>
+<<<<<<< HEAD
 //             <Link to="/test">Test</Link>
 //           </li>
 //           {/* <li>
@@ -73,10 +103,29 @@ import TestPage from "../app/private/[uid]/admin/home/chapter/page";
 //       </nav>
 //       <Routes>
 //         <Route path="/test" element={<TestPage />} />
+=======
+//             <Link to="/">Home</Link>
+//           </li>
+//           <li>
+//             <Link to="/about">About</Link>
+//           </li>
+//           <li>
+//             <Link to="/contact">Contact</Link>
+//           </li>
+//         </ul>
+//       </nav>
+
+//       {/* Define your routes and corresponding components */}
+//       <Routes>
+//         <Route path="/" element={<HomePage />} />
+//         <Route path="/about" element={<AboutPage />} />
+//         <Route path="/contact" element={<ContactPage />} />
+>>>>>>> 74df88e (started on path structure)
 //       </Routes>
 //     </Router>
 //   );
 // };
+<<<<<<< HEAD
 // export default PathNav;
 
 // // const Navigation = () => {
@@ -106,3 +155,5 @@ import TestPage from "../app/private/[uid]/admin/home/chapter/page";
 // //   );
 // // };
 >>>>>>> 0487a52 (created specific chapter page)
+=======
+>>>>>>> 74df88e (started on path structure)
