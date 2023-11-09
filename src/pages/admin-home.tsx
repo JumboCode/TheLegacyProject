@@ -19,22 +19,10 @@ import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import cn from "classnames";
 import { prisma } from "@server/db/client";
 import PendingCard from "@components/PendingCard";
-<<<<<<< HEAD
 import { TileEdit } from "@components/TileGrid/TileEdit";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { UserTile } from "@components/TileGrid/UserTile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-=======
-import PathNav from "@components/PathNav";
->>>>>>> 30371e9 (started on path structure)
-=======
-// import PathNav from "@components/PathNav";
->>>>>>> 0487a52 (created specific chapter page)
-=======
-import PathNav from "@components/PathNav";
->>>>>>> 74df88e (started on path structure)
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
