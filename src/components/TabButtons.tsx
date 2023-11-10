@@ -8,7 +8,7 @@ interface TabButtonsProps {
 }
 
 const TabButtons = ({ queries }: TabButtonsProps) => {
-  const pathname = usePathname() ?? "";
+  const pathName = usePathname() ?? "";
   const segment = useSelectedLayoutSegment();
 
   return (
@@ -18,12 +18,12 @@ const TabButtons = ({ queries }: TabButtonsProps) => {
           const isTabSelected =
             segment === query || (segment === null && index === 0);
 
-          /* If segment is null, add to the end of pathname
-           * Otherwise replace end of pathname with new query */
+          /* If segment is null, add to the end of pathName
+           * Otherwise replace end of pathName with new query */
           const href =
             segment === null
-              ? pathname + "/" + query
-              : pathname.split("/").slice(0, -1).join("/") + "/" + query;
+              ? pathName + "/" + query
+              : pathName.split("/").slice(0, -1).join("/") + "/" + query;
 
           return (
             <div key={query}>
