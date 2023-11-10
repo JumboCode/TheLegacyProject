@@ -1,5 +1,5 @@
-const AdminHomePage = () => {
+const DisplayChapterPage = () => {
   return null;
 };
 
-export default AdminHomePage;
+export default DisplayChapterPage;

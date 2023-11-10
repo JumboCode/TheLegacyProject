@@ -21,12 +21,16 @@ import { prisma } from "@server/db/client";
 import PendingCard from "@components/PendingCard";
 import { TileEdit } from "@components/TileGrid/TileEdit";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { UserTile } from "@components/TileGrid/UserTile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 =======
 import PathNav from "@components/PathNav";
 >>>>>>> 30371e9 (started on path structure)
+=======
+// import PathNav from "@components/PathNav";
+>>>>>>> 0487a52 (created specific chapter page)
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -137,7 +141,7 @@ function StudentBody({
         <SearchBar setFilter={setFilter} />
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
-      <PathNav />
+      {/* <PathNav /> */}
       <TileGrid>
         {students
           .filter(({ name }) => name?.includes(filter))
