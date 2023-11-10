@@ -1,5 +1,3 @@
-"use client";
-
 import TabButtons from "@components/TabButtons";
 import { HeaderContainer } from "@components/container/index";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";

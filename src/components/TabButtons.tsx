@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 
@@ -15,6 +17,9 @@ const TabButtons = ({ queries }: TabButtonsProps) => {
         {queries.map((query, index) => {
           const isTabSelected =
             segment === query || (segment === null && index === 0);
+
+          /* If segment is null, add to the end of pathname
+           * Otherwise replace end of pathname with new query */
           const href =
             segment === null
               ? pathname + "/" + query
@@ -24,11 +29,11 @@ const TabButtons = ({ queries }: TabButtonsProps) => {
             <div key={query}>
               <Link
                 href={href}
-                className={`text-xl ${
+                className={`text-xl uppercase ${
                   isTabSelected ? "text-dark-teal" : "text-black"
                 }`}
               >
-                {query.toUpperCase()}
+                {query}
               </Link>
               {isTabSelected ? (
                 <hr className="w-full border border-solid border-dark-teal" />
