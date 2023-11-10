@@ -19,7 +19,7 @@ import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import cn from "classnames";
 import { prisma } from "@server/db/client";
 import PendingCard from "@components/PendingCard";
-import PathNav from "@components/PathNav";
+// import PathNav from "@components/PathNav";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -130,7 +130,7 @@ function StudentBody({
         <SearchBar setFilter={setFilter} />
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
-      <PathNav />
+      {/* <PathNav /> */}
       <TileGrid>
         {students
           .filter(({ name }) => name?.includes(filter))

@@ -7,13 +7,15 @@ interface IAdminHomeLayout {
 
 const AdminHomeLayout = ({ children }: IAdminHomeLayout) => {
   return (
-    <HeaderContainer
-      header="Home"
-      headerIcon={faHouse}
-      showHorizontalLine={false}
-    >
-      {children}
-    </HeaderContainer>
+    <>
+      <HeaderContainer
+        header="Home"
+        headerIcon={faHouse}
+        showHorizontalLine={false}
+      >
+        {children}
+      </HeaderContainer>
+    </>
   );
 };
 
