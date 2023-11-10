@@ -18,7 +18,7 @@ export default function SearchBar({ setFilter }: ISearchBarProps) {
 
   return (
     <input
-      className="\  h-[40px] w-full  rounded-lg bg-off-white p-2.5 text-base placeholder-light-gray  focus:outline-none"
+      className="\  h-[40px] w-full  rounded-lg bg-white p-2.5 text-base placeholder-light-gray  focus:outline-none"
       type="text"
       placeholder="Search"
       onChange={handleChange}
