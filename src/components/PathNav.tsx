@@ -87,14 +87,12 @@ const PathNav = () => {
 export default PathNav;
 
 // const Navigation = () => {
->>>>>>> 74df88e (started on path structure)
 //   return (
 //     <Router>
 //       <nav>
 //         <ul>
 //           <li>
-<<<<<<< HEAD
-//             <Link to="/test">Test</Link>
+//             <Link to="/">Home</Link>
 //           </li>
 //           {/* <li>
 //             <Link to="/"></Link>
@@ -102,58 +100,10 @@ export default PathNav;
 //         </ul>
 //       </nav>
 //       <Routes>
-//         <Route path="/test" element={<TestPage />} />
-=======
-//             <Link to="/">Home</Link>
-//           </li>
-//           <li>
-//             <Link to="/about">About</Link>
-//           </li>
-//           <li>
-//             <Link to="/contact">Contact</Link>
-//           </li>
-//         </ul>
-//       </nav>
-
-//       {/* Define your routes and corresponding components */}
-//       <Routes>
 //         <Route path="/" element={<HomePage />} />
 //         <Route path="/about" element={<AboutPage />} />
 //         <Route path="/contact" element={<ContactPage />} />
->>>>>>> 74df88e (started on path structure)
 //       </Routes>
 //     </Router>
 //   );
 // };
-<<<<<<< HEAD
-// export default PathNav;
-
-// // const Navigation = () => {
-// //   return (
-// //     <Router>
-// //       <nav>
-// //         <ul>
-// //           <li>
-// //             <Link to="/">Home</Link>
-// //           </li>
-// //           <li>
-// //             <Link to="/about">About</Link>
-// //           </li>
-// //           <li>
-// //             <Link to="/contact">Contact</Link>
-// //           </li>
-// //         </ul>
-// //       </nav>
-
-// //       {/* Define your routes and corresponding components */}
-// //       <Routes>
-// //         <Route path="/" element={<HomePage />} />
-// //         <Route path="/about" element={<AboutPage />} />
-// //         <Route path="/contact" element={<ContactPage />} />
-// //       </Routes>
-// //     </Router>
-// //   );
-// // };
->>>>>>> 0487a52 (created specific chapter page)
-=======
->>>>>>> 74df88e (started on path structure)

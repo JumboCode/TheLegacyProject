@@ -145,7 +145,7 @@ function StudentBody({
         <SearchBar setFilter={setFilter} />
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
-      <PathNav />
+      {/* <PathNav /> */}
       <TileGrid>
         {students
           .filter(({ name }) => name?.includes(filter))
