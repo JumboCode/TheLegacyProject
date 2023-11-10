@@ -29,7 +29,7 @@ export default function SortDropdown({
   return (
     <div className="relative">
       <button
-        className="flex h-[40px] flex-row items-center gap-2  whitespace-nowrap rounded-lg bg-off-white  p-4 pr-10 text-sm"
+        className="flex h-[40px] flex-row items-center gap-2 whitespace-nowrap rounded-lg bg-white p-4 pr-10 text-sm"
         onClick={() => setOpen(!open)}
       >
         <SortIcon />
