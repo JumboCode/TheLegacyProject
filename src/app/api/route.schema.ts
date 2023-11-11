@@ -19,9 +19,24 @@ export const unknownErrorSchema = z.object({
     .default("Unknown error. Please contact the developers for help"),
 });
 
+export const unknownErrorResponse = unknownErrorSchema.parse({
+  code: "UNKNOWN",
+  message: "An unknown error occured",
+});
+
 export const unauthorizedErrorResponse = unauthorizedErrorSchema.parse({
   code: "UNAUTHORIZED",
   message: "The action cannot be performed by the current user",
+});
+
+export const invalidFormErrorSchema = z.object({
+  code: z.literal("INVALID_FORM"),
+  message: z.string(),
+});
+
+export const invalidFormReponse = invalidFormErrorSchema.parse({
+  code: "INVALID_FORM",
+  message: "The form is not valid",
 });
 
 export type IUnauthorizedErrorSchema = z.infer<typeof unauthorizedErrorSchema>;

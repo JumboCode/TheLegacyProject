@@ -1,14 +1,14 @@
 import { Prisma } from "@prisma/client";
 import z from "zod";
 
-const RoleSchema = z.enum(["USER", "CHAPTER_LEADER", "ADMIN"]);
+const roleSchema = z.enum(["USER", "CHAPTER_LEADER", "ADMIN"]);
 
 /**
  * TODO - What should the maximum length of title be?
  */
-export const ResourceSchema = z.object({
+export const resourceSchema = z.object({
   access: z
-    .array(RoleSchema)
+    .array(roleSchema)
     .refine((roles) => new Set(roles).size === roles.length, {
       message: "Duplicated roles",
     }),
@@ -16,9 +16,8 @@ export const ResourceSchema = z.object({
   title: z.string().min(1),
 }) satisfies z.ZodType<Prisma.ResourceCreateInput>;
 
-export const BatchCreateRequestSchema = z.array(ResourceSchema);
+export const batchCreateRequestSchema = z.array(resourceSchema);
 
-export const BatchCreateResponseSchema = z.object({
+export const batchCreateResponseSchema = z.object({
   code: z.literal("SUCCESS"),
-  resources: z.array(ResourceSchema),
 });

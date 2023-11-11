@@ -1,11 +1,11 @@
 import { z } from "zod";
 import {
-  BatchCreateRequestSchema,
-  BatchCreateResponseSchema,
+  batchCreateRequestSchema,
+  batchCreateResponseSchema,
 } from "./route.schema";
 
 interface IBatchCreateRequest extends Omit<RequestInit, "body"> {
-  body: z.infer<typeof BatchCreateRequestSchema>;
+  body: z.infer<typeof batchCreateRequestSchema>;
 }
 
 export const batchCreateResources = async (request: IBatchCreateRequest) => {
@@ -17,5 +17,5 @@ export const batchCreateResources = async (request: IBatchCreateRequest) => {
   });
   const json = await response.json();
 
-  return BatchCreateResponseSchema.parse(json);
+  return batchCreateResponseSchema.parse(json);
 };
