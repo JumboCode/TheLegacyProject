@@ -77,9 +77,6 @@ import TestPage from "../app/private/[uid]/admin/home/chapter/page";
 //     </Router>
 //   );
 // };
-<<<<<<< HEAD
->>>>>>> 30371e9 (started on path structure)
-=======
 // export default PathNav;
 
 // // const Navigation = () => {
