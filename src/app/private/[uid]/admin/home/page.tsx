@@ -1,12 +1,10 @@
 "use client";
 
 import SearchBar from "@components/SearchBar";
-import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import { ChapterTile } from "@components/TileGrid/ChapterTile";
 import { useState } from "react";
 
 const AdminHomePage = () => {
-  const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
   const [filter, setFilter] = useState("");
 
   const chapters = [
@@ -48,7 +46,6 @@ const AdminHomePage = () => {
     <>
       <div className="mb-6 mt-6 flex gap-2.5">
         <SearchBar setFilter={setFilter} />
-        <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
 
       <div className="mb-5 grid grid-cols-2 gap-6">
