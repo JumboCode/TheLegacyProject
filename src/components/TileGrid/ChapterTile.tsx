@@ -3,6 +3,7 @@ import {
   faEnvelope,
   faPhone,
 } from "@fortawesome/free-solid-svg-icons";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
