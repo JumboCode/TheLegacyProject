@@ -14,7 +14,7 @@ const PendingCard = (props: IPendingCard) => {
       <div className="mt-3">
         <FontAwesomeIcon className="h-6 w-4 text-dark-teal" icon={faUser} />
       </div>
-      <div className="my-4 overflow-hidden text-ellipsis text-lg text-dark-teal">
+      <div className="my-4 overflow-hidden text-ellipsis whitespace-nowrap text-lg text-dark-teal">
         {props.name}
       </div>
       <div className="flex flex-col gap-2 text-white">
