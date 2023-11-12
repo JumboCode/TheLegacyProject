@@ -18,22 +18,13 @@ const ChapterLayout = ({ children }) => {
           <div>Location: </div>
           <div className="ml-2 font-bold">Medford, MA</div>
         </div>
-        <div className="font-merriweather mt-3 flex h-1/5 w-5/6 flex-col justify-between rounded-md bg-white p-5">
-          <div className="flex flex-row text-start">
-            <div>Location: </div>
-            <div className="ml-2 font-bold">Medford, MA</div>
-          </div>
-          <div className="flex flex-row text-start">
-            <div>No. of members: </div>
-            <div className="ml-2 font-bold">12</div>
-          </div>
-          <div className="flex flex-row text-start">
-            <div>Years Active: </div>
-            <div className="ml-2 font-bold">1</div>
-          </div>
+        <div className="flex flex-row text-start">
+          <div>No. of members: </div>
+          <div className="ml-2 font-bold">12</div>
         </div>
-        <div className="font-merriweather mt-5 text-xl font-bold">
-          Executive Board
+        <div className="flex flex-row text-start">
+          <div>Years Active: </div>
+          <div className="ml-2 font-bold">1</div>
         </div>
       </div>
       <div className="font-merriweather mt-5 text-xl font-bold">
