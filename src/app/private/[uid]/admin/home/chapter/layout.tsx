@@ -122,10 +122,9 @@ const ChapterLayout = () =>
               />
             </div>
           ))}
-        </TileGrid>
-      </div> */}
-      </>
-    );
-  };
+      </TileGrid> */}
+    </>
+  );
+};
 
 export default AdminHomeLayout;
