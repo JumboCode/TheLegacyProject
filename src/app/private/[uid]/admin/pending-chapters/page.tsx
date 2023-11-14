@@ -7,15 +7,19 @@ const PendingChapters = async () => {
   console.log(pendingChapters[0]);
   // Map every chapter request to a pending chapter component and return!
   return (
-    <div className="flex flex-wrap">
-      {pendingChapters.map((chapter) => (
+    <div className="mb-5 grid flex-wrap gap-6 md:grid-cols-2">
+      {pendingChapters.map((pendingChapter) => (
         <ChapterRequest
-          key={chapter.id}
-          universityName={chapter.university}
-          universityAddress={chapter.universityAddress}
-          name={chapter.firstName + " " + chapter.lastName}
-          phoneNumber={chapter.phoneNumber}
-          email={chapter.universityEmail}
+          key={pendingChapter.id}
+          universityName={pendingChapter.university}
+          universityAddress={pendingChapter.universityAddress}
+          name={pendingChapter.firstName + " " + pendingChapter.lastName}
+          phoneNumber={pendingChapter.phoneNumber}
+          email={pendingChapter.universityEmail}
+          leadershipExperience={pendingChapter.leadershipExperience}
+          motivation={pendingChapter.motivation}
+          availabilities={pendingChapter.availabilities}
+          questions={pendingChapter.questions}
         />
       ))}
     </div>
