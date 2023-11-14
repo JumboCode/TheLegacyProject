@@ -1,10 +1,10 @@
 import { describe, expect, test } from "vitest";
-import { ResourceSchema } from "./route.schema";
+import { resourceSchema } from "./route.schema";
 
 describe("TestBatchCreateRequestSchema", () => {
   test("ValidResource", () => {
     expect(
-      ResourceSchema.parse({
+      resourceSchema.parse({
         link: "https://google.com",
         title: "Hello world",
         access: ["USER"],
@@ -18,7 +18,7 @@ describe("TestBatchCreateRequestSchema", () => {
 
   test("InvalidResourceAccess", () => {
     expect(() =>
-      ResourceSchema.parse({
+      resourceSchema.parse({
         link: "https://google.com",
         title: "Hello world",
         access: ["USER", "USER"],
