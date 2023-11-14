@@ -61,6 +61,8 @@ model User {
     SeniorIDs     String[]  @db.ObjectId
     Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])
     approved      Approval  @default(PENDING)
+    ChapterID     String?   @db.ObjectId
+    Chapter       Chapter?  @relation(fields: [ChapterID], references: [id])
 }
 
 enum Approval {
@@ -111,4 +113,12 @@ model ChapterRequest {
   motivation           String
   availabilities       String
   questions            String
+}
+ 
+ model Chapter {
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  chapterName          String
+  location             String
+  dateCreated          DateTime  @default(now())
+  students             User[] 
 }
