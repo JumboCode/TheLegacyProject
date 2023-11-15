@@ -18,13 +18,32 @@ const TabButtons = ({ queries }: TabButtonsProps) => {
           const isTabSelected =
             segment === query || (segment === null && index === 0);
 
-          /* If segment is null, add to the end of pathName
-           * Otherwise replace end of pathName with new query */
-          const href =
-            segment === null
-              ? pathName + "/" + query
-              : pathName.split("/").slice(0, -1).join("/") + "/" + query;
-
+            let href;
+            if (segment === null) {
+              href = pathName + "/" + query;
+            } else {
+              const arr = pathName.split("/");
+  
+              let seg_idx = 0;
+              for (let i = arr.length - 1; i >= 0; i--) {
+                if (arr[i] === segment) {
+                  seg_idx = i;
+                  arr[i] = query;
+                }
+              }
+  
+              const new_arr = arr.slice(0, seg_idx + 1);
+              
+              const new_new_arr = new_arr.join("/");
+              href = new_new_arr;
+            }
+            /* If segment is null, add to the end of pathName
+             * Otherwise replace end of pathName with new query */
+            /* const href =
+              segment === null
+                ? pathName + "/" + query
+                : pathName.split("/").slice(0, -1).join("/") + "/" + query;
+             */
           return (
             <div key={query}>
               <Link
