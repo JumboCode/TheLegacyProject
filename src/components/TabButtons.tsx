@@ -18,13 +18,11 @@ const TabButtons = ({ queries }: TabButtonsProps) => {
           const isTabSelected =
             segment === query || (segment === null && index === 0);
 
-          /* If segment is null, add to the end of pathName
-           * Otherwise replace end of pathName with new query */
-          const href =
-            segment === null
-              ? pathName + "/" + query
-              : pathName.split("/").slice(0, -1).join("/") + "/" + query;
-
+          const base = pathName.match(
+            new RegExp(`.*?(?=${queries.map((q) => "/" + q).join("|")}|$)`)
+          ) as RegExpExecArray;
+          const href = `${base[0]}/${query}`;
+          
           return (
             <div key={query}>
               <Link
