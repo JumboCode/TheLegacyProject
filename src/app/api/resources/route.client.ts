@@ -17,5 +17,10 @@ export const batchCreateResources = async (request: IBatchCreateRequest) => {
   });
   const json = await response.json();
 
-  return batchCreateResponseSchema.parse(json);
+  try {
+    return batchCreateResponseSchema.parse(json);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Uncaught error");
+  }
 };

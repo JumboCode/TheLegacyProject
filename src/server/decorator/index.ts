@@ -33,18 +33,18 @@ export type SessionApiHandler = (
 /**
  * Enforces that the API is called with an authenticated user.
  */
-// const withSession = (handler: SessionApiHandler): NextApiHandler => {
-//   return async (req, params) => {
-//     const session = await getServerSession(authOptions);
-//     if (session == null || session.user == undefined) {
-//       return NextResponse.json(unauthorizedErrorResponse);
-//     }
+const withSession = (handler: SessionApiHandler): NextApiHandler => {
+  return async (req, params) => {
+    const session = await getServerSession(authOptions);
+    if (session == null || session.user == undefined) {
+      return NextResponse.json(unauthorizedErrorResponse);
+    }
 
-//     const user = session.user;
+    const user = session.user;
 
-//     return handler({ session: { ...session, user }, req, params });
-//   };
-// };
+    return handler({ session: { ...session, user }, req, params });
+  };
+};
 
 const withSessionAndRole = (
   role: Array<Role>,
@@ -69,17 +69,17 @@ const withSessionAndRole = (
 /**
  * Enforces that the API is called by a user with a valid role.
  */
-// const withRole = (
-//   role: Array<Role>,
-//   handler: SessionApiHandler
-// ): SessionApiHandler => {
-//   return async (params) => {
-//     if (!role.includes(params.session.user.role)) {
-//       return NextResponse.json(unauthorizedErrorResponse);
-//     }
-//     return handler(params);
-//   };
-// };
+const withRole = (
+  role: Array<Role>,
+  handler: SessionApiHandler
+): SessionApiHandler => {
+  return async (params) => {
+    if (!role.includes(params.session.user.role)) {
+      return NextResponse.json(unauthorizedErrorResponse);
+    }
+    return handler(params);
+  };
+};
 
-// export { withSession, withRole };
+export { withSession, withRole };
 export { withSessionAndRole };
