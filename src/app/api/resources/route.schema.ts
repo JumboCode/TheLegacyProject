@@ -18,6 +18,12 @@ export const resourceSchema = z.object({
 
 export const batchCreateRequestSchema = z.array(resourceSchema);
 
-export const batchCreateResponseSchema = z.object({
+export const batchUpdateRequestSchema = z.array(
+  resourceSchema.extend({
+    id: z.string(),
+  })
+);
+
+export const batchResponseSchema = z.object({
   code: z.literal("SUCCESS"),
 });
