@@ -68,10 +68,21 @@ import TestPage from "../app/private/[uid]/admin/home/page";
 const PathNav = () => {
   return (
     <>
-      <div className="font-merriweather mt-7 flex flex-row">
-        <div>Chapter</div>
-        <div className="px-2">&gt;</div>
-        <div className="text-dark-teal">Tufts University</div>
+      <div>
+        <div className="font-merriweather mt-7 flex flex-row">
+          {Object.entries(pathInfo).map(([key, value], index, dict) => (
+            // const nextvalue = pathInfo[index + 1];
+            <>
+              <div className="px-2">&gt;</div>
+              <a
+                href={`${currentPath.substring(0, index)}`}
+                className="text-dark-teal"
+              >
+                {key}
+              </a>
+            </>
+          ))}
+        </div>
       </div>
     </>
   );
