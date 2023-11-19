@@ -24,6 +24,11 @@ export const batchUpdateRequestSchema = z.array(
   })
 );
 
+export const IDResourceSchema = z.object({
+  id: z.string(),
+});
+export const batchDeleteRequestSchema = z.array(IDResourceSchema);
+
 export const batchResponseSchema = z.object({
   code: z.literal("SUCCESS"),
 });

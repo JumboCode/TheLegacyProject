@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import {
   batchCreateRequestSchema,
+  batchDeleteRequestSchema,
   batchResponseSchema,
   batchUpdateRequestSchema,
 } from "./route.schema";
@@ -53,6 +54,30 @@ export const PUT = withSessionAndRole(["ADMIN"], async (request) => {
       return NextResponse.json(batchResponseSchema.parse({ code: "SUCCESS" }));
     }
   } catch {
+    return NextResponse.json(unknownErrorResponse, { status: 500 });
+  }
+});
+
+export const DELETE = withSessionAndRole(["ADMIN"], async (request) => {
+  try {
+    const resourceRequest = batchDeleteRequestSchema.safeParse(
+      await request.req.json()
+    );
+    if (!resourceRequest.success) {
+      return NextResponse.json(invalidFormReponse, { status: 400 });
+    } else {
+      const promises = resourceRequest.data.map((resource) =>
+        prisma.resource.delete({
+          where: {
+            id: resource.id,
+          },
+        })
+      );
+      await Promise.allSettled(promises);
+
+      return NextResponse.json(batchResponseSchema.parse({ code: "SUCCESS" }));
+    }
+  } catch (error) {
     return NextResponse.json(unknownErrorResponse, { status: 500 });
   }
 });

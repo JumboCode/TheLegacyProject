@@ -1,6 +1,7 @@
 import { z } from "zod";
 import {
   batchCreateRequestSchema,
+  batchDeleteRequestSchema,
   batchUpdateRequestSchema,
   batchResponseSchema,
 } from "./route.schema";
@@ -11,6 +12,10 @@ interface IBatchCreateRequest extends Omit<RequestInit, "body"> {
 
 interface IBatchUpdateRequest extends Omit<RequestInit, "body"> {
   body: z.infer<typeof batchUpdateRequestSchema>;
+}
+
+interface IBatchDeleteRequest extends Omit<RequestInit, "body"> {
+  body: z.infer<typeof batchDeleteRequestSchema>;
 }
 
 export const batchCreateResources = async (request: IBatchCreateRequest) => {
@@ -34,6 +39,23 @@ export const batchUpdateResources = async (request: IBatchUpdateRequest) => {
   const { body, ...options } = request;
   const response = await fetch("/api/resources", {
     method: "PUT",
+    body: JSON.stringify(body),
+    ...options,
+  });
+  const json = await response.json();
+
+  try {
+    return batchResponseSchema.parse(json);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Uncaught error");
+  }
+};
+
+export const batchDeleteResources = async (request: IBatchDeleteRequest) => {
+  const { body, ...options } = request;
+  const response = await fetch("/api/resources", {
+    method: "DELETE",
     body: JSON.stringify(body),
     ...options,
   });

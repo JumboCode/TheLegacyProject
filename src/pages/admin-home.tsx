@@ -199,25 +199,12 @@ function SeniorBody({
   const [seniorPatch, setSeniorPatch] = useState<string>("");
   const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
 
-  const handletestResources = async () => {
-    const testRequest = batchCreateRequestSchema.parse([
-      {
-        access: ["USER"],
-        link: "www.google.com",
-        title: "testing",
-      },
-    ]);
-    const result = await batchCreateResources({ body: testRequest });
-    console.log(result);
-  };
   return (
     <div className="pb-12">
       <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
         <SearchBar setFilter={setFilter} />
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
-
-      <button onClick={handletestResources}>Nick!</button>
 
       <TileGrid>
         <AddSenior
