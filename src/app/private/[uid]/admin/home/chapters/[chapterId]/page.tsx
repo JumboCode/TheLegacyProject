@@ -23,7 +23,7 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
   const curr_year = curr_date.getFullYear();
 
   const chapterPath: PathInfoType = {
-    display: "Chapter",
+    display: "Chapters",
     url: "chapters",
   };
 
@@ -47,7 +47,7 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
           </div>
           <div className="flex flex-row text-start">
             <div>No. of members: </div>
-            <div className="ml-2 font-bold">{chapter?.students.length}</div>
+            <div className="ml-2 font-bold">{chapter.students.length}</div>
           </div>
           <div className="flex flex-row text-start">
             <div>Years Active: </div>

@@ -14,34 +14,24 @@ export type PathInfoType = {
 
 const PathNav = ({ pathInfo }: PathNavParams) => {
   const currentPath = "http://localhost:3000" + usePathname();
-  const totalPathLength = currentPath.length;
 
-  const getRemovePath = (currentIndex: number) => {
-    let removePath = 0;
-    const pathDict = pathInfo;
-
-    if (pathDict.length - 1 == currentIndex) {
-      return removePath;
-    }
-
-    for (let i = currentIndex + 1; i < pathDict.length; i++) {
-      removePath += (pathDict[i] as any).url.length + 1;
-    }
-
-    return removePath;
+  const getPath = (currentIndex: number) => {
+    const segments = currentPath.split("/");
+    const path = segments.slice(
+      0,
+      segments.length - (pathInfo.length - currentIndex - 1)
+    );
+    return path.join("/");
   };
 
   return (
-    <div>
-      <div className="font-merriweather mt-7 flex flex-row">
+    <div className="mt-6">
+      <div className="font-merriweather flex flex-row">
         {pathInfo.map((currPath, index, array) => (
           <>
             {index !== 0 && <div className="px-2">&gt;</div>}
             <a
-              href={`${currentPath.substring(
-                0,
-                totalPathLength - getRemovePath(index)
-              )}`}
+              href={`${getPath(index)}`}
               className={
                 index === array.length - 1 ? "text-dark-teal" : "text-black"
               }
