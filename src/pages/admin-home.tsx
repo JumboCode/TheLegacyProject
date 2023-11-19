@@ -12,7 +12,7 @@ import React, {
   SetStateAction,
 } from "react";
 import { useRouter } from "next/router";
-import TileGrid, { UserTile } from "@components/TileGrid";
+import TileGrid from "@components/TileGrid";
 import AddSenior from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
@@ -20,6 +20,9 @@ import cn from "classnames";
 import { prisma } from "@server/db/client";
 import PendingCard from "@components/PendingCard";
 import { TileEdit } from "@components/TileGrid/TileEdit";
+import { UserTile } from "@components/TileGrid/UserTile";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -150,6 +153,8 @@ function StudentBody({
                   });
                   refreshData();
                 },
+                color: "#22555A",
+                icon: <FontAwesomeIcon icon={faPencil} />,
               });
             } else {
               options.push({
@@ -165,6 +170,8 @@ function StudentBody({
                   });
                   refreshData();
                 },
+                color: "#22555A",
+                icon: <FontAwesomeIcon icon={faPencil} />,
               });
             }
 
@@ -231,6 +238,8 @@ function SeniorBody({
                 setSeniorPatch(senior.id);
                 setShowAddSeniorPopUp(true);
               },
+              color: "#22555A",
+              icon: <FontAwesomeIcon icon={faPencil} />,
             });
 
             options.push({
@@ -247,6 +256,8 @@ function SeniorBody({
                 setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
                 refreshData();
               },
+              color: "#EF6767",
+              icon: <FontAwesomeIcon icon={faTrashCan} />,
             });
 
             return (
