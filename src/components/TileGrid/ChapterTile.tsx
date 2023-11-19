@@ -1,8 +1,4 @@
-import {
-  faEllipsis,
-  faEnvelope,
-  faPhone,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,7 +9,7 @@ interface ChapterTileProps {
   numMembers: number;
   yearsActive: number;
   emailPresident: string;
-  phonePresident: string;
+  topRightButton: React.ReactNode;
 }
 
 export function ChapterTile({
@@ -22,16 +18,13 @@ export function ChapterTile({
   numMembers,
   yearsActive,
   emailPresident,
-  phonePresident,
+  topRightButton,
 }: ChapterTileProps) {
   return (
     <div className="max-w-xl rounded-xl bg-white p-6">
       <div className="mb-2.5 flex items-center justify-between gap-2.5">
         <div className="text-2xl underline">{title}</div>
-        <FontAwesomeIcon className="fa-lg cursor-pointer" icon={faEllipsis} />
-      </div>
-      <div className="mb-2.5 flex">
-        President:&nbsp;<span className="font-bold">{president}</span>
+        {topRightButton}
       </div>
       <div className="flex gap-2.5">
         <div className=" flex w-6/12 flex-col gap-2.5">
@@ -43,12 +36,12 @@ export function ChapterTile({
           </div>
         </div>
         <div className="flex w-6/12 flex-col gap-2.5">
+          <div className="flex">
+            President:&nbsp;<span className="font-bold">{president}</span>
+          </div>
           <div className="flex items-center gap-1">
             <FontAwesomeIcon icon={faEnvelope} />
             <span>{emailPresident}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <FontAwesomeIcon icon={faPhone} /> <span>{phonePresident}</span>
           </div>
         </div>
       </div>

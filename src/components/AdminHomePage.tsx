@@ -4,6 +4,8 @@ import SearchBar from "@components/SearchBar";
 import { ChapterTile } from "@components/TileGrid/ChapterTile";
 import { useState } from "react";
 import { Prisma } from "@prisma/client";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -45,7 +47,12 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
                 numMembers={chapter.students.length}
                 yearsActive={yearsActive}
                 emailPresident={prez?.email ?? "stephen.burchfield@tufts.edu"}
-                phonePresident={"857-310-6658"} // @TODO: Add phone number to User?
+                topRightButton={
+                  <FontAwesomeIcon
+                    className="fa-lg cursor-pointer"
+                    icon={faEllipsis}
+                  />
+                }
               />
             );
           })}
