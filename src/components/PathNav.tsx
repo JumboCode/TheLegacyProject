@@ -32,28 +32,26 @@ const PathNav = ({ pathInfo }: PathNavParams) => {
   };
 
   return (
-    <>
-      <div>
-        <div className="font-merriweather mt-7 flex flex-row">
-          {pathInfo.map((currPath, index, array) => (
-            <>
-              {index !== 0 && <div className="px-2">&gt;</div>}
-              <a
-                href={`${currentPath.substring(
-                  0,
-                  totalPathLength - getRemovePath(index)
-                )}`}
-                className={
-                  index === array.length - 1 ? "text-dark-teal" : "text-black"
-                }
-              >
-                {currPath.display}
-              </a>
-            </>
-          ))}
-        </div>
+    <div>
+      <div className="font-merriweather mt-7 flex flex-row">
+        {pathInfo.map((currPath, index, array) => (
+          <>
+            {index !== 0 && <div className="px-2">&gt;</div>}
+            <a
+              href={`${currentPath.substring(
+                0,
+                totalPathLength - getRemovePath(index)
+              )}`}
+              className={
+                index === array.length - 1 ? "text-dark-teal" : "text-black"
+              }
+            >
+              {currPath.display}
+            </a>
+          </>
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 export default PathNav;

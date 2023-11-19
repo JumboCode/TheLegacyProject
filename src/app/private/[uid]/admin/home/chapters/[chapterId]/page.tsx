@@ -35,61 +35,64 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
   // TODO(nickbar0123) - Use the information to display breadcrumb + profiles
   return (
     <>
-      <PathNav pathInfo={[chapterPath, currchapterPath]} />
-      <div className="font-merriweather mt-5 text-2xl font-bold">
-        {chapter.chapterName}
-      </div>
-      <div className="font-merriweather mt-3 flex h-1/5 w-5/6 flex-col justify-between rounded-md bg-white p-5">
-        <div className="flex flex-row text-start">
-          <div>Location: </div>
-          <div className="ml-2 font-bold">{chapter?.location}</div>
+      <div className="h-fit">
+        <PathNav pathInfo={[chapterPath, currchapterPath]} />
+        <div className="font-merriweather mt-5 text-2xl font-bold">
+          {chapter.chapterName}
         </div>
-        <div className="flex flex-row text-start">
-          <div>No. of members: </div>
-          <div className="ml-2 font-bold">{chapter?.students.length}</div>
-        </div>
-        <div className="flex flex-row text-start">
-          <div>Years Active: </div>
-          <div className="ml-2 font-bold">
-            {curr_year - chapter?.dateCreated.getFullYear()}
+        <div className="font-merriweather mt-3 flex h-1/5 w-5/6 flex-col justify-between rounded-md bg-white p-8">
+          <div className="flex flex-row text-start">
+            <div>Location: </div>
+            <div className="ml-2 font-bold">{chapter?.location}</div>
+          </div>
+          <div className="flex flex-row text-start">
+            <div>No. of members: </div>
+            <div className="ml-2 font-bold">{chapter?.students.length}</div>
+          </div>
+          <div className="flex flex-row text-start">
+            <div>Years Active: </div>
+            <div className="ml-2 font-bold">
+              {curr_year - chapter?.dateCreated.getFullYear()}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="font-merriweather mt-5 text-xl font-bold">
-        Executive Board
-      </div>
-      <div className="flex gap-x-8 pt-6">
-        {chapter.students
-          .filter((user) => user.role == "CHAPTER_LEADER")
-          .map((user) => (
-            <UserTile key={user.id} student={user} link="" />
-          ))}
-      </div>
-      <div className="font-merriweather mt-5 text-xl font-bold">
-        Pending (
-        {chapter.students.filter((user) => user.approved == "PENDING").length})
-      </div>
-      <div className="flex gap-x-8 pt-6">
-        {chapter.students
-          .filter((user) => user.approved == "PENDING")
-          .map((user) => (
-            <UserTile key={user.id} student={user} link="" />
-          ))}
-      </div>
-      <div className="font-merriweather mt-5 text-xl font-bold">
-        Members (
-        {
-          chapter.students.filter((user) => user.role != "CHAPTER_LEADER")
-            .length
-        }
-        )
-      </div>
-      <div className="flex gap-x-8 pt-6">
-        {chapter.students
-          .filter((user) => user.role != "CHAPTER_LEADER")
-          .map((user) => (
-            <UserTile key={user.id} student={user} link="" />
-          ))}
+        <div className="font-merriweather mt-5 text-xl font-bold">
+          Executive Board
+        </div>
+        <div className="flex gap-x-8 pt-6">
+          {chapter.students
+            .filter((user) => user.role == "CHAPTER_LEADER")
+            .map((user) => (
+              <UserTile key={user.id} student={user} link="" />
+            ))}
+        </div>
+        <div className="font-merriweather mt-5 text-xl font-bold">
+          Pending (
+          {chapter.students.filter((user) => user.approved == "PENDING").length}
+          )
+        </div>
+        <div className="flex gap-x-8 pt-6">
+          {chapter.students
+            .filter((user) => user.approved == "PENDING")
+            .map((user) => (
+              <UserTile key={user.id} student={user} link="" />
+            ))}
+        </div>
+        <div className="font-merriweather mt-5 text-xl font-bold">
+          Members (
+          {
+            chapter.students.filter((user) => user.role != "CHAPTER_LEADER")
+              .length
+          }
+          )
+        </div>
+        <div className="flex gap-x-8 pt-6">
+          {chapter.students
+            .filter((user) => user.role != "CHAPTER_LEADER")
+            .map((user) => (
+              <UserTile key={user.id} student={user} link="" />
+            ))}
+        </div>
       </div>
     </>
   );
