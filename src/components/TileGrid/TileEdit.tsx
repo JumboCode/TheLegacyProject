@@ -50,7 +50,12 @@ const Icon = (path: string, fill: string) => (
 interface ITileEditMenu {
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  options: { name: string; onClick: React.MouseEventHandler }[];
+  options: {
+    name: string;
+    onClick: React.MouseEventHandler;
+    color: string;
+    icon: React.ReactNode;
+  }[];
   icons: { name: string; path: string; fill: string }[];
 }
 
@@ -70,7 +75,7 @@ function TileEditMenu({ visible, setVisible, options, icons }: ITileEditMenu) {
               key={option.name}
               className="w-full p-2 px-4 hover:bg-offer-white"
               style={{
-                color: options[0] === option ? "#22555A" : "#EF6767",
+                color: option.color,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -88,12 +93,7 @@ function TileEditMenu({ visible, setVisible, options, icons }: ITileEditMenu) {
               >
                 {option.name}
               </span>
-              {options[0] === option
-                ? Icon(icons[0]?.path ?? "no path", icons[0]?.fill ?? "no fill")
-                : Icon(
-                    icons[1]?.path ?? "no path",
-                    icons[1]?.fill ?? "no fill"
-                  )}
+              {option.icon}
             </button>
             {index !== options.length - 1 && <hr />}
           </>
@@ -104,10 +104,16 @@ function TileEditMenu({ visible, setVisible, options, icons }: ITileEditMenu) {
 }
 
 export interface TileEditProps {
-  options: { name: string; onClick: React.MouseEventHandler }[];
+  options: {
+    name: string;
+    onClick: React.MouseEventHandler;
+    color: string;
+    icon: React.ReactNode;
+  }[];
+  icon?: React.ReactNode;
 }
 
-export function TileEdit({ options }: TileEditProps) {
+export function TileEdit({ options, icon }: TileEditProps) {
   const [visible, setVisible] = useState(false);
 
   return options.length > 0 ? (
@@ -122,7 +128,7 @@ export function TileEdit({ options }: TileEditProps) {
         type="button"
         className="relative"
       >
-        <TileEditBreadcrumbs />
+        {icon ?? <TileEditBreadcrumbs />}
       </button>
       <TileEditMenu
         visible={visible}

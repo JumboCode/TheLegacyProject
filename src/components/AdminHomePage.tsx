@@ -5,7 +5,8 @@ import { ChapterTile } from "@components/TileGrid/ChapterTile";
 import { useState } from "react";
 import { Prisma } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { TileEdit } from "./TileGrid/TileEdit";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -39,6 +40,17 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
               (user) => user.role == "CHAPTER_LEADER"
             );
 
+            const options: Parameters<typeof TileEdit>[0]["options"] = [];
+
+            options.push({
+              name: "Remove Chapter",
+              onClick: () => {
+                console.log("This worked");
+              },
+              color: "#ef6767",
+              icon: <FontAwesomeIcon icon={faTrashCan} />,
+            });
+
             return (
               <ChapterTile
                 key={index}
@@ -48,9 +60,14 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
                 yearsActive={yearsActive}
                 emailPresident={prez?.email ?? "stephen.burchfield@tufts.edu"}
                 topRightButton={
-                  <FontAwesomeIcon
-                    className="fa-lg cursor-pointer"
-                    icon={faEllipsis}
+                  <TileEdit
+                    options={options}
+                    icon={
+                      <FontAwesomeIcon
+                        className="fa-lg cursor-pointer"
+                        icon={faEllipsis}
+                      />
+                    }
                   />
                 }
               />
