@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import type { GetServerSidePropsContext } from "next";
 import { useState } from "react";
 import FileTile from "@components/TileGrid/FileTile";
@@ -10,6 +10,7 @@ import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
 import { Approval } from "@prisma/client";
+import { prisma } from "@server/db/client";
 
 type ISeniorProfileProps = Awaited<
   ReturnType<typeof getServerSideProps>

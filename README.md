@@ -3,34 +3,102 @@
 Welcome to The Legacy Project's JumboCode team! This is our repository where we will keep our code and track changes.
 
 ## Setup
-The first part of setup is to get your machine set up to run the [Next.js](https://nextjs.org/docs) server and get a local copy of the codebase.
 
-- On Windows, we recommend installing the [Windows Linux Subsystem](https://learn.microsoft.com/en-us/windows/wsl/install), and proceeding with the next steps in the WSL terminal instead of the default command line.
-- Install [Node.js](https://nodejs.org/en/) so that you can run Javascript code from the command line ([Windows/WSL link](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl)). We will be using the [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable) package manager, so this needs to be installed as well (if you don't know what a package manager is, don't worry and feel free to ask Michael).
-- Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), which is the tool we will be using for version management. If you have trouble with this or don't understand what is being asked of you, again feel free to ping Michael on Slack. *Note for WSL users:* Follow the Linux instructions here.
+This section will walk you through the steps to set up your laptop for development. Please reach out to us if you're stucked or confused at any point!
+
+### Terminal
+
+Open the command line interface for your Operating System. On Windows, we recommend using [Windows Linux Subsystem](https://learn.microsoft.com/en-us/windows/wsl/install); on Macs, you can proceed with Terminal.
+
+### Version Control
+
+#### Git
+
+We will use [Git](https://git-scm.com/book/en/v2) for version control. After you have opened the terminal, verify that Git is installed on your machine
+
+```sh
+# Terminal
+# "which" command locates an executable called "git"
+which git
+```
+
+If `which git` raises an error, then you will need to install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+#### GitHub
+
+We will use Git to interact with [GitHub](https://github.com), a code hosting platform. We will now set up your terminal to work with GitHub.
+
+1. Create a GitHub [account](https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home) if you do not have one.
+2. On terminal, set up your identity.
+
+```sh
+# Terminal
+git config --global user.name <Your GitHub username>
+git config --global user.email  <Your GitHub email>
+```
+
+3. Create a SSH key to interact with GitHub, following this [guide](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). Once you have created your SSH key, go ahead and add it to your GitHub account, as instructed [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+
+### Application Dependencies
+
+We will need to install [Node.js](https://nodejs.org/en/about) to run JavaScript for development - you can check whether Node.js is installed by typing `which node` on the terminal.
+
+### Editor
+
+We will use [Visual Studio Code](https://code.visualstudio.com/) to write code. After you have opened Visual Studio Code, we will install some productivity extensions:
+
+1. [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) - A static analysis tool for JavaScript applications,
+2. [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) - A tool to automatically format code,
+3. [Prisma](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) - Syntax highlighting for Prisma schemas,
+4. [Tailwind IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) - A tool to improve development with TailWind.
 
 ### Acquiring the code
-Now that you have git installed, you need to get a local copy of the code. This is where git comes in. In your terminal, navigate to the folder where you want git to put your `TheLegacyProject` folder containing all the code. Then, run the following command: `git clone git@github.com:JumboCode/TheLegacyProject.git`. This will ask you for your github credentials, which is a pain to have to type every time. We have an explainer down below on how to avoid this.
 
-### Setting up your environment
-All projects which connect to other services need to have credentials to authenticate with those services. It is bad security practice to save these credentials directly in a code repository, so we prefer to keep them in a file which does not get checked into the codebase, called `.env` (for your *env*ironment variables). This file does not already exist, but there is a `.env-example`; copy this file (don't rename it, as we want to make sure it gets preserved), and rename the copy `.env`.
+In your terminal, navigate to the folder where you want Git to put your `TheLegacyProject2` folder containing the source code. To pull the code, run the following command:
 
-You may have noticed also that you didn't need to install any database software. This is because instead of running our databases locally, we will be using a service called [Railway](https://railway.app) to host our development databases. Sign into Railway with your github, then create a new MongoDB provision. After you've done this, click your new provision, go to the "Connect" tab, and copy the "Mongo Connection URL." You will be pasting this URL in your `.env` file as your `DATABASE_URL`. Eventually we will have to add Google credentials here as well, but that won't be for at least a few weeks, and we will distribute those when we have them.
+```sh
+# Terminal
+git clone git@github.com:JumboCode/TheLegacyProject2.git
+```
 
-By default, Railway creates a `test` database. This is totally fine for us to use. To point Prisma to this database, add `/test?authSource=admin` at the end of the url, after the port number. In general, if you want to use a different db name, change this to `/<db name>?authSource=admin`. To sync the database with your Prisma schema (defined in `prisma/schema.prisma`), use the command `yarn prisma db push`.
+If the command did not error out, you can now navigate to a folder named `TheLegacyProject2`.
 
-Finally, run `yarn install` in the `TheLegacyProject` directory to install the necessary packages.
+### Environment Variables
 
-## Running your code
-To run the app, you first want to make sure your database is using the correct schema. Push your schema changes using the `yarn prisma db push` command. Then, you can run your local Next.js server, which will live update as you change files, using the `yarn dev` command.
+We will need credentials to connect with external services, such as MongoDB. It is bad security practice to commit these credentials to the codebase. Create a `.env` directly under the root directory; this file does not already exist, but there is a `.env-example` for you to copy over. Finally, talk to us to get the credentials.
 
-## Making changes
-We highly recommend that you read the first couple (three or four, if you're curious) chapters of [The Git Book](https://git-scm.com/book/en/v2) in order to figure out the general deal with git. In general, though, the process is:
+### Running The Application
 
-- Make sure your codebase is up to date using `git pull`
-- Create a branch for whatever changes you want to make, using `git branch -b <branch name>`
-- Make your changes, add them to the staging environment using `git add .`, and commit them using `git commit -m <commit message>`
-- Push your changes using `git push`
-- File a pull request on GitHub to get your changes merged into the main branch
+On terminal, type:
 
-In order to not have to sign in to Github every time you want to push or pull, follow the directions for [adding an ssh key](https://docs.github.com/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account?platform=linux). If you have trouble with this, ping Michael and he can help get you sorted!
+1. `npm install` to install all the necessary packages to run the application,
+2. `npm dev` to start development server.
+
+If the commands did not error out, then congrats! You've successfully started the server and are ready to make some changes 😁. You can visit `http://localhost:3000/` to view the website.
+
+## Development
+
+This section outlines some guidelines and expectations for development.
+
+### Making Changes
+
+We prefer small and iterative changes, as they will be easier to review. To start developing a new feature, the general development process is as follow:
+
+1. `git checkout main`
+2. `git checkout -b <Your GitHub username>/<feature>`
+3. Make your changes
+4. Once you're happy with your changes:
+   1. Make sure that `npm run build` doesn't error out,
+   2. `git add <file 1> <file 2> ... <file n>` to stage all the files you want to commit for version control,
+   3. `git commit -m "<A message to describe your changes>"`,
+5. Go to the [GitHub repository](https://github.com/JumboCode/TheLegacyProject2) to make a Pull Request (PR). After you've made a PR, request for review from someone else.
+
+## Resources / Additional Information
+
+### Git
+
+Git can be especially confusing if this is your first time using it. We recommend that you read through the first 3 chapters of [Git Book](https://git-scm.com/book/en/v2).
+
+### Next.js
+
+You may have noticed that we have 2 different folders with frontend code: `src/pages/` and `src/app/`. The first folder contain code that was developed by the Jumbo Code group last year, which uses Next.js 12. We will mostly work with `src/app` folder, which uses [Next.js 13](https://nextjs.org/docs). Therefore, when you're searching online for documentations, be sure to look at the correct Next.js version for your use case.

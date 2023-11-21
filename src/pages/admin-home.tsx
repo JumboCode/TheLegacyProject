@@ -1,23 +1,32 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
 import PhotoHeader from "@components/PhotoHeader";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { Approval, Senior, User } from "@prisma/client";
-import React, { useCallback, useMemo, useState, Dispatch, SetStateAction } from "react";
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { useRouter } from "next/router";
-import TileGrid, { SeniorTile, StudentTile } from "@components/TileGrid";
+import TileGrid, { UserTile } from "@components/TileGrid";
 import AddSenior from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import cn from "classnames";
+import { prisma } from "@server/db/client";
+import PendingCard from "@components/PendingCard";
+import { TileEdit } from "@components/TileGrid/TileEdit";
 
 type IAdminProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
 };
 
 const tabs = ["Students", "Seniors", "Pending"] as const;
-type Tabs = typeof tabs[number];
+type Tabs = (typeof tabs)[number];
 
 const Home: NextPage<IAdminProps> = ({
   me,
@@ -72,25 +81,29 @@ const Home: NextPage<IAdminProps> = ({
     }
   }, [pending, refreshData, selectedTab, seniors, students]);
 
-
   return (
-    <div className="relative flex flex-col h-full w-full place-items-stretch p-8">
+    <div className="relative flex h-full w-full flex-col place-items-stretch p-8">
       <PhotoHeader admin={true} name={me.name} />
-      <div className="flex flew-row h-[40px] bg-med-tan mb-6 justify-center sm:justify-start / 
-                      border-l border-r border-b border-darker-tan">
-          {tabs.map((tab) => (
-            <button
-              disabled={tab === "Pending" && pending.length === 0}
-              className={cn(
-                "w-full sm:w-auto text-md duration-150 hover:bg-darker-tan",
-                tab === selectedTab ? "bg-light-sage" : "bg-dark-tan",
-                )}
-              key={tab}
-              onClick={() => setSelectedTab(tab)}
-            >
-              <div className="px-6 sm:px-auto duration-150 hover:-translate-y-0.5"> {tab} </div>
-            </button>
-          ))}
+      <div
+        className="flew-row / mb-6 flex h-[40px] justify-center border-b border-l 
+                      border-r border-darker-tan bg-med-tan sm:justify-start"
+      >
+        {tabs.map((tab) => (
+          <button
+            disabled={tab === "Pending" && pending.length === 0}
+            className={cn(
+              "text-md w-full duration-150 hover:bg-darker-tan sm:w-auto",
+              tab === selectedTab ? "bg-light-sage" : "bg-dark-tan"
+            )}
+            key={tab}
+            onClick={() => setSelectedTab(tab)}
+          >
+            <div className="sm:px-auto px-6 duration-150 hover:-translate-y-0.5">
+              {" "}
+              {tab}{" "}
+            </div>
+          </button>
+        ))}
       </div>
       {body}
     </div>
@@ -112,27 +125,61 @@ function StudentBody({
   const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
 
   return (
-    <>
-      <div className="flex flex-row justify-between space-x-3 align-middle z-10">
-        <SearchBar setFilter={setFilter}/>
+    <div className="pb-12">
+      <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
+        <SearchBar setFilter={setFilter} />
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
       <TileGrid>
-          {students
-            .filter(({ name }) => name?.includes(filter))
-            .map((student) => (
+        {students
+          .filter(({ name }) => name?.includes(filter))
+          .map((student) => {
+            const options: Parameters<typeof TileEdit>[0]["options"] = [];
+
+            if (student.admin) {
+              options.push({
+                name: "Demote",
+                onClick: () => {
+                  setStudents((prev) =>
+                    prev.map((s) =>
+                      s.id === student.id ? { ...s, admin: false } : s
+                    )
+                  );
+                  fetch(`/api/student/${student.id}/demote`, {
+                    method: "POST",
+                  });
+                  refreshData();
+                },
+              });
+            } else {
+              options.push({
+                name: "Promote",
+                onClick: () => {
+                  setStudents((prev) =>
+                    prev.map((s) =>
+                      s.id === student.id ? { ...s, admin: true } : s
+                    )
+                  );
+                  fetch(`/api/student/${student.id}/promote`, {
+                    method: "POST",
+                  });
+                  refreshData();
+                },
+              });
+            }
+
+            return (
               <div className="h-auto w-auto" key={student.id}>
-                <StudentTile
+                <UserTile
                   link={"/student/" + student.id}
                   student={student}
-                  setDeactivated={setDeactivated}
-                  setStudents={setStudents}
-                  refreshData={refreshData}
+                  dropdownComponent={<TileEdit options={options} />}
                 />
               </div>
-            ))}
+            );
+          })}
       </TileGrid>
-    </>
+    </div>
   );
 }
 
@@ -153,38 +200,68 @@ function SeniorBody({
   const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
 
   return (
-  <>      
-      <div className="flex flex-row justify-between space-x-3 align-middle z-10">
-        <SearchBar setFilter={setFilter}/>
+    <div className="pb-12">
+      <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
+        <SearchBar setFilter={setFilter} />
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
-    <TileGrid>
+      <TileGrid>
         <AddSenior
-                   seniors={seniors}
-                   students={students}
-                   setSeniors={setSeniors}
-                   showAddSeniorPopUp={showAddSeniorPopUp} 
-                   setShowAddSeniorPopUp={setShowAddSeniorPopUp}
-                   seniorPatch={seniorPatch} 
-                   setSeniorPatch={setSeniorPatch}
-                   />
+          seniors={seniors}
+          students={students}
+          setSeniors={setSeniors}
+          showAddSeniorPopUp={showAddSeniorPopUp}
+          setShowAddSeniorPopUp={setShowAddSeniorPopUp}
+          seniorPatch={seniorPatch}
+          setSeniorPatch={setSeniorPatch}
+        />
+        {seniors
+          .filter(({ name }) => name?.includes(filter))
+          .map((senior) => {
+            const options: Parameters<typeof TileEdit>[0]["options"] = [];
 
-        {seniors.filter(({ name }) => name?.includes(filter))
-          .map((senior) => (
-            <div key={senior.id}>
-              <SeniorTile
-                key={senior.id}
-                link={"/senior/" + senior.id}
-                senior={senior}
-                setSeniors={setSeniors}
-                refreshData={refreshData}
-                setShowAddSeniorPopUp={setShowAddSeniorPopUp}
-                setSeniorPatch={setSeniorPatch}
-              />
-            </div>
-        ))}
+            options.push({
+              name: "Edit",
+              onClick: (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                if (!setSeniorPatch || !setShowAddSeniorPopUp) {
+                  return;
+                }
+                setSeniorPatch(senior.id);
+                setShowAddSeniorPopUp(true);
+              },
+            });
+
+            options.push({
+              name: "Delete",
+              onClick: (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                fetch(`/api/senior/${senior.id}`, {
+                  method: "DELETE",
+                });
+                if (!setSeniors) {
+                  return;
+                }
+                setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
+                refreshData();
+              },
+            });
+
+            return (
+              <div key={senior.id}>
+                <UserTile
+                  key={senior.id}
+                  link={"/senior/" + senior.id}
+                  senior={senior}
+                  dropdownComponent={<TileEdit options={options} />}
+                />
+              </div>
+            );
+          })}
       </TileGrid>
-    </>
+    </div>
   );
 }
 
@@ -201,53 +278,13 @@ function PendingBody({
   setStudents: React.Dispatch<React.SetStateAction<User[]>>;
   refreshData: () => void;
 }) {
+  // TODO(nickbar01234) - Enforce that name field is non-null.
   return (
-    <ul className="pb-9 min-h-screen">
+    <>
       {pending.map((user) => (
-        <li
-          className="flex flex-row p-4 mb-8 gap-4 items-center rounded bg-white drop-shadow-md"
-          key={user.id}
-        >
-          <Image
-            alt="Profile Picture"
-            src={user.image ?? "/profile/genericprofile.png"}
-            className="rounded"
-            width={48}
-            height={48}
-          />
-          <div className="ml-1 flex-grow">          
-            <p className="text-lg font-bold text-neutral-600">{user.name}</p>
-            <p className="text-md text-neutral-600">{user.email}</p>
-          </div>
-          <button
-            title="Reject"
-            className="flex h-8 p-5 items-center text-lg justify-center rounded \
-                       text-white bg-tag-rust hover:bg-[#B76056] drop-shadow-md duration-150 hover:-translate-y-0.5"
-            onClick={() => {
-              fetch(`/api/student/${user.id}`, { method: "DELETE" });
-              setPending((prev) => prev.filter((u) => u.id !== user.id));
-              setDeactivated((prev) => [...prev, user]);
-              refreshData();
-            }}
-          >
-            Reject
-          </button>
-          <button
-            title="Approve"
-            className="flex h-8 p-5 items-center justify-center rounded \
-                       text-white bg-dark-sage hover:bg-[#7F8E86] drop-shadow-md duration-150 hover:-translate-y-0.5 "
-            onClick={() => {
-              fetch(`/api/student/${user.id}/approve`, { method: "POST" });
-              setPending((prev) => prev.filter((u) => u.id !== user.id));
-              setStudents((prev) => [...prev, user]);
-              refreshData();
-            }}
-          >
-            Approve
-          </button>
-        </li>
+        <PendingCard key={user.id} name={user.name ?? ""} />
       ))}
-    </ul>
+    </>
   );
 }
 

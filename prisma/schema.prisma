@@ -19,7 +19,12 @@ model Account {
     providerAccountId  String
     refresh_token      String? @db.String
     access_token       String? @db.String
+
+    // Unix timestamp
+    // @todo(nickbar01234) - I actually couldn't find a document that said this definitely, but this assumption made 
+    // sense if you convert the value to regular time 
     expires_at         Int?
+
     token_type         String?
     scope              String?
     id_token           String? @db.String
@@ -46,18 +51,30 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+
+    // @deprecated Pending for removal when we expand to multiple universities
     admin         Boolean   @default(false)
+    role          Role      @default(USER)
+
     Account       Account[]
     Session       Session[]
     SeniorIDs     String[]  @db.ObjectId
     Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])
     approved      Approval  @default(PENDING)
+    ChapterID     String?   @db.ObjectId
+    Chapter       Chapter?  @relation(fields: [ChapterID], references: [id])
 }
 
 enum Approval {
     PENDING
     APPROVED
     DENIED
+}
+
+enum Role {
+    USER
+    CHAPTER_LEADER
+    ADMIN
 }
 
 model Senior {
@@ -79,6 +96,29 @@ model File {
     lastModified DateTime
     url          String
     seniorId     String   @db.ObjectId
-    senior       Senior   @relation(fields: [seniorId], references: [id])
+    senior       Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
     Tags         String[]
+}
+
+model ChapterRequest {
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  approved             Approval  @default(PENDING)
+  firstName            String
+  lastName             String
+  universityEmail      String    @unique
+  phoneNumber          String
+  university           String
+  universityAddress    String
+  leadershipExperience String
+  motivation           String
+  availabilities       String
+  questions            String
+}
+ 
+ model Chapter {
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  chapterName          String
+  location             String
+  dateCreated          DateTime  @default(now())
+  students             User[] 
 }

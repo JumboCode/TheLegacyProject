@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import PhotoHeader from "@components/PhotoHeader";
-import TileGrid, { SeniorTile } from "@components/TileGrid";
+import TileGrid, { UserTile } from "@components/TileGrid";
 
 import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
-
+import { prisma } from "@server/db/client";
 
 type IStudentProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -17,25 +17,24 @@ const StudentProfilePage = ({ student }: IStudentProps) => {
   const refreshData = useCallback(() => {
     router.replace(router.asPath);
   }, [router]);
-  
+
   console.log("Their Seniors: " + student.Seniors);
   const [seniors, setSeniors] = useState(student.Seniors);
-  
+
   return (
     <>
-      <div className="flex flex-col h-full place-items-stsetch p-8 gap-6">
-        <PhotoHeader admin={false} name={student.name}/>
-        <TileGrid >
-          {seniors.map(
-            (senior) => (
-              <SeniorTile 
-                key={student.id}
-                senior={senior}
+      <div className="place-items-stsetch flex h-full flex-col gap-6 p-8">
+        <PhotoHeader admin={false} name={student.name} />
+        <TileGrid>
+          {seniors.map((senior) => {
+            return (
+              <UserTile
+                key={senior.id}
                 link={"/senior/" + senior.id}
-                setSeniors={setSeniors}
-                refreshData={refreshData}/>
-            )
-          )}
+                senior={senior}
+              />
+            );
+          })}
         </TileGrid>
       </div>
     </>
@@ -73,7 +72,7 @@ export const getServerSideProps = async (
 
   const student = await prisma.user.findUnique({
     where: { id: studentId },
-    include: { Seniors: true }
+    include: { Seniors: true },
   });
 
   if (!student) {
@@ -84,7 +83,7 @@ export const getServerSideProps = async (
       },
     };
   }
-  
+
   return {
     props: {
       student: student,
