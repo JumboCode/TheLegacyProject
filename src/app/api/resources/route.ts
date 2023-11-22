@@ -66,14 +66,11 @@ export const DELETE = withSessionAndRole(["ADMIN"], async (request) => {
     if (!resourceRequest.success) {
       return NextResponse.json(invalidFormReponse, { status: 400 });
     } else {
-      const promises = resourceRequest.data.map((resource) =>
-        prisma.resource.delete({
-          where: {
-            id: resource.id,
-          },
-        })
-      );
-      await Promise.allSettled(promises);
+      await prisma.resource.deleteMany({
+        where: {
+          id: { in: resourceRequest.data },
+        },
+      });
 
       return NextResponse.json(batchResponseSchema.parse({ code: "SUCCESS" }));
     }
