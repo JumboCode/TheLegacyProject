@@ -3,7 +3,7 @@ import PhotoHeader from "@components/PhotoHeader";
 
 import Image from "next/legacy/image";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
-import { Approval, Senior, User } from "@prisma/client";
+import { Approval, Resource, Senior, User } from "@prisma/client";
 import React, {
   useCallback,
   useMemo,
@@ -205,6 +205,7 @@ function SeniorBody({
         <SearchBar setFilter={setFilter} />
         <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
       </div>
+
       <TileGrid>
         <AddSenior
           seniors={seniors}
