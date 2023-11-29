@@ -8,7 +8,7 @@ const AdminHomePageWrapper = async () => {
     },
   });
 
-  console.log(chapters);
+
   return <AdminHomePage chapters={chapters} />;
 };
 

@@ -1,14 +1,14 @@
-import { faEllipsis, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ChapterTileProps {
   title: string;
-  president: string;
+  president: string | null;
   numMembers: number;
   yearsActive: number;
-  emailPresident: string;
+  emailPresident: string | null;
   topRightButton: React.ReactNode;
 }
 
@@ -29,7 +29,7 @@ export function ChapterTile({
       <div className="flex gap-2.5">
         <div className=" flex w-6/12 flex-col gap-2.5">
           <div>
-            No. of Members:&nbsp;<span className="font-bold">{numMembers}</span>
+            No. of members:&nbsp;<span className="font-bold">{numMembers}</span>
           </div>
           <div>
             Years active:&nbsp;<span className="font-bold">{yearsActive}</span>

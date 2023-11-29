@@ -7,6 +7,7 @@ import { Prisma } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { TileEdit } from "./TileGrid/TileEdit";
+import { Noto_Sans_Tamil_Supplement } from "next/font/google";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -55,10 +56,10 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
               <ChapterTile
                 key={index}
                 title={chapter.chapterName}
-                president={prez?.name ?? "Stephen Burchfield"}
+                president={prez?.name ?? ""}
                 numMembers={chapter.students.length}
                 yearsActive={yearsActive}
-                emailPresident={prez?.email ?? "stephen.burchfield@tufts.edu"}
+                emailPresident={prez?.email ?? ""}
                 topRightButton={
                   <TileEdit
                     options={options}

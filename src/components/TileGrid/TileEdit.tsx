@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 /* @TODO: Add this font globally */
 import "@fontsource/merriweather";
 
@@ -66,14 +66,13 @@ function TileEditMenu({ visible, setVisible, options, icons }: ITileEditMenu) {
         visible ? "flex" : "hidden",
         "absolute z-10 flex-col rounded bg-white text-center drop-shadow-md"
       )}
-      style={{ borderRadius: "6px", paddingInline: "10px" }}
+      style={{ borderRadius: "6px" }}
     >
       <form method="dialog">
         {options.map((option, index) => (
-          <>
+          <React.Fragment key={option.name}>
             <button
-              key={option.name}
-              className="w-full p-2 px-4 hover:bg-offer-white"
+              className="w-full rounded-md p-2 px-4 hover:bg-offer-white"
               style={{
                 color: option.color,
                 display: "flex",
@@ -96,7 +95,7 @@ function TileEditMenu({ visible, setVisible, options, icons }: ITileEditMenu) {
               {option.icon}
             </button>
             {index !== options.length - 1 && <hr />}
-          </>
+          </React.Fragment>
         ))}
       </form>
     </div>
@@ -116,12 +115,34 @@ export interface TileEditProps {
 export function TileEdit({ options, icon }: TileEditProps) {
   const [visible, setVisible] = useState(false);
 
+  const tileEditRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        tileEditRef.current &&
+        !tileEditRef.current.contains(event.target as Node)
+      ) {
+        setVisible(false);
+      }
+    };
+
+    // Adding event listener when the component mounts
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleaning up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return options.length > 0 ? (
     <div
       // className="absolute right-0 top-0 w-auto p-1"
-      onMouseLeave={() => {
-        setVisible(false);
-      }}
+      // onMouseLeave={() => {
+      //   setVisible(false);
+      // }}
+      ref={tileEditRef}
     >
       <button
         onClick={() => setVisible(true)}
