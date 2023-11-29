@@ -11,6 +11,7 @@ const PendingChapters = async () => {
       {pendingChapters.map((pendingChapter) => (
         <ChapterRequest
           key={pendingChapter.id}
+          chapterRequestId={pendingChapter.id}
           universityName={pendingChapter.university}
           universityAddress={pendingChapter.universityAddress}
           name={pendingChapter.firstName + " " + pendingChapter.lastName}

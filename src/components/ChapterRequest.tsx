@@ -2,8 +2,10 @@
 import { useState } from "react";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { handleChapterRequest } from "src/app/api/handle-chapter-request/route.client";
 
 type ButtonProps = {
+  chapterRequestId: string;
   universityName: string;
   universityAddress: string;
   name: string;
@@ -16,6 +18,7 @@ type ButtonProps = {
 };
 
 const ChapterRequest = ({
+  chapterRequestId,
   universityName,
   universityAddress,
   name,
@@ -88,10 +91,46 @@ const ChapterRequest = ({
             <p>{questions}</p>
           </div>
           <div className="mt-2.5 flex flex-row space-x-2 pt-2">
-            <div className="w-1/2 rounded-xl bg-dark-green py-1 text-center text-white hover:bg-[#1b4448]">
+            <div
+              className="w-1/2 rounded-xl bg-dark-green py-1 text-center text-white hover:bg-[#1b4448]"
+              onClick={async () => {
+                handleChapterRequest({
+                  body: {
+                    chapterRequestId: chapterRequestId,
+                    approved: true,
+                  },
+                }).then((res) => {
+                  if (res.code === "SUCCESS_ACCEPTED") {
+                    window.location.reload();
+                  } else if (res.code === "SUCCESS_DECLINED") {
+                    alert("STOP HACKING US");
+                  } else {
+                    alert("Please refresh the page and try again");
+                  }
+                });
+              }}
+            >
               Accept
             </div>
-            <div className="w-1/2 rounded-xl bg-sunset-orange py-1 text-center text-white hover:bg-[#ED5858]">
+            <div
+              className="w-1/2 rounded-xl bg-sunset-orange py-1 text-center text-white hover:bg-[#ED5858]"
+              onClick={async () => {
+                handleChapterRequest({
+                  body: {
+                    chapterRequestId: chapterRequestId,
+                    approved: false,
+                  },
+                }).then((res) => {
+                  if (res.code === "SUCCESS_DECLINED") {
+                    window.location.reload();
+                  } else if (res.code === "SUCCESS_ACCEPTED") {
+                    alert("STOP HACKING US");
+                  } else {
+                    alert("Please refresh the page and try again");
+                  }
+                });
+              }}
+            >
               Decline
             </div>
           </div>
