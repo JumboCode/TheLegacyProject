@@ -2,6 +2,7 @@ import { UserTile } from "@components/TileGrid";
 import { prisma } from "@server/db/client";
 import { useParams } from "next/navigation";
 import PathNav, { PathInfoType } from "@components/PathNav";
+import DisplayChapterInfo from "@components/DisplayChapterInfo";
 // import ChapterPage from "@components/ChapterPage";
 
 interface ChapterPageParams {
@@ -37,25 +38,14 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
     <>
       <div className="h-fit">
         <PathNav pathInfo={[chapterPath, currchapterPath]} />
-        <div className="font-merriweather mt-5 text-2xl font-bold">
+        <div className="font-merriweather mb-3 mt-5 text-2xl font-bold text-[#000022]">
           {chapter.chapterName}
         </div>
-        <div className="font-merriweather mt-3 flex h-1/5 w-5/6 flex-col justify-between rounded-md bg-white p-8">
-          <div className="flex flex-row text-start">
-            <div>Location: </div>
-            <div className="ml-2 font-bold">{chapter?.location}</div>
-          </div>
-          <div className="flex flex-row text-start">
-            <div>No. of members: </div>
-            <div className="ml-2 font-bold">{chapter.students.length}</div>
-          </div>
-          <div className="flex flex-row text-start">
-            <div>Years Active: </div>
-            <div className="ml-2 font-bold">
-              {curr_year - chapter?.dateCreated.getFullYear()}
-            </div>
-          </div>
-        </div>
+        <DisplayChapterInfo
+          location={chapter.location}
+          noMembers={chapter.students.length}
+          yearsActive={curr_year - chapter?.dateCreated.getFullYear()}
+        />
         <div className="font-merriweather mt-5 text-xl font-bold">
           Executive Board
         </div>
@@ -67,7 +57,7 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
             ))}
         </div>
         <div className="font-merriweather mt-5 text-xl font-bold">
-          Pending (
+          Pending Members (
           {chapter.students.filter((user) => user.approved == "PENDING").length}
           )
         </div>
@@ -80,15 +70,11 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
         </div>
         <div className="font-merriweather mt-5 text-xl font-bold">
           Members (
-          {
-            chapter.students.filter((user) => user.role != "CHAPTER_LEADER")
-              .length
-          }
-          )
+          {chapter.students.filter((user) => user.role == "USER").length})
         </div>
         <div className="flex gap-x-8 pt-6">
           {chapter.students
-            .filter((user) => user.role != "CHAPTER_LEADER")
+            .filter((user) => user.role == "USER")
             .map((user) => (
               <UserTile key={user.id} student={user} link="" />
             ))}

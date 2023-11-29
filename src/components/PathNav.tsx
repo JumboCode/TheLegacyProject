@@ -2,6 +2,7 @@
 
 import React from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 interface PathNavParams {
   pathInfo: PathInfoType[];
@@ -13,7 +14,7 @@ export type PathInfoType = {
 };
 
 const PathNav = ({ pathInfo }: PathNavParams) => {
-  const currentPath = "http://localhost:3000" + usePathname();
+  const currentPath = usePathname() as string;
 
   const getPath = (currentIndex: number) => {
     const segments = currentPath.split("/");
@@ -28,17 +29,17 @@ const PathNav = ({ pathInfo }: PathNavParams) => {
     <div className="mt-6">
       <div className="font-merriweather flex flex-row">
         {pathInfo.map((currPath, index, array) => (
-          <>
+          <React.Fragment key={index}>
             {index !== 0 && <div className="px-2">&gt;</div>}
-            <a
-              href={`${getPath(index)}`}
+            <Link
+              href={getPath(index)}
               className={
                 index === array.length - 1 ? "text-dark-teal" : "text-black"
               }
             >
               {currPath.display}
-            </a>
-          </>
+            </Link>
+          </React.Fragment>
         ))}
       </div>
     </div>
