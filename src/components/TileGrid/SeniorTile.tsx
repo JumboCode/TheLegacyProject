@@ -1,10 +1,12 @@
 /* @deprecated */
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TileEdit } from "./TileEdit";
 import { Senior } from "@prisma/client";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
 import { deleteSenior } from "src/app/api/senior/[id]/route.client";
+import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 interface ISeniorTileProps {
   senior: Senior;
@@ -35,19 +37,25 @@ export function SeniorTile({
         setSeniorPatch(senior.id);
         setShowAddSeniorPopUp(true);
       },
+      color: "#22555A",
+      icon: <FontAwesomeIcon icon={faPencil} />,
     },
     {
       name: "Delete",
       onClick: (e) => {
         e.stopPropagation();
         e.preventDefault();
-        deleteSenior({ seniorId: senior.id });
+        fetch(`/api/senior/${senior.id}`, {
+          method: "DELETE",
+        });
         if (!setSeniors) {
           return;
         }
         setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
         refreshData();
       },
+      color: "#EF6767",
+      icon: <FontAwesomeIcon icon={faTrashCan} />,
     },
   ];
 
