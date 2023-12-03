@@ -1,6 +1,5 @@
 import { UserTile } from "@components/TileGrid";
 import { prisma } from "@server/db/client";
-import { useParams } from "next/navigation";
 import PathNav, { PathInfoType } from "@components/PathNav";
 import DisplayChapterInfo from "@components/DisplayChapterInfo";
 // import ChapterPage from "@components/ChapterPage";
@@ -49,7 +48,7 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
         <div className="font-merriweather mt-5 text-xl font-bold">
           Executive Board
         </div>
-        <div className="flex gap-x-8 pt-6">
+        <div className="flex flex-wrap gap-10 pt-6">
           {chapter.students
             .filter((user) => user.role == "CHAPTER_LEADER")
             .map((user) => (
@@ -61,7 +60,7 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
           {chapter.students.filter((user) => user.approved == "PENDING").length}
           )
         </div>
-        <div className="flex gap-x-8 pt-6">
+        <div className="flex flex-wrap gap-10 pt-6">
           {chapter.students
             .filter((user) => user.approved == "PENDING")
             .map((user) => (
@@ -72,7 +71,7 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
           Members (
           {chapter.students.filter((user) => user.role == "USER").length})
         </div>
-        <div className="flex w-5/6 flex-wrap gap-x-8 pt-6">
+        <div className="flex flex-wrap gap-10 pt-6">
           {chapter.students
             .filter((user) => user.role == "USER")
             .map((user) => (
