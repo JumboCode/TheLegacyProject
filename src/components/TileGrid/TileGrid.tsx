@@ -1,3 +1,5 @@
+"use client";
+
 interface ITileGridProps {
   children: React.ReactNode;
 }
