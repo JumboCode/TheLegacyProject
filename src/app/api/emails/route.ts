@@ -19,10 +19,11 @@ export const POST = async (request: NextRequest) => {
       const body = email.data;
 
       //Check for valid email
-      const reg = new RegExp("[^@]{1, 64}@[^s]{1, 255}");
+      const reg = new RegExp("[^s\t\n\r][^@]{1,64}@[^s\t\n\r]{1,255}");
       const validEmail = reg.test(body.email);
 
       if (!validEmail) {
+        console.log(body.email);
         return NextResponse.json(
           EmailResponse.parse({
             code: "INVALID_EMAIL",

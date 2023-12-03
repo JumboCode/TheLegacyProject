@@ -1,6 +1,7 @@
 "use client";
 import React, { FormEvent, FocusEvent, useState } from "react";
 import FlowerBox from "@components/FlowerBox";
+import { EmailResponse } from "@api/emails/route.schema";
 
 const LandingFooter = () => {
   const [email, setEmail] = useState<string>("");
@@ -19,26 +20,25 @@ const LandingFooter = () => {
   const onEmailSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const pattern = [""].join();
-
-    const validEmailRegex = new RegExp(pattern);
     // if box isn't empty and content is a valid email, add it to the set
 
-    if (email && validEmailRegex.test(email)) {
+    if (email) {
       eList.add(email);
       setEList(eList);
 
       // use SendGrid 'subscribe' route to send a test email
       const res = await fetch("/api/emails", {
-        body: JSON.stringify({ to: email }),
-        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email }),
         method: "POST",
       });
 
-      const { error } = await res.json();
-      if (error) {
-        console.log(error);
+      const responseObject = EmailResponse.parse(await res.json());
+      if (responseObject.code == "INVALID_EMAIL") {
         setButtonText("Invalid Email");
+        setButtonStyle("bg-light-rust"); // no hover
+        return;
+      } else if (responseObject.code == "DUPLICATE_EMAIL") {
+        setButtonText("Duplicate Email");
         setButtonStyle("bg-light-rust"); // no hover
         return;
       }
