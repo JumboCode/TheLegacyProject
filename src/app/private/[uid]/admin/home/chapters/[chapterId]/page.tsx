@@ -72,7 +72,7 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
           Members (
           {chapter.students.filter((user) => user.role == "USER").length})
         </div>
-        <div className="flex gap-x-8 pt-6">
+        <div className="flex w-5/6 flex-wrap gap-x-8 pt-6">
           {chapter.students
             .filter((user) => user.role == "USER")
             .map((user) => (
