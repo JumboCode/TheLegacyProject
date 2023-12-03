@@ -1,7 +1,12 @@
 "use client";
 
 import Sidebar, { ISideBar } from "@components/Sidebar";
-import { faHome, faHouseLock, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEnvelope,
+  faHome,
+  faHouseLock,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import React, { useContext } from "react";
 import { UserContext } from "src/context/UserProvider";
 
@@ -22,6 +27,11 @@ const AdminLayout = ({ children }: IAdminLayout) => {
         name: "Pending Chapters",
         link: `/private/${user.id}/admin/pending-chapters`,
         icon: faHouseLock,
+      },
+      {
+        name: "E-list",
+        link: `/private/${user.id}/admin/elist`,
+        icon: faEnvelope,
       },
       {
         name: "Profile",

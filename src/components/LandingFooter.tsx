@@ -19,10 +19,7 @@ const LandingFooter = () => {
   const onEmailSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const pattern = [
-      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))",
-      "+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])",
-    ].join();
+    const pattern = [""].join();
 
     const validEmailRegex = new RegExp(pattern);
     // if box isn't empty and content is a valid email, add it to the set
@@ -32,7 +29,7 @@ const LandingFooter = () => {
       setEList(eList);
 
       // use SendGrid 'subscribe' route to send a test email
-      const res = await fetch("/api/sendgrid/subscribe", {
+      const res = await fetch("/api/emails", {
         body: JSON.stringify({ to: email }),
         headers: { "Content-Type": "application/json" },
         method: "POST",
@@ -72,7 +69,7 @@ const LandingFooter = () => {
             exec@thelegacyproject.org.
           </a>
         </p>
-        {/* <form
+        <form
           className="mx-auto flex w-3/4 flex-col justify-center gap-[20px] sm:flex-row"
           method="post"
           onSubmit={onEmailSubmit}
@@ -95,7 +92,7 @@ const LandingFooter = () => {
               {buttonText}
             </span>
           </button>
-        </form> */}
+        </form>
       </FlowerBox>
     </div>
   );
