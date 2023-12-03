@@ -18,7 +18,6 @@ const PathNav = ({ pathInfo }: PathNavParams) => {
 
   const getPath = (currentIndex: number, segment: string) => {
     const segments = currentPath.split("/");
-    console.log(segments);
     const index = segments.findLastIndex((value) => value === segment) + 1;
     const path = segments.slice(0, index);
     return path.join("/");
