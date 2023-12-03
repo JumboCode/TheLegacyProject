@@ -16,12 +16,11 @@ export type PathInfoType = {
 const PathNav = ({ pathInfo }: PathNavParams) => {
   const currentPath = usePathname() as string;
 
-  const getPath = (currentIndex: number) => {
+  const getPath = (currentIndex: number, segment: string) => {
     const segments = currentPath.split("/");
-    const path = segments.slice(
-      0,
-      segments.length - (pathInfo.length - currentIndex - 1)
-    );
+    console.log(segments);
+    const index = segments.findLastIndex((value) => value === segment) + 1;
+    const path = segments.slice(0, index);
     return path.join("/");
   };
 
@@ -32,7 +31,7 @@ const PathNav = ({ pathInfo }: PathNavParams) => {
           <React.Fragment key={index}>
             {index !== 0 && <div className="px-2">&gt;</div>}
             <Link
-              href={getPath(index)}
+              href={getPath(index, currPath.url)}
               className={
                 index === array.length - 1 ? "text-dark-teal" : "text-black"
               }
