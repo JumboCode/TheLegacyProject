@@ -1,56 +1,88 @@
-import Link from "next/link";
-import Image from "next/legacy/image";
-import { signOut } from "next-auth/react";
+"use client";
 
-const SidebarItem = ({ label } : { label: string }) => {
+import Link from "next/link";
+import React, { useContext, useState } from "react";
+import { signOut } from "next-auth/react";
+import {
+  faArrowRightFromBracket,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { UserContext } from "src/context/UserProvider";
+
+interface Button {
+  name: string;
+  icon: IconDefinition;
+  link: string;
+}
+
+export interface ISideBar {
+  buttons: Button[];
+}
+
+const SidebarItem = ({
+  label,
+  iconName,
+}: {
+  label: string;
+  iconName: IconDefinition;
+}) => {
   return (
-    <div className="w-full px-4 p-2 text-md text-left font-serif duration-150 hover:bg-darker-tan">
-      <div className="duration-150 hover:translate-x-1">{label}</div>
+    <div className="flex w-full space-x-4 text-left font-serif duration-150 hover:translate-x-1">
+      <div className="flex w-1/6 items-center justify-center">
+        <FontAwesomeIcon icon={iconName} size="lg" />
+      </div>
+      <div className="flex w-5/6 items-center text-xl">{label}</div>
     </div>
   );
 };
 
-const Sidebar = ({ displayName } : { displayName: string }) => {
+const Sidebar = ({ buttons }: ISideBar) => {
+  const { user } = useContext(UserContext);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const handleMenuClick: React.MouseEventHandler = () => {
+    setSidebarVisible((visible) => !visible);
+  };
+
   return (
-    <div className="flex flex-col w-[160px] h-screen top-0 py-12 justify-start gap-20 \
-                    bg-med-tan border-r border-darker-tan">
-          <div className="flex flex-col p-4 place-items-center">
-            <Link href="/">
-              <h1 className="font-serif text-center text-2xl duration-150 hover:-translate-y-0.5 z-10">
-                The Legacy Project
-              </h1>
+    <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-between bg-med-tan px-11 py-20">
+      <div className="w-full">
+        <Link href="/public/">
+          <h1 className="z-10 mb-8 text-center font-serif text-3xl duration-150 hover:-translate-y-0.5">
+            The Legacy Project
+          </h1>
+        </Link>
+        <div className="flex w-full flex-col space-y-6">
+          {buttons.map((data) => (
+            <Link key={data.name} href={data.link}>
+              <SidebarItem label={data.name} iconName={data.icon} />
             </Link>
-
-            <span className="absolute h-[60px] aspect-square left-3 top-[48px] rotate-45 opacity-60">
-              <Image 
-                src="/landing/pink-flower.png"
-                layout="fill"
-                objectFit="cover"
-                // TODO(nickbar01234) - Write a more descriptive alt
-                alt="Pink flower"
-              />
-            </span>
-
-            <span className="absolute h-[60px] aspect-square top-[70px] left-[88px] opacity-40">
-              <Image 
-                src="/landing/yellow-flower.png"
-                layout="fill"
-                objectFit="cover"
-                // TODO(nickbar01234) - Write a more descriptive alt
-                alt="Yellow flower"
-              />
-            </span>
-          </div>
-
-        <div className="flex flex-col w-full bg-dark-tan border border-darker-tan">
-          {/* TODO(nickbar01234) - Point this to something... */}
-          <Link href="/home">
-            <SidebarItem label="Home"/>
-          </Link>
-          <button onClick={() => signOut({ callbackUrl: "/" })}>
-            <SidebarItem label="Sign Out"/>
-          </button>
+          ))}
         </div>
+      </div>
+
+      <div className="w-full">
+        {/* TODO(nickbar01234) - Render university name */}
+        {/* <div className="text-md flex pb-2 pt-20 text-left font-serif text-xxs text-dark-gray">
+          <div className="w-4">
+            <FontAwesomeIcon icon={faCity} />
+          </div>
+          University
+        </div>
+        <div className="text-md flex w-full text-left font-serif text-xs">
+          Tufts University
+        </div> */}
+        <hr className="my-6 h-px w-full rounded border-0 bg-black" />
+        <div className="mb-1 flex w-full text-left font-serif text-lg font-bold">
+          {user.name ?? ""}
+        </div>
+        <div className="flex w-full pb-6 pt-0 text-left font-serif text-sm text-med-gray">
+          {user.role[0] + user.role.toLowerCase().slice(1)}
+        </div>
+        <button onClick={() => signOut({ callbackUrl: "/public/" })}>
+          <SidebarItem label="Sign Out" iconName={faArrowRightFromBracket} />
+        </button>
+      </div>
     </div>
   );
 };

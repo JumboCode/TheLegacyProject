@@ -1,8 +1,8 @@
-import { User } from "@prisma/client";
+import { Role } from "@prisma/client";
 import { Session, getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "src/app/api/auth/[...nextauth]/route";
-import { unauthorizedErrorResponse } from "src/app/api/route.schema";
+import { authOptions } from "@api/auth/[...nextauth]/route";
+import { unauthorizedErrorResponse } from "@api/route.schema";
 
 /**
  * NextApiParams is of type dictionary when an endpoint with dynamic url is hit.
@@ -26,7 +26,7 @@ type NextApiHandler = (
   params: NextApiParams
 ) => Promise<NextResponse>;
 
-type SessionApiHandler = (
+export type SessionApiHandler = (
   params: AuthorizedSessionApiHandlerParams
 ) => Promise<NextResponse>;
 
@@ -46,11 +46,31 @@ const withSession = (handler: SessionApiHandler): NextApiHandler => {
   };
 };
 
+const withSessionAndRole = (
+  role: Array<Role>,
+  handler: SessionApiHandler
+): NextApiHandler => {
+  return async (req, params) => {
+    const session = await getServerSession(authOptions);
+    if (session == null || session.user == undefined) {
+      return NextResponse.json(unauthorizedErrorResponse);
+    }
+
+    const user = session.user;
+
+    if (!role.includes(user.role)) {
+      return NextResponse.json(unauthorizedErrorResponse);
+    }
+
+    return handler({ session: { ...session, user }, req, params });
+  };
+};
+
 /**
  * Enforces that the API is called by a user with a valid role.
  */
 const withRole = (
-  role: Array<User["role"]>,
+  role: Array<Role>,
   handler: SessionApiHandler
 ): SessionApiHandler => {
   return async (params) => {
@@ -62,3 +82,4 @@ const withRole = (
 };
 
 export { withSession, withRole };
+export { withSessionAndRole };

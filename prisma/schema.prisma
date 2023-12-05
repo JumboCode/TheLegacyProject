@@ -96,7 +96,7 @@ model File {
     lastModified DateTime
     url          String
     seniorId     String   @db.ObjectId
-    senior       Senior   @relation(fields: [seniorId], references: [id])
+    senior       Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
     Tags         String[]
 }
 
@@ -115,10 +115,17 @@ model ChapterRequest {
   questions            String
 }
  
- model Chapter {
+model Chapter {
   id                   String    @id @default(auto()) @map("_id") @db.ObjectId
   chapterName          String
   location             String
   dateCreated          DateTime  @default(now())
   students             User[] 
+}
+
+model Resource {
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    access       Role[]
+    link         String
+    title        String
 }

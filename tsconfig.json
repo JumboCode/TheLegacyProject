@@ -18,6 +18,7 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
+      "@api/*": ["./src/app/api/*"],
       "@server/*": ["./src/server/*"],
       "@components/*": ["./src/components/*"],
       "@env/*": ["./src/env/*"]
@@ -36,5 +37,5 @@
     "**/*.mjs",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "./src/**/*.spec.ts"]
+  "exclude": ["node_modules"]
 }

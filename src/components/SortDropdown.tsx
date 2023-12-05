@@ -29,14 +29,14 @@ export default function SortDropdown({
   return (
     <div className="relative">
       <button
-        className="flex flex-row items-center gap-2 text-sm h-[40px] bg-off-white border border-darker-tan p-4"
+        className="flex h-[40px] flex-row items-center gap-2 whitespace-nowrap rounded-lg bg-white p-4 pr-10 text-sm"
         onClick={() => setOpen(!open)}
       >
         <SortIcon />
-        Sort
+        <span>Sort by</span>
       </button>
       {open && (
-        <div className="absolute right-0 top-16 flex w-max flex-col overflow-hidden rounded-lg border border-gray-300">
+        <div className="absolute right-0 top-16 z-10 flex w-max flex-col overflow-hidden rounded-lg border border-gray-300">
           {(["By Name", "By Last Modified"] as SortMethod[]).map((method) => (
             <button
               key={method}
@@ -45,7 +45,9 @@ export default function SortDropdown({
                 setSortMethod(method);
               }}
               className={cn(
-                method === sortMethod ? "bg-light-sage" : "bg-off-white hover:bg-offer-white",
+                method === sortMethod
+                  ? "bg-light-sage"
+                  : "bg-off-white hover:bg-offer-white",
                 "px-5 pb-3 pt-4 text-center"
               )}
             >

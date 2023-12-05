@@ -1,3 +1,4 @@
+import TabButtons from "@components/TabButtons";
 import { HeaderContainer } from "@components/container/index";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 
@@ -7,15 +8,14 @@ interface IAdminHomeLayout {
 
 const AdminHomeLayout = ({ children }: IAdminHomeLayout) => {
   return (
-    <>
-      <HeaderContainer
-        header="Home"
-        headerIcon={faHouse}
-        showHorizontalLine={false}
-      >
-        {children}
-      </HeaderContainer>
-    </>
+    <HeaderContainer
+      header="Home"
+      headerIcon={faHouse}
+      showHorizontalLine={false}
+    >
+      <TabButtons queries={["chapters", "resources"]} />
+      {children}
+    </HeaderContainer>
   );
 };
 
