@@ -103,7 +103,7 @@ const ChapterRequest = ({
                   },
                 }).then((res) => {
                   if (res.code === "SUCCESS_ACCEPTED") {
-                    router.reload();
+                    router.refresh();
                   } else if (res.code === "SUCCESS_DECLINED") {
                     alert("STOP HACKING US");
                   } else {
@@ -124,7 +124,7 @@ const ChapterRequest = ({
                   },
                 }).then((res) => {
                   if (res.code === "SUCCESS_DECLINED") {
-                    router.reload();
+                    router.refresh();
                   } else if (res.code === "SUCCESS_ACCEPTED") {
                     alert("STOP HACKING US");
                   } else {
