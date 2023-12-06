@@ -4,7 +4,7 @@ import NewChapterForm from "@components/NewChapterForm";
 
 const StartChapter = () => {
   return (
-    <div className="h-fit bg-med-tan px-64 pb-20">
+    <div className="min-h-screen bg-med-tan px-64">
       <div className="py-3">
         <div className="py-2 text-4xl font-bold">Start a Chapter</div>
         <div className="pt-6 text-2xl font-semibold">

@@ -226,7 +226,7 @@ const NewChapterForm = () => {
           <div className="grid place-items-center pt-8">
             <input
               type="submit"
-              className="w-1/12 cursor-pointer items-center rounded-lg bg-white px-1 py-1 text-center text-dark-teal"
+              className="cursor-pointer items-center rounded-xl bg-white px-4 py-2.5 text-center text-dark-teal"
             />
           </div>
         </form>
