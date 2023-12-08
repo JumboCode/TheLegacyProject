@@ -5,6 +5,7 @@ import ResourceTile from "@components/ResourceTile";
 import { Resource } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { v4 as uuid } from "uuid";
 
 interface IDisplayResources {
   resources: Resource[];
@@ -15,7 +16,6 @@ interface ResourceState extends Resource {
   state: "UNEDITED" | "EDITED" | "DELETED" | "CREATED";
 }
 
-// TODO (johnny) - Create button and use setState to set the isEdit
 const DisplayResources = (props: IDisplayResources) => {
   const [edit, setEdit] = React.useState(false);
   const [stateResources, setStateResources] = React.useState<ResourceState[]>(
@@ -23,17 +23,27 @@ const DisplayResources = (props: IDisplayResources) => {
       props.resources.map((resource) => ({ state: "UNEDITED", ...resource }))
   );
 
-  const onDelete = (resource: Resource) => {
+  const onAddResource = () => {
+    setStateResources((prev) => [
+      ...prev,
+      { state: "CREATED", id: uuid(), title: "", access: [], link: "" },
+    ]);
+    setEdit(true);
+  };
+
+  const onDelete = (deletedResource: Resource) => {
     setStateResources((prev) => {
-      return prev.map((prevResource) => {
-        if (
-          prevResource.id === resource.id &&
-          prevResource.state !== "CREATED"
-        ) {
-          return { ...prevResource, state: "DELETED" };
-        }
-        return prevResource;
-      });
+      const otherResources = prev.filter(
+        (resource) => resource.id !== deletedResource.id
+      );
+      const prevResource = prev.find(
+        (prevResource) => prevResource.id === deletedResource.id
+      );
+      if (prevResource == undefined || prevResource.state === "CREATED") {
+        return otherResources;
+      } else {
+        return [...otherResources, { ...prevResource, state: "DELETED" }];
+      }
     });
   };
 
@@ -41,7 +51,9 @@ const DisplayResources = (props: IDisplayResources) => {
     <div className="mt-6">
       <div className="flex justify-between">
         <button className="flex w-44 items-center justify-between rounded-xl border border-dark-teal px-4 py-2.5">
-          <p className="text-base font-normal">Add resource</p>
+          <p className="text-base font-normal" onClick={onAddResource}>
+            Add resource
+          </p>
           <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
         </button>
         {edit ? (
@@ -68,7 +80,9 @@ const DisplayResources = (props: IDisplayResources) => {
               isEdit={edit}
               showRole={props.showRole}
               onDelete={onDelete}
-              onEdit={(resource) => { return; }}
+              onEdit={(resource) => {
+                return;
+              }}
             />
           ))}
       </div>

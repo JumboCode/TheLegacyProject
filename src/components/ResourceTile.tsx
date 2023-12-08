@@ -15,7 +15,13 @@ interface IResourceProp {
   onDelete: (resource: Resource) => void;
 }
 
-const ResourceTile = ({ showRole, resource, isEdit, onDelete, onEdit }: IResourceProp) => {
+const ResourceTile = ({
+  showRole,
+  resource,
+  isEdit,
+  onDelete,
+  onEdit,
+}: IResourceProp) => {
   const displayRow =
     showRole &&
     resource.access.length === 1 &&
@@ -25,11 +31,11 @@ const ResourceTile = ({ showRole, resource, isEdit, onDelete, onEdit }: IResourc
     <div className="flex w-full flex-col gap-y-2.5 rounded-lg bg-white px-8 py-6">
       <input
         className="w-full rounded-xl bg-tan px-4 py-2.5"
-        value={resource.title}
+        defaultValue={resource.title}
       />
       <input
         className="w-full rounded-xl bg-tan px-4 py-2.5"
-        value={resource.link}
+        defaultValue={resource.link}
       />
       <label className="flex items-center">
         <input type="checkbox" className="mr-1.5" />
