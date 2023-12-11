@@ -31,7 +31,6 @@ export const POST = async (request: NextRequest) => {
           id: String(body.chapterRequestId),
         },
       });
-
       if (!chapterRequest) {
         return NextResponse.json(
           HandleChapterRequestResponse.parse({
@@ -42,34 +41,53 @@ export const POST = async (request: NextRequest) => {
           { status: 400 }
         );
       }
-
-      // Regardless of approved/denied, delete the chapter request
-      await prisma.chapterRequest.delete({
-        where: {
-          id: body.chapterRequestId,
-        },
-      });
-      // If approved, create a new chapter
-      if (body.approved == true) {
+      // Check if the chapter request has already been approved/denied
+      if (chapterRequest.approved !== "PENDING") {
+        return NextResponse.json(
+          {
+            code: "INVALID_REQUEST",
+            message: "Invalid API request",
+          },
+          { status: 400 }
+        );
+      }
+      // If approved, create a new chapter and update approved field of chapter request
+      if (body.approved === true) {
         await prisma.chapter.create({
           data: {
             chapterName: chapterRequest.university,
             location: chapterRequest.universityAddress,
           },
         });
+        await prisma.chapterRequest.update({
+          where: {
+            id: body.chapterRequestId,
+          },
+          data: {
+            approved: "APPROVED",
+          },
+        });
         return NextResponse.json(
           HandleChapterRequestResponse.parse({
-            code: "SUCCESS_ACCEPTED",
-            message: "Chapter request successfully accepted",
+            code: "SUCCESS",
+            message: "Chapter request successfully handled",
           }),
           { status: 200 }
         );
       }
-      // If denied do nothing
+      // If denied just updated approved field of chapter request
+      await prisma.chapterRequest.update({
+        where: {
+          id: body.chapterRequestId,
+        },
+        data: {
+          approved: "DENIED",
+        },
+      });
       return NextResponse.json(
         HandleChapterRequestResponse.parse({
-          code: "SUCCESS_DECLINED",
-          message: "Chapter request successfully declined",
+          code: "SUCCESS",
+          message: "Chapter request successfully handled",
         }),
         { status: 200 }
       );

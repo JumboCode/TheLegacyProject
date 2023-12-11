@@ -27,14 +27,9 @@ interface IRequest extends Omit<RequestInit, "body"> {
   body: IHandleChapterRequest;
 }
 
-const MOCK_SUCCESS_ACCEPTED: IHandleChapterRequestResponse = {
-  code: "SUCCESS_ACCEPTED",
-  message: "Chapter request successfully accepted",
-};
-
-const MOCK_SUCCESS_DECLINED: IHandleChapterRequestResponse = {
-  code: "SUCCESS_DECLINED",
-  message: "Chapter request successfully declined",
+const MOCK_SUCCESS: IHandleChapterRequestResponse = {
+  code: "SUCCESS",
+  message: "Chapter request successfully handled",
 };
 
 const MOCK_INVALID_REQUEST: IHandleChapterRequestResponse = {
@@ -62,10 +57,8 @@ export const handleChapterRequest = async (
   request: IRequest,
   mock?: HandleChapterRequestResponseCode
 ) => {
-  if (mock === "SUCCESS_ACCEPTED") {
-    return HandleChapterRequestResponse.parse(MOCK_SUCCESS_ACCEPTED);
-  } else if (mock === "SUCCESS_DECLINED") {
-    return HandleChapterRequestResponse.parse(MOCK_SUCCESS_DECLINED);
+  if (mock === "SUCCESS") {
+    return HandleChapterRequestResponse.parse(MOCK_SUCCESS);
   } else if (mock === "INVALID_REQUEST") {
     return HandleChapterRequestResponse.parse(MOCK_INVALID_REQUEST);
   } else if (mock === "UNKNOWN") {
