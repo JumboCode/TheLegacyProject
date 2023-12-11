@@ -1,16 +1,15 @@
-"use client";
+import AdminHomePage from "@components/AdminHomePage";
+import { prisma } from "@server/db/client";
 
-import SearchBar from "@components/SearchBar";
-import { useState } from "react";
+const AdminChaptersPage = async () => {
+  const chapters = await prisma.chapter.findMany({
+    include: {
+      students: true,
+    },
+  });
 
-const AdminChaptersPage = () => {
-  const [filter, setFilter] = useState("");
-
-  return (
-    <div className="mb-6 mt-6 flex gap-2.5">
-      <SearchBar setFilter={setFilter} />
-    </div>
-  );
+  
+  return <AdminHomePage chapters={chapters} />;
 };
 
 export default AdminChaptersPage;

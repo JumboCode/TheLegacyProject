@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { Role } from "@prisma/client";
 import { Session, getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@api/auth/[...nextauth]/route";
@@ -46,11 +46,31 @@ const withSession = (handler: SessionApiHandler): NextApiHandler => {
   };
 };
 
+const withSessionAndRole = (
+  role: Array<Role>,
+  handler: SessionApiHandler
+): NextApiHandler => {
+  return async (req, params) => {
+    const session = await getServerSession(authOptions);
+    if (session == null || session.user == undefined) {
+      return NextResponse.json(unauthorizedErrorResponse);
+    }
+
+    const user = session.user;
+
+    if (!role.includes(user.role)) {
+      return NextResponse.json(unauthorizedErrorResponse);
+    }
+
+    return handler({ session: { ...session, user }, req, params });
+  };
+};
+
 /**
  * Enforces that the API is called by a user with a valid role.
  */
 const withRole = (
-  role: Array<User["role"]>,
+  role: Array<Role>,
   handler: SessionApiHandler
 ): SessionApiHandler => {
   return async (params) => {
@@ -62,3 +82,4 @@ const withRole = (
 };
 
 export { withSession, withRole };
+export { withSessionAndRole };
