@@ -1,11 +1,11 @@
 import { HeaderContainer } from "@components/container/index";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 
-interface IProfileLayout {
+interface IEditProfileLayout {
   children: React.ReactNode;
 }
 
-const ProfileLayout = ({ children }: IProfileLayout) => {
+const EditProfileLayout = ({ children }: IEditProfileLayout) => {
   return (
     <HeaderContainer
       header="Profile"
@@ -17,4 +17,4 @@ const ProfileLayout = ({ children }: IProfileLayout) => {
   );
 };
 
-export default ProfileLayout;
+export default EditProfileLayout;

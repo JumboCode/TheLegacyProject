@@ -3,6 +3,7 @@ import { useState } from "react";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { handleChapterRequest } from "src/app/api/handle-chapter-request/route.client";
+import { useRouter } from "next/navigation";
 
 type ButtonProps = {
   chapterRequestId: string;
@@ -29,6 +30,7 @@ const ChapterRequest = ({
   availabilities,
   questions,
 }: ButtonProps) => {
+  const router = useRouter();
   const [showMore, setShowMore] = useState(false);
   return (
     <div className="grid h-min w-full rounded-lg bg-white p-6 text-xs">
@@ -59,7 +61,7 @@ const ChapterRequest = ({
       {showMore ? (
         <div>
           <div
-            className="text-dark-green underline"
+            className="cursor-pointer text-dark-green underline"
             onClick={() => setShowMore((b) => !b)}
           >
             Show less
@@ -92,7 +94,7 @@ const ChapterRequest = ({
           </div>
           <div className="mt-2.5 flex flex-row space-x-2 pt-2">
             <div
-              className="w-1/2 rounded-xl bg-dark-green py-1 text-center text-white hover:bg-[#1b4448]"
+              className="w-1/2 cursor-pointer rounded-xl bg-dark-green py-1 text-center text-white hover:bg-[#1b4448]"
               onClick={async () => {
                 handleChapterRequest({
                   body: {
@@ -101,7 +103,7 @@ const ChapterRequest = ({
                   },
                 }).then((res) => {
                   if (res.code === "SUCCESS_ACCEPTED") {
-                    window.location.reload();
+                    router.refresh();
                   } else if (res.code === "SUCCESS_DECLINED") {
                     alert("STOP HACKING US");
                   } else {
@@ -113,7 +115,7 @@ const ChapterRequest = ({
               Accept
             </div>
             <div
-              className="w-1/2 rounded-xl bg-sunset-orange py-1 text-center text-white hover:bg-[#ED5858]"
+              className="w-1/2 cursor-pointer rounded-xl bg-sunset-orange py-1 text-center text-white hover:bg-[#ED5858]"
               onClick={async () => {
                 handleChapterRequest({
                   body: {
@@ -122,7 +124,7 @@ const ChapterRequest = ({
                   },
                 }).then((res) => {
                   if (res.code === "SUCCESS_DECLINED") {
-                    window.location.reload();
+                    router.refresh();
                   } else if (res.code === "SUCCESS_ACCEPTED") {
                     alert("STOP HACKING US");
                   } else {
@@ -138,7 +140,7 @@ const ChapterRequest = ({
       ) : (
         <div>
           <div
-            className="text-dark-green underline"
+            className="cursor-pointer text-dark-green underline"
             onClick={() => setShowMore((b) => !b)}
           >
             Show more

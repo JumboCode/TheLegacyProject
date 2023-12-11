@@ -55,12 +55,15 @@ const HomePage = () => {
           {/* Action Items Buttons */}
 
           <div className="flex w-full flex-row flex-wrap place-items-center justify-center gap-[20px]">
-            <Button
-              text="Start a Chapter"
-              color="bg-tag-rust"
-              hover="hover:bg-dark-rust"
-              link={chapterInitForm}
-            />
+            <h3>
+              <Button
+                text="Start a Chapter"
+                color="bg-tag-rust"
+                hover="hover:bg-dark-rust"
+                link="/public/start-chapter"
+              />
+            </h3>
+
             <Button
               text="TLP Chapter Resources"
               color="bg-tag-rust"

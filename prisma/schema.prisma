@@ -2,110 +2,114 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mongodb"
-    url      = env("DATABASE_URL")
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 // Necessary for Next auth
 model Account {
-    id                 String  @id @default(auto()) @map("_id") @db.ObjectId
-    userId             String  @db.ObjectId
-    type               String
-    provider           String
-    providerAccountId  String
-    refresh_token      String? @db.String
-    access_token       String? @db.String
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
 
-    // Unix timestamp
-    // @todo(nickbar01234) - I actually couldn't find a document that said this definitely, but this assumption made 
-    // sense if you convert the value to regular time 
-    expires_at         Int?
+  // Unix timestamp
+  // @todo(nickbar01234) - I actually couldn't find a document that said this definitely, but this assumption made 
+  // sense if you convert the value to regular time 
+  expires_at Int?
 
-    token_type         String?
-    scope              String?
-    id_token           String? @db.String
-    session_state      String?
-    oauth_token_secret String?
-    oauth_token        String?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.String
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
 
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
-    id           String   @id @default(auto()) @map("_id") @db.ObjectId
-    sessionToken String   @unique
-    userId       String   @db.ObjectId
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id            String    @id @default(auto()) @map("_id") @db.ObjectId
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  firstName     String    @default("")
+  lastName      String    @default("")
+  pronouns      String    @default("")
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  position      String?
 
-    // @deprecated Pending for removal when we expand to multiple universities
-    admin         Boolean   @default(false)
-    role          Role      @default(USER)
+  // @deprecated Pending for removal when we expand to multiple universities
+  admin Boolean @default(false)
+  role  Role    @default(USER)
 
-    Account       Account[]
-    Session       Session[]
-    SeniorIDs     String[]  @db.ObjectId
-    Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])
-    approved      Approval  @default(PENDING)
-    ChapterID     String?   @db.ObjectId
-    Chapter       Chapter?  @relation(fields: [ChapterID], references: [id])
+  Account   Account[]
+  Session   Session[]
+  SeniorIDs String[]  @db.ObjectId
+  Seniors   Senior[]  @relation(fields: [SeniorIDs], references: [id])
+  approved  Approval  @default(PENDING)
+  ChapterID String?   @db.ObjectId
+  Chapter   Chapter?  @relation(fields: [ChapterID], references: [id])
 }
 
 enum Approval {
-    PENDING
-    APPROVED
-    DENIED
+  PENDING
+  APPROVED
+  DENIED
 }
 
 enum Role {
-    USER
-    CHAPTER_LEADER
-    ADMIN
+  USER
+  CHAPTER_LEADER
+  ADMIN
 }
 
 model Senior {
-    id          String   @id @default(auto()) @map("_id") @db.ObjectId
-    name        String
-    location    String
-    description String
-    StudentIDs  String[] @db.ObjectId
-    Students    User[]   @relation(fields: [StudentIDs], references: [id])
-    folder      String
-    Files       File[]
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  location    String
+  description String
+  StudentIDs  String[] @db.ObjectId
+  Students    User[]   @relation(fields: [StudentIDs], references: [id])
+  folder      String
+  Files       File[]
 }
 
 model File {
-    id           String   @id @default(auto()) @map("_id") @db.ObjectId
-    name         String
-    description  String
-    filetype     String
-    lastModified DateTime
-    url          String
-    seniorId     String   @db.ObjectId
-    senior       Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
-    Tags         String[]
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String
+  filetype     String
+  lastModified DateTime
+  url          String
+  seniorId     String   @db.ObjectId
+  senior       Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
+  Tags         String[]
 }
 
 model ChapterRequest {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  approved             Approval  @default(PENDING)
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  approved             Approval @default(PENDING)
   firstName            String
   lastName             String
-  universityEmail      String    @unique
+  universityEmail      String   @unique
   phoneNumber          String
   university           String
   universityAddress    String
@@ -114,13 +118,13 @@ model ChapterRequest {
   availabilities       String
   questions            String
 }
- 
+
 model Chapter {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  chapterName          String
-  location             String
-  dateCreated          DateTime  @default(now())
-  students             User[] 
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  chapterName String
+  location    String
+  dateCreated DateTime @default(now())
+  students    User[]
 }
 
 model Resource {
@@ -128,4 +132,9 @@ model Resource {
     access       Role[]
     link         String
     title        String
+}
+
+model Email {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    email       String   @unique
 }
