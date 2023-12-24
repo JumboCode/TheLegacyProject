@@ -138,3 +138,10 @@ model Email {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     email       String   @unique
 }
+
+model UserRequest {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  approved             Approval @default(PENDING)
+  uid                  String   @db.ObjectId                 
+  chapterId            String   @db.ObjectId                 
+}
