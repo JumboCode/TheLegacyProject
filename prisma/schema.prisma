@@ -142,6 +142,6 @@ model Email {
 model UserRequest {
   id                   String   @id @default(auto()) @map("_id") @db.ObjectId
   approved             Approval @default(PENDING)
-  uid                  String   @db.ObjectId                 
+  uid                  String   @db.ObjectId @unique                 
   chapterId            String   @db.ObjectId                 
 }

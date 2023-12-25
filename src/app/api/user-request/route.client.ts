@@ -1,17 +1,16 @@
 import { z } from "zod";
-import { JoinChapterRequest, JoinChapterRequestResponse } from "./route.schema";
+import {
+  JoinChapterRequest,
+  JoinChapterRequestResponse,
+  UndoChapterRequestResponse,
+} from "./route.schema";
 
-type IJoinChapterRequest = z.infer<typeof JoinChapterRequest>;
-
-/**
- * Extends the parameters of fetch() function to give types to the RequestBody.
- */
-interface IRequest extends Omit<RequestInit, "body"> {
-  body: IJoinChapterRequest;
+interface IJoinChapterRequest extends Omit<RequestInit, "body"> {
+  body: z.infer<typeof JoinChapterRequest>;
 }
 
 export const handleJoinChapterRequest = async (
-  request: IRequest,
+  request: IJoinChapterRequest
 ) => {
   const { body, ...options } = request;
   const response = await fetch("/api/user-request", {
@@ -22,4 +21,15 @@ export const handleJoinChapterRequest = async (
   const json = await response.json();
 
   return JoinChapterRequestResponse.parse(json);
+};
+
+export const handleUndoChapterRequest = async (
+  request: Omit<RequestInit, "body"> = {}
+) => {
+  const response = await fetch("/api/user-request", {
+    method: "DELETE",
+    ...request,
+  });
+  const json = await response.json();
+  return UndoChapterRequestResponse.parse(json);
 };

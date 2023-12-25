@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { JoinChapterRequest, JoinChapterRequestResponse } from "./route.schema";
+import {
+  JoinChapterRequest,
+  JoinChapterRequestResponse,
+  UndoChapterRequestResponse,
+} from "./route.schema";
 import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator/index";
 
@@ -65,6 +69,41 @@ export const POST = withSession(async ({ req, session }) => {
   } catch (e: any) {
     return NextResponse.json(
       JoinChapterRequestResponse.parse({ code: "UNKNOWN" }),
+      { status: 500 }
+    );
+  }
+});
+
+export const DELETE = withSession(async ({ session }) => {
+  try {
+    const joinChapterRequest = await prisma.userRequest.findFirst({
+      where: {
+        uid: session.user.id,
+      },
+    });
+
+    if (joinChapterRequest == null) {
+      return NextResponse.json(
+        UndoChapterRequestResponse.parse({
+          code: "INVALID_REQUEST",
+          message: "User doesn't have any active request"
+        }),
+        { status: 400 }
+      );
+    }
+
+    await prisma.userRequest.delete({
+      where: {
+        uid: session.user.id
+      },
+    });
+
+    return NextResponse.json(
+      UndoChapterRequestResponse.parse({ code: "SUCCESS" })
+    );
+  } catch (e: any) {
+    return NextResponse.json(
+      UndoChapterRequestResponse.parse({ code: "UNKNOWN" }),
       { status: 500 }
     );
   }

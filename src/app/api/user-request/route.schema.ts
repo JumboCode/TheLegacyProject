@@ -8,5 +8,11 @@ export const JoinChapterRequest = z.object({
 export const JoinChapterRequestResponse = z.discriminatedUnion("code", [
   z.object({ code: z.literal("SUCCESS") }),
   z.object({ code: z.literal("INVALID_REQUEST"), message: z.string() }),
-  unknownErrorSchema
+  unknownErrorSchema,
+]);
+
+export const UndoChapterRequestResponse = z.discriminatedUnion("code", [
+  z.object({ code: z.literal("SUCCESS") }),
+  z.object({ code: z.literal("INVALID_REQUEST"), message: z.string() }),
+  unknownErrorSchema,
 ]);
