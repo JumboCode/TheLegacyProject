@@ -1,5 +1,6 @@
 import PathNav from "@components/PathNav";
 import FileTile from "@components/TileGrid/FileTile";
+import { CardGrid } from "@components/container";
 import { prisma } from "@server/db/client";
 
 interface Params {
@@ -34,7 +35,7 @@ const SeniorPage = async ({ params }: Params) => {
   });
 
   return (
-    <>
+    <div className="flex h-full w-full flex-col gap-y-6">
       <PathNav
         pathInfo={[
           { display: "Chapters", url: "chapters" },
@@ -43,25 +44,28 @@ const SeniorPage = async ({ params }: Params) => {
           { display: senior.name, url: seniorId },
         ]}
       />
-      <div className="mt-6 flex flex-col gap-6">
-        <h1 className="text-2xl font-bold text-[#000022]">{senior.name}</h1>
-        {senior.description.length > 0 && (
-          <p className="text-[15px]">{senior.description}</p>
-        )}
-        <div className="flex flex-wrap gap-10">
-          {senior.Files.map((file) => (
-            <FileTile
-              key={file.id}
-              id={file.id}
-              name={file.name}
-              lastModified={new Date(file.lastModified)}
-              url={file.url}
-              Tags={file.Tags}
-            />
-          ))}
-        </div>
-      </div>
-    </>
+
+      <CardGrid
+        title={
+          <>
+            <h1 className="text-2xl font-bold text-[#000022]">{senior.name}</h1>
+            {senior.description.length > 0 && (
+              <p className="text-[15px]">{senior.description}</p>
+            )}
+          </>
+        }
+        tiles={senior.Files.map((file) => (
+          <FileTile
+            key={file.id}
+            id={file.id}
+            name={file.name}
+            lastModified={new Date(file.lastModified)}
+            url={file.url}
+            Tags={file.Tags}
+          />
+        ))}
+      />
+    </div>
   );
 };
 
