@@ -1,6 +1,7 @@
 import PathNav from "@components/PathNav";
 import { UserTile } from "@components/TileGrid";
 import { prisma } from "@server/db/client";
+import { CardGrid } from "@components/container";
 
 interface Params {
   params: {
@@ -22,7 +23,7 @@ const UserPage = async ({ params }: Params) => {
   });
 
   return (
-    <>
+    <div className="flex h-full w-full flex-col gap-y-6">
       <PathNav
         pathInfo={[
           { display: "Chapters", url: "chapters" },
@@ -31,17 +32,21 @@ const UserPage = async ({ params }: Params) => {
         ]}
       />
       {/* TODO(nickbar01234) - Add pronouns */}
-      <h1 className="mt-6 text-2xl font-bold text-[#002]">{user.name ?? ""}</h1>
-      <div className="mt-6 flex flex-wrap gap-10">
-        {user.Seniors.map((senior) => (
+      <CardGrid
+        title={
+          <div className="font-merriweather text-2xl font-bold text-[#002]">
+            {user.name ?? ""}
+          </div>
+        }
+        tiles={user.Seniors.map((senior) => (
           <UserTile
             key={senior.id}
             senior={senior}
-            link={`/private/${uid}/admin/home/chapters/${chapterId}/users/${userId}/seniors/${senior.id}`}
+            link={`/private/${uid}/admin/home/chapters/${chapterId}/users/${user.id}/seniors/${senior.id}`}
           />
         ))}
-      </div>
-    </>
+      />
+    </div>
   );
 };
 

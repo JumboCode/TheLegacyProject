@@ -22,7 +22,6 @@
       "@server/*": ["./src/server/*"],
       "@components/*": ["./src/components/*"],
       "@env/*": ["./src/env/*"],
-      "@api/*": ["./src/app/api/*"]
     },
     "plugins": [
       {

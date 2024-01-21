@@ -22,7 +22,7 @@ export function UserTile({
   return (
     <div className="w-40 rounded-lg bg-white">
       <div className="h-40 w-40 rounded-lg bg-white drop-shadow-md hover:bg-off-white">
-        <Link href={link}>
+        <Link href={link} className={link === "" ? "pointer-events-none" : "pointer-events-auto"}>
           <div className="h-full w-full object-cover">
             {student ? (
               <Image
