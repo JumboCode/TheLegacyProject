@@ -99,14 +99,14 @@ model Senior {
 
 model File {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  description  String
+  date         DateTime // will restrict hours to midnight 
   filetype     String
-  lastModified DateTime
   url          String
   seniorId     String   @db.ObjectId
   senior       Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
   Tags         String[]
+
+  @@unique([seniorId, date])
 }
 
 model ChapterRequest {
