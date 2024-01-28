@@ -1,12 +1,14 @@
 /**
  * @todo Migrate the other routes
  */
-import { withSession } from "@server/decorator";
+import { withSession, withSessionAndRole } from "@server/decorator";
 import { NextResponse } from "next/server";
 import {
   seniorDeleteResponse,
   seniorPatchResponse,
   patchSeniorSchema,
+  postSeniorSchema,
+  seniorPostResponse,
 } from "./route.schema";
 import { prisma } from "@server/db/client";
 
@@ -142,6 +144,37 @@ export const PATCH = withSession(async ({ params, req }) => {
     console.log("Error", e);
     return NextResponse.json(
       seniorPatchResponse.parse({ code: "UNKNOWN", message: "Network error" }),
+      { status: 500 }
+    );
+  }
+});
+
+export const POST = withSessionAndRole(["CHAPTER_LEADER"], async (request) => {
+  try {
+    const body = await request.req.json();
+    const newsenior = postSeniorSchema.safeParse(body);
+
+    if (!newsenior.success) {
+      return NextResponse.json(
+        seniorPostResponse.parse({ code: "UNKNOWN", message: "Network error" }),
+        { status: 500 }
+      );
+    }
+    const newSeniordata = newsenior.data;
+
+    const senior = await prisma.senior.create({
+      data: {
+        ...newSeniordata
+      },
+    })
+
+    return NextResponse.json(
+      seniorPostResponse.parse({ code: "UNKNOWN", message: "Network error" }),
+      { status: 500 }
+    );
+  } catch {
+    return NextResponse.json(
+      seniorPostResponse.parse({ code: "UNKNOWN", message: "Network error" }),
       { status: 500 }
     );
   }
