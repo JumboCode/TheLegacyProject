@@ -59,13 +59,22 @@ export const createFile = async (
   } else if (mock === "UNKNOWN") {
     return FileResponse.parse(MOCK_UNKNOWN);
   }
+  console.log("About to start post request:");
   const { body, ...options } = request;
+  console.log(body);
+  console.log(request);
+  console.log(JSON.stringify(body));
   const response = await fetch("/api/file", {
     method: "POST",
     body: JSON.stringify(body),
     ...options,
   });
+
+  console.log("We've made our response");
+
   const json = await response.json();
 
+  console.log("Made json: ", json);
+  console.log("Returning from createFile function...");
   return FileResponse.parse(json);
 };

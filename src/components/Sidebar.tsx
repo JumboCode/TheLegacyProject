@@ -12,6 +12,9 @@ import { UserContext } from "src/context/UserProvider";
 import Logo from "@public/icons/logo.svg";
 import Image from "next/image";
 
+// todo: DELETE this (for testing purposes )
+import { createFile } from "src/app/api/file/route.client";
+
 interface Button {
   name: string;
   icon: IconDefinition;
@@ -21,6 +24,30 @@ interface Button {
 export interface ISideBar {
   buttons: Button[];
 }
+
+interface IRequest extends Omit<RequestInit, "body"> {
+  body: File;
+}
+
+export interface File {
+  date: string;
+  filetype: string;
+  url: string;
+  Tags: string[];
+  seniorId: string;
+}
+
+const myFile: File = {
+  date: "Jan 30 2024",
+  filetype: "Google Document",
+  url: "",
+  Tags: ["Adolescence", "Marriage", "Early childhood"],
+  seniorId: "65ad4d19a029b78419e9265c",
+};
+
+const myRequest: IRequest = {
+  body: myFile,
+};
 
 const SidebarItem = ({
   label,
@@ -75,6 +102,9 @@ const Sidebar = ({ buttons }: ISideBar) => {
         <div className="text-md flex w-full text-left font-serif text-xs">
           Tufts University
         </div> */}
+        <button onClick={async () => await createFile(myRequest)}>
+          <SidebarItem label="Create File" iconName={faArrowRightFromBracket} />
+        </button>
         <hr className="my-6 h-px w-full rounded border-0 bg-black" />
         <div className="mb-1 flex w-full text-left font-serif text-lg font-bold">
           {user.name ?? ""}
