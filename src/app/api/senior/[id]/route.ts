@@ -7,8 +7,8 @@ import {
   seniorDeleteResponse,
   seniorPatchResponse,
   patchSeniorSchema,
-  postSeniorSchema,
   seniorPostResponse,
+  seniorSchema,
 } from "./route.schema";
 import { prisma } from "@server/db/client";
 
@@ -152,26 +152,66 @@ export const PATCH = withSession(async ({ params, req }) => {
 export const POST = withSessionAndRole(["CHAPTER_LEADER"], async (request) => {
   try {
     const body = await request.req.json();
-    const newsenior = postSeniorSchema.safeParse(body);
+    const nextParams: { id: string } = request.params;
+    const { id: userId } = nextParams;
+    const newSenior = seniorSchema.safeParse(body);
 
-    if (!newsenior.success) {
+    if (!newSenior.success) {
       return NextResponse.json(
-        seniorPostResponse.parse({ code: "UNKNOWN", message: "Network error" }),
+        seniorPostResponse.parse({
+          code: "UNKNOWN",
+          message: "Network error",
+        }),
         { status: 500 }
       );
+    } else {
+      const user = await prisma.user.findFirst({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!user) {
+        return NextResponse.json(
+          seniorPatchResponse.parse({
+            code: "UNKNOWN",
+            message: "User was not found",
+          })
+        );
+      }
+      const newSeniorData = newSenior.data;
+
+      if (user?.ChapterID != newSeniorData.ChapterID) {
+        return NextResponse.json(
+          seniorPatchResponse.parse({
+            code: "ERROR",
+            message: "User has no authority to add",
+          })
+        );
+      }
+
+      const senior = await prisma.senior.create({
+        data: {
+          ...newSeniorData,
+        },
+      });
+
+      if (!senior) {
+        return NextResponse.json(
+          seniorPatchResponse.parse({
+            code: "UNKNOWN",
+            message: "Network error",
+          })
+        );
+      }
+
+      return NextResponse.json(
+        seniorPatchResponse.parse({
+          code: "SUCCESS",
+          data: senior,
+        })
+      );
     }
-    const newSeniordata = newsenior.data;
-
-    const senior = await prisma.senior.create({
-      data: {
-        ...newSeniordata
-      },
-    })
-
-    return NextResponse.json(
-      seniorPostResponse.parse({ code: "UNKNOWN", message: "Network error" }),
-      { status: 500 }
-    );
   } catch {
     return NextResponse.json(
       seniorPostResponse.parse({ code: "UNKNOWN", message: "Network error" }),
