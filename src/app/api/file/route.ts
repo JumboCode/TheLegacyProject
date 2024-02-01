@@ -3,6 +3,7 @@ import { File, FileResponse } from "./route.schema";
 import { google } from "googleapis";
 import { prisma } from "@server/db/client";
 import { withSession } from "../../../server/decorator";
+import { env } from "../../../env/server.mjs";
 
 export const POST = withSession(async (request) => {
   try {
@@ -13,8 +14,8 @@ export const POST = withSession(async (request) => {
     })) ?? { access_token: null };
 
     const auth = new google.auth.OAuth2({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     });
 
     auth.setCredentials({
@@ -29,6 +30,7 @@ export const POST = withSession(async (request) => {
 
     const body = await request.req.json();
     body.date = new Date(body.date);
+    body.date.setHours(0, 0, 0, 0);
 
     const fileRequest = File.safeParse(body);
 
@@ -43,6 +45,25 @@ export const POST = withSession(async (request) => {
       );
     } else {
       const fileData = fileRequest.data;
+
+      /* Check that user has this senior assigned to them */
+      const { SeniorIDs } = await prisma.user.findFirst({
+        where: {
+          id: request.session.user.id,
+        },
+      });
+
+      if (
+        !SeniorIDs.some((seniorId: string) => seniorId === fileData.seniorId)
+      ) {
+        return NextResponse.json(
+          FileResponse.parse({
+            code: "NOT_AUTHORIZED",
+            message: "Senior not assigned to user",
+          }),
+          { status: 404 }
+        );
+      }
 
       // get senior from database
       const foundSenior = await prisma.senior.findUnique({
@@ -81,6 +102,7 @@ export const POST = withSession(async (request) => {
         fields: "id",
       };
 
+      /* NOTE: File will still be created on Drive even if it fails on MongoDB */
       const file = await (service as NonNullable<typeof service>).files.create(
         fileCreateData
       );
@@ -88,7 +110,7 @@ export const POST = withSession(async (request) => {
       const googleFileId = file.data.id; // used to have (file as any) - do we need this?
 
       // If the data is valid, save it to the database via prisma client
-      const fileEntry = await prisma?.file.create({
+      await prisma?.file.create({
         data: {
           date: fileData.date,
           filetype: fileData.filetype,

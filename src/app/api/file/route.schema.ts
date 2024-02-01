@@ -35,8 +35,8 @@ export const FileResponse = z.discriminatedUnion("code", [
     message: z.literal("Unknown error received"),
   }),
   z.object({
-    code: z.literal("DUPLICATE_DATE"),
-    message: z.literal("A file associated with this date already exists"),
+    code: z.literal("NOT_AUTHORIZED"),
+    message: z.literal("Senior not assigned to user"),
   }),
 ]);
 

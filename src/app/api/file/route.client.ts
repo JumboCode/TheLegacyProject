@@ -25,11 +25,6 @@ const MOCK_SUCCESS: IFileResponse = {
   message: "File successfully added",
 };
 
-const MOCK_DUPLICATE_DATE: IFileResponse = {
-  code: "DUPLICATE_DATE",
-  message: "A file associated with this date already exists",
-};
-
 const MOCK_UNKNOWN: IFileResponse = {
   code: "UNKNOWN",
   message: "Unknown error received",
@@ -54,27 +49,19 @@ export const createFile = async (
     return FileResponse.parse(MOCK_SUCCESS);
   } else if (mock === "INVALID_FILE") {
     return FileResponse.parse(MOCK_INVALID_FILE);
-  } else if (mock === "DUPLICATE_DATE") {
-    return FileResponse.parse(MOCK_DUPLICATE_DATE);
   } else if (mock === "UNKNOWN") {
     return FileResponse.parse(MOCK_UNKNOWN);
   }
-  console.log("About to start post request:");
+
   const { body, ...options } = request;
-  console.log(body);
-  console.log(request);
-  // console.log(JSON.stringify(body));
+
   const response = await fetch("/api/file", {
     method: "POST",
     body: JSON.stringify(body),
     ...options,
   });
 
-  console.log("We've made our response");
-
   const json = await response.json();
 
-  console.log("Made json: ", json);
-  console.log("Returning from createFile function...");
   return FileResponse.parse(json);
 };
