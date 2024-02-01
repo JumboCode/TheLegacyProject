@@ -14,7 +14,7 @@ import { unauthorizedErrorSchema, unknownErrorSchema } from "@api/route.schema";
 */
 
 export const File = z.object({
-  date: z.string(),
+  date: z.date(),
   filetype: z.string(),
   url: z.string(),
   Tags: z.array(z.string()),

@@ -63,7 +63,7 @@ export const createFile = async (
   const { body, ...options } = request;
   console.log(body);
   console.log(request);
-  console.log(JSON.stringify(body));
+  // console.log(JSON.stringify(body));
   const response = await fetch("/api/file", {
     method: "POST",
     body: JSON.stringify(body),

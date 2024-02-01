@@ -30,7 +30,7 @@ interface IRequest extends Omit<RequestInit, "body"> {
 }
 
 export interface File {
-  date: string;
+  date: Date;
   filetype: string;
   url: string;
   Tags: string[];
@@ -38,7 +38,7 @@ export interface File {
 }
 
 const myFile: File = {
-  date: "Jan 30 2024",
+  date: new Date(),
   filetype: "Google Document",
   url: "",
   Tags: ["Adolescence", "Marriage", "Early childhood"],

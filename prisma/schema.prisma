@@ -99,7 +99,7 @@ model Senior {
 
 model File {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  date         String // will restrict hours to midnight 
+  date         DateTime // will restrict hours to midnight 
   filetype     String
   url          String
   seniorId     String   @db.ObjectId
