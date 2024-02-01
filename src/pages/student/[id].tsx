@@ -1,12 +1,14 @@
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import PhotoHeader from "@components/PhotoHeader";
-import TileGrid, { UserTile } from "@components/TileGrid";
+import { UserTile } from "@components/TileGrid";
+import { Senior } from "@prisma/client";
 
 import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
 import { prisma } from "@server/db/client";
+import SearchableContainer from "@components/SearchableContainer";
 
 type IStudentProps = Awaited<ReturnType<typeof getServerSideProps>>["props"] & {
   redirect: undefined;
@@ -25,8 +27,12 @@ const StudentProfilePage = ({ student }: IStudentProps) => {
     <>
       <div className="place-items-stsetch flex h-full flex-col gap-6 p-8">
         <PhotoHeader admin={false} name={student.name} />
-        <TileGrid>
-          {seniors.map((senior) => {
+
+        <SearchableContainer<Senior>
+          className="\ mx-8 mt-6 grid grid-cols-2 gap-12 pr-8 sm:grid-cols-3
+                      md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+          elements={seniors}
+          display={(senior: Senior) => {
             return (
               <UserTile
                 key={senior.id}
@@ -34,8 +40,8 @@ const StudentProfilePage = ({ student }: IStudentProps) => {
                 senior={senior}
               />
             );
-          })}
-        </TileGrid>
+          }}
+        />
       </div>
     </>
   );
