@@ -1,10 +1,18 @@
+"use client";
+
 import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 
+import {
+  handleManageChapterRequest,
+  handleAcceptChapterRequest,
+} from "@api/user-request/route.client";
+
 interface IPendingCard {
   name: string;
+  uid: string;
 }
 
 const PendingCard = (props: IPendingCard) => {
@@ -18,10 +26,29 @@ const PendingCard = (props: IPendingCard) => {
         {props.name}
       </div>
       <div className="flex flex-col gap-2 text-white">
-        <button className="rounded-2xl bg-dark-teal py-1 text-sm transition duration-300 ease-in-out hover:-translate-y-1">
+        <button
+          className="rounded-2xl bg-dark-teal py-1 text-sm transition duration-300 ease-in-out hover:-translate-y-1"
+          onClick={() =>
+            handleAcceptChapterRequest({
+              body: {
+                userId: props.uid,
+              },
+            })
+          }
+        >
           Accept
         </button>
-        <button className="rounded-2xl bg-sunset-orange py-1 text-sm transition duration-300 ease-in-out hover:-translate-y-1">
+        <button
+          className="rounded-2xl bg-sunset-orange py-1 text-sm transition duration-300 ease-in-out hover:-translate-y-1"
+          onClick={() => {
+            console.log(props.uid);
+            handleManageChapterRequest({
+              body: {
+                userId: props.uid,
+              },
+            });
+          }}
+        >
           Reject
         </button>
       </div>

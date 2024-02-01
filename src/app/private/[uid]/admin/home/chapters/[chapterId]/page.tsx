@@ -3,6 +3,7 @@ import { CardGrid } from "@components/container";
 import { prisma } from "@server/db/client";
 import PathNav, { PathInfoType } from "@components/PathNav";
 import DisplayChapterInfo from "@components/DisplayChapterInfo";
+import PendingCard from "@components/PendingCard";
 
 interface ChapterPageParams {
   params: {
@@ -19,6 +20,13 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
     include: {
       students: true,
     },
+  });
+
+  const chapterRequests = await prisma.userRequest.findMany({
+    where: { chapterId: params.chapterId, approved: "PENDING" },
+  });
+  const requestUsers = await prisma.user.findMany({
+    where: { id: { in: chapterRequests.map((req) => req.uid) } },
   });
 
   const chapterPath: PathInfoType = {
@@ -63,19 +71,16 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
       <CardGrid
         title={
           <div className="font-merriweather text-xl font-bold">
-            Pending (
-            {
-              chapter.students.filter((user) => user.approved === "PENDING")
-                .length
-            }
-            )
+            Pending ({requestUsers.length})
           </div>
         }
-        tiles={chapter.students
-          .filter((user) => user.approved === "PENDING")
-          .map((user) => (
-            <UserTile key={user.id} student={user} link={""} />
-          ))}
+        tiles={requestUsers.map((user) => (
+          <PendingCard
+            key={user.id}
+            name={user.name ? user.name : ""}
+            uid={user.id}
+          />
+        ))}
       />
       <CardGrid
         title={
