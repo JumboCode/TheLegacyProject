@@ -1,8 +1,5 @@
-import { UserTile } from "@components/TileGrid";
-import { CardGrid } from "@components/container";
 import { prisma } from "@server/db/client";
-import PathNav, { PathInfoType } from "@components/PathNav";
-import DisplayChapterInfo from "@components/DisplayChapterInfo";
+import { DisplayChapter } from "@components/admin";
 
 interface ChapterPageParams {
   params: {
@@ -21,81 +18,7 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
     },
   });
 
-  const chapterPath: PathInfoType = {
-    display: "Chapters",
-    url: "chapters",
-  };
-
-  const currchapterPath: PathInfoType = {
-    display: chapter.chapterName,
-    url: params.chapterId,
-  };
-
-  // TODO(nickbar0123) - Use the information to display breadcrumb + profiles
-  return (
-    <div className="flex h-fit flex-col gap-y-6">
-      <PathNav pathInfo={[chapterPath, currchapterPath]} />
-      <div className="font-merriweather text-2xl font-bold text-[#000022]">
-        {chapter.chapterName}
-      </div>
-      <DisplayChapterInfo
-        location={chapter.location}
-        noMembers={chapter.students.length}
-        dateCreated={chapter.dateCreated}
-      />
-      <CardGrid
-        title={
-          <div className="font-merriweather text-xl font-bold">
-            Executive Board
-          </div>
-        }
-        tiles={chapter.students
-          .filter((user) => user.role == "CHAPTER_LEADER")
-          .map((user) => (
-            <UserTile
-              key={user.id}
-              student={user}
-              link={`/private/${params.uid}/admin/home/chapters/${params.chapterId}/users/${user.id}`}
-            />
-          ))}
-      />
-
-      <CardGrid
-        title={
-          <div className="font-merriweather text-xl font-bold">
-            Pending (
-            {
-              chapter.students.filter((user) => user.approved === "PENDING")
-                .length
-            }
-            )
-          </div>
-        }
-        tiles={chapter.students
-          .filter((user) => user.approved === "PENDING")
-          .map((user) => (
-            <UserTile key={user.id} student={user} link={""} />
-          ))}
-      />
-      <CardGrid
-        title={
-          <div className="font-merriweather text-xl font-bold">
-            Members (
-            {chapter.students.filter((user) => user.role == "USER").length})
-          </div>
-        }
-        tiles={chapter.students
-          .filter((user) => user.role == "USER")
-          .map((user) => (
-            <UserTile
-              key={user.id}
-              student={user}
-              link={`/private/${params.uid}/admin/home/chapters/${params.chapterId}/users/${user.id}`}
-            />
-          ))}
-      />
-    </div>
-  );
+  return <DisplayChapter chapter={chapter} uid={params.uid} />;
 };
 
 export default ChapterPage;
