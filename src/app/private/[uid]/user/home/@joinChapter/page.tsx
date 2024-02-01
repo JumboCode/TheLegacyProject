@@ -19,7 +19,13 @@ const UserJoinChapterPage = async ({ params }: UserHomePageParams) => {
     },
   });
 
-  return <UserJoinRequest chapters={chapters} joinRequest={joinRequest} />;
+  return (
+    <UserJoinRequest
+      chapters={chapters}
+      joinRequest={joinRequest}
+      uid={params.uid}
+    />
+  );
 };
 
 export default UserJoinChapterPage;

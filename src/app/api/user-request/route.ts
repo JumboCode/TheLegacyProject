@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import {
   JoinChapterRequest,
-  ApproveChapterRequest,
+  ManageChapterRequest,
   JoinChapterRequestResponse,
-  UndoChapterRequestResponse,
-  ApproveChapterRequestResponse,
+  ManageChapterRequestResponse,
 } from "./route.schema";
 import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator/index";
@@ -76,8 +75,36 @@ export const POST = withSession(async ({ req, session }) => {
   }
 });
 
-export const DELETE = withSession(async ({ session }) => {
+export const DELETE = withSession(async ({ req, session }) => {
   try {
+    const denyChapterReq = ManageChapterRequest.safeParse(await req.json());
+
+    if (!denyChapterReq.success) {
+      return NextResponse.json(
+        ManageChapterRequestResponse.parse({
+          code: "INVALID_REQUEST",
+          message: "Invalid request body",
+        }),
+        { status: 400 }
+      );
+    }
+
+    const targetUID = denyChapterReq.data.userId;
+    const target = await prisma.user.findFirst({
+      where: {
+        id: targetUID,
+      },
+    });
+    if (target == null) {
+      return NextResponse.json(
+        ManageChapterRequestResponse.parse({
+          code: "INVALID_REQUEST",
+          message: "User doesn't exist",
+        }),
+        { status: 400 }
+      );
+    }
+
     const joinChapterRequest = await prisma.userRequest.findFirst({
       where: {
         uid: session.user.id,
@@ -86,7 +113,7 @@ export const DELETE = withSession(async ({ session }) => {
 
     if (joinChapterRequest == null) {
       return NextResponse.json(
-        UndoChapterRequestResponse.parse({
+        ManageChapterRequestResponse.parse({
           code: "INVALID_REQUEST",
           message: "User doesn't have any active request",
         }),
@@ -94,18 +121,34 @@ export const DELETE = withSession(async ({ session }) => {
       );
     }
 
+    const canApprove =
+      session.user.role === "ADMIN" ||
+      (session.user.role === "CHAPTER_LEADER" &&
+        session.user.ChapterID === joinChapterRequest.chapterId) ||
+      session.user.id === targetUID;
+
+    if (!canApprove) {
+      return NextResponse.json(
+        ManageChapterRequestResponse.parse({
+          code: "UNAUTHORIZED_REQUEST",
+          message: "User doesn't have permission to deny request",
+        }),
+        { status: 400 }
+      );
+    }
+
     await prisma.userRequest.delete({
       where: {
-        uid: session.user.id,
+        uid: targetUID,
       },
     });
 
     return NextResponse.json(
-      UndoChapterRequestResponse.parse({ code: "SUCCESS" })
+      ManageChapterRequestResponse.parse({ code: "SUCCESS" })
     );
   } catch (e: any) {
     return NextResponse.json(
-      UndoChapterRequestResponse.parse({ code: "UNKNOWN" }),
+      ManageChapterRequestResponse.parse({ code: "UNKNOWN" }),
       { status: 500 }
     );
   }
@@ -113,10 +156,10 @@ export const DELETE = withSession(async ({ session }) => {
 
 export const PATCH = withSession(async ({ req, session }) => {
   try {
-    const approveChapterReq = ApproveChapterRequest.safeParse(await req.json());
+    const approveChapterReq = ManageChapterRequest.safeParse(await req.json());
     if (!approveChapterReq.success) {
       return NextResponse.json(
-        ApproveChapterRequestResponse.parse({
+        ManageChapterRequestResponse.parse({
           code: "INVALID_REQUEST",
           message: "Invalid request body",
         }),
@@ -132,7 +175,7 @@ export const PATCH = withSession(async ({ req, session }) => {
     });
     if (target == null) {
       return NextResponse.json(
-        ApproveChapterRequestResponse.parse({
+        ManageChapterRequestResponse.parse({
           code: "INVALID_REQUEST",
           message: "User doesn't exist",
         }),
@@ -147,7 +190,7 @@ export const PATCH = withSession(async ({ req, session }) => {
     });
     if (approveChapterRequest == null) {
       return NextResponse.json(
-        ApproveChapterRequestResponse.parse({
+        ManageChapterRequestResponse.parse({
           code: "INVALID_REQUEST",
           message: "User doesn't have any active request",
         }),
@@ -156,13 +199,13 @@ export const PATCH = withSession(async ({ req, session }) => {
     }
 
     const canApprove =
-      (session.user.role === "ADMIN" && target.role !== "ADMIN") ||
+      session.user.role === "ADMIN" ||
       (session.user.role === "CHAPTER_LEADER" &&
         session.user.ChapterID === approveChapterRequest.chapterId);
 
     if (!canApprove) {
       return NextResponse.json(
-        ApproveChapterRequestResponse.parse({
+        ManageChapterRequestResponse.parse({
           code: "UNAUTHORIZED_REQUEST",
           message: "User doesn't have permission to approve request",
         }),
@@ -189,11 +232,11 @@ export const PATCH = withSession(async ({ req, session }) => {
     });
 
     return NextResponse.json(
-      ApproveChapterRequestResponse.parse({ code: "SUCCESS" })
+      ManageChapterRequestResponse.parse({ code: "SUCCESS" })
     );
   } catch (e: any) {
     return NextResponse.json(
-      ApproveChapterRequestResponse.parse({ code: "UNKNOWN" }),
+      ManageChapterRequestResponse.parse({ code: "UNKNOWN" }),
       { status: 500 }
     );
   }
