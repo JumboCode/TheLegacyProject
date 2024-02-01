@@ -4,8 +4,8 @@ import { useState } from "react";
 import FileTile from "@components/TileGrid/FileTile";
 import SearchBar from "@components/SearchBar";
 import AddFile from "@components/AddFile";
-import TileGrid from "@components/TileGrid";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
+import SearchableContainer from "@components/SearchableContainer";
 
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
@@ -19,6 +19,9 @@ type ISeniorProfileProps = Awaited<
 };
 
 type SerialzedFile = ISeniorProfileProps["senior"]["Files"][number];
+// Thank you chatGPT
+type Unarray<T> = T extends (infer U)[] ? U : T;
+type File = Unarray<ISeniorProfileProps["senior"]["Files"]>;
 
 const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
   const [files, _] = useState(senior.Files);
@@ -58,13 +61,13 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
         />
       ) : null}
       <div className="w-full p-8">
-        <h1 className="font-serif text-5xl leading-normal sm:text-center md:text-left mb-4">
+        <h1 className="mb-4 font-serif text-5xl leading-normal sm:text-center md:text-left">
           {senior.name}
           <h2 className="font-serif text-xl"> {senior.location} </h2>
         </h1>
-        <div className="w-full mb-8 border-solid bg-tan drop-shadow-md">
-          <p className="rounded bg-tan p-4 max-h-[100px] sm:text-lg md:text-md overflow-scroll">
-          {senior.description} 
+        <div className="mb-8 w-full border-solid bg-tan drop-shadow-md">
+          <p className="md:text-md max-h-[100px] overflow-scroll rounded bg-tan p-4 sm:text-lg">
+            {senior.description}
           </p>
         </div>
         <div className="flex flex-row justify-between space-x-3 align-middle">
@@ -76,26 +79,32 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
             />
           </div>
         </div>
-
-        <TileGrid>
-          <button className="relative w-auto flex flex-col aspect-square justify-center items-center rounded \ 
-                           bg-white hover:bg-off-white text-base drop-shadow-md"
-                onClick={handlePopUp}>
-          <div className="flex flex-col justify-end">
-            <Image
-              className="object-scale-down"
-              src={"/profile/addfile_icon.png"}
-              alt="Add file icon"
-              height={75}
-              width={75}
-            />
-          </div>
-          <div className="relative w-full p-2 flex flex-col text-center text-lg text-neutral-800">
-            Create New File
-          </div>
-        </button>
-          {filteredFiles.map((file, key) => (
-            <div key={key}>
+        <SearchableContainer<File>
+          addElementComponent={
+            <button
+              className="\ relative flex aspect-square w-auto flex-col items-center justify-center rounded 
+                           bg-white text-base drop-shadow-md hover:bg-off-white"
+              onClick={handlePopUp}
+            >
+              <div className="flex flex-col justify-end">
+                <Image
+                  className="object-scale-down"
+                  src={"/profile/addfile_icon.png"}
+                  alt="Add file icon"
+                  height={75}
+                  width={75}
+                />
+              </div>
+              <div className="text-neutral-800 relative flex w-full flex-col p-2 text-center text-lg">
+                Create New File
+              </div>
+            </button>
+          }
+          elements={filteredFiles}
+          className="\ mx-8 mt-6 grid grid-cols-2 gap-12 pr-8 sm:grid-cols-3
+                    md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+          display={(file) => (
+            <div key={file.id}>
               <FileTile
                 id={file.id}
                 name={file.name}
@@ -104,8 +113,8 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
                 Tags={file.Tags}
               />
             </div>
-          ))}
-        </TileGrid>
+          )}
+        />
       </div>
     </div>
   );
