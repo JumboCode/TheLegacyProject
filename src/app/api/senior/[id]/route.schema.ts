@@ -21,7 +21,7 @@ export const seniorSchema = z.object({
   location: z.string(),
   description: z.string(),
   StudentIDs: z.array(z.string()),
-  folder: z.string()
+  folder: z.string(),
 }) satisfies z.ZodType<Prisma.SeniorCreateInput>;
 
 export const patchSeniorSchema = z.object({
@@ -31,9 +31,20 @@ export const patchSeniorSchema = z.object({
   StudentIDs: z.array(z.string())
 })
 
+export const postSeniorSchema = z.object({
+  name: z.string(),
+  location: z.string(),
+  description: z.string(),
+  StudentIDs: z.array(z.string()),
+  folder: z.string(),
+  chapterID: z.string(),
+})
+
 export type ISeniorSchema = z.infer<typeof seniorSchema>
 
 export type IPatchSeniorRequestSchema = z.infer<typeof patchSeniorSchema>
+
+export type IPostSeniorRequestSchema = z.infer<typeof postSeniorSchema>
 
 export const seniorPatchResponse = z.discriminatedUnion("code", [
   z.object({ code: z.literal("SUCCESS"), data: seniorSchema}),
@@ -46,6 +57,12 @@ export const seniorPatchResponse = z.discriminatedUnion("code", [
   unauthorizedErrorSchema,
 ]);
 
+
+export const seniorPostResponse = z.discriminatedUnion("code", [
+  z.object({ code: z.literal("SUCCESS")}),
+  unknownErrorSchema,
+  unauthorizedErrorSchema,
+]);
 
 
 
