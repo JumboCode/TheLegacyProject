@@ -9,58 +9,70 @@ import {
   patchSeniorSchema,
   seniorPostResponse,
   seniorSchema,
+  postSeniorSchema,
 } from "./route.schema";
 import { prisma } from "@server/db/client";
+import { request } from "http";
+import { randomUUID } from "crypto";
+import { drive } from "googleapis/build/src/apis/drive";
+import { google } from "googleapis";
+import { env } from "process";
 
 /**
  * @todo Enforces that this API request be made with a Chapter leader from the university
  * @todo Should senior/[id] be nested under /university/[uid]? This design decision is unclear... which is why we want
  * to wrap call into a client facing function.
  */
-export const DELETE = withSession(async ({ params }) => {
-  const nextParams: { id: string } = params.params;
-  const { id: seniorId } = nextParams;
+export const DELETE = withSessionAndRole(
+  ["CHAPTER_LEADER"],
+  async (request) => {
+    const nextParams: { id: string } = request.params;
+    const { id: seniorId } = nextParams;
 
-  try {
-    const maybeSenior = prisma.senior.findUnique({ where: { id: seniorId } });
-    if (maybeSenior == null) {
+    try {
+      const maybeSenior = prisma.senior.findUnique({ where: { id: seniorId } });
+      if (maybeSenior == null) {
+        return NextResponse.json(
+          seniorDeleteResponse.parse({
+            code: "NOT_FOUND",
+            message: "Senior not found",
+          }),
+          { status: 404 }
+        );
+      }
+
+      const disconnectSenior = await prisma.senior.update({
+        where: {
+          id: seniorId,
+        },
+        data: {
+          Students: {
+            set: [],
+          },
+        },
+      });
+      const deleteSenior = await prisma.senior.delete({
+        where: {
+          id: seniorId,
+        },
+      });
+
+      return NextResponse.json({ code: "SUCCESS" });
+    } catch {
       return NextResponse.json(
         seniorDeleteResponse.parse({
-          code: "NOT_FOUND",
-          message: "Senior not found",
+          code: "UNKNOWN",
+          message: "Network error",
         }),
-        { status: 404 }
+        { status: 500 }
       );
     }
-
-    const disconnectSenior = await prisma.senior.update({
-      where: {
-        id: seniorId,
-      },
-      data: {
-        Students: {
-          set: [],
-        },
-      },
-    });
-    const deleteSenior = await prisma.senior.delete({
-      where: {
-        id: seniorId,
-      },
-    });
-
-    return NextResponse.json({ code: "SUCCESS" });
-  } catch {
-    return NextResponse.json(
-      seniorDeleteResponse.parse({ code: "UNKNOWN", message: "Network error" }),
-      { status: 500 }
-    );
   }
-});
+);
 
-export const PATCH = withSession(async ({ params, req }) => {
-  const body = await req.json();
-  const nextParams: { id: string } = params.params;
+export const PATCH = withSessionAndRole(["CHAPTER_LEADER"], async (request) => {
+  const body = await request.req.json();
+  const nextParams: { id: string } = request.params;
   const { id: seniorId } = nextParams;
 
   const maybeBody = patchSeniorSchema.safeParse(body);
@@ -154,13 +166,13 @@ export const POST = withSessionAndRole(["CHAPTER_LEADER"], async (request) => {
     const body = await request.req.json();
     const nextParams: { id: string } = request.params;
     const { id: userId } = nextParams;
-    const newSenior = seniorSchema.safeParse(body);
+    const newSenior = postSeniorSchema.safeParse(body);
 
     if (!newSenior.success) {
       return NextResponse.json(
         seniorPostResponse.parse({
           code: "UNKNOWN",
-          message: "Network error",
+          message: "Invalid senior template",
         }),
         { status: 500 }
       );
@@ -190,9 +202,48 @@ export const POST = withSessionAndRole(["CHAPTER_LEADER"], async (request) => {
         );
       }
 
+      const baseFolder = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a"; // TODO: make env variable
+      const fileMetadata = {
+        name: [`${body.name}-${randomUUID()}`],
+        mimeType: "application/vnd.google-apps.folder",
+        parents: [baseFolder],
+      };
+      const fileCreateData = {
+        resource: fileMetadata,
+        fields: "id",
+      };
+
+      const { access_token, refresh_token } = (await prisma.account.findFirst({
+        where: {
+          userId: request.session.user.id,
+        },
+      })) ?? { access_token: null };
+      const auth = new google.auth.OAuth2({
+        clientId: env.GOOGLE_CLIENT_ID,
+        clientSecret: env.GOOGLE_CLIENT_SECRET,
+      });
+      auth.setCredentials({
+        access_token,
+        refresh_token,
+      });
+      const service = google.drive({
+        version: "v3",
+        auth,
+      });
+
+      const file = await (service as NonNullable<typeof service>).files.create(
+        fileCreateData
+      );
+      const googleFolderId = (file as any).data.id;
+
       const senior = await prisma.senior.create({
         data: {
-          ...newSeniorData,
+          name: body.name,
+          location: body.location,
+          description: body.description,
+          StudentIDs: body.StudentIDs,
+          ChapterID: body.ChapterID,
+          folder: googleFolderId,
         },
       });
 
@@ -200,7 +251,7 @@ export const POST = withSessionAndRole(["CHAPTER_LEADER"], async (request) => {
         return NextResponse.json(
           seniorPatchResponse.parse({
             code: "UNKNOWN",
-            message: "Network error",
+            message: "Adding senior failed",
           })
         );
       }

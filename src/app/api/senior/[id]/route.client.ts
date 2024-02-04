@@ -3,6 +3,7 @@ import {
   seniorPatchResponse,
   seniorPostResponse,
   IPatchSeniorRequestSchema,
+  IPostSeniorRequestSchema,
 } from "./route.schema";
 
 interface IDeleteSeniorRequest extends Omit<RequestInit, "body"> {
@@ -14,7 +15,7 @@ interface IPatchSeniorRequest extends Omit<RequestInit, "body"> {
   body: IPatchSeniorRequestSchema;
 }
 
-interface IPostSeniorRequestSchema extends Omit<RequestInit, "body"> {
+interface IPostSeniorRequest extends Omit<RequestInit, "body"> {
   userId: string;
   body: IPostSeniorRequestSchema;
 }
@@ -40,9 +41,9 @@ export const patchSenior = async (request: IPatchSeniorRequest) => {
   return seniorPatchResponse.parse(json);
 };
 
-export const postSenior = async (request: IPostSeniorRequestSchema) => {
+export const postSenior = async (request: IPostSeniorRequest) => {
   const { userId, body, ...options } = request;
-  const response = await fetch("/api/senior/", {
+  const response = await fetch(`/api/senior/${userId}`, {
     method: "POST",
     body: JSON.stringify(body),
     ...options,

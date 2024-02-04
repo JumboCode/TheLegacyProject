@@ -30,6 +30,15 @@ export const patchSeniorSchema = z.object({
   location: z.string(),
   description: z.string(),
   StudentIDs: z.array(z.string()),
+  ChapterID: z.string(),
+});
+
+export const postSeniorSchema = z.object({
+  name: z.string(),
+  location: z.string(),
+  description: z.string(),
+  StudentIDs: z.array(z.string()),
+  ChapterID: z.string(),
 });
 
 /* export const postSeniorSchema = z.object({
@@ -45,7 +54,7 @@ export type ISeniorSchema = z.infer<typeof seniorSchema>;
 
 export type IPatchSeniorRequestSchema = z.infer<typeof patchSeniorSchema>;
 
-export type IPostSeniorRequestSchema = z.infer<typeof seniorSchema>;
+export type IPostSeniorRequestSchema = z.infer<typeof postSeniorSchema>;
 
 export const seniorPatchResponse = z.discriminatedUnion("code", [
   z.object({ code: z.literal("SUCCESS"), data: seniorSchema }),
