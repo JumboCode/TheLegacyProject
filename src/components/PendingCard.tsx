@@ -28,13 +28,15 @@ const PendingCard = (props: IPendingCard) => {
       <div className="flex flex-col gap-2 text-white">
         <button
           className="rounded-2xl bg-dark-teal py-1 text-sm transition duration-300 ease-in-out hover:-translate-y-1"
-          onClick={() =>
+          onClick={() => {
             handleAcceptChapterRequest({
               body: {
                 userId: props.uid,
               },
-            })
-          }
+            }).then(() => {
+              window.location.reload();
+            });
+          }}
         >
           Accept
         </button>
@@ -46,6 +48,8 @@ const PendingCard = (props: IPendingCard) => {
               body: {
                 userId: props.uid,
               },
+            }).then(() => {
+              window.location.reload();
             });
           }}
         >
