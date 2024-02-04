@@ -48,7 +48,9 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
       </div>
       <DisplayChapterInfo
         location={chapter.location}
-        noMembers={chapter.students.length}
+        noMembers={
+          chapter.students.filter((user) => user.role == "USER").length
+        }
         dateCreated={chapter.dateCreated}
       />
       <CardGrid
