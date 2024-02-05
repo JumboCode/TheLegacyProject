@@ -23,7 +23,27 @@ function Test() {
     });
   }
 
-  return <button onClick={Poo}>Add senior</button>;
+  async function Delete() {
+    deleteSenior({
+      seniorId: "65bfe4fe217927ba65687658",
+      body: {
+        userId: "6587829665af0d81089c42fb",
+      },
+    });
+  }
+
+  // async function Patch() {
+  //   patchSenior({
+
+  //   })
+  // }
+
+  return (
+    <div>
+      <button onClick={Poo}>Add senior</button>
+      <button onClick={Delete}>Delete</button>
+    </div>
+  );
 }
 
 export default Test;
