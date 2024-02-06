@@ -13,7 +13,7 @@ import Logo from "@public/icons/logo.svg";
 import Image from "next/image";
 
 // todo: DELETE this (for testing purposes )
-import { createFile } from "src/app/api/file/route.client";
+import { createFile, updateFile } from "src/app/api/file/route.client";
 
 interface Button {
   name: string;
@@ -45,8 +45,20 @@ const myFile: File = {
   seniorId: "65ad4d19a029b78419e9265c",
 };
 
+const updatedFile: File = {
+  date: new Date("December 17, 1995 00:00:00"),
+  filetype: "Google Document",
+  url: "https://docs.google.com/document/d/1Re2pHQ_5HbyzzwBk5etH-acjZJ7wmFK6ukYlkDm-Nzk",
+  Tags: ["Getting to know you", "Marriage", "Early childhood"],
+  seniorId: "65ad4d19a029b78419e9265c",
+};
+
 const myRequest: IRequest = {
   body: myFile,
+};
+
+const myUpdateRequest: IRequest = {
+  body: updatedFile,
 };
 
 const SidebarItem = ({
@@ -104,6 +116,9 @@ const Sidebar = ({ buttons }: ISideBar) => {
         </div> */}
         <button onClick={async () => await createFile(myRequest)}>
           <SidebarItem label="Create File" iconName={faArrowRightFromBracket} />
+        </button>
+        <button onClick={async () => await updateFile(myUpdateRequest)}>
+          <SidebarItem label="Update File" iconName={faArrowRightFromBracket} />
         </button>
         <hr className="my-6 h-px w-full rounded border-0 bg-black" />
         <div className="mb-1 flex w-full text-left font-serif text-lg font-bold">

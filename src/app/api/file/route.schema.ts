@@ -15,6 +15,11 @@ import { unauthorizedErrorSchema, unknownErrorSchema } from "@api/route.schema";
 
 export const File = z.object({
   date: z.date(),
+  // .transform((val) => {
+  //   const date = new Date(val);
+  //   date.setHours(0, 0, 0, 0);
+  //   return date;
+  // }),
   filetype: z.string(),
   url: z.string(),
   Tags: z.array(z.string()),
@@ -37,6 +42,10 @@ export const FileResponse = z.discriminatedUnion("code", [
   z.object({
     code: z.literal("NOT_AUTHORIZED"),
     message: z.literal("Senior not assigned to user"),
+  }),
+  z.object({
+    code: z.literal("SUCCESS_UPDATE"),
+    message: z.literal("File successfully updated"),
   }),
 ]);
 
