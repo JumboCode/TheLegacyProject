@@ -12,8 +12,11 @@ import { UserContext } from "src/context/UserProvider";
 import Logo from "@public/icons/logo.svg";
 import Image from "next/image";
 
-// todo: DELETE this (for testing purposes )
-import { createFile, updateFile } from "src/app/api/file/route.client";
+import {
+  createFile,
+  deleteFile,
+  updateFile,
+} from "src/app/api/file/route.client";
 
 interface Button {
   name: string;
@@ -37,6 +40,7 @@ export interface File {
   seniorId: string;
 }
 
+// Mock data to test functionality (todo: delete)
 const myFile: File = {
   date: new Date(),
   filetype: "Google Document",
@@ -48,7 +52,15 @@ const myFile: File = {
 const updatedFile: File = {
   date: new Date("December 17, 1995 00:00:00"),
   filetype: "Google Document",
-  url: "https://docs.google.com/document/d/1Re2pHQ_5HbyzzwBk5etH-acjZJ7wmFK6ukYlkDm-Nzk",
+  url: "https://docs.google.com/document/d/1VxNeHLsbuap0ckUvMs5lCMBDVAPF_xRFz4ZEd4mEASY",
+  Tags: ["Getting to know you", "Marriage", "Early childhood"],
+  seniorId: "65ad4d19a029b78419e9265c",
+};
+
+const toDeleteFile: File = {
+  date: new Date("December 17, 1995 00:00:00"),
+  filetype: "Google Document",
+  url: "https://docs.google.com/document/d/1VxNeHLsbuap0ckUvMs5lCMBDVAPF_xRFz4ZEd4mEASY",
   Tags: ["Getting to know you", "Marriage", "Early childhood"],
   seniorId: "65ad4d19a029b78419e9265c",
 };
@@ -59,6 +71,10 @@ const myRequest: IRequest = {
 
 const myUpdateRequest: IRequest = {
   body: updatedFile,
+};
+
+const myDeleteRequest: IRequest = {
+  body: toDeleteFile,
 };
 
 const SidebarItem = ({
@@ -119,6 +135,9 @@ const Sidebar = ({ buttons }: ISideBar) => {
         </button>
         <button onClick={async () => await updateFile(myUpdateRequest)}>
           <SidebarItem label="Update File" iconName={faArrowRightFromBracket} />
+        </button>
+        <button onClick={async () => await deleteFile(myDeleteRequest)}>
+          <SidebarItem label="Delete File" iconName={faArrowRightFromBracket} />
         </button>
         <hr className="my-6 h-px w-full rounded border-0 bg-black" />
         <div className="mb-1 flex w-full text-left font-serif text-lg font-bold">

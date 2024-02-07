@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Prisma } from "@prisma/client";
 import { unauthorizedErrorSchema, unknownErrorSchema } from "@api/route.schema";
 /*
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -46,6 +45,14 @@ export const FileResponse = z.discriminatedUnion("code", [
   z.object({
     code: z.literal("SUCCESS_UPDATE"),
     message: z.literal("File successfully updated"),
+  }),
+  z.object({
+    code: z.literal("SUCCESS_DELETE"),
+    message: z.literal("File successfully deleted"),
+  }),
+  z.object({
+    code: z.literal("INVALID_URL"),
+    message: z.literal("Invalid file ID parsed from url"),
   }),
 ]);
 
