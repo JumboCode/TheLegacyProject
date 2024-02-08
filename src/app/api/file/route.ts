@@ -149,38 +149,26 @@ export const PATCH = withSession(async (request) => {
       },
     })) ?? { access_token: null };
 
-    console.log("AUTH");
-
     const auth = new google.auth.OAuth2({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     });
-
-    console.log("SET CREDENTIALS");
 
     auth.setCredentials({
       access_token,
       refresh_token,
     });
 
-    console.log("SERVICE");
-
     const service = google.drive({
       version: "v3",
       auth,
     });
 
-    console.log("BODY");
-
     const body = await request.req.json();
     body.date = new Date(body.date);
     body.date.setHours(0, 0, 0, 0);
 
-    console.log("FILE REQUEST");
-
     const fileRequest = File.safeParse(body);
-
-    console.log("SUCCESS");
 
     if (!fileRequest.success) {
       console.log(fileRequest.error);
@@ -192,11 +180,7 @@ export const PATCH = withSession(async (request) => {
         { status: 400 }
       );
     } else {
-      console.log("FILE DATA");
-
       const fileData = fileRequest.data;
-
-      console.log("SENIOR IDS");
 
       /* Check that user has this senior assigned to them */
       const { SeniorIDs } = await prisma.user.findFirst({
@@ -217,8 +201,6 @@ export const PATCH = withSession(async (request) => {
         );
       }
 
-      console.log("FOUND SENIOR");
-
       // get senior from database
       const foundSenior = await prisma.senior.findUnique({
         where: { id: fileData.seniorId },
@@ -233,8 +215,6 @@ export const PATCH = withSession(async (request) => {
         );
       }
 
-      console.log("FORMATTED DATE");
-
       const formatted_date =
         (fileData.date.getMonth() > 8
           ? fileData.date.getMonth() + 1
@@ -246,43 +226,30 @@ export const PATCH = withSession(async (request) => {
         "/" +
         fileData.date.getFullYear();
 
+      // used for extracting out the fileId from the url
       const pattern =
         /https:\/\/docs\.google\.com\/document\/d\/([a-zA-Z0-9_-]+)/;
       const matches = pattern.exec(fileData.url);
 
       if (matches && matches[1]) {
-        console.log("GOOGLE FILE ID");
-
         const googleFileId = matches[1];
 
-        console.log("BODY");
-
         const body = { name: formatted_date };
-
-        console.log("FILE UPDATE DATA");
 
         const fileUpdateData = {
           fileId: googleFileId,
           resource: body,
         };
 
-        console.log("UPDATE IN DRIVE");
-
         await (service as NonNullable<typeof service>).files.update(
           fileUpdateData
         );
-
-        console.log("RIGHT BEFORE GETTING ID");
-
-        // TODO: FIX ID ISSUE - url is different in mongo vs google drive ?
 
         const { id } = await prisma.file.findFirst({
           where: {
             url: fileData.url,
           },
         });
-
-        console.log("UPDATE IN PRISMA");
 
         await prisma.file.update({
           where: { id: id },

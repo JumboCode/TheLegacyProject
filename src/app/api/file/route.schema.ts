@@ -18,7 +18,7 @@ export const File = z.object({
   //   const date = new Date(val);
   //   date.setHours(0, 0, 0, 0);
   //   return date;
-  // }),
+  // }), // note: the transform is not working
   filetype: z.string(),
   url: z.string(),
   Tags: z.array(z.string()),
