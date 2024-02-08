@@ -30,8 +30,6 @@ export const POST = withSession(async (request) => {
     });
 
     const body = await request.req.json();
-    body.date = new Date(body.date);
-    body.date.setHours(0, 0, 0, 0);
 
     const fileRequest = File.safeParse(body);
 
@@ -165,8 +163,6 @@ export const PATCH = withSession(async (request) => {
     });
 
     const body = await request.req.json();
-    body.date = new Date(body.date);
-    body.date.setHours(0, 0, 0, 0);
 
     const fileRequest = File.safeParse(body);
 
@@ -309,7 +305,6 @@ export const DELETE = withSession(async (request) => {
     });
 
     const body = await request.req.json();
-    body.date = new Date(body.date);
 
     const fileRequest = File.safeParse(body);
 

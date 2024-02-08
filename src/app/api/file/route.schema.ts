@@ -13,12 +13,11 @@ import { unauthorizedErrorSchema, unknownErrorSchema } from "@api/route.schema";
 */
 
 export const File = z.object({
-  date: z.date(),
-  // .transform((val) => {
-  //   const date = new Date(val);
-  //   date.setHours(0, 0, 0, 0);
-  //   return date;
-  // }), // note: the transform is not working
+  date: z.string().transform((val) => {
+    const date = new Date(val);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }),
   filetype: z.string(),
   url: z.string(),
   Tags: z.array(z.string()),
