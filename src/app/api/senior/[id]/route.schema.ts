@@ -4,7 +4,6 @@ import {
   unknownErrorSchema,
 } from "../../route.schema";
 import { Senior } from "@prisma/client";
-import { deleteSenior } from "./route.client";
 
 export const seniorDeleteResponse = z.discriminatedUnion("code", [
   z.object({ code: z.literal("SUCCESS") }),
@@ -34,18 +33,6 @@ export const patchSeniorSchema = z.object({
   ChapterID: z.string(),
 });
 
-export const postSeniorSchema = z.object({
-  name: z.string(),
-  location: z.string(),
-  description: z.string(),
-  StudentIDs: z.array(z.string()),
-  ChapterID: z.string(),
-});
-
-export const deleteSeniorSchema = z.object({
-  userId: z.string(),
-});
-
 /* export const postSeniorSchema = z.object({
   name: z.string(),
   location: z.string(),
@@ -57,11 +44,7 @@ export const deleteSeniorSchema = z.object({
 
 export type ISeniorSchema = z.infer<typeof seniorSchema>;
 
-export type IDeleteSeniorRequestSchema = z.infer<typeof deleteSeniorSchema>;
-
 export type IPatchSeniorRequestSchema = z.infer<typeof patchSeniorSchema>;
-
-export type IPostSeniorRequestSchema = z.infer<typeof postSeniorSchema>;
 
 export const seniorPatchResponse = z.discriminatedUnion("code", [
   z.object({ code: z.literal("SUCCESS"), data: seniorSchema }),
@@ -70,12 +53,6 @@ export const seniorPatchResponse = z.discriminatedUnion("code", [
     message: z.string(),
   }),
   z.object({ code: z.literal("INVALID_EDIT") }),
-  unknownErrorSchema,
-  unauthorizedErrorSchema,
-]);
-
-export const seniorPostResponse = z.discriminatedUnion("code", [
-  z.object({ code: z.literal("SUCCESS") }),
   unknownErrorSchema,
   unauthorizedErrorSchema,
 ]);
