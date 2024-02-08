@@ -5,33 +5,37 @@ import { prisma } from "@server/db/client";
 import { withSession } from "../../../server/decorator";
 import { env } from "../../../env/server.mjs";
 
-// todo: add functions to reduce repeated code
+const initializeDriveAuth = async (request) => {
+  const { access_token, refresh_token } = (await prisma.account.findFirst({
+    where: {
+      userId: request.session.user.id,
+    },
+  })) ?? { access_token: null };
+
+  const auth = new google.auth.OAuth2({
+    clientId: env.GOOGLE_CLIENT_ID,
+    clientSecret: env.GOOGLE_CLIENT_SECRET,
+  });
+
+  auth.setCredentials({
+    access_token,
+    refresh_token,
+  });
+
+  const service = google.drive({
+    version: "v3",
+    auth,
+  });
+
+  const body = await request.req.json();
+  const fileRequest = File.safeParse(body);
+
+  return { service, fileRequest };
+};
+
 export const POST = withSession(async (request) => {
   try {
-    const { access_token, refresh_token } = (await prisma.account.findFirst({
-      where: {
-        userId: request.session.user.id,
-      },
-    })) ?? { access_token: null };
-
-    const auth = new google.auth.OAuth2({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    });
-
-    auth.setCredentials({
-      access_token,
-      refresh_token,
-    });
-
-    const service = google.drive({
-      version: "v3",
-      auth,
-    });
-
-    const body = await request.req.json();
-
-    const fileRequest = File.safeParse(body);
+    const { service, fileRequest } = await initializeDriveAuth(request);
 
     if (!fileRequest.success) {
       console.log(fileRequest.error);
@@ -45,7 +49,7 @@ export const POST = withSession(async (request) => {
     } else {
       const fileData = fileRequest.data;
 
-      /* Check that user has this senior assigned to them */
+      // Check that user has this senior assigned to them
       const { SeniorIDs } = await prisma.user.findFirst({
         where: {
           id: request.session.user.id,
@@ -64,7 +68,7 @@ export const POST = withSession(async (request) => {
         );
       }
 
-      // get senior from database
+      // Get senior from database
       const foundSenior = await prisma.senior.findUnique({
         where: { id: fileData.seniorId },
       });
@@ -101,12 +105,12 @@ export const POST = withSession(async (request) => {
         fields: "id",
       };
 
-      /* NOTE: File will still be created on Drive even if it fails on MongoDB */
+      // NOTE: File will still be created on Drive even if it fails on MongoDB
       const file = await (service as NonNullable<typeof service>).files.create(
         fileCreateData
       );
 
-      const googleFileId = file.data.id; // used to have (file as any) - do we need this?
+      const googleFileId = file.data.id;
 
       // If the data is valid, save it to the database via prisma client
       await prisma?.file.create({
@@ -141,30 +145,7 @@ export const POST = withSession(async (request) => {
 
 export const PATCH = withSession(async (request) => {
   try {
-    const { access_token, refresh_token } = (await prisma.account.findFirst({
-      where: {
-        userId: request.session.user.id,
-      },
-    })) ?? { access_token: null };
-
-    const auth = new google.auth.OAuth2({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    });
-
-    auth.setCredentials({
-      access_token,
-      refresh_token,
-    });
-
-    const service = google.drive({
-      version: "v3",
-      auth,
-    });
-
-    const body = await request.req.json();
-
-    const fileRequest = File.safeParse(body);
+    const { service, fileRequest } = await initializeDriveAuth(request);
 
     if (!fileRequest.success) {
       console.log(fileRequest.error);
@@ -178,7 +159,7 @@ export const PATCH = withSession(async (request) => {
     } else {
       const fileData = fileRequest.data;
 
-      /* Check that user has this senior assigned to them */
+      // Check that user has this senior assigned to them
       const { SeniorIDs } = await prisma.user.findFirst({
         where: {
           id: request.session.user.id,
@@ -197,7 +178,7 @@ export const PATCH = withSession(async (request) => {
         );
       }
 
-      // get senior from database
+      // Get senior from database
       const foundSenior = await prisma.senior.findUnique({
         where: { id: fileData.seniorId },
       });
@@ -222,7 +203,7 @@ export const PATCH = withSession(async (request) => {
         "/" +
         fileData.date.getFullYear();
 
-      // used for extracting out the fileId from the url
+      // Used for extracting out the fileId from the url
       const pattern =
         /https:\/\/docs\.google\.com\/document\/d\/([a-zA-Z0-9_-]+)/;
       const matches = pattern.exec(fileData.url);
@@ -283,30 +264,7 @@ export const PATCH = withSession(async (request) => {
 
 export const DELETE = withSession(async (request) => {
   try {
-    const { access_token, refresh_token } = (await prisma.account.findFirst({
-      where: {
-        userId: request.session.user.id,
-      },
-    })) ?? { access_token: null };
-
-    const auth = new google.auth.OAuth2({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    });
-
-    auth.setCredentials({
-      access_token,
-      refresh_token,
-    });
-
-    const service = google.drive({
-      version: "v3",
-      auth,
-    });
-
-    const body = await request.req.json();
-
-    const fileRequest = File.safeParse(body);
+    const { service, fileRequest } = await initializeDriveAuth(request);
 
     if (!fileRequest.success) {
       console.log(fileRequest.error);
@@ -320,7 +278,7 @@ export const DELETE = withSession(async (request) => {
     } else {
       const fileData = fileRequest.data;
 
-      /* Check that user has this senior assigned to them */
+      // Check that user has this senior assigned to them
       const { SeniorIDs } = await prisma.user.findFirst({
         where: {
           id: request.session.user.id,
@@ -339,7 +297,7 @@ export const DELETE = withSession(async (request) => {
         );
       }
 
-      // get senior from database
+      // Get senior from database
       const foundSenior = await prisma.senior.findUnique({
         where: { id: fileData.seniorId },
       });
