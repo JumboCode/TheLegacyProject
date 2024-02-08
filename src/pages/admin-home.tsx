@@ -14,7 +14,6 @@ import React, {
 import { useRouter } from "next/router";
 import AddSenior from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
-import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import cn from "classnames";
 import { prisma } from "@server/db/client";
 import PendingCard from "@components/PendingCard";
@@ -124,18 +123,9 @@ function StudentBody({
   setStudents: Dispatch<SetStateAction<User[]>>;
   refreshData: () => void;
 }) {
-  const [filter, setFilter] = useState("");
-  const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
-
   return (
     <div className="pb-12">
-      <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
-        <SearchBar setFilter={setFilter} />
-        <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
-      </div>
       <SearchableContainer<User>
-        className="\ mx-8 mt-6 grid grid-cols-2 gap-12 pr-8 sm:grid-cols-3
-                    md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
         elements={students}
         display={(student: User) => {
           const options: Parameters<typeof TileEdit>[0]["options"] = [];
@@ -186,7 +176,7 @@ function StudentBody({
             </div>
           );
         }}
-        search={(student: User) =>
+        search={(student: User, filter: string) =>
           !!student.name?.toLowerCase().includes(filter.toLowerCase())
         }
       />
@@ -208,15 +198,9 @@ function SeniorBody({
   const [filter, setFilter] = useState("");
   const [showAddSeniorPopUp, setShowAddSeniorPopUp] = useState<boolean>(false);
   const [seniorPatch, setSeniorPatch] = useState<string>("");
-  const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
 
   return (
     <div className="pb-12">
-      <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
-        <SearchBar setFilter={setFilter} />
-        <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
-      </div>
-
       <SearchableContainer<Senior>
         addElementComponent={
           <AddSenior
@@ -276,10 +260,10 @@ function SeniorBody({
             </div>
           );
         }}
-        search={(senior: Senior) => !!senior.name?.includes(filter)}
+        search={(senior: Senior, filter: string) =>
+          !!senior.name?.includes(filter)
+        }
         elements={seniors}
-        className="\ mx-8 mt-6 grid grid-cols-2 gap-12 pr-8 sm:grid-cols-3
-                    md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
       />
     </div>
   );
