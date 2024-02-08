@@ -13,7 +13,12 @@ const AdminHomeLayout = ({ children }: IAdminHomeLayout) => {
       headerIcon={faHouse}
       showHorizontalLine={false}
     >
-      <TabButtons queries={["chapters", "resources"]} />
+      <TabButtons
+        queries={[
+          { segment: "chapters", name: "chapters" },
+          { segment: "resources", name: "resources" },
+        ]}
+      />
       {children}
     </HeaderContainer>
   );

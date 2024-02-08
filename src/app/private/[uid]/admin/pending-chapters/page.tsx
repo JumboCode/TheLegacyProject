@@ -3,8 +3,9 @@ import { prisma } from "@server/db/client";
 
 const PendingChapters = async () => {
   // Use prisma to get all pending chapter requests
-  const pendingChapters = await prisma.chapterRequest.findMany();
-  console.log(pendingChapters[0]);
+  const pendingChapters = await prisma.chapterRequest.findMany({
+    where: { approved: "PENDING" },
+  });
   // Map every chapter request to a pending chapter component and return!
   return (
     <div className="mb-5 grid flex-wrap gap-6 md:grid-cols-2">

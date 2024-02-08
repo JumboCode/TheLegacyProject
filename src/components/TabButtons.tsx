@@ -3,35 +3,42 @@
 import Link from "next/link";
 import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 
+interface Query {
+  segment: string;
+  name: string;
+}
+
 interface TabButtonsProps {
-  queries: string[];
+  queries: Query[];
 }
 
 const TabButtons = ({ queries }: TabButtonsProps) => {
   const pathName = usePathname() ?? "";
-  const segment = useSelectedLayoutSegment();
+  const urlSegment = useSelectedLayoutSegment();
 
   return (
     <div style={{ width: "fit-content" }}>
       <div className="flex gap-6">
-        {queries.map((query, index) => {
+        {queries.map(({ segment, name }, index) => {
           const isTabSelected =
-            segment === query || (segment === null && index === 0);
+            pathName.includes(segment) || (urlSegment === null && index === 0);
 
           const base = pathName.match(
-            new RegExp(`.*?(?=${queries.map((q) => "/" + q).join("|")}|$)`)
+            new RegExp(
+              `.*?(?=${queries.map((q) => "/" + q.segment).join("|")}|$)`
+            )
           ) as RegExpExecArray;
-          const href = `${base[0]}/${query}`;
-          
+          const href = `${base[0]}/${segment}`;
+
           return (
-            <div key={query}>
+            <div key={name}>
               <Link
                 href={href}
                 className={`text-xl uppercase ${
                   isTabSelected ? "text-dark-teal" : "text-black"
                 }`}
               >
-                {query}
+                {name}
               </Link>
               {isTabSelected ? (
                 <hr className="w-full border border-solid border-dark-teal" />

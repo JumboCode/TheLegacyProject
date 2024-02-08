@@ -1,8 +1,5 @@
-import { UserTile } from "@components/TileGrid";
 import { prisma } from "@server/db/client";
-import PathNav, { PathInfoType } from "@components/PathNav";
-import DisplayChapterInfo from "@components/DisplayChapterInfo";
-// import ChapterPage from "@components/ChapterPage";
+import { DisplayChapter } from "@components/admin";
 
 interface ChapterPageParams {
   params: {
@@ -20,76 +17,20 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
       students: true,
     },
   });
-  const curr_date = new Date();
-  const curr_year = curr_date.getFullYear();
 
-  const chapterPath: PathInfoType = {
-    display: "Chapters",
-    url: "chapters",
-  };
+  const chapterRequests = await prisma.userRequest.findMany({
+    where: { chapterId: params.chapterId, approved: "PENDING" },
+  });
+  const requestUsers = await prisma.user.findMany({
+    where: { id: { in: chapterRequests.map((req) => req.uid) } },
+  });
 
-  const currchapterPath: PathInfoType = {
-    display: chapter.chapterName,
-    url: params.chapterId,
-  };
-
-  // TODO(nickbar0123) - Use the information to display breadcrumb + profiles
   return (
-    <>
-      <div className="h-fit">
-        <PathNav pathInfo={[chapterPath, currchapterPath]} />
-        <div className="font-merriweather mb-3 mt-5 text-2xl font-bold text-[#000022]">
-          {chapter.chapterName}
-        </div>
-        <DisplayChapterInfo
-          location={chapter.location}
-          noMembers={chapter.students.length}
-          yearsActive={curr_year - chapter?.dateCreated.getFullYear()}
-        />
-        <div className="font-merriweather mt-5 text-xl font-bold">
-          Executive Board
-        </div>
-        <div className="flex flex-wrap gap-10 pt-6">
-          {chapter.students
-            .filter((user) => user.role == "CHAPTER_LEADER")
-            .map((user) => (
-              <UserTile
-                key={user.id}
-                student={user}
-                link={`/private/${params.uid}/admin/home/chapters/${params.chapterId}/users/${user.id}`}
-              />
-            ))}
-        </div>
-        <div className="font-merriweather mt-5 text-xl font-bold">
-          Pending Members (
-          {chapter.students.filter((user) => user.approved == "PENDING").length}
-          )
-        </div>
-        <div className="flex flex-wrap gap-10 pt-6">
-          {chapter.students
-            .filter((user) => user.approved == "PENDING")
-            .map((user) => (
-              // TODO(nickbar01234) - Replace with pending cards
-              <UserTile key={user.id} student={user} link="" />
-            ))}
-        </div>
-        <div className="font-merriweather mt-5 text-xl font-bold">
-          Members (
-          {chapter.students.filter((user) => user.role == "USER").length})
-        </div>
-        <div className="flex flex-wrap gap-10 pt-6">
-          {chapter.students
-            .filter((user) => user.role == "USER")
-            .map((user) => (
-              <UserTile
-                key={user.id}
-                student={user}
-                link={`/private/${params.uid}/admin/home/chapters/${params.chapterId}/users/${user.id}`}
-              />
-            ))}
-        </div>
-      </div>
-    </>
+    <DisplayChapter
+      chapter={chapter}
+      uid={params.uid}
+      requestUsers={requestUsers}
+    />
   );
 };
 
