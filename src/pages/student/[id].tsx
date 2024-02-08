@@ -20,7 +20,6 @@ const StudentProfilePage = ({ student }: IStudentProps) => {
     router.replace(router.asPath);
   }, [router]);
 
-  console.log("Their Seniors: " + student.Seniors);
   const [seniors, setSeniors] = useState(student.Seniors);
 
   return (
@@ -29,8 +28,6 @@ const StudentProfilePage = ({ student }: IStudentProps) => {
         <PhotoHeader admin={false} name={student.name} />
 
         <SearchableContainer<Senior>
-          className="\ mx-8 mt-6 grid grid-cols-2 gap-12 pr-8 sm:grid-cols-3
-                      md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
           elements={seniors}
           display={(senior: Senior) => {
             return (
