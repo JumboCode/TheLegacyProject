@@ -9,8 +9,7 @@ import { prisma } from "@server/db/client";
 import { seniorSchema } from "@server/model";
 
 /**
- * @todo Should senior/[id] be nested under /university/[uid]? This design decision is unclear... which is why we want
- * to wrap call into a client facing function.
+ * @TODO - Delete folder belonging to the senior
  */
 export const DELETE = withSessionAndRole(
   ["CHAPTER_LEADER"],
