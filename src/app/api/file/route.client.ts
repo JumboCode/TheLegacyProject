@@ -27,10 +27,10 @@ export const createFile = async (request: IRequest) => {
   return FileResponse.parse(json);
 };
 
-export const updateFile = async (request: IRequest) => {
+export const updateFile = async (request: IRequest, id?: string) => {
   const { body, ...options } = request;
 
-  const response = await fetch("/api/file", {
+  const response = await fetch("/api/file/", {
     method: "PATCH",
     body: JSON.stringify(body),
     ...options,

@@ -100,8 +100,7 @@ const SeniorProfile = ({ senior }: ISeniorProfileProps) => {
             <div key={key}>
               <FileTile
                 id={file.id}
-                name={file.name}
-                lastModified={new Date(file.lastModified)}
+                date={file.date}
                 url={file.url}
                 Tags={file.Tags}
               />

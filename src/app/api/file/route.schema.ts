@@ -53,6 +53,18 @@ export const FileResponse = z.discriminatedUnion("code", [
     code: z.literal("INVALID_URL"),
     message: z.literal("Invalid file ID parsed from url"),
   }),
+  z.object({
+    code: z.literal("NO_SENIOR"),
+    message: z.literal("Senior does not exist"),
+  }),
+  z.object({
+    code: z.literal("NO_FILE"),
+    message: z.literal("File does not exist"),
+  }),
+  z.object({
+    code: z.literal("NO_USER"),
+    message: z.literal("User does not exist"),
+  }),
 ]);
 
 export const ResponsefileDelete = z.discriminatedUnion("code", [
