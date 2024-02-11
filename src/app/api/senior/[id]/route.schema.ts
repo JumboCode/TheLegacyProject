@@ -4,6 +4,7 @@ import {
   unknownErrorSchema,
 } from "../../route.schema";
 import { Senior } from "@prisma/client";
+import { seniorSchema } from "@server/model";
 
 export const seniorDeleteResponse = z.discriminatedUnion("code", [
   z.object({ code: z.literal("SUCCESS") }),
@@ -15,32 +16,15 @@ export const seniorDeleteResponse = z.discriminatedUnion("code", [
   unauthorizedErrorSchema,
 ]);
 
-export const seniorSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  location: z.string(),
-  description: z.string(),
-  StudentIDs: z.array(z.string()),
-  folder: z.string(),
-  ChapterID: z.string(),
-}) satisfies z.ZodType<Senior>;
+
 
 export const patchSeniorSchema = z.object({
   name: z.string(),
   location: z.string(),
   description: z.string(),
   StudentIDs: z.array(z.string()),
-  ChapterID: z.string(),
 });
 
-/* export const postSeniorSchema = z.object({
-  name: z.string(),
-  location: z.string(),
-  description: z.string(),
-  StudentIDs: z.array(z.string()),
-  folder: z.string(),
-  chapterID: z.string(),
-}); */
 
 export type ISeniorSchema = z.infer<typeof seniorSchema>;
 

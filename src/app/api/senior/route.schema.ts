@@ -1,18 +1,19 @@
 import { z } from "zod";
 import { unauthorizedErrorSchema, unknownErrorSchema } from "../route.schema";
+import { seniorSchema } from "@server/model";
 
 export const postSeniorSchema = z.object({
-  name: z.string(),
-  location: z.string(),
-  description: z.string(),
-  StudentIDs: z.array(z.string()),
-  ChapterID: z.string(),
+    name: z.string(),
+    location: z.string(),
+    description: z.string(),
+    StudentIDs: z.array(z.string()),
+    ChapterID: z.string(),
 });
 
 export type IPostSeniorRequestSchema = z.infer<typeof postSeniorSchema>;
 
 export const seniorPostResponse = z.discriminatedUnion("code", [
-  z.object({ code: z.literal("SUCCESS") }),
+  z.object({ code: z.literal("SUCCESS"), data: seniorSchema }),
   unknownErrorSchema,
   unauthorizedErrorSchema,
 ]);

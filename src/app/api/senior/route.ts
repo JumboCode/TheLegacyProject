@@ -15,10 +15,10 @@ export const POST = withSessionAndRole(
     if (!newSenior.success) {
       return NextResponse.json(
         seniorPostResponse.parse({
-          code: "UNKNOWN",
+          code: "INVALID_REQUEST",
           message: "Invalid senior template",
         }),
-        { status: 500 }
+        { status: 400 }
       );
     } else {
       const user = await prisma.user.findFirst({
@@ -30,9 +30,10 @@ export const POST = withSessionAndRole(
       if (!user) {
         return NextResponse.json(
           seniorPostResponse.parse({
-            code: "UNKNOWN",
-            message: "User was not found",
-          })
+            code: "INVALID_REQUEST",
+            message: "User not found",
+          }),
+          { status: 400 }
         );
       }
       const newSeniorData = newSenior.data;
@@ -40,7 +41,7 @@ export const POST = withSessionAndRole(
       if (session.user.ChapterID != newSeniorData.ChapterID) {
         return NextResponse.json(
           seniorPostResponse.parse({
-            code: "ERROR",
+            code: "UNAUTHORIZED",
             message: "User has no authority to add",
           })
         );
@@ -85,20 +86,12 @@ export const POST = withSessionAndRole(
           name: body.name,
           location: body.location,
           description: body.description,
-          StudentIDs: body.StudentIDs,
           ChapterID: body.ChapterID,
           folder: googleFolderId,
         },
       });
 
-      if (!senior) {
-        return NextResponse.json(
-          seniorPostResponse.parse({
-            code: "UNKNOWN",
-            message: "Adding senior failed",
-          })
-        );
-      }
+      /* Run push for each of the student IDs */
 
       return NextResponse.json(
         seniorPostResponse.parse({

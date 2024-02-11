@@ -6,6 +6,7 @@ import {
   patchSeniorSchema,
 } from "./route.schema";
 import { prisma } from "@server/db/client";
+import { seniorSchema } from "@server/model";
 
 /**
  * @todo Should senior/[id] be nested under /university/[uid]? This design decision is unclear... which is why we want
@@ -78,7 +79,7 @@ export const PATCH = withSessionAndRole(
 
       const maybeSenior = await prisma.senior.findUnique({
         where: { id: seniorId },
-        select: { StudentIDs: true },
+        include: { Students: true },
       });
       if (maybeSenior == null) {
         return NextResponse.json(
@@ -90,7 +91,9 @@ export const PATCH = withSessionAndRole(
         );
       }
 
-      if (session.user.ChapterID != seniorBody.ChapterID) {
+      
+
+      if (session.user.ChapterID != maybeSenior.ChapterID) {
         return NextResponse.json(
           seniorDeleteResponse.parse({
             code: "ERROR",

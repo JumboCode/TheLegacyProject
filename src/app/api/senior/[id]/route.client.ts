@@ -8,7 +8,6 @@ interface IDeleteSeniorRequest extends Omit<RequestInit, "body"> {
   seniorId: string;
 }
 
-/* Note talk to nick about how to best pass the userId and the seniorId */
 interface IPatchSeniorRequest extends Omit<RequestInit, "body"> {
   seniorId: string;
   body: IPatchSeniorRequestSchema;
