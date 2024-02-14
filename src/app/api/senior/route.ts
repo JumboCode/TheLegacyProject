@@ -88,11 +88,22 @@ export const POST = withSessionAndRole(
           location: body.location,
           description: body.description,
           ChapterID: body.ChapterID,
+          StudentIDs: body.StudentIDs,
           folder: googleFolderId,
         },
       });
 
-      /* Run push for each of the student IDs */
+      body.StudentIDs.map(async (studentID: string) => {
+        await prisma.user.update({
+          where: { id: studentID },
+          data: {
+            SeniorIDs: {
+              push: senior.id,
+            },
+          },
+        });
+      });
+      
 
       return NextResponse.json(
         seniorPostResponse.parse({
