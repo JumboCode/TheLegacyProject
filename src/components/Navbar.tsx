@@ -5,8 +5,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
-import Logo from "@public/icons/logo.svg";
-import Image from "next/image";
 
 const Navbar = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -25,10 +23,8 @@ const Navbar = () => {
       className="\ top-0 z-10 z-10 flex h-[60px] w-full flex-row items-center 
                     justify-between border border-dark-tan bg-med-tan"
     >
-      <div className=" h-10 w-1/4 object-top px-[20px] sm:px-10 md:mx-10">
-        <Link href="/">
-          <Image src={Logo} alt="logo" />
-        </Link>
+      <div className="pl-[20px] font-serif text-xl font-medium sm:pl-[40px] md:text-2xl">
+        <Link href="/">The Legacy Project</Link>
       </div>
 
       <div className="visible z-10 pr-[20px] sm:pr-[40px]">
