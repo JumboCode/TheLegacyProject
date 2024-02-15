@@ -12,11 +12,8 @@ import { UserContext } from "src/context/UserProvider";
 import Logo from "@public/icons/logo.svg";
 import Image from "next/image";
 
-import {
-  createFile,
-  deleteFile,
-  updateFile,
-} from "src/app/api/file/route.client";
+import { createFile } from "@api/file/route.client";
+import { deleteFile, updateFile } from "@api/file/[fileId]/route.client";
 
 interface Button {
   name: string;
@@ -30,6 +27,7 @@ export interface ISideBar {
 
 interface IRequest extends Omit<RequestInit, "body"> {
   body: File;
+  fileId: string;
 }
 
 export interface File {
@@ -52,7 +50,7 @@ const myFile: File = {
 const updatedFile: File = {
   date: new Date("September 17, 1995 00:00:00"),
   filetype: "Google Document",
-  url: "https://docs.google.com/document/d/1yQSBUFmxVlSCOg_NHV20ura7G4OKiOvFsC9b1nmLwfA",
+  url: "https://docs.google.com/document/d/1it-DKhXUiiVb_m36Nw-v4fl8GUfWuVHGEqRIZuTQHzM",
   Tags: ["Getting to know you", "Marriage", "Early childhood"],
   seniorId: "65ad4d19a029b78419e9265c",
 };
@@ -60,21 +58,24 @@ const updatedFile: File = {
 const toDeleteFile: File = {
   date: new Date("September 17, 1995 00:00:00"),
   filetype: "Google Document",
-  url: "https://docs.google.com/document/d/1yQSBUFmxVlSCOg_NHV20ura7G4OKiOvFsC9b1nmLwfA",
+  url: "https://docs.google.com/document/d/1it-DKhXUiiVb_m36Nw-v4fl8GUfWuVHGEqRIZuTQHzM",
   Tags: ["Getting to know you", "Marriage", "Early childhood"],
   seniorId: "65ad4d19a029b78419e9265c",
 };
 
 const myRequest: IRequest = {
   body: myFile,
+  fileId: "",
 };
 
 const myUpdateRequest: IRequest = {
   body: updatedFile,
+  fileId: "1it-DKhXUiiVb_m36Nw-v4fl8GUfWuVHGEqRIZuTQHzM",
 };
 
 const myDeleteRequest: IRequest = {
   body: toDeleteFile,
+  fileId: "1it-DKhXUiiVb_m36Nw-v4fl8GUfWuVHGEqRIZuTQHzM",
 };
 
 const SidebarItem = ({
