@@ -12,9 +12,6 @@ import { UserContext } from "src/context/UserProvider";
 import Logo from "@public/icons/logo.svg";
 import Image from "next/image";
 
-import { createFile } from "@api/file/route.client";
-import { deleteFile, updateFile } from "@api/file/[fileId]/route.client";
-
 interface Button {
   name: string;
   icon: IconDefinition;
@@ -25,11 +22,6 @@ export interface ISideBar {
   buttons: Button[];
 }
 
-interface IRequest extends Omit<RequestInit, "body"> {
-  body: File;
-  fileId: string;
-}
-
 export interface File {
   date: Date;
   filetype: string;
@@ -37,46 +29,6 @@ export interface File {
   Tags: string[];
   seniorId: string;
 }
-
-// Mock data to test functionality (todo: delete)
-const myFile: File = {
-  date: new Date(),
-  filetype: "Google Document",
-  url: "",
-  Tags: ["Adolescence", "Marriage", "Early childhood"],
-  seniorId: "65ad4d19a029b78419e9265c",
-};
-
-const updatedFile: File = {
-  date: new Date("September 17, 1995 00:00:00"),
-  filetype: "Google Document",
-  url: "https://docs.google.com/document/d/1it-DKhXUiiVb_m36Nw-v4fl8GUfWuVHGEqRIZuTQHzM",
-  Tags: ["Getting to know you", "Marriage", "Early childhood"],
-  seniorId: "65ad4d19a029b78419e9265c",
-};
-
-const toDeleteFile: File = {
-  date: new Date("September 17, 1995 00:00:00"),
-  filetype: "Google Document",
-  url: "https://docs.google.com/document/d/1it-DKhXUiiVb_m36Nw-v4fl8GUfWuVHGEqRIZuTQHzM",
-  Tags: ["Getting to know you", "Marriage", "Early childhood"],
-  seniorId: "65ad4d19a029b78419e9265c",
-};
-
-const myRequest: IRequest = {
-  body: myFile,
-  fileId: "",
-};
-
-const myUpdateRequest: IRequest = {
-  body: updatedFile,
-  fileId: "1it-DKhXUiiVb_m36Nw-v4fl8GUfWuVHGEqRIZuTQHzM",
-};
-
-const myDeleteRequest: IRequest = {
-  body: toDeleteFile,
-  fileId: "1it-DKhXUiiVb_m36Nw-v4fl8GUfWuVHGEqRIZuTQHzM",
-};
 
 const SidebarItem = ({
   label,
@@ -131,15 +83,6 @@ const Sidebar = ({ buttons }: ISideBar) => {
         <div className="text-md flex w-full text-left font-serif text-xs">
           Tufts University
         </div> */}
-        <button onClick={async () => await createFile(myRequest)}>
-          <SidebarItem label="Create File" iconName={faArrowRightFromBracket} />
-        </button>
-        <button onClick={async () => await updateFile(myUpdateRequest)}>
-          <SidebarItem label="Update File" iconName={faArrowRightFromBracket} />
-        </button>
-        <button onClick={async () => await deleteFile(myDeleteRequest)}>
-          <SidebarItem label="Delete File" iconName={faArrowRightFromBracket} />
-        </button>
         <hr className="my-6 h-px w-full rounded border-0 bg-black" />
         <div className="mb-1 flex w-full text-left font-serif text-lg font-bold">
           {user.name ?? ""}
