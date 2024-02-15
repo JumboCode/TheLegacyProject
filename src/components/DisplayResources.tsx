@@ -11,7 +11,7 @@ import {
   batchUpdateResources,
   batchDeleteResources,
 } from "@api/resources/route.client";
-import { compareResource } from "src/util";
+import { compareResource } from "@utils";
 
 interface IDisplayResources {
   resources: Resource[];
