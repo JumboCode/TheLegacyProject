@@ -92,9 +92,7 @@ export const POST = withSession(async (request) => {
       };
 
       // NOTE: File will still be created on Drive even if it fails on MongoDB
-      const file = await (service as NonNullable<typeof service>).files.create(
-        fileCreateData
-      );
+      const file = await service.files.create(fileCreateData);
 
       const googleFileId = file.data.id;
 
