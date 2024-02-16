@@ -3,7 +3,6 @@ import {
   unauthorizedErrorSchema,
   unknownErrorSchema,
 } from "../../route.schema";
-import { Senior } from "@prisma/client";
 import { seniorSchema } from "@server/model";
 
 export const seniorDeleteResponse = z.discriminatedUnion("code", [
@@ -16,15 +15,12 @@ export const seniorDeleteResponse = z.discriminatedUnion("code", [
   unauthorizedErrorSchema,
 ]);
 
-
-
 export const patchSeniorSchema = z.object({
   name: z.string(),
   location: z.string(),
   description: z.string(),
   StudentIDs: z.array(z.string()),
 });
-
 
 export type ISeniorSchema = z.infer<typeof seniorSchema>;
 
@@ -40,15 +36,3 @@ export const seniorPatchResponse = z.discriminatedUnion("code", [
   unknownErrorSchema,
   unauthorizedErrorSchema,
 ]);
-
-// export const seniorGetResponse = z.discriminatedUnion("code", [
-
-//   z.object({ code: z.literal("SUCCESS"), data: getSeniorSchema }),
-//   z.object({
-//     code: z.literal("NOT_FOUND"),
-//     message: z.string(),
-//   }),
-//   unknownErrorSchema,
-//   unauthorizedErrorSchema,
-
-// ]);

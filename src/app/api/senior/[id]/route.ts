@@ -80,6 +80,7 @@ export const PATCH = withSessionAndRole(
         where: { id: seniorId },
         include: { Students: true },
       });
+
       if (maybeSenior == null) {
         return NextResponse.json(
           seniorPatchResponse.parse({
@@ -89,8 +90,6 @@ export const PATCH = withSessionAndRole(
           { status: 404 }
         );
       }
-
-      
 
       if (session.user.ChapterID != maybeSenior.ChapterID) {
         return NextResponse.json(
