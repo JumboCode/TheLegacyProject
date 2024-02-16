@@ -22,14 +22,6 @@ export interface ISideBar {
   buttons: Button[];
 }
 
-export interface File {
-  date: Date;
-  filetype: string;
-  url: string;
-  Tags: string[];
-  seniorId: string;
-}
-
 const SidebarItem = ({
   label,
   iconName,
