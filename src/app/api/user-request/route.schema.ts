@@ -5,14 +5,19 @@ export const JoinChapterRequest = z.object({
   chapterId: z.string(),
 });
 
+export const ManageChapterRequest = z.object({
+  userId: z.string(),
+});
+
 export const JoinChapterRequestResponse = z.discriminatedUnion("code", [
   z.object({ code: z.literal("SUCCESS") }),
   z.object({ code: z.literal("INVALID_REQUEST"), message: z.string() }),
   unknownErrorSchema,
 ]);
 
-export const UndoChapterRequestResponse = z.discriminatedUnion("code", [
+export const ManageChapterRequestResponse = z.discriminatedUnion("code", [
   z.object({ code: z.literal("SUCCESS") }),
+  z.object({ code: z.literal("UNAUTHORIZED_REQUEST"), message: z.string() }),
   z.object({ code: z.literal("INVALID_REQUEST"), message: z.string() }),
   unknownErrorSchema,
 ]);

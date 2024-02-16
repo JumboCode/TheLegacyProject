@@ -6,6 +6,12 @@ import { Resource } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuid } from "uuid";
+import {
+  batchCreateResources,
+  batchUpdateResources,
+  batchDeleteResources,
+} from "@api/resources/route.client";
+import { compareResource } from "@utils";
 
 interface IDisplayResources {
   resources: Resource[];
@@ -13,14 +19,16 @@ interface IDisplayResources {
 }
 
 interface ResourceState extends Resource {
-  state: "UNEDITED" | "EDITED" | "DELETED" | "CREATED";
+  state: "UNEDITED" | "UPDATED" | "DELETED" | "CREATED";
 }
 
 const DisplayResources = (props: IDisplayResources) => {
   const [edit, setEdit] = React.useState(false);
   const [stateResources, setStateResources] = React.useState<ResourceState[]>(
     () =>
-      props.resources.map((resource) => ({ state: "UNEDITED", ...resource }))
+      props.resources
+        .sort(compareResource)
+        .map((resource) => ({ state: "UNEDITED", ...resource }))
   );
 
   const onAddResource = () => {
@@ -47,17 +55,69 @@ const DisplayResources = (props: IDisplayResources) => {
     });
   };
 
+  const onEdit = (editedResource: Resource) => {
+    setStateResources((prev) => {
+      const newResources: ResourceState[] = prev.map((resource) => {
+        return resource.id === editedResource.id && resource.state !== "CREATED"
+          ? { ...editedResource, state: "UPDATED" }
+          : resource;
+      });
+      return newResources;
+    });
+  };
+
+  const getResourceByState = (state: ResourceState["state"]) => {
+    return stateResources
+      .filter((curr) => curr.state === state)
+      .map((curr) => {
+        const { state, ...rest } = curr;
+        return rest;
+      });
+  };
+
+  const onSaveResources = async () => {
+    const deletedResources = getResourceByState("DELETED").map(
+      (curr) => curr.id
+    );
+    const updatedResources = getResourceByState("UPDATED");
+    const createdResources = getResourceByState("CREATED");
+
+    await Promise.all([
+      batchCreateResources({ body: createdResources }),
+      batchUpdateResources({ body: updatedResources }),
+      batchDeleteResources({ body: deletedResources }),
+    ]).then((res) => {
+      const newResources: ResourceState[] = [
+        ...getResourceByState("UNEDITED"),
+        ...res[0].data,
+        ...res[1].data,
+      ]
+        .sort(compareResource)
+        .map((eachResource) => ({
+          ...eachResource,
+          state: "UNEDITED",
+        }));
+
+      setStateResources(newResources);
+      setEdit(false);
+    });
+  };
+
   return (
     <div className="mt-6">
       <div className="flex justify-between">
-        <button className="flex w-44 items-center justify-between rounded-xl border border-dark-teal px-4 py-2.5">
-          <p className="text-base font-normal" onClick={onAddResource}>
-            Add resource
-          </p>
+        <button
+          className="flex w-44 items-center justify-between rounded-xl border border-dark-teal px-4 py-2.5"
+          onClick={onAddResource}
+        >
+          <p className="text-base font-normal">Add resource</p>
           <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
         </button>
         {edit ? (
-          <button className="rounded-xl bg-dark-teal px-6 py-2 text-white">
+          <button
+            className="rounded-xl bg-dark-teal px-6 py-2 text-white"
+            onClick={onSaveResources}
+          >
             Save
           </button>
         ) : (
@@ -80,9 +140,7 @@ const DisplayResources = (props: IDisplayResources) => {
               isEdit={edit}
               showRole={props.showRole}
               onDelete={onDelete}
-              onEdit={(resource) => {
-                return;
-              }}
+              onEdit={onEdit}
             />
           ))}
       </div>

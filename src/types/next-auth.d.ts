@@ -11,6 +11,16 @@ declare module "next-auth" {
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */
   interface Session {
-    user?: Pick<User, "id" | "role" | "ChapterID"> & DefaultSession["user"];
+    user?: Pick<
+      User,
+      | "id"
+      | "role"
+      | "ChapterID"
+      | "firstName"
+      | "lastName"
+      | "pronouns"
+      | "email"
+    > &
+      DefaultSession["user"];
   }
 }

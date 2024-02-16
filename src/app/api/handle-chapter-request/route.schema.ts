@@ -7,12 +7,8 @@ export const HandleChapterRequest = z.object({
 
 export const HandleChapterRequestResponse = z.discriminatedUnion("code", [
   z.object({
-    code: z.literal("SUCCESS_ACCEPTED"),
-    message: z.literal("Chapter request successfully accepted"),
-  }),
-  z.object({
-    code: z.literal("SUCCESS_DECLINED"),
-    message: z.literal("Chapter request successfully declined"),
+    code: z.literal("SUCCESS"),
+    message: z.literal("Chapter request successfully handled"),
   }),
   z.object({
     code: z.literal("INVALID_REQUEST"),

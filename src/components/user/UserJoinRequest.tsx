@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import {
   handleJoinChapterRequest,
-  handleUndoChapterRequest,
+  handleManageChapterRequest,
 } from "@api/user-request/route.client";
 import { useRouter } from "next/navigation";
 
@@ -18,6 +18,7 @@ type ChapterWithUser = Prisma.ChapterGetPayload<{
 interface UserJoinRequestProps {
   chapters: ChapterWithUser[];
   joinRequest: UserRequest | null;
+  uid: string;
 }
 
 const UserJoinRequest = (props: UserJoinRequestProps) => {
@@ -35,7 +36,11 @@ const UserJoinRequest = (props: UserJoinRequestProps) => {
             {
               name: "Undo request",
               onClick: () => {
-                handleUndoChapterRequest().then((res) => {
+                handleManageChapterRequest({
+                  body: {
+                    userId: props.uid,
+                  },
+                }).then((res) => {
                   console.log(res);
                   router.refresh();
                 });
