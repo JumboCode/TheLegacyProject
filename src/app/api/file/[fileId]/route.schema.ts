@@ -1,16 +1,5 @@
 import { z } from "zod";
 import { unauthorizedErrorSchema, unknownErrorSchema } from "@api/route.schema";
-/*
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  date         DateTime // will restrict hours to midnight 
-  filetype     String
-  url          String
-  seniorId     String   @db.ObjectId
-  senior       Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
-  Tags         String[]
-
-  @@unique([seniorId, date])
-*/
 
 export const File = z.object({
   date: z.string().transform((val) => {
