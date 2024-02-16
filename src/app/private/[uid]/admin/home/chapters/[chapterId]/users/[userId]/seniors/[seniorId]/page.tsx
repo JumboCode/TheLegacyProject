@@ -58,8 +58,7 @@ const SeniorPage = async ({ params }: Params) => {
           <FileTile
             key={file.id}
             id={file.id}
-            name={file.name}
-            lastModified={new Date(file.lastModified)}
+            date={file.date}
             url={file.url}
             Tags={file.Tags}
           />
