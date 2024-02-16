@@ -87,9 +87,7 @@ export const PATCH = withSession(async (request) => {
         resource: body,
       };
 
-      await (service as NonNullable<typeof service>).files.update(
-        fileUpdateData
-      );
+      await service.files.update(fileUpdateData);
 
       const file = await prisma.file.findFirst({
         where: {
@@ -197,7 +195,7 @@ export const DELETE = withSession(async (request) => {
         );
       }
 
-      await (service as NonNullable<typeof service>).files.delete({
+      await service.files.delete({
         fileId: fileId,
       });
 
