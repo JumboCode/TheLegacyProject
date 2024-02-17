@@ -37,9 +37,8 @@ export const POST = withSessionAndRole(
           { status: 400 }
         );
       }
-      const newSeniorData = newSenior.data;
 
-      if (session.user.ChapterID != newSeniorData.ChapterID) {
+      if (session.user.ChapterID == null) {
         return NextResponse.json(
           seniorPostResponse.parse({
             code: "UNAUTHORIZED",
@@ -87,21 +86,23 @@ export const POST = withSessionAndRole(
           name: body.name,
           location: body.location,
           description: body.description,
-          ChapterID: body.ChapterID,
+          ChapterID: session.user.ChapterID,
           StudentIDs: body.StudentIDs,
           folder: googleFolderId,
         },
       });
 
-      body.StudentIDs.map(async (studentID: string) => {
-        await prisma.user.update({
-          where: { id: studentID },
-          data: {
-            SeniorIDs: {
-              push: senior.id,
-            },
+      await prisma.user.updateMany({
+        data: {
+          SeniorIDs: {
+            push: senior.id,
           },
-        });
+        },
+        where: {
+          id: {
+            in: senior.StudentIDs,
+          },
+        },
       });
       
 
