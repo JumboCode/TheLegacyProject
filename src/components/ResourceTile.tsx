@@ -6,7 +6,6 @@ import {
   faArrowUpRightFromSquare,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 
 interface IResourceProp {
   resource: Resource;

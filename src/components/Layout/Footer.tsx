@@ -1,11 +1,23 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
+import Link from "next/link";
+
+const INSTAGRAM_URL =
+  "https://instagram.com/thelegacyprojectus?igshid=MzRlODBiNWFlZA==";
 
 const Footer = () => {
   return (
-    <div className=" bg-dark-green px-[93px] py-[22px] text-white">
-      <FontAwesomeIcon icon={faInstagram} className="h-[24px] w-[24px]" />
+    <div className="bg-dark-green px-[93px] py-[22px] text-white">
+      <a
+        href={INSTAGRAM_URL}
+        rel="noopener noreferrer"
+        target="_blank"
+        className="flex items-center space-x-1.5"
+      >
+        <FontAwesomeIcon icon={faInstagram} className="h-[24px] w-[24px]" />
+        <div className="text-xl">tuftslegacyproject</div>
+      </a>
     </div>
   );
 };
