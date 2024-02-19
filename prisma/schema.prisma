@@ -93,6 +93,8 @@ model Senior {
   Students    User[]   @relation(fields: [StudentIDs], references: [id])
   folder      String
   Files       File[]
+  ChapterID   String   @db.ObjectId
+  chapter     Chapter  @relation(fields: [ChapterID], references: [id])
 }
 
 model File {
@@ -128,6 +130,7 @@ model Chapter {
   location    String
   dateCreated DateTime @default(now())
   students    User[]
+  seniors     Senior[]
 }
 
 model Resource {
