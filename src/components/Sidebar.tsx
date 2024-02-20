@@ -9,6 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UserContext } from "src/context/UserProvider";
+import Logo from "@public/icons/logo.svg";
+import Image from "next/image";
 
 interface Button {
   name: string;
@@ -45,13 +47,14 @@ const Sidebar = ({ buttons }: ISideBar) => {
   };
 
   return (
-    <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-between bg-med-tan px-11 py-20">
-      <div className="w-full">
-        <Link href="/public/">
-          <h1 className="z-10 mb-8 text-center font-serif text-3xl duration-150 hover:-translate-y-0.5">
-            The Legacy Project
-          </h1>
-        </Link>
+    <div className="sticky top-0 flex h-full w-full flex-col items-center justify-between bg-med-tan ">
+      <Link href="/public/" className="flex justify-center">
+        <h1 className=" mb-3 mt-20 h-auto w-full items-center justify-center px-5 duration-150 hover:-translate-y-0.5">
+          <Image src={Logo} alt="logo" className="items-end" />
+        </h1>
+      </Link>
+      <div></div>
+      <div className="mb-20 w-full px-11">
         <div className="flex w-full flex-col space-y-6">
           {buttons.map((data) => (
             <Link key={data.name} href={data.link}>
@@ -61,7 +64,7 @@ const Sidebar = ({ buttons }: ISideBar) => {
         </div>
       </div>
 
-      <div className="w-full">
+      <div className="w-full px-11 py-20">
         {/* TODO(nickbar01234) - Render university name */}
         {/* <div className="text-md flex pb-2 pt-20 text-left font-serif text-xxs text-dark-gray">
           <div className="w-4">

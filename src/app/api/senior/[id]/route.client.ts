@@ -10,7 +10,7 @@ interface IDeleteSeniorRequest extends Omit<RequestInit, "body"> {
 
 interface IPatchSeniorRequest extends Omit<RequestInit, "body"> {
   seniorId: string;
-  body: IPatchSeniorRequestSchema; 
+  body: IPatchSeniorRequestSchema;
 }
 
 export const deleteSenior = async (request: IDeleteSeniorRequest) => {

@@ -12,15 +12,14 @@ import React, {
   SetStateAction,
 } from "react";
 import { useRouter } from "next/router";
-import TileGrid from "@components/TileGrid";
 import AddSenior from "@components/AddSenior";
 import SearchBar from "@components/SearchBar";
-import SortDropdown, { SortMethod } from "@components/SortDropdown";
 import cn from "classnames";
 import { prisma } from "@server/db/client";
 import PendingCard from "@components/PendingCard";
 import { TileEdit } from "@components/TileGrid/TileEdit";
 import { UserTile } from "@components/TileGrid/UserTile";
+import SearchableContainer from "@components/SearchableContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
@@ -124,68 +123,63 @@ function StudentBody({
   setStudents: Dispatch<SetStateAction<User[]>>;
   refreshData: () => void;
 }) {
-  const [filter, setFilter] = useState("");
-  const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
-
   return (
     <div className="pb-12">
-      <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
-        <SearchBar setFilter={setFilter} />
-        <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
-      </div>
-      <TileGrid>
-        {students
-          .filter(({ name }) => name?.includes(filter))
-          .map((student) => {
-            const options: Parameters<typeof TileEdit>[0]["options"] = [];
+      <SearchableContainer<User>
+        elements={students}
+        display={(student: User) => {
+          const options: Parameters<typeof TileEdit>[0]["options"] = [];
 
-            if (student.admin) {
-              options.push({
-                name: "Demote",
-                onClick: () => {
-                  setStudents((prev) =>
-                    prev.map((s) =>
-                      s.id === student.id ? { ...s, admin: false } : s
-                    )
-                  );
-                  fetch(`/api/student/${student.id}/demote`, {
-                    method: "POST",
-                  });
-                  refreshData();
-                },
-                color: "#22555A",
-                icon: <FontAwesomeIcon icon={faPencil} />,
-              });
-            } else {
-              options.push({
-                name: "Promote",
-                onClick: () => {
-                  setStudents((prev) =>
-                    prev.map((s) =>
-                      s.id === student.id ? { ...s, admin: true } : s
-                    )
-                  );
-                  fetch(`/api/student/${student.id}/promote`, {
-                    method: "POST",
-                  });
-                  refreshData();
-                },
-                color: "#22555A",
-                icon: <FontAwesomeIcon icon={faPencil} />,
-              });
-            }
+          if (student.admin) {
+            options.push({
+              name: "Demote",
+              onClick: () => {
+                setStudents((prev) =>
+                  prev.map((s) =>
+                    s.id === student.id ? { ...s, admin: false } : s
+                  )
+                );
+                fetch(`/api/student/${student.id}/demote`, {
+                  method: "POST",
+                });
+                refreshData();
+              },
+              color: "#22555A",
+              icon: <FontAwesomeIcon icon={faPencil} />,
+            });
+          } else {
+            options.push({
+              name: "Promote",
+              onClick: () => {
+                setStudents((prev) =>
+                  prev.map((s) =>
+                    s.id === student.id ? { ...s, admin: true } : s
+                  )
+                );
+                fetch(`/api/student/${student.id}/promote`, {
+                  method: "POST",
+                });
+                refreshData();
+              },
+              color: "#22555A",
+              icon: <FontAwesomeIcon icon={faPencil} />,
+            });
+          }
 
-            return (
-              <div className="h-auto w-auto" key={student.id}>
-                <UserTile
-                  link={"/student/" + student.id}
-                  student={student}
-                  dropdownComponent={<TileEdit options={options} />}
-                />
-              </div>
-            );
-          })}
-      </TileGrid>
+          return (
+            <div className="h-auto w-auto" key={student.id}>
+              <UserTile
+                link={"/student/" + student.id}
+                student={student}
+                dropdownComponent={<TileEdit options={options} />}
+              />
+            </div>
+          );
+        }}
+        search={(student: User, filter: string) =>
+          !!student.name?.toLowerCase().includes(filter.toLowerCase())
+        }
+      />
     </div>
   );
 }
@@ -204,75 +198,73 @@ function SeniorBody({
   const [filter, setFilter] = useState("");
   const [showAddSeniorPopUp, setShowAddSeniorPopUp] = useState<boolean>(false);
   const [seniorPatch, setSeniorPatch] = useState<string>("");
-  const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
 
   return (
     <div className="pb-12">
-      <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
-        <SearchBar setFilter={setFilter} />
-        <SortDropdown sortMethod={sortMethod} setSortMethod={setSortMethod} />
-      </div>
+      <SearchableContainer<Senior>
+        addElementComponent={
+          <AddSenior
+            seniors={seniors}
+            students={students}
+            setSeniors={setSeniors}
+            showAddSeniorPopUp={showAddSeniorPopUp}
+            setShowAddSeniorPopUp={setShowAddSeniorPopUp}
+            seniorPatch={seniorPatch}
+            setSeniorPatch={setSeniorPatch}
+          />
+        }
+        display={(senior: Senior) => {
+          const options: Parameters<typeof TileEdit>[0]["options"] = [];
 
-      <TileGrid>
-        <AddSenior
-          seniors={seniors}
-          students={students}
-          setSeniors={setSeniors}
-          showAddSeniorPopUp={showAddSeniorPopUp}
-          setShowAddSeniorPopUp={setShowAddSeniorPopUp}
-          seniorPatch={seniorPatch}
-          setSeniorPatch={setSeniorPatch}
-        />
-        {seniors
-          .filter(({ name }) => name?.includes(filter))
-          .map((senior) => {
-            const options: Parameters<typeof TileEdit>[0]["options"] = [];
+          options.push({
+            name: "Edit",
+            onClick: (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              if (!setSeniorPatch || !setShowAddSeniorPopUp) {
+                return;
+              }
+              setSeniorPatch(senior.id);
+              setShowAddSeniorPopUp(true);
+            },
+            color: "#22555A",
+            icon: <FontAwesomeIcon icon={faPencil} />,
+          });
 
-            options.push({
-              name: "Edit",
-              onClick: (e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                if (!setSeniorPatch || !setShowAddSeniorPopUp) {
-                  return;
-                }
-                setSeniorPatch(senior.id);
-                setShowAddSeniorPopUp(true);
-              },
-              color: "#22555A",
-              icon: <FontAwesomeIcon icon={faPencil} />,
-            });
+          options.push({
+            name: "Delete",
+            onClick: (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              fetch(`/api/senior/${senior.id}`, {
+                method: "DELETE",
+              });
+              if (!setSeniors) {
+                return;
+              }
+              setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
+              refreshData();
+            },
+            color: "#EF6767",
+            icon: <FontAwesomeIcon icon={faTrashCan} />,
+          });
 
-            options.push({
-              name: "Delete",
-              onClick: (e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                fetch(`/api/senior/${senior.id}`, {
-                  method: "DELETE",
-                });
-                if (!setSeniors) {
-                  return;
-                }
-                setSeniors((prev) => prev.filter((s) => s.id !== senior.id));
-                refreshData();
-              },
-              color: "#EF6767",
-              icon: <FontAwesomeIcon icon={faTrashCan} />,
-            });
-
-            return (
-              <div key={senior.id}>
-                <UserTile
-                  key={senior.id}
-                  link={"/senior/" + senior.id}
-                  senior={senior}
-                  dropdownComponent={<TileEdit options={options} />}
-                />
-              </div>
-            );
-          })}
-      </TileGrid>
+          return (
+            <div key={senior.id}>
+              <UserTile
+                key={senior.id}
+                link={"/senior/" + senior.id}
+                senior={senior}
+                dropdownComponent={<TileEdit options={options} />}
+              />
+            </div>
+          );
+        }}
+        search={(senior: Senior, filter: string) =>
+          !!senior.name?.includes(filter)
+        }
+        elements={seniors}
+      />
     </div>
   );
 }
