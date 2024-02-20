@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { File, FileResponse } from "./route.schema";
+import { FileResponse } from "./route.schema";
+import { File } from "@server/model";
 
 /**
  * Describe the interface of SignInRequest.
@@ -9,12 +10,16 @@ type IFile = z.infer<typeof File>;
 /**
  * Extends the parameters of fetch() function to give types to the RequestBody.
  */
-interface IRequest extends Omit<RequestInit, "body"> {
+interface IUpdateRequest extends Omit<RequestInit, "body"> {
   fileId: string;
   body: IFile;
 }
 
-export const updateFile = async (request: IRequest) => {
+interface IDeleteRequest extends Omit<RequestInit, "body"> {
+  fileId: string;
+}
+
+export const updateFile = async (request: IUpdateRequest) => {
   const { fileId, body, ...options } = request;
 
   const response = await fetch(`/api/file/${fileId}`, {
@@ -28,12 +33,11 @@ export const updateFile = async (request: IRequest) => {
   return FileResponse.parse(json);
 };
 
-export const deleteFile = async (request: IRequest) => {
-  const { fileId, body, ...options } = request;
+export const deleteFile = async (request: IDeleteRequest) => {
+  const { fileId, ...options } = request;
 
   const response = await fetch(`/api/file/${fileId}`, {
     method: "DELETE",
-    body: JSON.stringify(body),
     ...options,
   });
 

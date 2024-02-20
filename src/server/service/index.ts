@@ -3,11 +3,21 @@ import { google } from "googleapis";
 import { env } from "@env/server.mjs";
 
 export const createDriveService = async (userID: string) => {
-  const { access_token, refresh_token } = (await prisma.account.findFirst({
+  const account = await prisma.account.findFirst({
     where: {
       userId: userID,
     },
-  })) ?? { access_token: null };
+  });
+
+  if (
+    account === null ||
+    account.access_token === null ||
+    account.refresh_token === null
+  ) {
+    throw new Error("Invalid google drive authentication");
+  }
+
+  const { access_token, refresh_token } = account;
 
   const auth = new google.auth.OAuth2({
     clientId: env.GOOGLE_CLIENT_ID,

@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { File, FileResponse } from "./route.schema";
+import { FileResponse } from "./route.schema";
+import { File } from "@server/model";
 
 /**
  * Describe the interface of SignInRequest.
