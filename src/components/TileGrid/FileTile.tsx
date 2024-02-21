@@ -7,18 +7,9 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFile } from "@fortawesome/free-solid-svg-icons";
 
-export type IFileTileProps = Pick<
-  File,
-  "id" | "name" | "lastModified" | "url" | "Tags"
->;
+export type IFileTileProps = Pick<File, "id" | "date" | "url" | "Tags">;
 
-const FileTile = ({
-  id,
-  name,
-  lastModified: intialLastModified,
-  url,
-  Tags,
-}: IFileTileProps) => {
+const FileTile = ({ id, date, url, Tags }: IFileTileProps) => {
   return (
     <Link href={url}>
       <div className="flex h-56 w-48 flex-col items-start gap-y-2.5 rounded-lg bg-dark-teal px-4 py-6">
