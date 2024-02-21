@@ -1,3 +1,6 @@
+/**
+ * @note [fileId] segment represents the id for the Google Doc and not the MongoDB document _id.
+ */
 import { NextResponse } from "next/server";
 import { FileResponse } from "./route.schema";
 import { File } from "@server/model";
@@ -130,10 +133,8 @@ export const PATCH = withSession(async (request) => {
 export const DELETE = withSession(async (request) => {
   const service = await createDriveService(request.session.user.id);
 
-  // const body = await request.req.json();
   const nextParams: { fileId: string } = request.params.params;
   const { fileId } = nextParams;
-  // const fileRequest = File.safeParse(body);
 
   // Check that user has this senior assigned to them
   const user = await prisma.user.findFirst({
