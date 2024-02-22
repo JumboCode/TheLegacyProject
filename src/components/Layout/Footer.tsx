@@ -8,7 +8,7 @@ const INSTAGRAM_URL =
 
 const Footer = () => {
   return (
-    <div className="bg-dark-green px-[93px] py-[22px] text-white">
+    <footer className="bg-dark-green px-[93px] py-[22px] text-white">
       <a
         href={INSTAGRAM_URL}
         rel="noopener noreferrer"
@@ -18,7 +18,7 @@ const Footer = () => {
         <FontAwesomeIcon icon={faInstagram} className="h-[24px] w-[24px]" />
         <div className="text-xl">tuftslegacyproject</div>
       </a>
-    </div>
+    </footer>
   );
 };
 

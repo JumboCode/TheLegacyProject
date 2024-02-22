@@ -7,11 +7,13 @@ interface IPublicLayout {
 
 const PublicLayout = ({ children }: IPublicLayout) => {
   return (
-    <>
-      <Navbar />
-      <div className="px-[93px] pb-[105px] pt-[88px]">{children}</div>
+    <div className="flex h-full flex-col justify-between">
+      <div>
+        <Navbar />
+        <div className="px-[93px] pb-[105px] pt-[88px]">{children}</div>
+      </div>
       <Footer />
-    </>
+    </div>
   );
 };
 
