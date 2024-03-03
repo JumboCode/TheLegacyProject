@@ -1,7 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
-import Link from "next/link";
 
 const INSTAGRAM_URL =
   "https://instagram.com/thelegacyprojectus?igshid=MzRlODBiNWFlZA==";
@@ -16,7 +15,7 @@ const Footer = () => {
         className="flex items-center space-x-1.5"
       >
         <FontAwesomeIcon icon={faInstagram} className="h-[24px] w-[24px]" />
-        <div className="text-xl">tuftslegacyproject</div>
+        <div className="text-l">tuftslegacyproject</div>
       </a>
     </footer>
   );
