@@ -91,7 +91,7 @@ const _Sidebar = ({ buttons }: ISideBar) => {
 };
 
 const Sidebar = (props: ISideBar) => {
-  const [sidebarVisible, setSidebarVisible] = React.useState(true);
+  const [sidebarVisible, setSidebarVisible] = React.useState(false);
 
   return (
     <>
