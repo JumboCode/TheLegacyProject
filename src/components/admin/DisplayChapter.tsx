@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 "use client";
 
 import { editRole } from "@api/user/[uid]/edit-role/route.client";

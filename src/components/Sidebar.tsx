@@ -12,8 +12,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UserContext } from "src/context/UserProvider";
 import Logo from "@public/icons/logo.svg";
 import Image from "next/image";
+<<<<<<< HEAD
 import { RoleAlias } from "@constants/RoleAlias";
 import { fullName } from "@utils";
+=======
+>>>>>>> 9bd5bd7 (finish first draft)
 
 interface Button {
   name: string;
@@ -98,6 +101,7 @@ const Sidebar = (props: ISideBar) => {
       <div className="sticky top-0 hidden lg:block">
         <_Sidebar {...props} />
       </div>
+<<<<<<< HEAD
       <div
         className="mt-6 block lg:hidden"
         onMouseLeave={() => setSidebarVisible(false)}
@@ -119,6 +123,30 @@ const Sidebar = (props: ISideBar) => {
             <_Sidebar {...props} />
           </div>
         )}
+=======
+
+      <div className="w-full px-11 py-20">
+        {/* TODO(nickbar01234) - Render university name */}
+        {/* <div className="text-md flex pb-2 pt-20 text-left font-serif text-xxs text-dark-gray">
+          <div className="w-4">
+            <FontAwesomeIcon icon={faCity} />
+          </div>
+          University
+        </div>
+        <div className="text-md flex w-full text-left font-serif text-xs">
+          Tufts University
+        </div> */}
+        <hr className="my-6 h-px w-full rounded border-0 bg-black" />
+        <div className="mb-1 flex w-full text-left font-serif text-lg font-bold">
+          {user.name ?? ""}
+        </div>
+        <div className="flex w-full pb-6 pt-0 text-left font-serif text-sm text-med-gray">
+          {user.role[0] + user.role.toLowerCase().slice(1)}
+        </div>
+        <button onClick={() => signOut({ callbackUrl: "/public/" })}>
+          <SidebarItem label="Sign Out" iconName={faArrowRightFromBracket} />
+        </button>
+>>>>>>> 9bd5bd7 (finish first draft)
       </div>
     </>
   );
