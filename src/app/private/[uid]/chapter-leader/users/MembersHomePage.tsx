@@ -35,7 +35,7 @@ const MembersHomePage = ({ members, user }: MembersHomePageProps) => {
                 <UserTile
                   key={index}
                   student={member}
-                  link={`/private/${user.id}/chapter-leader/members/${member.id}`}
+                  link={`/private/${user.id}/chapter-leader/users/${member.id}`}
                 />
               );
             })}
