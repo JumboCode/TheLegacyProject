@@ -1,6 +1,5 @@
 "use client";
 import React, { FormEvent, FocusEvent, useState } from "react";
-import FlowerBox from "@components/FlowerBox";
 import { EmailResponse } from "@api/emails/route.schema";
 
 const LandingFooter = () => {
@@ -55,7 +54,7 @@ const LandingFooter = () => {
     <div className="relative z-10 flex flex-col content-center items-center gap-y-8 overflow-hidden rounded bg-[#E7DCD0] px-12 py-16 text-center shadow-md shadow-gray-500">
       <div className="flex flex-col gap-y-3 text-2xl font-bold lg:text-4xl">
         <p>There are millions of stories waiting to be told.</p>
-        <p>It&apos;s your moment to change that.</p>
+        <p>It&apos;s your time to change that.</p>
       </div>
       <div className="flex flex-col gap-y-3 text-lg text-[#232323] text-opacity-80">
         <p>

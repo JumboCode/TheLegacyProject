@@ -4,7 +4,6 @@ import Head from "next/head";
 
 import PhotoCarousel from "@components/PhotoCarousel";
 import LandingFooter from "@components/LandingFooter";
-import FlowerBox from "@components/FlowerBox";
 
 import Button from "@components/Button";
 import Image from "next/legacy/image";
@@ -19,12 +18,15 @@ const HomePage = () => {
   const legacyInstagram =
     "https://instagram.com/thelegacyprojectus?igshid=MzRlODBiNWFlZA==";
   const MEET_TLP = "/public/team/";
-  const READ_MORE = "/public/about/";
+  const START_A_CHAPTER = "/public/start-chapter";
 
   return (
     <main className="flex flex-col">
-      <div className="relative z-10 flex flex-col content-center items-center gap-y-6 overflow-hidden rounded bg-[#E7DCD0] px-12 py-24">
+      <div className="relative z-10 flex flex-col content-center items-center gap-y-6 overflow-hidden rounded bg-[#E7DCD0] px-12 py-[80px]">
         {/* Hero Section and Action Items Buttons */}
+        <div className="h-28 w-72 self-start">
+          <Image src={Logo} alt="logo" className="object-contain" />
+        </div>
         <div className="flex w-full flex-row items-center">
           <div className="flex flex-col items-center gap-[24px] lg:mr-[20px] lg:items-start">
             <h1 className="mb-[10px] text-left font-serif text-6xl font-semibold lg:text-left lg:text-6xl">
@@ -35,29 +37,18 @@ const HomePage = () => {
               to ensure that their legacies are preserved for years to come.
             </p>
           </div>
-          {/* <span className="relative hidden aspect-square h-[200px] w-[200px] grow-0 lg:flex">
-            <Image
-              src="/landing/legacy-logo.png"
-              alt="A drawing of an older woman and a young boy enjoying ice cream cones together."
-              layout="fill"
-              objectFit="cover"
-            />
-          </span> */}
         </div>
         {/* Action Items Buttons */}
-        <div className="flex w-full flex-row flex-wrap place-items-center justify-center gap-[20px]">
-          <h3>
-            <Button
-              text="Start a Chapter"
-              color="bg-dark-teal"
-              hover="hover:bg-dark-teal"
-              link="/public/start-chapter"
-              border-radius="4px"
-            />
-          </h3>
+        <div className="flex justify-center">
+          <Link
+            className="w-fit gap-[20px] rounded-3xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
+            href={START_A_CHAPTER}
+          >
+            Start A Chapter
+          </Link>
         </div>
       </div>
-      <div className="flex w-full flex-col justify-center gap-y-4 py-[20px]">
+      <div className="flex w-full flex-col justify-center gap-y-4 py-6">
         <span className="text-center font-serif text-3xl font-semibold sm:text-left sm:text-4xl">
           About Us
         </span>
@@ -73,6 +64,7 @@ const HomePage = () => {
           passionate about telling stories, and form a Legacy Project chapter at
           your school today.
         </p>
+        <PhotoCarousel />
         <div className="flex justify-center">
           <Link
             className="w-fit rounded-3xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
@@ -81,7 +73,7 @@ const HomePage = () => {
             Meet TLP
           </Link>
         </div>
-        <span className="text-center font-serif text-3xl font-semibold sm:text-left sm:text-4xl">
+        <span className="pt-6 text-center font-serif text-3xl font-semibold sm:text-left sm:text-4xl">
           Our Story
         </span>
         <p className="font-serif leading-7">
@@ -112,15 +104,6 @@ const HomePage = () => {
           was through prose.
         </p>
       </div>
-      <div className="flex justify-center">
-        <a
-          className=" w-fit rounded-3xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
-          href={READ_MORE}
-        >
-          Read more about us
-        </a>
-      </div>
-      <PhotoCarousel />
       <LandingFooter />
     </main>
   );
