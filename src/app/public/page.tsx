@@ -29,10 +29,10 @@ const HomePage = () => {
         </div>
         <div className="flex w-full flex-row items-center">
           <div className="flex flex-col items-center gap-[24px] lg:mr-[20px] lg:items-start">
-            <h1 className="mb-[10px] text-left font-serif text-6xl font-semibold lg:text-left lg:text-6xl">
+            <h1 className="mb-[10px] text-left text-6xl font-semibold lg:text-left lg:text-6xl">
               Everyone has a story that&apos;s worth preserving.
             </h1>
-            <p className="text-md text-left font-serif tracking-easy md:text-lg lg:text-left xl:text-xl">
+            <p className="text-md text-left tracking-easy md:text-lg lg:text-left xl:text-xl">
               The Legacy Project documents the stories of the elder generation
               to ensure that their legacies are preserved for years to come.
             </p>
@@ -49,17 +49,17 @@ const HomePage = () => {
         </div>
       </div>
       <div className="flex w-full flex-col justify-center gap-y-4 py-6">
-        <span className="text-center font-serif text-3xl font-semibold sm:text-left sm:text-4xl">
+        <span className="text-center text-3xl font-semibold sm:text-left sm:text-4xl">
           About Us
         </span>
-        <p className="font-serif leading-7">
+        <p className="leading-7">
           The Legacy Project, Inc. (TLP) connects college students with local
           elders in their community with the purpose of building strong
           intergenerational relationships and documenting the life histories of
           seniors, ensuring that their legacies are preserved for years to come.
         </p>
 
-        <p className="font-serif leading-7">
+        <p className="leading-7">
           Join an ever-growing network of college students across the country
           passionate about telling stories, and form a Legacy Project chapter at
           your school today.
@@ -73,10 +73,10 @@ const HomePage = () => {
             Meet TLP
           </Link>
         </div>
-        <span className="pt-6 text-center font-serif text-3xl font-semibold sm:text-left sm:text-4xl">
+        <span className="pt-6 text-center text-3xl font-semibold sm:text-left sm:text-4xl">
           Our Story
         </span>
-        <p className="font-serif leading-7">
+        <p className="leading-7">
           The concept of{" "}
           <span className="font-bold text-[#742B1A]">
             The Legacy Project (TLP)
@@ -94,7 +94,7 @@ const HomePage = () => {
           project.
         </p>
 
-        <p className="font-serif leading-7">
+        <p className="leading-7">
           The initiative encompassed conducting thorough interviews of 18
           residents living in the community, with the intention to hold a
           ceremony at the finale of the project to provide her older friends
