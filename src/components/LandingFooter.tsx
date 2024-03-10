@@ -52,11 +52,11 @@ const LandingFooter = () => {
 
   return (
     <div className="relative z-10 flex flex-col content-center items-center gap-y-8 overflow-hidden rounded bg-[#E7DCD0] px-12 py-16 text-center shadow-md shadow-gray-500">
-      <div className="flex flex-col gap-y-3 text-2xl font-extrabold lg:text-4xl">
+      <div className="flex flex-col gap-y-3 text-2xl font-extrabold">
         <p>There are millions of stories waiting to be told.</p>
         <p>It&apos;s your time to change that.</p>
       </div>
-      <div className="flex flex-col gap-y-3 text-lg text-[#232323] text-opacity-80 lg:text-xl">
+      <div className="flex flex-col gap-y-3 text-lg text-[#232323] text-opacity-80">
         <p>
           Join an ever-growing network of college students across the country
           passionate about preserving generational legacies.
@@ -74,7 +74,7 @@ const LandingFooter = () => {
       >
         <input
           className="text-gray relative h-[60px] bg-white px-4
-                                text-lg placeholder-dark-gray shadow-md focus:border-dark-teal focus:outline-none md:w-3/4  lg:text-xl"
+                                text-lg placeholder-dark-gray shadow-md focus:border-dark-teal focus:outline-none md:w-3/4"
           name="email"
           placeholder="Enter your e-mail address"
           onFocus={resetButton}
@@ -86,9 +86,7 @@ const LandingFooter = () => {
           className={`${buttonStyle} w-auto rounded-2xl px-4 py-4 duration-150`}
           type="submit"
         >
-          <span className="align-center text-white lg:text-lg">
-            {buttonText}
-          </span>
+          <span className="align-center text-white">{buttonText}</span>
         </button>
       </form>
     </div>

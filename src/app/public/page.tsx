@@ -28,7 +28,7 @@ const HomePage = () => {
         </div>
         <div className="flex w-full flex-row items-center">
           <div className="flex flex-col items-center gap-[24px] lg:mr-[20px] lg:items-start">
-            <h1 className="mb-[10px] text-left text-6xl font-semibold lg:text-left lg:text-6xl">
+            <h1 className="mb-[10px] text-left text-6xl/[75px] font-semibold">
               Everyone has a story that&apos;s worth preserving.
             </h1>
             <p className="text-md text-left tracking-easy md:text-lg lg:text-left xl:text-xl">
