@@ -3,7 +3,6 @@
 import Head from "next/head";
 
 import PhotoCarousel from "@components/PhotoCarousel";
-import LandingFooter from "@components/LandingFooter";
 
 import Button from "@components/Button";
 import Image from "next/legacy/image";
@@ -41,7 +40,7 @@ const HomePage = () => {
         {/* Action Items Buttons */}
         <div className="flex justify-center">
           <Link
-            className="w-fit gap-[20px] rounded-3xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
+            className="w-fit gap-[20px] rounded-2xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
             href={START_A_CHAPTER}
           >
             Start A Chapter
@@ -67,7 +66,7 @@ const HomePage = () => {
         <PhotoCarousel />
         <div className="flex justify-center">
           <Link
-            className="w-fit rounded-3xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
+            className="w-fit rounded-2xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
             href={MEET_TLP}
           >
             Meet TLP
@@ -104,7 +103,6 @@ const HomePage = () => {
           was through prose.
         </p>
       </div>
-      <LandingFooter />
     </main>
   );
 };

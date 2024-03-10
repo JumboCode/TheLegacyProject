@@ -52,11 +52,11 @@ const LandingFooter = () => {
 
   return (
     <div className="relative z-10 flex flex-col content-center items-center gap-y-8 overflow-hidden rounded bg-[#E7DCD0] px-12 py-16 text-center shadow-md shadow-gray-500">
-      <div className="flex flex-col gap-y-3 text-2xl font-bold lg:text-4xl">
+      <div className="flex flex-col gap-y-3 text-2xl font-extrabold lg:text-4xl">
         <p>There are millions of stories waiting to be told.</p>
         <p>It&apos;s your time to change that.</p>
       </div>
-      <div className="flex flex-col gap-y-3 text-lg text-[#232323] text-opacity-80">
+      <div className="flex flex-col gap-y-3 text-lg text-[#232323] text-opacity-80 lg:text-xl">
         <p>
           Join an ever-growing network of college students across the country
           passionate about preserving generational legacies.
@@ -73,8 +73,8 @@ const LandingFooter = () => {
         autoComplete="off"
       >
         <input
-          className="text-gray relative h-[40px] bg-white
-                                px-[10px] placeholder-dark-gray shadow-md focus:border-dark-teal focus:outline-none  md:w-3/4"
+          className="text-gray relative h-[60px] bg-white px-4
+                                text-lg placeholder-dark-gray shadow-md focus:border-dark-teal focus:outline-none md:w-3/4  lg:text-xl"
           name="email"
           placeholder="Enter your e-mail address"
           onFocus={resetButton}
@@ -83,10 +83,10 @@ const LandingFooter = () => {
           }}
         />
         <button
-          className={`h-[40px] w-auto ${buttonStyle} rounded duration-150`}
+          className={`${buttonStyle} w-auto rounded-2xl px-4 py-4 duration-150`}
           type="submit"
         >
-          <span className="align-center text-md m-[10px] w-auto font-serif tracking-easy text-white">
+          <span className="align-center text-white lg:text-lg">
             {buttonText}
           </span>
         </button>
