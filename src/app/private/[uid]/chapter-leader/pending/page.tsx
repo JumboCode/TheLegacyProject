@@ -13,6 +13,7 @@ const PendingPage = async ({ params }: { params: { uid: string } }) => {
   const userRequests = await prisma.userRequest.findMany({
     where: {
       chapterId: user.ChapterID ?? "",
+      approved: "PENDING",
     },
   });
 
