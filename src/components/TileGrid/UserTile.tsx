@@ -54,7 +54,7 @@ export function UserTile({
           <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-dark-teal">
             {student && student.name
               ? student.name + (student.admin ? " (Admin)" : "")
-              : senior && senior.name
+              : senior
               ? senior.name
               : null}
           </p>
