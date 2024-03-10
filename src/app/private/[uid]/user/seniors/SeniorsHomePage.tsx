@@ -32,9 +32,7 @@ const SeniorsHomePage = ({ seniors, user }: SeniorsHomePageProps) => {
           </h1>
         }
         search={(senior: Senior, filter: string) =>
-          (senior.firstName + " " + senior.lastName)
-            .toLowerCase()
-            .includes(filter.toLowerCase())
+          senior.name.toLowerCase().includes(filter.toLowerCase())
         }
       />
     </>
