@@ -73,8 +73,8 @@ const LandingFooter = () => {
         autoComplete="off"
       >
         <input
-          className="text-gray relative h-[60px] bg-white px-4
-                                text-lg placeholder-dark-gray shadow-md focus:border-dark-teal focus:outline-none md:w-3/4"
+          className="text-gray relative h-[60px] rounded-xl bg-white px-4
+                                 placeholder-dark-gray shadow-md focus:border-dark-teal focus:outline-none md:w-3/4"
           name="email"
           placeholder="Enter your e-mail address"
           onFocus={resetButton}
@@ -83,7 +83,7 @@ const LandingFooter = () => {
           }}
         />
         <button
-          className={`${buttonStyle} w-auto rounded-2xl px-4 py-4 duration-150`}
+          className={`${buttonStyle} w-auto rounded-xl px-4 py-4 duration-150`}
           type="submit"
         >
           <span className="align-center text-white">{buttonText}</span>

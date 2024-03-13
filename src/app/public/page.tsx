@@ -40,7 +40,7 @@ const HomePage = () => {
         {/* Action Items Buttons */}
         <div className="flex justify-center">
           <Link
-            className="w-fit gap-[20px] rounded-2xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
+            className="w-fit gap-[20px] rounded-xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
             href={START_A_CHAPTER}
           >
             Start A Chapter
@@ -66,7 +66,7 @@ const HomePage = () => {
         <PhotoCarousel />
         <div className="flex justify-center">
           <Link
-            className="w-fit rounded-2xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
+            className="w-fit rounded-xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
             href={MEET_TLP}
           >
             Meet TLP
