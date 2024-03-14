@@ -1,44 +1,42 @@
 "use client";
 
-import { Session } from "next-auth";
+import { Spinner } from "@components/skeleton";
+import { Prisma } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import React from "react";
 
+type UserWithChapter = Prisma.UserGetPayload<{ include: { Chapter: true } }>;
+
 interface IUserProvider {
   children: React.ReactNode;
+  user: UserWithChapter;
 }
 
-interface IAuthenticatedUser {
-  user: NonNullable<Session["user"]>;
+interface IUserContext {
+  user: UserWithChapter;
 }
 
-const UserContext = React.createContext<IAuthenticatedUser>(
-  {} as IAuthenticatedUser
-);
+const UserContext = React.createContext<IUserContext>({} as IUserContext);
 
 /**
  * Redirects to public home page if the current user is not authenticated.
  */
-const UserProvider = ({ children }: IUserProvider) => {
+const UserProvider = ({ user, children }: IUserProvider) => {
   const { data, status } = useSession({
     required: true,
     onUnauthenticated: () => redirect("/public/"),
   });
 
   if (status === "loading" || data?.user == undefined) {
-    // @TODO - Talk to Fa about spinner style
     return (
       <div className="flex h-full w-full flex-col items-center justify-center">
-        <svg
-          className="h-20 w-20 animate-spin rounded-full border-8 border-gray-300 border-t-dark-teal"
-          viewBox="0 0 24 24"
-        />
+        <Spinner />
       </div>
     );
   } else {
     return (
-      <UserContext.Provider value={{ user: data.user }}>
+      <UserContext.Provider value={{ user: user }}>
         {children}
       </UserContext.Provider>
     );
