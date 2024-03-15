@@ -54,7 +54,7 @@ const PhotoCarousel = () => {
   };
 
   return (
-    <div className="flex w-full flex-col place-content-center gap-y-8 py-8">
+    <div className="flex w-full flex-col place-content-center gap-y-8 py-6">
       {/* photo carousel */}
       <div className="relative flex items-center justify-center">
         <svg

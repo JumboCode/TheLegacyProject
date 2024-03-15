@@ -7,12 +7,12 @@ interface FlowerBoxProps {
 const FlowerBox = ({ children }: FlowerBoxProps) => {
   return (
     <div
-      className="\ relative z-10 mt-[40px] flex flex-col content-center overflow-hidden border border-dark-tan
-                      bg-med-tan p-[20px] text-center sm:p-[40px] md:mx-[40px]"
+      className="relative z-10 flex flex-col content-center overflow-hidden rounded
+                      bg-med-tan px-[24px] py-[40px] text-center"
     >
       <span className="z-10 flex flex-col gap-[20px]">{children}</span>
 
-      <span className="absolute -left-10 -top-6 aspect-square h-[140px] rotate-45 opacity-60">
+      {/* <span className="absolute -left-10 -top-6 aspect-square h-[140px] rotate-45 opacity-60">
         <Image
           src="/landing/pink-flower.png"
           layout="fill"
@@ -43,7 +43,7 @@ const FlowerBox = ({ children }: FlowerBoxProps) => {
           objectFit="cover"
           alt="Pink flower bottom right frame"
         />
-      </span>
+      </span> */}
     </div>
   );
 };
