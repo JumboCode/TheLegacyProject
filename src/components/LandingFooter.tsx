@@ -86,9 +86,32 @@ const LandingFooter = () => {
           className={`${buttonStyle} w-auto rounded-xl px-4 py-4 duration-150`}
           type="submit"
         >
+<<<<<<< HEAD
           <span className="align-center text-white">{buttonText}</span>
         </button>
       </form>
+=======
+          <input
+            className="text-dark \ relative h-[40px] rounded border-2 border-offer-white bg-off-white
+                                px-[10px] focus:border-light-teal focus:outline-none sm:w-3/4"
+            name="email"
+            placeholder="hello@thelegacyproj.org"
+            onFocus={resetButton}
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+          />
+          <button
+            className={`h-[40px] w-auto ${buttonStyle} rounded duration-150`}
+            type="submit"
+          >
+            <span className="align-center text-md m-[10px] w-auto tracking-easy text-white">
+              {buttonText}
+            </span>
+          </button>
+        </form>
+      </FlowerBox>
+>>>>>>> main
     </div>
   );
 };

@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import Image, { StaticImageData } from "next/legacy/image";
 import cn from "classnames";
 import FilterDropdown from "@components/FilterDropdown";
@@ -23,6 +29,18 @@ type AddSeniorTileProps = {
   showAddSeniorPopUp: boolean;
   setShowAddSeniorPopUp: Dispatch<SetStateAction<boolean>>;
   setSeniorPatch: Dispatch<SetStateAction<string>>;
+};
+
+type SeniorData = Pick<
+  z.infer<typeof seniorSchema>,
+  "firstname" | "lastname" | "location" | "description"
+>;
+
+const EMPTY_SENIOR: SeniorData = {
+  firstname: "",
+  lastname: "",
+  location: "",
+  description: "",
 };
 
 export const AddSeniorTile = ({
@@ -86,16 +104,6 @@ const StudentSelector = ({
   );
 };
 
-// type SeniorData = Omit<
-//   Extract<z.infer<typeof seniorPostResponse>, { code: "SUCCESS" }>["data"],
-//   "StudentIDs"
-// >;
-
-type SeniorData = Pick<
-  z.infer<typeof seniorSchema>,
-  "firstname" | "lastname" | "location" | "description"
->;
-
 const AddSenior = ({
   seniors,
   students,
@@ -105,13 +113,7 @@ const AddSenior = ({
   seniorPatch,
   setSeniorPatch,
 }: AddSeniorProps) => {
-  const emptySenior: SeniorData = {
-    firstname: "",
-    lastname: "",
-    location: "",
-    description: "",
-  };
-  const [seniorData, setSeniorData] = useState<SeniorData>(emptySenior);
+  const [seniorData, setSeniorData] = useState<SeniorData>(EMPTY_SENIOR);
   const [selectedStudents, setSelectedStudents] = useState<User[]>([]);
   const [currentImage, setCurrentImage] = useState<string | StaticImageData>(
     ImageIcon
@@ -119,11 +121,37 @@ const AddSenior = ({
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
+  const initialSenior: Senior | undefined = useMemo(() => {
+    const senior = seniors.find((senior) => senior.id === seniorPatch);
+    return senior;
+  }, [seniorPatch, seniors]);
+
+  useEffect(() => {
+    if (initialSenior)
+      setSeniorData({
+        firstname: initialSenior.firstname,
+        lastname: initialSenior.lastname,
+        location: initialSenior.location,
+        description: initialSenior.description,
+      });
+  }, [initialSenior]);
+
+  useEffect(() => {
+    if (initialSenior) {
+      setSelectedStudents(
+        students.filter((student) =>
+          initialSenior.StudentIDs.includes(student.id)
+        )
+      );
+    }
+  }, [students, initialSenior]);
+
   const handlePopUp = () => {
     setShowAddSeniorPopUp(!showAddSeniorPopUp);
-    setSeniorData(emptySenior);
+    setSeniorData(EMPTY_SENIOR);
     setSelectedStudents([]);
     setCurrentImage(ImageIcon);
+    setSeniorPatch(""); // empty string used as falsey value to indicate update or patch
   };
 
   const handleConfirm = () => {
@@ -151,14 +179,9 @@ const AddSenior = ({
       setConfirm(true);
       const newSeniors = seniors.filter((i) => i.id !== newerSeniorObj.id);
       setSeniors([...newSeniors, newerSeniorObj]);
-    }
-    // check after both API calls
-    if (currRes.code != "SUCCESS") {
+    } else {
       setError(true);
     }
-
-    setSeniorData(emptySenior);
-    setSeniorPatch(""); // empty string used as falsey value to indicate update or patch
   };
 
   const postAddSenior = async () => {
@@ -177,9 +200,6 @@ const AddSenior = ({
       } else {
         setError(true);
       }
-      setSeniorData(emptySenior);
-      setSelectedStudents([]);
-      return null;
     });
   };
 
@@ -248,6 +268,7 @@ const AddSenior = ({
                       <input
                         className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
                         type="text"
+                        value={seniorData.firstname}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData({
                             ...seniorData,
@@ -265,6 +286,7 @@ const AddSenior = ({
                       <input
                         className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
                         type="text"
+                        value={seniorData.lastname}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData((seniorData) => ({
                             ...seniorData,
@@ -296,6 +318,7 @@ const AddSenior = ({
                   <textarea
                     className="h-25 mb-3 min-h-[20px] w-full rounded-md border-2 border-solid border-tan bg-white p-[10px] text-start text-sm text-black"
                     placeholder="Write a brief description about the senior"
+                    value={seniorData.description}
                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                       setSeniorData({
                         ...seniorData,
@@ -332,11 +355,11 @@ const AddSenior = ({
               <>
                 {confirm ? (
                   <div className="flex flex-col items-center">
-                    <div className="mb-8 text-center text-3xl">
+                    <div className="mb-8 text-center text-xl">
                       {seniorPatch ? "Updated" : "Added"} successfully!
                     </div>
                     <button
-                      className="font-large mx-1 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md hover:bg-off-white"
+                      className="mx-1 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md"
                       onClick={handleConfirm}
                     >
                       Confirm
@@ -349,7 +372,7 @@ const AddSenior = ({
                       your club administrator for help.
                     </div>
                     <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-lg font-normal drop-shadow-md hover:bg-offer-white"
+                      className="mx-1 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md"
                       onClick={handleConfirm}
                     >
                       Confirm
