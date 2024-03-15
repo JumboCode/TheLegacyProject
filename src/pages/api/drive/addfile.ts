@@ -28,31 +28,33 @@ const uploadToFolder = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const fileCreateData = {
     resource: fileMetadata,
-    fields: "id"
-  }
+    fields: "id",
+  };
   // const media = {
   //   mimeType: "text/plain",
   //   body: fileData.description,
   // };
 
   try {
-    const file = await (service as NonNullable<typeof service>).files.create(fileCreateData);
+    const file = await (service as NonNullable<typeof service>).files.create(
+      fileCreateData
+    );
     // TODO: FIX ANY TYPE
     const googleFileId = (file as any).data.id;
 
-    const fileEntry = await prisma?.file.create({
-      data: {
-        name: fileData.fileName,
-        description: fileData.description,
-        filetype: fileData.fileType,
-        lastModified: new Date(),
-        url: `https://docs.google.com/document/d/${googleFileId}`,
-        seniorId: fileData.seniorId,
-        Tags: fileData.tags,
-      },
-    });
+    // const fileEntry = await prisma?.file.create({
+    //   data: {
+    //     name: fileData.fileName,
+    //     description: fileData.description,
+    //     filetype: fileData.fileType,
+    //     lastModified: new Date(),
+    //     url: `https://docs.google.com/document/d/${googleFileId}`,
+    //     seniorId: fileData.seniorId,
+    //     Tags: fileData.tags,
+    //   },
+    // });
 
-    res.status(200).json(fileEntry);
+    res.status(200).json("");
     return;
   } catch (err) {
     // TODO(developer) - Handle error

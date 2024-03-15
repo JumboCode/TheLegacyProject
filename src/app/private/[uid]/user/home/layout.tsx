@@ -1,5 +1,4 @@
 import { prisma } from "@server/db/client";
-import TabButtons from "@components/TabButtons";
 import { HeaderContainer } from "@components/container/index";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,12 +24,6 @@ const Layout = async ({ children, params, joinChapter }: LayoutProps) => {
         headerIcon={faHouse}
         showHorizontalLine={false}
       >
-        <TabButtons
-          queries={[
-            { segment: "home", name: "My Chapter" },
-            { segment: "home/resources", name: "resources" },
-          ]}
-        />
         {children}
       </HeaderContainer>
     );

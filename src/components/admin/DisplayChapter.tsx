@@ -57,20 +57,12 @@ const DisplayChapter = (props: DisplayChapterProps) => {
   return (
     <div className="flex h-fit flex-col gap-y-6">
       <PathNav pathInfo={[chapterPath, currchapterPath]} />
-      <div className="font-merriweather text-2xl font-bold text-[#000022]">
+      <div className=" text-2xl font-bold text-[#000022]">
         {chapter.chapterName}
       </div>
-      <DisplayChapterInfo
-        location={chapter.location}
-        noMembers={chapter.students.length}
-        dateCreated={chapter.dateCreated}
-      />
+      {/* TODO(nickbar01234) - Ask Fa for new Styling changes */}
       <CardGrid
-        title={
-          <div className="font-merriweather text-xl font-bold">
-            Executive Board
-          </div>
-        }
+        title={<div className="text-xl font-bold">Executive Board</div>}
         tiles={eboardMembers.map((user) => (
           <UserTile
             key={user.id}
@@ -123,7 +115,7 @@ const DisplayChapter = (props: DisplayChapterProps) => {
 
       <CardGrid
         title={
-          <div className="font-merriweather text-xl font-bold">
+          <div className=" text-xl font-bold">
             Pending ({requestUsers.length})
           </div>
         }
@@ -138,7 +130,7 @@ const DisplayChapter = (props: DisplayChapterProps) => {
 
       <CardGrid
         title={
-          <div className="font-merriweather text-xl font-bold">
+          <div className=" text-xl font-bold">
             Members (
             {chapter.students.filter((user) => user.role == "USER").length})
           </div>
