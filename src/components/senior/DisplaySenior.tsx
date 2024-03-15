@@ -1,7 +1,7 @@
 "use client";
 
 import SearchableContainer from "@components/SearchableContainer";
-import { File as PrismaFile, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { formatFileDate } from "@utils";
 import { File } from "@components/file";
 import AddFile from "@components/file/AddFile";
@@ -16,34 +16,6 @@ interface DisplayProps {
   }>;
 }
 
-// TODO(nickbar0123) - Remove mock data
-const FILES: PrismaFile[] = [
-  {
-    id: "1",
-    date: new Date("2023-11-20"),
-    filetype: "",
-    url: "https://www.google.com/",
-    seniorId: "",
-    Tags: ["Early Childhood", "Adolecense", "Marriage"],
-  },
-  {
-    id: "2",
-    date: new Date("2023-01-20"),
-    filetype: "",
-    url: "https://www.google.com/",
-    seniorId: "",
-    Tags: ["Marriage"],
-  },
-  {
-    id: "3",
-    date: new Date("2020-12-20"),
-    filetype: "",
-    url: "https://www.google.com/",
-    seniorId: "",
-    Tags: ["Parenthood & family"],
-  },
-];
-
 const DisplaySenior = (props: DisplayProps) => {
   const { editable, canAddFile, senior } = props;
   const addFileId = uuid();
@@ -55,7 +27,7 @@ const DisplaySenior = (props: DisplayProps) => {
       <Assignment editable={editable} senior={senior} />
       <SearchableContainer
         display={(file) => <File key={file.id} file={file} />}
-        elements={FILES} // TODO(nickbar01234) - Replace with real data.
+        elements={senior.Files}
         search={(file, filter) => formatFileDate(file.date).includes(filter)}
         addElementComponent={
           canAddFile && (

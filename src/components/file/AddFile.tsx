@@ -3,7 +3,7 @@ import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import AddFilePopup from "@components/user/AddFile";
-import { File as PrismaFile, Prisma } from "@prisma/client";
+import { File as PrismaFile } from "@prisma/client";
 
 const AddFile = ({
   seniorId,

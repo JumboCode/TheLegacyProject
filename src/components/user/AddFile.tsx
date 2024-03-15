@@ -1,16 +1,11 @@
 "use client";
 
 import React, { Dispatch, SetStateAction, useState } from "react";
-import FilterDropdown from "@components/FilterDropdown";
-import Tag, { TagProps, tagList } from "@components/Tag";
+import { TagProps, tagList } from "@components/Tag";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createFile } from "@api/file/route.client";
-import { File as PrismaFile, Prisma } from "@prisma/client";
-import { Checkbox, button } from "@material-tailwind/react";
-import { setActive } from "@material-tailwind/react/components/Tabs/TabsContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { File as PrismaFile } from "@prisma/client";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -48,7 +43,6 @@ const TagOptions = ({
               htmlFor={tag.name}
               className="m-2 ml-[-2px] inline-block rounded-full border-2 p-2 hover:bg-white hover:text-[#22555A]"
             >
-              {" "}
               {tag.name}
             </label>
           )}
@@ -57,7 +51,6 @@ const TagOptions = ({
               htmlFor={tag.name}
               className="m-2 ml-[-2px] inline-block rounded-full border-2 bg-white p-2 text-[#22555A]"
             >
-              {" "}
               {tag.name}
             </label>
           )}
@@ -114,7 +107,6 @@ const AddFile = ({
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<TagProps[]>([]);
-  const [datePickerOpen, setDatePickerOpen] = useState(false);
 
   const handleCancel = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
@@ -188,7 +180,7 @@ const AddFile = ({
           ) : (
             <>
               {confirm ? (
-                <div className="h-[250px] max-w-[35%] flex-row flex-col place-content-center gap-y-10 self-center rounded-lg bg-white p-10 text-center text-lg">
+                <div className="h-[250px] max-w-[35%] flex-col place-content-center gap-y-10 self-center rounded-lg bg-white p-10 text-center text-lg">
                   <span>File added successfully!</span>
                   <div className="flex w-full flex-row justify-center">
                     <button
