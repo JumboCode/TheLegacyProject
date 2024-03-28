@@ -23,15 +23,15 @@ export const compareResource = (x: Resource, y: Resource) => {
   return 0;
 };
 
-/**
+/*
  * Compare user fullname by alphabetical order.
  */
-export const compareUser = (x: User, y: User) => {
-  const xName = fullName(x);
-  const yName = fullName(y);
-  if (xName > yName) {
+export const compareUser = (user1: User, user2: User) => {
+  const user1name = fullName(user1);
+  const user2name = fullName(user2);
+  if (user1name > user2name) {
     return 1;
-  } else if (xName < yName) {
+  } else if (user1name < user2name) {
     return -1;
   } else {
     return 0;
@@ -71,4 +71,18 @@ export const sortedStudents = (students: User[]) => {
   };
 
   return students.sort(comparePositions);
+};
+
+/*
+ * Compare senior fullname by alphabetical order.
+ */
+export const compareSenior = (senior1: Senior, senior2: Senior) => {
+  const senior1name = seniorFullName(senior1);
+  const senior2name = seniorFullName(senior2);
+  if (senior1name > senior2name) {
+    return 1;
+  } else if (senior1name < senior2name) {
+    return -1;
+  }
+  return 0;
 };
