@@ -126,12 +126,13 @@ model ChapterRequest {
 }
 
 model Chapter {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  chapterName String
-  location    String
-  dateCreated DateTime @default(now())
-  students    User[]
-  seniors     Senior[]
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  chapterName   String
+  location      String
+  chapterFolder String
+  dateCreated   DateTime @default(now())
+  students      User[]
+  seniors       Senior[]
 }
 
 model Resource {

@@ -3,9 +3,13 @@ import {
   HandleChapterRequest,
   HandleChapterRequestResponse,
 } from "./route.schema";
+import { withSession } from "@server/decorator";
+import { randomUUID } from "crypto";
+import { google } from "googleapis";
+import { env } from "process";
 import { prisma } from "@server/db/client";
 
-export const POST = async (request: NextRequest) => {
+export const POST = withSession(async ({ req, session }) => {
   // Validate the data in the request
   // If the data is invalid, return a 400 response
   // with a JSON body containing the validation errors
@@ -13,7 +17,7 @@ export const POST = async (request: NextRequest) => {
   // Validate a proper JSON was passed in as well
   try {
     const handleChapterRequest = HandleChapterRequest.safeParse(
-      await request.json()
+      await req.json()
     );
     if (!handleChapterRequest.success) {
       return NextResponse.json(
@@ -53,10 +57,47 @@ export const POST = async (request: NextRequest) => {
       }
       // If approved, create a new chapter and update approved field of chapter request
       if (body.approved === true) {
+        const baseFolder = "1ydzuZB5oqBTrccSgfCQXqaAwrMhLDwNy"; // TODO: make env variable
+        const fileMetadata = {
+          name: [`${chapterRequest.university}-${randomUUID()}`],
+          mimeType: "application/vnd.google-apps.folder",
+          parents: [baseFolder],
+        };
+        const fileCreateData = {
+          resource: fileMetadata,
+          fields: "id",
+        };
+
+        const { access_token, refresh_token } = (await prisma.account.findFirst(
+          {
+            where: {
+              userId: session.user.id,
+            },
+          }
+        )) ?? { access_token: null };
+        const auth = new google.auth.OAuth2({
+          clientId: env.GOOGLE_CLIENT_ID,
+          clientSecret: env.GOOGLE_CLIENT_SECRET,
+        });
+        auth.setCredentials({
+          access_token,
+          refresh_token,
+        });
+        const service = google.drive({
+          version: "v3",
+          auth,
+        });
+
+        const file = await (
+          service as NonNullable<typeof service>
+        ).files.create(fileCreateData);
+        const googleFolderId = (file as any).data.id;
+
         await prisma.chapter.create({
           data: {
             chapterName: chapterRequest.university,
             location: chapterRequest.universityAddress,
+            chapterFolder: googleFolderId,
           },
         });
         await prisma.chapterRequest.update({
@@ -67,6 +108,7 @@ export const POST = async (request: NextRequest) => {
             approved: "APPROVED",
           },
         });
+
         return NextResponse.json(
           HandleChapterRequestResponse.parse({
             code: "SUCCESS",
@@ -101,4 +143,4 @@ export const POST = async (request: NextRequest) => {
       { status: 500 }
     );
   }
-};
+});
