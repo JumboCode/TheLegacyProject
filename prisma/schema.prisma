@@ -92,7 +92,7 @@ model Senior {
   description String
   StudentIDs  String[] @db.ObjectId
   Students    User[]   @relation(fields: [StudentIDs], references: [id])
-  folder      String
+  folder      String   @default("")
   Files       File[]
   ChapterID   String   @db.ObjectId
   chapter     Chapter  @relation(fields: [ChapterID], references: [id])
@@ -129,7 +129,7 @@ model Chapter {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   chapterName   String
   location      String
-  chapterFolder String
+  chapterFolder String   @default("")
   dateCreated   DateTime @default(now())
   students      User[]
   seniors       Senior[]

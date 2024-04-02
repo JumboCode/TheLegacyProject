@@ -4,7 +4,6 @@ import {
   HandleChapterRequestResponse,
 } from "./route.schema";
 import { withSession } from "@server/decorator";
-import { randomUUID } from "crypto";
 import { google } from "googleapis";
 import { env } from "process";
 import { prisma } from "@server/db/client";
@@ -57,9 +56,24 @@ export const POST = withSession(async ({ req, session }) => {
       }
       // If approved, create a new chapter and update approved field of chapter request
       if (body.approved === true) {
-        const baseFolder = "1ydzuZB5oqBTrccSgfCQXqaAwrMhLDwNy"; // TODO: make env variable
+        const createdChapter = await prisma.chapter.create({
+          data: {
+            chapterName: chapterRequest.university,
+            location: chapterRequest.universityAddress,
+          },
+        });
+        await prisma.chapterRequest.update({
+          where: {
+            id: body.chapterRequestId,
+          },
+          data: {
+            approved: "APPROVED",
+          },
+        });
+
+        const baseFolder = process.env.GOOGLE_BASEFOLDER; // TODO: make env variable
         const fileMetadata = {
-          name: [`${chapterRequest.university}-${randomUUID()}`],
+          name: [`${chapterRequest.university}-${createdChapter.id}`],
           mimeType: "application/vnd.google-apps.folder",
           parents: [baseFolder],
         };
@@ -93,19 +107,12 @@ export const POST = withSession(async ({ req, session }) => {
         ).files.create(fileCreateData);
         const googleFolderId = (file as any).data.id;
 
-        await prisma.chapter.create({
-          data: {
-            chapterName: chapterRequest.university,
-            location: chapterRequest.universityAddress,
-            chapterFolder: googleFolderId,
-          },
-        });
-        await prisma.chapterRequest.update({
+        await prisma.chapter.update({
           where: {
-            id: body.chapterRequestId,
+            id: createdChapter.id,
           },
           data: {
-            approved: "APPROVED",
+            chapterFolder: googleFolderId,
           },
         });
 

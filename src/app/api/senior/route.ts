@@ -47,11 +47,36 @@ export const POST = withSessionAndRole(
           })
         );
       }
-      const baseFolder = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a"; // TODO: make env variable
+
+      const chapter = await prisma.chapter.findFirst({
+        where: {
+          id: session.user.ChapterID,
+        },
+      });
+      if (!chapter) {
+        return NextResponse.json(
+          seniorPostResponse.parse({
+            code: "UNKNOWN",
+            message: "Chapter not found",
+          }),
+          { status: 400 }
+        );
+      }
+
+      const senior = await prisma.senior.create({
+        data: {
+          firstname: seniorBody.firstname,
+          lastname: seniorBody.lastname,
+          location: seniorBody.location,
+          description: seniorBody.description,
+          ChapterID: session.user.ChapterID,
+          StudentIDs: seniorBody.StudentIDs,
+        },
+      });
+
+      const baseFolder = chapter.chapterFolder; // TODO: make env variable
       const fileMetadata = {
-        name: [
-          `${seniorBody.firstname}_${seniorBody.lastname}-${randomUUID()}`,
-        ],
+        name: [`${seniorBody.firstname}_${seniorBody.lastname}_${senior.id}`],
         mimeType: "application/vnd.google-apps.folder",
         parents: [baseFolder],
       };
@@ -83,14 +108,11 @@ export const POST = withSessionAndRole(
       );
       const googleFolderId = (file as any).data.id;
 
-      const senior = await prisma.senior.create({
+      await prisma.senior.update({
+        where: {
+          id: senior.id,
+        },
         data: {
-          firstname: seniorBody.firstname,
-          lastname: seniorBody.lastname,
-          location: seniorBody.location,
-          description: seniorBody.description,
-          ChapterID: session.user.ChapterID,
-          StudentIDs: seniorBody.StudentIDs,
           folder: googleFolderId,
         },
       });
