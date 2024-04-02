@@ -1,17 +1,23 @@
 "use client";
 
-import { UserRequestTile } from "@components/TileGrid/UserRequestTile";
 import { Prisma, UserRequest } from "@prisma/client";
 import { TileEdit } from "../TileGrid/TileEdit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faEllipsis,
+  faRotateLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   handleJoinChapterRequest,
   handleManageChapterRequest,
 } from "@api/user-request/route.client";
 import { useRouter } from "next/navigation";
 import { CardGrid } from "@components/container";
-import { Card } from "@material-tailwind/react";
+import { UserContext } from "@context/UserProvider";
+import React from "react";
+import { InfoTile } from "@components/TileGrid";
+import { fullName } from "@utils";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -20,86 +26,106 @@ type ChapterWithUser = Prisma.ChapterGetPayload<{
 interface UserJoinRequestProps {
   chapters: ChapterWithUser[];
   joinRequest: UserRequest | null;
-  uid: string;
 }
 
 const UserJoinRequest = (props: UserJoinRequestProps) => {
   const { chapters, joinRequest } = props;
+  const userContext = React.useContext(UserContext);
   const router = useRouter();
 
   return (
-    // TODO(nickbar01234) - Add padding bottom
-    <div className="flex h-full w-full flex-col gap-y-6  px-7 pt-[104px]">
+    <div className="flex h-full w-full flex-col gap-y-6  px-7 py-[104px]">
       <p className="text-center text-4xl"> Welcome To The Legacy Project</p>
       <p className="text-2xl font-bold">Join a Chapter Below:</p>
       <CardGrid
         column_count={2}
         tiles={chapters.map((chapter) => {
-          const options: Parameters<typeof TileEdit>[0]["options"] = [
-            {
-              name: "Undo request",
-              onClick: () => {
-                handleManageChapterRequest({
-                  body: {
-                    userId: props.uid,
-                  },
-                }).then((res) => {
-                  console.log(res);
-                  router.refresh();
-                });
-              },
-              color: "#22555A",
-              icon: <FontAwesomeIcon icon={faRotateLeft} />,
-            },
-          ];
+          let yearsActive =
+            (new Date().getTime() - chapter.dateCreated.getTime()) / 1000;
+          yearsActive /= 60 * 60 * 24;
+          yearsActive = Math.abs(Math.round(yearsActive / 365.25));
+
+          const prez = chapter.students.find(
+            (user) => user.role === "CHAPTER_LEADER"
+          );
+
+          // const options: Parameters<typeof TileEdit>[0]["options"] = [];
+
+          // if (joinRequest == null) {
+          //   options.push({
+          //     name: "Join Chapter",
+          //     onClick: () =>
+          //       handleJoinChapterRequest({
+          //         body: { chapterId: chapter.id },
+          //       }).then(() => router.refresh()),
+          //     color: "#22555A",
+          //     icon: <FontAwesomeIcon icon={faCheck} />,
+          //   });
+          // } else if (joinRequest.chapterId === chapter.id) {
+          //   options.push({
+          //     name: "Undo request",
+          //     onClick: () => {
+          //       handleManageChapterRequest({
+          //         body: {
+          //           userId: userContext.user.id,
+          //         },
+          //       }).then(() => {
+          //         router.refresh();
+          //       });
+          //     },
+          //     color: "#22555A",
+          //     icon: <FontAwesomeIcon icon={faRotateLeft} />,
+          //   });
+          // }
+
           return (
-            <div
-              className="col-span-2 flex w-full flex-col gap-y-1.5 md:col-span-1"
+            <InfoTile
               key={chapter.id}
-            >
-              <UserRequestTile
-                chapter={chapter}
-                topRightButton={
-                  joinRequest?.chapterId === chapter.id ? (
-                    <TileEdit
-                      options={options}
-                      icon={<FontAwesomeIcon icon={faEllipsis} size="lg" />}
-                    />
-                  ) : undefined
-                }
-              />
-              {joinRequest?.chapterId === chapter.id ? (
-                <div className="w-full rounded-xl bg-[#A6A6A6] py-1 text-center text-white">
-                  Request Pending
-                </div>
-              ) : (
-                <div
-                  className={`w-full rounded-xl py-1 text-center text-white 
-                  ${
-                    joinRequest == null
-                      ? "cursor-pointer bg-dark-green hover:bg-[#1b4448]"
-                      : "bg-[#A6A6A6]"
-                  }`}
-                  //Bug of not updating buttons
-                  onClick={
-                    joinRequest == null
-                      ? () => {
-                          handleJoinChapterRequest({
-                            body: {
-                              chapterId: chapter.id,
-                            },
-                          }).then((res) => {
-                            console.log(res);
-                            router.refresh();
-                          });
-                        }
-                      : undefined
-                  }
-                >
-                  Join
-                </div>
-              )}
-            </div>
+              title={chapter.chapterName}
+              information={[
+                { key: "No. of members", value: chapter.students.length },
+                {
+                  key: "President",
+                  value:
+                    prez != undefined
+                      ? fullName(prez)
+                      : "This chapter has no president",
+                },
+                {
+                  key: "Years active",
+                  value: yearsActive,
+                },
+                {
+                  key: "Email",
+                  value: prez?.email ?? "",
+                },
+              ]}
+              topRightButton={
+                joinRequest == null ? (
+                  <button
+                    className="rounded bg-dark-teal px-5 py-2 text-sm text-white transition duration-300 ease-in-out hover:-translate-y-1"
+                    onClick={() =>
+                      handleJoinChapterRequest({
+                        body: { chapterId: chapter.id },
+                      }).then(() => router.refresh())
+                    }
+                  >
+                    Join
+                  </button>
+                ) : joinRequest.chapterId === chapter.id ? (
+                  <button
+                    className="rounded bg-dark-teal px-5 py-2 text-sm text-white transition duration-300 ease-in-out hover:-translate-y-1"
+                    onClick={() =>
+                      handleManageChapterRequest({
+                        body: { userId: userContext.user.id },
+                      }).then(() => router.refresh())
+                    }
+                  >
+                    Undo
+                  </button>
+                ) : null
+              }
+            />
           );
         })}
       />
