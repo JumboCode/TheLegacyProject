@@ -24,40 +24,53 @@ const DisplayUserSenior = (props: DisplayProps) => {
   const getAssignments = () =>
     seniors?.filter((senior) => user.SeniorIDs.includes(senior.id));
 
+  console.log("user.SeniorIDS", user.SeniorIDs);
+
   const [assigned, setAssigned] = React.useState(() => getAssignments());
+  const [seniorsOfUser, setSeniorsOfUser] = React.useState(() =>
+    getAssignments()
+  );
 
-  // const onSave = (savedSeniors: Senior[]) => {
-  //   savedSeniors.map(async (senior) => {
-  //     await patchSenior({
-  //       body: {
-  //         firstname: senior.firstname,
-  //         lastname: senior.lastname,
-  //         location: senior.location,
-  //         description: senior.description,
-  //         StudentIDs: [...senior.StudentIDs, user.id],
-  //       },
-  //       seniorId: senior.id,
-  //     });
-  //   })
+  const onSave = () => {
+    const seniorsToRemove = seniorsOfUser.filter(
+      (senior) => !assigned.includes(senior)
+    );
 
-  // };
+    setSeniorsOfUser(assigned);
 
-  const onSave = async () => {
-    await patchSenior({
-      body: {
-        firstname: senior.firstname,
-        lastname: senior.lastname,
-        location: senior.location,
-        description: senior.description,
-        StudentIDs: [...senior.StudentIDs, user.id],
-      },
-      seniorId: senior.id,
+    console.log("seniorsToRemove", seniorsToRemove);
+    console.log("assignedSeniros", assigned);
+
+    seniorsToRemove.map(async (senior) => {
+      const temp = senior.StudentIDs.filter((id) => id != user.id);
+      console.log("temp", temp);
     });
+
+    return Promise.all([
+      seniorsToRemove.map(async (senior) => {
+        await patchSenior({
+          body: {
+            ...senior,
+            StudentIDs: senior.StudentIDs.filter((id) => id != user.id),
+          },
+          seniorId: senior.id,
+        });
+      }),
+
+      assigned.map(async (senior) => {
+        await patchSenior({
+          body: {
+            ...senior,
+            StudentIDs: [...senior.StudentIDs, user.id],
+          },
+          seniorId: senior.id,
+        });
+      }),
+    ]);
   };
 
   return (
     <div className="flex flex-col gap-y-6">
-      {/* @TODO - Firstname + lastname */}
       <h1 className="text-4xl font-bold text-[#000022]">{`${user.firstName} ${user.lastName}`}</h1>
       <NewAssignment
         editable={editable}
@@ -65,7 +78,7 @@ const DisplayUserSenior = (props: DisplayProps) => {
         elements={seniors}
         selected={assigned}
         setSelected={setAssigned}
-        onSave={onSave(seniors)}
+        onSave={onSave}
       />
     </div>
   );
