@@ -7,7 +7,7 @@ import {
 } from "./route.schema";
 import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator/index";
-import { google } from "googleapis";
+import { createDriveService } from "@server/service";
 
 export const POST = withSession(async ({ req, session }) => {
   try {
@@ -245,23 +245,7 @@ export const PATCH = withSession(async ({ req, session }) => {
 
     // Next, share the folder with the user that is accepted
     const shareFolder = async (folderId: string, userEmail: string) => {
-      const { access_token, refresh_token } = (await prisma.account.findFirst({
-        where: {
-          userId: session.user.id,
-        },
-      })) ?? { access_token: null };
-      const auth = new google.auth.OAuth2({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      });
-      auth.setCredentials({
-        access_token,
-        refresh_token,
-      });
-      const service = google.drive({
-        version: "v3",
-        auth,
-      });
+      const service = await createDriveService(session.user.id);
 
       try {
         // Define the permission

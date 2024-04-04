@@ -2,9 +2,7 @@ import { withSessionAndRole } from "@server/decorator";
 import { NextResponse } from "next/server";
 import { seniorPostResponse, postSeniorSchema } from "./route.schema";
 import { prisma } from "@server/db/client";
-import { randomUUID } from "crypto";
-import { google } from "googleapis";
-import { env } from "process";
+import { createDriveService } from "@server/service";
 
 // @TODO - Use google drive service to create folder
 export const POST = withSessionAndRole(
@@ -85,23 +83,7 @@ export const POST = withSessionAndRole(
         fields: "id",
       };
 
-      const { access_token, refresh_token } = (await prisma.account.findFirst({
-        where: {
-          userId: session.user.id,
-        },
-      })) ?? { access_token: null };
-      const auth = new google.auth.OAuth2({
-        clientId: env.GOOGLE_CLIENT_ID,
-        clientSecret: env.GOOGLE_CLIENT_SECRET,
-      });
-      auth.setCredentials({
-        access_token,
-        refresh_token,
-      });
-      const service = google.drive({
-        version: "v3",
-        auth,
-      });
+      const service = await createDriveService(session.user.id);
 
       const file = await (service as NonNullable<typeof service>).files.create(
         fileCreateData

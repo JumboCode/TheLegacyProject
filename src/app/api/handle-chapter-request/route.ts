@@ -4,8 +4,8 @@ import {
   HandleChapterRequestResponse,
 } from "./route.schema";
 import { withSession } from "@server/decorator";
-import { google } from "googleapis";
-import { env } from "process";
+import { createDriveService } from "@server/service";
+import { env } from "@env/server.mjs";
 import { prisma } from "@server/db/client";
 
 export const POST = withSession(async ({ req, session }) => {
@@ -71,7 +71,7 @@ export const POST = withSession(async ({ req, session }) => {
           },
         });
 
-        const baseFolder = process.env.GOOGLE_BASEFOLDER; // TODO: make env variable
+        const baseFolder = env.GOOGLE_BASEFOLDER; // TODO: make env variable
         const fileMetadata = {
           name: [`${chapterRequest.university}-${createdChapter.id}`],
           mimeType: "application/vnd.google-apps.folder",
@@ -82,26 +82,7 @@ export const POST = withSession(async ({ req, session }) => {
           fields: "id",
         };
 
-        const { access_token, refresh_token } = (await prisma.account.findFirst(
-          {
-            where: {
-              userId: session.user.id,
-            },
-          }
-        )) ?? { access_token: null };
-        const auth = new google.auth.OAuth2({
-          clientId: env.GOOGLE_CLIENT_ID,
-          clientSecret: env.GOOGLE_CLIENT_SECRET,
-        });
-        auth.setCredentials({
-          access_token,
-          refresh_token,
-        });
-        const service = google.drive({
-          version: "v3",
-          auth,
-        });
-
+        const service = await createDriveService(session.user.id);
         const file = await (
           service as NonNullable<typeof service>
         ).files.create(fileCreateData);
