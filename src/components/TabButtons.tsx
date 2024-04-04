@@ -21,7 +21,7 @@ const TabButtons = ({ queries }: TabButtonsProps) => {
       <div className="flex gap-6">
         {queries.map(({ segment, name }, index) => {
           const isTabSelected =
-            pathName.endsWith(segment) || (urlSegment === null && index === 0);
+            pathName.includes(segment) || (urlSegment === null && index === 0);
 
           const base = pathName.match(
             new RegExp(
