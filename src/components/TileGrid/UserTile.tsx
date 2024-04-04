@@ -21,8 +21,12 @@ export function UserTile({
   dropdownComponent,
 }: UserTileProps) {
   return (
-    <div className="w-40 rounded-lg bg-white shadow-lg">
-      <div className="h-40 w-40 rounded-lg bg-white drop-shadow-md hover:bg-off-white">
+    <div
+      className={
+        (student ? "w-48 " : "w-40 ") + "rounded-lg bg-white shadow-lg"
+      }
+    >
+      <div className="h-40 w-full rounded-lg bg-white drop-shadow-md hover:bg-off-white">
         <Link
           href={link}
           className={
@@ -50,19 +54,37 @@ export function UserTile({
           </div>
         </Link>
       </div>
-      <div className="relative flex items-center justify-between p-2">
+      <div className="relative flex items-start justify-between px-3 py-4">
         <div className="overflow-hidden">
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-dark-teal before:invisible before:content-['\200B']">
+          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold before:invisible before:content-['\200B']">
             {student
               ? fullName(student)
               : senior
               ? seniorFullName(senior)
               : null}
           </p>
+          {student ? (
+            <p
+              className={
+                (student.position === "" && student.role !== "CHAPTER_LEADER"
+                  ? "bg-med-tan text-dark-teal "
+                  : "bg-[#AE583C] font-bold text-white  ") +
+                "mt-5 inline-block text-ellipsis whitespace-nowrap rounded-3xl px-3.5 py-1.5 text-center text-xs"
+              }
+            >
+              {student.role === "CHAPTER_LEADER"
+                ? "Chapter Leader"
+                : student.position === ""
+                ? "Member"
+                : student.position}
+            </p>
+          ) : null}
           {/* @TODO: Add pronouns once we add to student field  */}
-          <p className="text-md font-base text-neutral-600 mt-[5px] truncate text-[10px] text-dark-teal before:invisible before:content-['\200B']">
-            {senior && senior.location}
-          </p>
+          {senior ? (
+            <p className="text-md font-base text-neutral-600 mt-[5px] truncate text-[10px] text-dark-teal before:invisible before:content-['\200B']">
+              {senior.location}
+            </p>
+          ) : null}
         </div>
         {dropdownComponent}
       </div>
