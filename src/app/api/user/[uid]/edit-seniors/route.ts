@@ -4,7 +4,7 @@ import { prisma } from "@server/db/client";
 import { EditSeniorRequest, EditSeniorResponse } from "./route.schema";
 
 /**
- * Update a non-admin user's role.
+ * Update a non-admin user's list of seniorIDs.
  */
 export const PATCH = withSession(
   withRole(["CHAPTER_LEADER"], async ({ req, params }) => {
@@ -31,7 +31,6 @@ export const PATCH = withSession(
       },
     });
 
-    // Remove if senior.studentIds is not contained in body.studentIds
     const seniorsToRemove = maybeUser.SeniorIDs.filter(
       (id) => !maybeBody.data.SeniorIDs.includes(id)
     );
