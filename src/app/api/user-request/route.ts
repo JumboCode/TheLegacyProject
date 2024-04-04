@@ -7,6 +7,7 @@ import {
 } from "./route.schema";
 import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator/index";
+import { createDriveService } from "@server/service";
 
 export const POST = withSession(async ({ req, session }) => {
   try {
@@ -216,7 +217,7 @@ export const PATCH = withSession(async ({ req, session }) => {
         approved: "APPROVED",
       },
     });
-    await prisma.user.update({
+    const user = await prisma.user.update({
       where: {
         id: targetUID,
       },
@@ -224,7 +225,48 @@ export const PATCH = withSession(async ({ req, session }) => {
         ChapterID: approveChapterRequest.chapterId,
       },
     });
+    const chapter = await prisma.chapter.findFirst({
+      where: {
+        id: approveChapterRequest.chapterId,
+      },
+    });
 
+    if (chapter == null || user == null || user.email == null) {
+      return NextResponse.json(
+        ManageChapterRequestResponse.parse({
+          code: "INVALID_REQUEST",
+          message: "Chapter or user (or email) doesn't exist",
+        }),
+        { status: 400 }
+      );
+    }
+
+    const folderId = chapter.chapterFolder;
+
+    // Next, share the folder with the user that is accepted
+    const shareFolder = async (folderId: string, userEmail: string) => {
+      const service = await createDriveService(session.user.id);
+
+      try {
+        // Define the permission
+        const permission = {
+          type: "user",
+          role: "writer", // Change role as per your requirement
+          emailAddress: userEmail,
+        };
+
+        // Share the folder
+        await service.permissions.create({
+          fileId: folderId,
+          requestBody: permission,
+        });
+
+        console.log("Folder shared successfully!");
+      } catch (error) {
+        console.error("Error sharing folder:", error);
+      }
+    };
+    await shareFolder(folderId, user.email);
     return NextResponse.json(
       ManageChapterRequestResponse.parse({ code: "SUCCESS" })
     );
