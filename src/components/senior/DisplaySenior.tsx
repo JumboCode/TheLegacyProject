@@ -2,12 +2,11 @@
 
 import SearchableContainer from "@components/SearchableContainer";
 import { Prisma, User } from "@prisma/client";
-import { compareUser, formatFileDate, fullName } from "@utils";
+import { compareUser, formatFileDate, fullName, seniorFullName } from "@utils";
 import { File } from "@components/file";
 import AddFile from "@components/file/AddFile";
 import { v4 as uuid } from "uuid";
 import Assignment from "./assignment";
-import NewAssignment from "./assignment/NewAssignment";
 import { patchSenior } from "@api/senior/[id]/route.client";
 import React from "react";
 
@@ -48,15 +47,24 @@ const DisplaySenior = (props: DisplayProps) => {
 
   return (
     <div className="flex flex-col gap-y-6">
-      {/* @TODO - Firstname + lastname */}
-      <h1 className="text-4xl font-bold text-[#000022]">{`${senior.firstname} ${senior.lastname}`}</h1>
+      <h1 className="text-4xl font-bold text-[#000022]">
+        {seniorFullName(senior)}
+      </h1>
       <p>{senior.description}</p>
-      <NewAssignment
+      <Assignment
         editable={editable}
         display={(user: User) => fullName(user)}
         elements={students}
         selected={assigned}
-        setSelected={setAssigned}
+        setSelected={(element) => {
+          if (assigned.some((other) => element.id === other.id)) {
+            setAssigned((prev) =>
+              prev.filter((other) => element.id !== other.id)
+            );
+          } else {
+            setAssigned((prev) => [...prev, element]);
+          }
+        }}
         onSave={onSave}
       />
       <SearchableContainer

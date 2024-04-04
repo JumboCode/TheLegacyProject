@@ -10,7 +10,7 @@ interface DropdownProps<T extends IdentifiableObject> {
   display: (ele: T) => React.ReactNode;
   elements: T[];
   selected: T[];
-  setSelected: React.Dispatch<React.SetStateAction<T[]>>;
+  setSelected: (ele: T) => void;
   onSave: () => Promise<any>;
   multipleChoice?: boolean;
 }
@@ -40,13 +40,7 @@ const Dropdown = <T extends IdentifiableObject>(props: DropdownProps<T>) => {
   ) => {
     e.stopPropagation();
     startTransition(() => {
-      if (selected.some((other) => element.id === other.id)) {
-        setSelected((prev) => prev.filter((other) => element.id !== other.id));
-      } else if (multipleChoice) {
-        setSelected((prev) => [...prev, element]);
-      } else {
-        setSelected([element]);
-      }
+      setSelected(element);
     });
   };
 

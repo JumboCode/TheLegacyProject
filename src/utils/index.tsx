@@ -64,8 +64,8 @@ export const sortedStudents = (students: User[]) => {
       return 1;
     }
 
-    const orderA = positionOrder[a.position] || Infinity;
-    const orderB = positionOrder[b.position] || Infinity;
+    const orderA = positionOrder[a.position] ?? Infinity;
+    const orderB = positionOrder[b.position] ?? Infinity;
 
     return orderA - orderB;
   };

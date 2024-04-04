@@ -1,85 +1,76 @@
 "use client";
 
-import { patchSenior } from "@api/senior/[id]/route.client";
-import NewAssignment from "@components/senior/assignment/NewAssignment";
-import { Prisma, Senior, User } from "@prisma/client";
-import { compareSenior, seniorFullName } from "@utils";
+import { editSeniorIDs } from "@api/user/[uid]/edit-seniors/route.client";
+import { UserTile } from "@components/TileGrid";
+import Assignment from "@components/senior/assignment";
+import { RoleToUrlSegment } from "@constants/RoleAlias";
+import { Prisma, Senior } from "@prisma/client";
+import { compareSenior, fullName, seniorFullName } from "@utils";
 import React from "react";
+import { UserContext } from "src/context/UserProvider";
 
 interface DisplayProps {
   editable: boolean;
-  user: Prisma.UserGetPayload<{
+  currentUser: Prisma.UserGetPayload<{
     include: { Chapter: { include: { seniors: true } } };
   }>;
 }
 
 const DisplayUserSenior = (props: DisplayProps) => {
-  const { editable, user } = props;
+  const { user } = React.useContext(UserContext);
+  const { editable, currentUser } = props;
 
   const seniors = React.useMemo(
-    () => user.Chapter?.seniors.sort(compareSenior) ?? [],
-    [user.Chapter?.seniors]
+    () => currentUser.Chapter?.seniors.sort(compareSenior) ?? [],
+    [currentUser.Chapter?.seniors]
   );
 
   const getAssignments = () =>
-    seniors?.filter((senior) => user.SeniorIDs.includes(senior.id));
-
-  console.log("user.SeniorIDS", user.SeniorIDs);
+    seniors?.filter((senior) => currentUser.SeniorIDs.includes(senior.id));
 
   const [assigned, setAssigned] = React.useState(() => getAssignments());
-  const [seniorsOfUser, setSeniorsOfUser] = React.useState(() =>
-    getAssignments()
-  );
 
-  const onSave = () => {
-    const seniorsToRemove = seniorsOfUser.filter(
-      (senior) => !assigned.includes(senior)
+  const onSave = async () => {
+    await editSeniorIDs(
+      {
+        body: {
+          SeniorIDs: assigned.map((senior) => senior.id),
+        },
+      },
+      currentUser.id
     );
-
-    setSeniorsOfUser(assigned);
-
-    console.log("seniorsToRemove", seniorsToRemove);
-    console.log("assignedSeniros", assigned);
-
-    seniorsToRemove.map(async (senior) => {
-      const temp = senior.StudentIDs.filter((id) => id != user.id);
-      console.log("temp", temp);
-    });
-
-    return Promise.all([
-      seniorsToRemove.map(async (senior) => {
-        await patchSenior({
-          body: {
-            ...senior,
-            StudentIDs: senior.StudentIDs.filter((id) => id != user.id),
-          },
-          seniorId: senior.id,
-        });
-      }),
-
-      assigned.map(async (senior) => {
-        await patchSenior({
-          body: {
-            ...senior,
-            StudentIDs: [...senior.StudentIDs, user.id],
-          },
-          seniorId: senior.id,
-        });
-      }),
-    ]);
   };
 
   return (
     <div className="flex flex-col gap-y-6">
-      <h1 className="text-4xl font-bold text-[#000022]">{`${user.firstName} ${user.lastName}`}</h1>
-      <NewAssignment
+      <h1 className="text-4xl font-bold text-[#000022]">
+        {fullName(currentUser)}
+      </h1>
+      <Assignment
         editable={editable}
         display={(senior: Senior) => seniorFullName(senior)}
         elements={seniors}
         selected={assigned}
-        setSelected={setAssigned}
+        setSelected={(element) => {
+          if (assigned.some((other) => element.id === other.id)) {
+            setAssigned((prev) =>
+              prev.filter((other) => element.id !== other.id)
+            );
+          } else {
+            setAssigned((prev) => [...prev, element]);
+          }
+        }}
         onSave={onSave}
       />
+      {assigned.map((eachSenior) => (
+        <UserTile
+          key={eachSenior.id}
+          senior={eachSenior}
+          link={`/private/${user.id}/${RoleToUrlSegment[user.role]}/seniors/${
+            eachSenior.id
+          }`}
+        />
+      ))}
     </div>
   );
 };

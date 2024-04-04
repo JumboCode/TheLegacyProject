@@ -32,7 +32,7 @@ const Page = async ({ params }: PageProps) => {
           { display: fullName(user), url: `users/${user.id}` },
         ]}
       />
-      <DisplayUserSenior editable={true} user={user} />
+      <DisplayUserSenior editable={true} currentUser={user} />
     </div>
   );
 };

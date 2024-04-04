@@ -80,7 +80,15 @@ const MembersHomePage = ({ members }: MembersHomePageProps) => {
             elements={EBOARD_POSITIONS}
             display={(element) => <>{element.position}</>}
             selected={selectedPosition}
-            setSelected={setSelectedPosition}
+            setSelected={(element) => {
+              if (selectedPosition.some((other) => element.id === other.id)) {
+                setSelectedPosition((prev) =>
+                  prev.filter((other) => element.id !== other.id)
+                );
+              } else {
+                setSelectedPosition([element]);
+              }
+            }}
             onSave={async () => {
               await editPosition(
                 {
