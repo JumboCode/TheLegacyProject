@@ -18,12 +18,35 @@ const UserHomePage = async ({ params }: UserHomePageParams) => {
       id: user.ChapterID ?? "",
     },
     include: {
-      students: true,
+      students: {
+        where: {
+          position: {
+            not: "",
+          },
+        },
+      },
     },
   });
+
   const resources = await prisma.resource.findMany();
 
-  return <DisplayChapterInfo chapter={chapter} resources={resources} />;
+  const userRequests = await prisma.userRequest.findMany({
+    where: {
+      chapterId: chapter.id,
+      approved: "PENDING",
+    },
+    include: {
+      user: true,
+    },
+  });
+
+  return (
+    <DisplayChapterInfo
+      chapter={chapter}
+      resources={resources}
+      userRequests={userRequests}
+    />
+  );
 };
 
 export default UserHomePage;
