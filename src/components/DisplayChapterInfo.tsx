@@ -69,7 +69,7 @@ const DisplayChapterInfo = ({
                   <PendingCard
                     key={index}
                     name={fullName(user.user)}
-                    uid={user.id}
+                    uid={user.user.id}
                   />
                 );
               })}
@@ -91,15 +91,15 @@ const DisplayChapterInfo = ({
                 : "Executive Board"}
             </div>
           }
-          tiles={students.map((student) => (
-            <UserTile
-              key={student.id}
-              student={student}
-              link={`/private/${user.id}/${RoleToUrlSegment[user.role]}/users/${
-                student.id
-              }`}
-            />
-          ))}
+          tiles={students.map((student) => {
+            const link =
+              user.role === "USER"
+                ? ""
+                : `/private/${user.id}/${RoleToUrlSegment[user.role]}` +
+                  `${user.role === "ADMIN" && `/home/chapters/${chapter.id}`}` +
+                  `/users/${student.id}`;
+            return <UserTile key={student.id} student={student} link={link} />;
+          })}
         />
       </div>
       <div className="flex flex-col gap-y-6">
