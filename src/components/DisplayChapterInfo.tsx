@@ -6,6 +6,7 @@ import { UserTile } from "./TileGrid";
 import DisplayResources from "./DisplayResources";
 import React from "react";
 import { UserContext } from "@context/UserProvider";
+import { sortedStudents } from "@utils";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -44,7 +45,7 @@ const DisplayChapterInfo = ({
       <div className="mb-12">
         <CardGrid
           title={<div className="text-xl text-[#000022]">Executive Board</div>}
-          tiles={chapter.students
+          tiles={sortedStudents(chapter.students)
             .filter(
               (user) => user.role === "CHAPTER_LEADER" || user.position !== ""
             )
