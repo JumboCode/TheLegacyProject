@@ -13,12 +13,30 @@ const UserHomePage = async ({ params }: UserHomePageParams) => {
       id: params.uid,
     },
   });
+
+  if (user.ChapterID == null) {
+    return null;
+  }
+
   const chapter = await prisma.chapter.findFirstOrThrow({
     where: {
       id: user.ChapterID ?? "",
     },
     include: {
-      students: true,
+      students: {
+        where: {
+          OR: [
+            {
+              position: {
+                not: "",
+              },
+            },
+            {
+              role: "CHAPTER_LEADER",
+            },
+          ],
+        },
+      },
     },
   });
   const resources = await prisma.resource.findMany({
@@ -29,14 +47,7 @@ const UserHomePage = async ({ params }: UserHomePageParams) => {
     },
   });
 
-  return (
-    <div className="mt-6 flex flex-col gap-y-6">
-      <div className="text-2xl font-bold text-[#000022]">
-        {chapter.chapterName}
-      </div>
-      <DisplayChapterInfo chapter={chapter} resources={resources} />
-    </div>
-  );
+  return <DisplayChapterInfo chapter={chapter} resources={resources} />;
 };
 
 export default UserHomePage;

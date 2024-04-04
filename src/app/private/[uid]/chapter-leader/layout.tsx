@@ -1,7 +1,7 @@
 "use client";
 
 import Sidebar, { ISideBar } from "@components/Sidebar";
-import { CollapsableSidebarContainer } from "@components/container";
+import { CollapsibleSidebarContainer } from "@components/container";
 import {
   faHome,
   faUser,
@@ -36,11 +36,6 @@ const UserLayout = ({ children }: IUserLayout) => {
         icon: faUserGroup,
       },
       {
-        name: "Pending",
-        link: `/private/${user.id}/chapter-leader/pending`,
-        icon: faUserPlus,
-      },
-      {
         name: "Profile",
         link: `/private/${user.id}/chapter-leader/edit-profile`,
         icon: faUser,
@@ -50,9 +45,9 @@ const UserLayout = ({ children }: IUserLayout) => {
   );
 
   return (
-    <CollapsableSidebarContainer buttons={buttons}>
+    <CollapsibleSidebarContainer buttons={buttons}>
       {children}
-    </CollapsableSidebarContainer>
+    </CollapsibleSidebarContainer>
   );
 };
 

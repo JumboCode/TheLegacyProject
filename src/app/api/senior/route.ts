@@ -2,9 +2,7 @@ import { withSessionAndRole } from "@server/decorator";
 import { NextResponse } from "next/server";
 import { seniorPostResponse, postSeniorSchema } from "./route.schema";
 import { prisma } from "@server/db/client";
-import { randomUUID } from "crypto";
-import { google } from "googleapis";
-import { env } from "process";
+import { createDriveService } from "@server/service";
 
 // @TODO - Use google drive service to create folder
 export const POST = withSessionAndRole(
@@ -47,41 +45,21 @@ export const POST = withSessionAndRole(
           })
         );
       }
-      const baseFolder = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a"; // TODO: make env variable
-      const fileMetadata = {
-        name: [
-          `${seniorBody.firstname}_${seniorBody.lastname}-${randomUUID()}`,
-        ],
-        mimeType: "application/vnd.google-apps.folder",
-        parents: [baseFolder],
-      };
-      const fileCreateData = {
-        resource: fileMetadata,
-        fields: "id",
-      };
 
-      const { access_token, refresh_token } = (await prisma.account.findFirst({
+      const chapter = await prisma.chapter.findFirst({
         where: {
-          userId: session.user.id,
+          id: session.user.ChapterID,
         },
-      })) ?? { access_token: null };
-      const auth = new google.auth.OAuth2({
-        clientId: env.GOOGLE_CLIENT_ID,
-        clientSecret: env.GOOGLE_CLIENT_SECRET,
       });
-      auth.setCredentials({
-        access_token,
-        refresh_token,
-      });
-      const service = google.drive({
-        version: "v3",
-        auth,
-      });
-
-      const file = await (service as NonNullable<typeof service>).files.create(
-        fileCreateData
-      );
-      const googleFolderId = (file as any).data.id;
+      if (!chapter) {
+        return NextResponse.json(
+          seniorPostResponse.parse({
+            code: "UNKNOWN",
+            message: "Chapter not found",
+          }),
+          { status: 400 }
+        );
+      }
 
       const senior = await prisma.senior.create({
         data: {
@@ -91,6 +69,32 @@ export const POST = withSessionAndRole(
           description: seniorBody.description,
           ChapterID: session.user.ChapterID,
           StudentIDs: seniorBody.StudentIDs,
+        },
+      });
+
+      const baseFolder = chapter.chapterFolder; // TODO: make env variable
+      const fileMetadata = {
+        name: [`${seniorBody.firstname}_${seniorBody.lastname}_${senior.id}`],
+        mimeType: "application/vnd.google-apps.folder",
+        parents: [baseFolder],
+      };
+      const fileCreateData = {
+        resource: fileMetadata,
+        fields: "id",
+      };
+
+      const service = await createDriveService(session.user.id);
+
+      const file = await (service as NonNullable<typeof service>).files.create(
+        fileCreateData
+      );
+      const googleFolderId = (file as any).data.id;
+
+      await prisma.senior.update({
+        where: {
+          id: senior.id,
+        },
+        data: {
           folder: googleFolderId,
         },
       });

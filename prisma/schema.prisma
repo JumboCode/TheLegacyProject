@@ -57,7 +57,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  position      String?
+  position      String    @default("")
 
   // @deprecated Pending for removal when we expand to multiple universities
   admin Boolean @default(false)
@@ -70,6 +70,8 @@ model User {
   approved  Approval  @default(PENDING)
   ChapterID String?   @db.ObjectId
   Chapter   Chapter?  @relation(fields: [ChapterID], references: [id])
+  
+  userRequest UserRequest?
 }
 
 enum Approval {
@@ -92,7 +94,7 @@ model Senior {
   description String
   StudentIDs  String[] @db.ObjectId
   Students    User[]   @relation(fields: [StudentIDs], references: [id])
-  folder      String
+  folder      String   @default("")
   Files       File[]
   ChapterID   String   @db.ObjectId
   chapter     Chapter  @relation(fields: [ChapterID], references: [id])
@@ -126,12 +128,13 @@ model ChapterRequest {
 }
 
 model Chapter {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  chapterName String
-  location    String
-  dateCreated DateTime @default(now())
-  students    User[]
-  seniors     Senior[]
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  chapterName   String
+  location      String
+  chapterFolder String   @default("")
+  dateCreated   DateTime @default(now())
+  students      User[]
+  seniors       Senior[]
 }
 
 model Resource {
@@ -151,4 +154,5 @@ model UserRequest {
   approved  Approval @default(PENDING)
   uid       String   @unique @db.ObjectId
   chapterId String   @db.ObjectId
+  user      User     @relation(fields: [uid], references: [id])
 }
