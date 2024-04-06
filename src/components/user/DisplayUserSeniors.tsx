@@ -6,7 +6,7 @@ import { CardGrid } from "@components/container";
 import Assignment from "@components/senior/assignment";
 import { RoleToUrlSegment } from "@constants/RoleAlias";
 import { Prisma, Senior } from "@prisma/client";
-import { compareName, fullName, seniorFullName } from "@utils";
+import { compareSenior, fullName, seniorFullName } from "@utils";
 import React from "react";
 import { UserContext } from "src/context/UserProvider";
 
@@ -22,10 +22,7 @@ const DisplayUserSenior = (props: DisplayProps) => {
   const { editable, currentUser } = props;
 
   const seniors = React.useMemo(
-    () =>
-      currentUser.Chapter?.seniors.sort((senior1, senior2) =>
-        compareName(seniorFullName(senior1), seniorFullName(senior2))
-      ) ?? [],
+    () => currentUser.Chapter?.seniors.sort(compareSenior) ?? [],
     [currentUser.Chapter?.seniors]
   );
 

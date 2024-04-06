@@ -36,6 +36,13 @@ export const compareName = (name1: string, name2: string) => {
   return 0;
 };
 
+export const compareUser = (user1: User, user2: User) => {
+  return compareName(fullName(user1), fullName(user2));
+};
+
+export const compareSenior = (senior1: Senior, senior2: Senior) => {
+  return compareName(seniorFullName(senior1), seniorFullName(senior2));
+};
 export const formatFileDate = (date: Date) =>
   moment(date).format("MMM DD YYYY");
 
