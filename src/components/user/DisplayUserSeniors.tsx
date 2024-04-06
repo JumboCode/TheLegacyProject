@@ -2,10 +2,11 @@
 
 import { editSeniorIDs } from "@api/user/[uid]/edit-seniors/route.client";
 import { UserTile } from "@components/TileGrid";
+import { CardGrid } from "@components/container";
 import Assignment from "@components/senior/assignment";
 import { RoleToUrlSegment } from "@constants/RoleAlias";
 import { Prisma, Senior } from "@prisma/client";
-import { compareSenior, fullName, seniorFullName } from "@utils";
+import { compareName, fullName, seniorFullName } from "@utils";
 import React from "react";
 import { UserContext } from "src/context/UserProvider";
 
@@ -21,7 +22,10 @@ const DisplayUserSenior = (props: DisplayProps) => {
   const { editable, currentUser } = props;
 
   const seniors = React.useMemo(
-    () => currentUser.Chapter?.seniors.sort(compareSenior) ?? [],
+    () =>
+      currentUser.Chapter?.seniors.sort((senior1, senior2) =>
+        compareName(seniorFullName(senior1), seniorFullName(senior2))
+      ) ?? [],
     [currentUser.Chapter?.seniors]
   );
 
@@ -63,15 +67,18 @@ const DisplayUserSenior = (props: DisplayProps) => {
         }}
         onSave={onSave}
       />
-      {assigned.map((eachSenior) => (
-        <UserTile
-          key={eachSenior.id}
-          senior={eachSenior}
-          link={`/private/${user.id}/${RoleToUrlSegment[user.role]}/seniors/${
-            eachSenior.id
-          }`}
-        />
-      ))}
+
+      <CardGrid
+        tiles={assigned.map((eachSenior) => (
+          <UserTile
+            key={eachSenior.id}
+            senior={eachSenior}
+            link={`/private/${user.id}/${RoleToUrlSegment[user.role]}/seniors/${
+              eachSenior.id
+            }`}
+          />
+        ))}
+      />
     </div>
   );
 };

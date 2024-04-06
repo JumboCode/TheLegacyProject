@@ -2,7 +2,7 @@
 
 import SearchableContainer from "@components/SearchableContainer";
 import { Prisma, User } from "@prisma/client";
-import { compareUser, formatFileDate, fullName, seniorFullName } from "@utils";
+import { compareName, formatFileDate, fullName, seniorFullName } from "@utils";
 import { File } from "@components/file";
 import AddFile from "@components/file/AddFile";
 import { v4 as uuid } from "uuid";
@@ -23,7 +23,10 @@ const DisplaySenior = (props: DisplayProps) => {
   const addFileId = uuid();
 
   const students = React.useMemo(
-    () => senior.chapter.students.sort(compareUser),
+    () =>
+      senior.chapter.students.sort((student1, student2) =>
+        compareName(fullName(student1), fullName(student2))
+      ),
     [senior.chapter.students]
   );
 
