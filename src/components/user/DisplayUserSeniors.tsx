@@ -30,6 +30,7 @@ const DisplayUserSenior = (props: DisplayProps) => {
     seniors?.filter((senior) => currentUser.SeniorIDs.includes(senior.id));
 
   const [assigned, setAssigned] = React.useState(() => getAssignments());
+  console.log(assigned);
 
   const onSave = async () => {
     await editSeniorIDs(

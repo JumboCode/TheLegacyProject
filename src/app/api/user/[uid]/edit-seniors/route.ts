@@ -22,51 +22,61 @@ export const PATCH = withSession(
       );
     }
 
-    await prisma.user.update({
-      where: {
-        id: uid,
-      },
-      data: {
-        SeniorIDs: maybeBody.data.SeniorIDs,
-      },
-    });
+    // await prisma.user.update({
+    //   where: {
+    //     id: uid,
+    //   },
+    //   data: {
+    //     SeniorIDs: maybeBody.data.SeniorIDs,
+    //   },
+    // });
 
-    const seniorsToRemove = maybeUser.SeniorIDs.filter(
+    const seniorIDsToRemove = maybeUser.SeniorIDs.filter(
       (id) => !maybeBody.data.SeniorIDs.includes(id)
     );
-    const seniorsToAdd = maybeBody.data.SeniorIDs;
+    const seniorIDsToAdd = maybeBody.data.SeniorIDs;
 
-    const prismaSeniorsToRemove = await prisma.senior.findMany({
-      where: { id: { in: seniorsToRemove } },
-    });
-    const prismaSeniorsToAdd = await prisma.senior.findMany({
-      where: { id: { in: seniorsToAdd } },
-    });
+    // const seniorsToRemove = await prisma.senior.findMany({
+    //   where: { id: { in: seniorIDsToRemove } },
+    // });
+    // const seniorsToAdd = await prisma.senior.findMany({
+    //   where: { id: { in: seniorIDsToAdd } },
+    // });
 
-    for (const senior of prismaSeniorsToRemove) {
-      await prisma.senior.update({
-        where: {
-          id: senior.id,
+    await prisma.user.update({
+      where: { id: uid },
+      data: {
+        Seniors: {
+          connect: seniorIDsToAdd.map((id) => ({ id })),
+          disconnect: seniorIDsToRemove.map((id) => ({ id })),
         },
-        data: {
-          StudentIDs: senior.StudentIDs.filter((id) => id !== uid),
-        },
-      });
-    }
+      },
+    });
 
-    for (const senior of prismaSeniorsToAdd) {
-      //Checks if student has already been added
-      if (!senior.StudentIDs.includes(uid)) {
-        await prisma.senior.update({
-          where: {
-            id: senior.id,
-          },
-          data: {
-            StudentIDs: [...senior.StudentIDs, uid],
-          },
-        });
-      }
-    }
+    // for (const senior of prismaSeniorsToRemove) {
+    //   await prisma.senior.update({
+    //     where: {
+    //       id: senior.id,
+    //     },
+    //     data: {
+    //       StudentIDs: senior.StudentIDs.filter((id) => id !== uid),
+    //     },
+    //   });
+    // }
+
+    // for (const senior of prismaSeniorsToAdd) {
+    //   //Checks if student has already been added
+    //   if (!senior.StudentIDs.includes(uid)) {
+    //     await prisma.senior.update({
+    //       where: {
+    //         id: senior.id,
+    //       },
+    //       data: {
+    //         StudentIDs: [...senior.StudentIDs, uid],
+    //       },
+    //     });
+    //   }
+    // }
 
     return NextResponse.json(
       EditSeniorResponse.parse({

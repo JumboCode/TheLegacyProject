@@ -31,7 +31,7 @@ const DisplaySenior = (props: DisplayProps) => {
     students.filter((student) => senior.StudentIDs.includes(student.id));
 
   const [assigned, setAssigned] = React.useState(() => getAssignments());
-
+  console.log(assigned);
   const onSave = async () => {
     await patchSenior({
       body: {
