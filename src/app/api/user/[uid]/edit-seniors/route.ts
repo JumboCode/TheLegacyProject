@@ -22,26 +22,10 @@ export const PATCH = withSession(
       );
     }
 
-    // await prisma.user.update({
-    //   where: {
-    //     id: uid,
-    //   },
-    //   data: {
-    //     SeniorIDs: maybeBody.data.SeniorIDs,
-    //   },
-    // });
-
     const seniorIDsToRemove = maybeUser.SeniorIDs.filter(
       (id) => !maybeBody.data.SeniorIDs.includes(id)
     );
     const seniorIDsToAdd = maybeBody.data.SeniorIDs;
-
-    // const seniorsToRemove = await prisma.senior.findMany({
-    //   where: { id: { in: seniorIDsToRemove } },
-    // });
-    // const seniorsToAdd = await prisma.senior.findMany({
-    //   where: { id: { in: seniorIDsToAdd } },
-    // });
 
     await prisma.user.update({
       where: { id: uid },
@@ -52,31 +36,6 @@ export const PATCH = withSession(
         },
       },
     });
-
-    // for (const senior of prismaSeniorsToRemove) {
-    //   await prisma.senior.update({
-    //     where: {
-    //       id: senior.id,
-    //     },
-    //     data: {
-    //       StudentIDs: senior.StudentIDs.filter((id) => id !== uid),
-    //     },
-    //   });
-    // }
-
-    // for (const senior of prismaSeniorsToAdd) {
-    //   //Checks if student has already been added
-    //   if (!senior.StudentIDs.includes(uid)) {
-    //     await prisma.senior.update({
-    //       where: {
-    //         id: senior.id,
-    //       },
-    //       data: {
-    //         StudentIDs: [...senior.StudentIDs, uid],
-    //       },
-    //     });
-    //   }
-    // }
 
     return NextResponse.json(
       EditSeniorResponse.parse({
