@@ -52,6 +52,7 @@ const DisplaySenior = (props: DisplayProps) => {
       </h1>
       <p>{senior.description}</p>
       <Assignment
+        header="Assign students"
         editable={editable}
         display={(user: User) => fullName(user)}
         elements={students}
@@ -72,14 +73,14 @@ const DisplaySenior = (props: DisplayProps) => {
         elements={senior.Files}
         search={(file, filter) => formatFileDate(file.date).includes(filter)}
         addElementComponent={
-          canAddFile && (
+          canAddFile ? (
             <AddFile
               seniorId={senior.id}
               seniorFolder={senior.folder}
               files={senior.Files}
               key={addFileId}
             />
-          )
+          ) : undefined
         }
         emptyNode={
           <p className="text-2xl font-light text-[#000022]">No files yet.</p>

@@ -47,6 +47,7 @@ const DisplayUserSenior = (props: DisplayProps) => {
         {fullName(currentUser)}
       </h1>
       <Assignment
+        header="Assign seniors"
         editable={editable}
         display={(senior: Senior) => seniorFullName(senior)}
         elements={seniors}

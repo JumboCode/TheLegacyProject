@@ -5,6 +5,7 @@ import React from "react";
 type IdentifiableObject = { id: string };
 
 interface AssignmentProps<T extends IdentifiableObject> {
+  header: string;
   editable: boolean;
   display: (ele: T) => React.ReactNode;
   elements: T[];
@@ -18,6 +19,7 @@ const Assignment = <T extends IdentifiableObject>(
   props: AssignmentProps<T>
 ) => {
   const {
+    header,
     editable,
     display,
     elements,
@@ -33,7 +35,7 @@ const Assignment = <T extends IdentifiableObject>(
       {editable && (
         <div className="min-w-[192px]">
           <Dropdown<T>
-            header="Assign student"
+            header={header}
             elements={elements}
             selected={selected}
             setSelected={setSelected}
