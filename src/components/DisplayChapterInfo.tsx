@@ -9,6 +9,7 @@ import { UserContext } from "@context/UserProvider";
 import PendingCard from "@components/PendingCard";
 import { fullName } from "@utils";
 import { RoleToUrlSegment } from "@constants/RoleAlias";
+import DropDownContainer from "@components/container/DropDownContainer";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -60,56 +61,66 @@ const DisplayChapterInfo = ({
       </div>
       {userRequests && (
         <div className="mb-12">
-          <h1 className="mb-6 text-xl">{`Pending (${userRequests.length})`}</h1>
-          {userRequests.length > 0 ? (
-            <CardGrid
-              column_count={2}
-              tiles={userRequests.map((user, index) => {
-                return (
-                  <PendingCard
-                    key={index}
-                    name={fullName(user.user)}
-                    uid={user.id}
-                  />
-                );
-              })}
-            />
-          ) : (
-            <h1 className="font-light">
-              {"This chapter has no pending members."}
-            </h1>
-          )}
+          <DropDownContainer
+            title={
+              <div className="mb-6 text-xl">{`Pending (${userRequests.length})`}</div>
+            }
+          >
+            {userRequests.length > 0 ? (
+              <CardGrid
+                column_count={2}
+                tiles={userRequests.map((user, index) => {
+                  return (
+                    <PendingCard
+                      key={index}
+                      name={fullName(user.user)}
+                      uid={user.id}
+                    />
+                  );
+                })}
+              />
+            ) : (
+              <h1 className="font-light">
+                {"This chapter has no pending members."}
+              </h1>
+            )}
+          </DropDownContainer>
         </div>
       )}
-
       <div className="mb-12">
-        <CardGrid
+        <DropDownContainer
           title={
-            <div className="text-xl text-[#000022]">
+            <div className="mb-6 text-xl">
               {user.role === "ADMIN"
                 ? `Members (${chapter.students.length})`
                 : "Executive Board"}
             </div>
           }
-          tiles={students.map((student) => (
-            <UserTile
-              key={student.id}
-              student={student}
-              link={`/private/${user.id}/${RoleToUrlSegment[user.role]}/users/${
-                student.id
-              }`}
-            />
-          ))}
-        />
+        >
+          <CardGrid
+            tiles={students.map((student) => (
+              <UserTile
+                key={student.id}
+                student={student}
+                link={`/private/${user.id}/${
+                  RoleToUrlSegment[user.role]
+                }/users/${student.id}`}
+              />
+            ))}
+          />
+        </DropDownContainer>
       </div>
-      <div className="flex flex-col gap-y-6">
-        <div className="text-xl text-[#000022]">Resources</div>
-        <DisplayResources
-          resources={resources}
-          showRole={false}
-          editable={false}
-          column={3}
-        />
+      <div className="mb-12">
+        <DropDownContainer
+          title={<div className="mb-6 text-xl">Resources</div>}
+        >
+          <DisplayResources
+            resources={resources}
+            showRole={false}
+            editable={false}
+            column={3}
+          />
+        </DropDownContainer>
       </div>
     </div>
   );
