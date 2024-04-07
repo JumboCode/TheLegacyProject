@@ -100,52 +100,22 @@ export const PATCH = withSessionAndRole(
         );
       }
 
-      const senior = await prisma.senior.update({
-        where: {
-          id: seniorId,
-        },
-        data: {
-          ...seniorBody,
-        },
-      });
-
       // Remove if senior.studentIds is not contained in body.studentIds
-      const studentsToRemove = maybeSenior.StudentIDs.filter(
+      const studentIDsToRemove = maybeSenior.StudentIDs.filter(
         (id) => !seniorBody.StudentIDs.includes(id)
       );
-      const studentsToAdd = seniorBody.StudentIDs;
+      const studentIDsToAdd = seniorBody.StudentIDs;
 
-      const prismaStudentsToRemove = await prisma.user.findMany({
-        where: { id: { in: studentsToRemove } },
-      });
-      const prismaStudentsToAdd = await prisma.user.findMany({
-        where: { id: { in: studentsToAdd } },
-      });
-
-      for (const student of prismaStudentsToRemove) {
-        await prisma.user.update({
-          where: {
-            id: student.id,
+      const senior = await prisma.senior.update({
+        where: { id: seniorId },
+        data: {
+          ...seniorBody,
+          Students: {
+            connect: studentIDsToAdd.map((id) => ({ id })),
+            disconnect: studentIDsToRemove.map((id) => ({ id })),
           },
-          data: {
-            SeniorIDs: student.SeniorIDs.filter((id) => id !== seniorId),
-          },
-        });
-      }
-
-      for (const student of prismaStudentsToAdd) {
-        //Checks if student has already been added
-        if (!student.SeniorIDs.includes(seniorId)) {
-          await prisma.user.update({
-            where: {
-              id: student.id,
-            },
-            data: {
-              SeniorIDs: [...student.SeniorIDs, seniorId],
-            },
-          });
-        }
-      }
+        },
+      });
 
       return NextResponse.json(
         seniorPatchResponse.parse({

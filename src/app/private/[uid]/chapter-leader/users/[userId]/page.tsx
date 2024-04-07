@@ -1,5 +1,5 @@
 import PathNav from "@components/PathNav";
-import SearchableContainer from "@components/SearchableContainer";
+import DisplayUserSenior from "@components/user/DisplayUserSeniors";
 import { prisma } from "@server/db/client";
 import { fullName } from "@utils";
 
@@ -16,7 +16,11 @@ const Page = async ({ params }: PageProps) => {
       id: userId,
     },
     include: {
-      Seniors: true,
+      Chapter: {
+        include: {
+          seniors: true,
+        },
+      },
     },
   });
 
@@ -28,6 +32,7 @@ const Page = async ({ params }: PageProps) => {
           { display: fullName(user), url: `users/${user.id}` },
         ]}
       />
+      <DisplayUserSenior editable={true} currentUser={user} />
     </div>
   );
 };

@@ -20,9 +20,16 @@ const UserHomePage = async ({ params }: UserHomePageParams) => {
     include: {
       students: {
         where: {
-          position: {
-            not: "",
-          },
+          OR: [
+            {
+              position: {
+                not: "",
+              },
+            },
+            {
+              role: "CHAPTER_LEADER",
+            },
+          ],
         },
       },
     },

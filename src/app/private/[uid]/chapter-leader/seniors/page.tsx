@@ -1,6 +1,7 @@
 import React from "react";
 import { prisma } from "@server/db/client";
 import { SeniorView } from "@components/SeniorView";
+import { compareSenior } from "@utils";
 
 const UserSeniorsPage = async ({ params }: { params: { uid: string } }) => {
   const userUid = params.uid;
@@ -23,8 +24,8 @@ const UserSeniorsPage = async ({ params }: { params: { uid: string } }) => {
       students: {},
     },
   });
-  const seniors = chapter?.seniors ? chapter.seniors : [];
-  const students = chapter?.students ? chapter.students : [];
+  const seniors = chapter?.seniors.sort(compareSenior) ?? [];
+  const students = chapter?.students ?? [];
 
   return (
     <>

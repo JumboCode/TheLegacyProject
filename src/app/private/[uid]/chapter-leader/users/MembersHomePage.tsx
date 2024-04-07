@@ -73,7 +73,7 @@ const MembersHomePage = ({ members }: MembersHomePageProps) => {
         {`Members (${members.length})`}
       </h1>
       {uidToEdit != null && (
-        <Popup>
+        <Popup onClick={(e) => e.stopPropagation()}>
           <div className="text-3xl font-bold text-white">Assign to E-board</div>
           <Dropdown
             header="Select position"

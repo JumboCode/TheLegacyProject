@@ -23,21 +23,26 @@ export const compareResource = (x: Resource, y: Resource) => {
   return 0;
 };
 
-/**
- * Compare user fullname by alphabetical order.
- */
-export const compareUser = (x: User, y: User) => {
-  const xName = fullName(x);
-  const yName = fullName(y);
-  if (xName > yName) {
+/*
+  * Compare two strings by alphabetical order.
+  
+*/
+export const compareName = (name1: string, name2: string) => {
+  if (name1 > name2) {
     return 1;
-  } else if (xName < yName) {
+  } else if (name1 < name2) {
     return -1;
-  } else {
-    return 0;
   }
+  return 0;
 };
 
+export const compareUser = (user1: User, user2: User) => {
+  return compareName(fullName(user1), fullName(user2));
+};
+
+export const compareSenior = (senior1: Senior, senior2: Senior) => {
+  return compareName(seniorFullName(senior1), seniorFullName(senior2));
+};
 export const formatFileDate = (date: Date) =>
   moment(date).format("MMM DD YYYY");
 
@@ -64,8 +69,8 @@ export const sortedStudents = (students: User[]) => {
       return 1;
     }
 
-    const orderA = positionOrder[a.position] || Infinity;
-    const orderB = positionOrder[b.position] || Infinity;
+    const orderA = positionOrder[a.position] ?? Infinity;
+    const orderB = positionOrder[b.position] ?? Infinity;
 
     return orderA - orderB;
   };
