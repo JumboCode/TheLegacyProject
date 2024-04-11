@@ -1,64 +1,59 @@
-import { Prisma, User } from "@prisma/client";
-import React from "react";
-import { Dropdown } from "@components/selector";
-import { compareUser, fullName } from "@utils";
-import { patchSenior } from "@api/senior/[id]/route.client";
+import Dropdown from "@components/selector/Dropdown";
 import { useRouter } from "next/navigation";
+import React from "react";
 
-interface AssignmentProps {
+type IdentifiableObject = { id: string };
+
+interface AssignmentProps<T extends IdentifiableObject> {
+  header: string;
   editable: boolean;
-  senior: Prisma.SeniorGetPayload<{
-    include: { Files: true; chapter: { include: { students: true } } };
-  }>;
+  display: (ele: T) => React.ReactNode;
+  elements: T[];
+  selected: T[];
+  setSelected: React.Dispatch<React.SetStateAction<T[]>>;
+  onSave: () => Promise<any>;
   multipleChoice?: boolean;
 }
 
-const Assignment = (props: AssignmentProps) => {
-  const { senior, multipleChoice } = props;
+const Assignment = <T extends IdentifiableObject>(
+  props: AssignmentProps<T>
+) => {
+  const {
+    header,
+    editable,
+    display,
+    elements,
+    selected,
+    setSelected,
+    onSave,
+    multipleChoice,
+  } = props;
   const router = useRouter();
-  const students = React.useMemo(
-    () => senior.chapter.students.sort(compareUser),
-    [senior.chapter.students]
-  );
-
-  const getAssignments = () =>
-    students.filter((student) => senior.StudentIDs.includes(student.id));
-
-  const [assigned, setAssigned] = React.useState(() => getAssignments());
 
   return (
     <div className="flex flex-wrap gap-2">
-      {props.editable && (
+      {editable && (
         <div className="min-w-[192px]">
-          <Dropdown<User>
-            header="Assign student"
-            elements={students}
-            selected={assigned}
-            setSelected={setAssigned}
-            display={(user) => fullName(user)}
+          <Dropdown<T>
+            header={header}
+            elements={elements}
+            selected={selected}
+            setSelected={setSelected}
+            display={display}
+            multipleChoice={multipleChoice}
             onSave={async () => {
-              await patchSenior({
-                body: {
-                  firstname: senior.firstname,
-                  lastname: senior.lastname,
-                  location: senior.location,
-                  description: senior.description,
-                  StudentIDs: assigned.map((user) => user.id),
-                },
-                seniorId: senior.id,
-              });
+              await onSave();
               router.refresh();
             }}
-            multipleChoice={multipleChoice}
           />
         </div>
       )}
-      {getAssignments().map((student) => (
+      {selected.map((elem) => (
         <div
-          key={student.id}
+          key={elem.id}
           className="rounded-3xl bg-dark-teal px-4 py-1.5 text-white"
         >
-          {student.name}
+          {display(elem)}
         </div>
       ))}
     </div>
