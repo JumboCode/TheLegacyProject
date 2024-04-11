@@ -119,7 +119,7 @@ const DisplayChapterInfo = ({
                     <PendingCard
                       key={user.id}
                       name={fullName(user.user)}
-                      uid={user.id}
+                      uid={user.uid}
                     />
                   );
                 })}
