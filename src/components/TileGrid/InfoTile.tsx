@@ -27,12 +27,6 @@ interface InfoTileProps {
 const InfoTile = (params: InfoTileProps) => {
   const { title, information, topRightButton, moreInformation, href } = params;
 
-  const [shouldShowMore, setShouldShowMore] = React.useState(false);
-
-  const onToggleShouldShowMore = () => {
-    setShouldShowMore(!shouldShowMore);
-  };
-
   return (
     <div className="flex h-fit w-full flex-col gap-y-4 rounded-lg bg-white p-6 shadow-lg">
       <div className="relative flex justify-between">
@@ -55,15 +49,17 @@ const InfoTile = (params: InfoTileProps) => {
           </div>
         ))}
       </div>
-      <DropDownContainer
-        title={
-          <p className="mb-6 w-fit cursor-pointer text-dark-teal underline">
-            {!shouldShowMore ? "Show more" : "Show less"}
-          </p>
-        }
-      >
-        {moreInformation}
-      </DropDownContainer>
+      {moreInformation ? (
+        <DropDownContainer
+          title={
+            <p className="mb-6 w-fit cursor-pointer text-dark-teal underline">
+              Show more
+            </p>
+          }
+        >
+          {moreInformation}
+        </DropDownContainer>
+      ) : null}
     </div>
   );
 };
