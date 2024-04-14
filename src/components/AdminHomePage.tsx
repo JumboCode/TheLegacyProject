@@ -35,8 +35,8 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
 
         options.push({
           name: "Remove Chapter",
-          onClick: () => {
-            console.log("This worked");
+          onClick: async () => {
+            return;
           },
           color: "#ef6767",
           icon: <FontAwesomeIcon icon={faTrashCan} />,

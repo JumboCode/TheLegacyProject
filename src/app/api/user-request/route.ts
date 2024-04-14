@@ -7,7 +7,7 @@ import {
 } from "./route.schema";
 import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator/index";
-import { createDriveService } from "@server/service";
+import { driveV3 } from "@server/service";
 
 export const POST = withSession(async ({ req, session }) => {
   try {
@@ -194,7 +194,6 @@ export const PATCH = withSession(async ({ req, session }) => {
 
   // Next, share the folder with the user that is accepted
   const shareFolder = async (folderId: string, userEmail: string) => {
-    const service = await createDriveService(session.user.id);
     // Define the permission
     const permission = {
       type: "user",
@@ -203,13 +202,27 @@ export const PATCH = withSession(async ({ req, session }) => {
     };
 
     // Share the folder
-    await service.permissions.create({
+    return await driveV3.permissions.create({
       fileId: folderId,
+      sendNotificationEmail: false,
       requestBody: permission,
     });
   };
   // Since we use Google login, they must have an email
-  await shareFolder(folderId, chapterRequest.user.email ?? "");
+  const permission = await shareFolder(
+    folderId,
+    chapterRequest.user.email ?? ""
+  );
+  // TODO(nickbar01234) - Handle failure
+  const permissionId = permission.data.id as string;
+  await prisma.chapter.update({
+    where: { id: chapterRequest.chapterId },
+    data: {
+      permissions: {
+        push: permissionId,
+      },
+    },
+  });
   // We update the chapter ID second to allow the user to rejoin in the case that shareFolder fails midway
   await prisma.user.update({
     where: { id: chapterRequest.uid },
