@@ -83,15 +83,6 @@ export const POST = withSession(async (request) => {
     // TOOD(nickbar01234) - Handle failure
     const file = await driveV3.files.create(fileCreateData);
     const googleFileId = file.data.id;
-    await driveV3.permissions.create({
-      fileId: googleFileId ?? "",
-      requestBody: {
-        type: "user",
-        role: "writer",
-        emailAddress: user.email,
-      },
-    });
-
     // If the data is valid, save it to the database via prisma client
     await prisma.file.create({
       data: {

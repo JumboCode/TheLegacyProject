@@ -132,10 +132,13 @@ model Chapter {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   chapterName   String
   location      String
-  chapterFolder String   @default("")
   dateCreated   DateTime @default(now())
   students      User[]
   seniors       Senior[]
+
+  // Google Drive API related fields
+  chapterFolder String   @default("")
+  permissions   String[]
 }
 
 model Resource {

@@ -197,18 +197,32 @@ export const PATCH = withSession(async ({ req, session }) => {
     // Define the permission
     const permission = {
       type: "user",
-      role: "reader", // Change role as per your requirement
+      role: "writer", // Change role as per your requirement
       emailAddress: userEmail,
     };
 
     // Share the folder
-    await driveV3.permissions.create({
+    return await driveV3.permissions.create({
       fileId: folderId,
+      sendNotificationEmail: false,
       requestBody: permission,
     });
   };
   // Since we use Google login, they must have an email
-  await shareFolder(folderId, chapterRequest.user.email ?? "");
+  const permission = await shareFolder(
+    folderId,
+    chapterRequest.user.email ?? ""
+  );
+  // TODO(nickbar01234) - Handle failure
+  const permissionId = permission.data.id as string;
+  await prisma.chapter.update({
+    where: { id: chapterRequest.chapterId },
+    data: {
+      permissions: {
+        push: permissionId,
+      },
+    },
+  });
   // We update the chapter ID second to allow the user to rejoin in the case that shareFolder fails midway
   await prisma.user.update({
     where: { id: chapterRequest.uid },
