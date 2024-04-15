@@ -29,7 +29,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="top-0 z-10 flex h-[60px] w-full flex-row items-center justify-between border border-dark-tan bg-med-tan px-24 py-3">
+    <nav className="fixed top-0 z-20 flex h-[60px] w-full flex-row items-center justify-between border border-dark-tan bg-med-tan px-24 py-3">
       <Link href="/public" onClick={() => setDropdownVisible(false)}>
         <Image src={logoicon} alt="Legacy Logo" className="w-[200px]" />
       </Link>
