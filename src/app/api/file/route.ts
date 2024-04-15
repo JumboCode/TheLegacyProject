@@ -27,26 +27,25 @@ export const POST = withSession(async (request) => {
         id: request.session.user.id,
       },
     });
+    const otherFiles = await prisma.file.findMany({
+      where: {
+        date: fileData.date,
+        seniorId: fileData.seniorId,
+      },
+    });
 
-    if (user === null || user.SeniorIDs === null) {
+    if (
+      user === null ||
+      user.SeniorIDs === null ||
+      !user.SeniorIDs.some((seniorId) => seniorId === fileData.seniorId) ||
+      otherFiles.length > 0
+    ) {
       return NextResponse.json(
         FileResponse.parse({
           code: "INVALID_REQUEST",
           message: "Not a valid request",
         }),
         { status: 400 }
-      );
-    }
-
-    if (
-      !user.SeniorIDs.some((seniorId: string) => seniorId === fileData.seniorId)
-    ) {
-      return NextResponse.json(
-        FileResponse.parse({
-          code: "NOT_AUTHORIZED",
-          message: "Senior not assigned to user",
-        }),
-        { status: 404 }
       );
     }
 
@@ -88,6 +87,7 @@ export const POST = withSession(async (request) => {
       data: {
         date: fileData.date,
         filetype: fileData.filetype,
+        fileId: googleFileId ?? "",
         url: `https://docs.google.com/document/d/${googleFileId}`,
         seniorId: fileData.seniorId,
         Tags: fileData.Tags,
