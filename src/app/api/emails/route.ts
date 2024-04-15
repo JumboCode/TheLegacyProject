@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { Email, EmailResponse } from "./route.schema";
 import { unknownErrorResponse } from "../route.schema";
 import { prisma } from "@server/db/client";
+import { mailchimp } from "@server/service";
+import { env } from "@env/server.mjs";
 
 export const POST = async (request: NextRequest) => {
   try {
@@ -54,6 +56,11 @@ export const POST = async (request: NextRequest) => {
         data: {
           email: body.email,
         },
+      });
+
+      await mailchimp.lists.addListMember(env.MAILCHIMP_AUDIENCE_ID, {
+        email_address: body.email,
+        status: "subscribed",
       });
 
       return NextResponse.json(
