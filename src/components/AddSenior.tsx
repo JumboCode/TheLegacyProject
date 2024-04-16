@@ -6,8 +6,11 @@ import React, {
   useState,
 } from "react";
 import Image, { StaticImageData } from "next/legacy/image";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, SubmitHandler } from "react-hook-form";
 import FilterDropdown from "@components/FilterDropdown";
 import { Senior, User } from "@prisma/client";
+
 import ImageIcon from "../../public/icons/icon_add_photo.png";
 import { patchSenior } from "src/app/api/senior/[id]/route.client";
 import { postSenior } from "src/app/api/senior/route.client";
@@ -34,17 +37,14 @@ type AddSeniorTileProps = {
   setSeniorPatch: Dispatch<SetStateAction<string>>;
 };
 
-type SeniorData = Pick<
-  z.infer<typeof seniorSchema>,
-  "firstname" | "lastname" | "location" | "description"
->;
+const seniorFormSchema = seniorSchema.pick({
+  firstname: true,
+  lastname: true,
+  location: true,
+  description: true,
+});
 
-const EMPTY_SENIOR: SeniorData = {
-  firstname: "",
-  lastname: "",
-  location: "",
-  description: "",
-};
+type SeniorData = z.infer<typeof seniorFormSchema>;
 
 export const AddSeniorTile = ({
   showAddSeniorPopUp,
@@ -116,13 +116,23 @@ const AddSenior = ({
   seniorPatch,
   setSeniorPatch,
 }: AddSeniorProps) => {
-  const [seniorData, setSeniorData] = useState<SeniorData>(EMPTY_SENIOR);
   const [selectedStudents, setSelectedStudents] = useState<User[]>([]);
   const [currentImage, setCurrentImage] = useState<string | StaticImageData>(
     ImageIcon
   );
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    clearErrors,
+    formState: { errors, isValid },
+  } = useForm<SeniorData>({
+    resolver: zodResolver(seniorFormSchema),
+  });
 
   const initialSenior: Senior | undefined = useMemo(() => {
     const senior = seniors.find((senior) => senior.id === seniorPatch);
@@ -159,15 +169,32 @@ const AddSenior = ({
     });
   const fetching = loadingPostSenior || loadingPatchSenior;
 
-  useEffect(() => {
-    if (initialSenior)
-      setSeniorData({
-        firstname: initialSenior.firstname,
-        lastname: initialSenior.lastname,
-        location: initialSenior.location,
-        description: initialSenior.description,
+  const onSubmit: SubmitHandler<SeniorData> = async (data, event) => {
+    event?.preventDefault();
+    const seniorModel = {
+      ...data,
+      StudentIDs: selectedStudents.map((usr) => usr.id),
+    };
+    if (seniorPatch) {
+      await throttlePatchSenior({
+        seniorId: seniorPatch,
+        body: seniorModel,
       });
-  }, [initialSenior]);
+    } else {
+      await throttlePostSenior({ body: seniorModel });
+    }
+  };
+
+  useEffect(() => {
+    if (initialSenior) {
+      setValue("firstname", initialSenior.firstname, { shouldValidate: true });
+      setValue("lastname", initialSenior.lastname, { shouldValidate: true });
+      setValue("location", initialSenior.location, { shouldValidate: true });
+      setValue("description", initialSenior.description, {
+        shouldValidate: true,
+      });
+    }
+  }, [initialSenior, setValue]);
 
   useEffect(() => {
     if (initialSenior) {
@@ -181,10 +208,10 @@ const AddSenior = ({
 
   const handlePopUp = () => {
     setShowAddSeniorPopUp(!showAddSeniorPopUp);
-    setSeniorData(EMPTY_SENIOR);
     setSelectedStudents([]);
     setCurrentImage(ImageIcon);
     setSeniorPatch(""); // empty string used as falsey value to indicate update or patch
+    reset();
   };
 
   const handleConfirm = () => {
@@ -216,7 +243,7 @@ const AddSenior = ({
       {showAddSeniorPopUp && (
         <Popup className="h-fit w-[36rem]">
           {!confirm && !error ? (
-            <div className="text-white">
+            <form className="text-white" onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-5 text-xl font-extrabold sm:text-center md:text-left">
                 {seniorPatch ? "Update" : "Add New"} Senior
               </div>
@@ -230,25 +257,27 @@ const AddSenior = ({
                   />
                 </div>
               </div>
-
-              {/* Todo: First and Last name values are stored into the seniorData.name field. Seperate into two fields
-                  later as seniorData.name propgates to backend*/}
               <div className="flex">
                 <div className="mr-2 flex-1 flex-col">
                   <div className=" mb-2 h-[19px] w-full text-base text-white">
                     First name
                   </div>
                   <input
-                    className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
+                    className="mb-1 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
+                    style={{
+                      outline: errors?.firstname ? "2px solid #EF6767" : "none",
+                    }}
                     type="text"
-                    value={seniorData.firstname}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setSeniorData({
-                        ...seniorData,
-                        firstname: e.target.value,
-                      })
-                    }
+                    {...register("firstname", {
+                      onChange: () => clearErrors("firstname"),
+                    })}
+                    autoComplete="off"
                   />
+                  {errors?.firstname && (
+                    <div className="text-s mb-1 text-sunset-orange">
+                      {errors.firstname.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="ml-2 flex-1 flex-col">
@@ -258,45 +287,31 @@ const AddSenior = ({
                   <input
                     className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
                     type="text"
-                    value={seniorData.lastname}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setSeniorData((seniorData) => ({
-                        ...seniorData,
-                        lastname: e.target.value,
-                      }))
-                    }
+                    {...register("lastname")}
+                    autoComplete="off"
                   />
                 </div>
               </div>
 
               <div className="mb-2 h-5 w-full text-base text-white">
-                {" "}
-                Location{" "}
+                Location
               </div>
               <input
                 className="mb-3 h-9 w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
                 type="text"
-                value={seniorData.location}
                 placeholder="Where are you and your senior meeting?"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setSeniorData({ ...seniorData, location: e.target.value })
-                }
+                {...register("location")}
+                autoComplete="off"
               />
 
               <div className="mb-5 h-2 w-full text-base text-white">
-                {" "}
-                Description{" "}
+                Description
               </div>
               <textarea
                 className="h-25 mb-3 min-h-[20px] w-full resize-none rounded-md border-2 border-solid border-tan bg-white p-[10px] text-start text-sm text-dark-teal placeholder:text-dark-teal"
                 placeholder="Write a brief description about the senior"
-                value={seniorData.description}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                  setSeniorData({
-                    ...seniorData,
-                    description: e.target.value,
-                  })
-                }
+                {...register("description")}
+                autoComplete="off"
               />
 
               <StudentSelector
@@ -315,24 +330,14 @@ const AddSenior = ({
                     Cancel
                   </button>
                   <button
-                    className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
-                      px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
-                    onClick={async (e) => {
-                      e.preventDefault();
-
-                      const seniorModel = {
-                        ...seniorData,
-                        StudentIDs: selectedStudents.map((usr) => usr.id),
-                      };
-                      if (seniorPatch !== "") {
-                        await throttlePatchSenior({
-                          seniorId: seniorPatch,
-                          body: seniorModel,
-                        });
-                      } else {
-                        await throttlePostSenior({ body: seniorModel });
-                      }
-                    }}
+                    className={` mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl 
+                      px-4 py-2 text-[18px] font-normal drop-shadow-md 
+                      ${
+                        isValid
+                          ? "bg-white text-dark-teal hover:bg-off-white"
+                          : "cursor-not-allowed bg-gray-300 text-gray-500"
+                      }`}
+                    type="submit"
                   >
                     {seniorPatch ? "Update" : "Save"}
                   </button>
@@ -342,7 +347,7 @@ const AddSenior = ({
                   <Spinner width={12} height={12} />
                 </div>
               )}
-            </div>
+            </form>
           ) : (
             <>
               {confirm ? (
