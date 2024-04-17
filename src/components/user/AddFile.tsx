@@ -177,8 +177,7 @@ const AddFile = ({
             />
             {excludedDatesString.includes(startDate.toDateString()) ? (
               <p className="text-center text-xs text-red-400">
-                ***ERROR: Please pick a date that you have not created a file
-                for***
+                Please pick a date that you have not created a file for.
               </p>
             ) : null}
           </div>

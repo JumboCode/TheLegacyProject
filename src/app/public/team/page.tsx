@@ -65,14 +65,19 @@ const PublicLayout = () => {
       </span>
       {isSmallScreen ? (
         <div className="flex flex-col py-6">
-          <div className="flex flex-col">
-            <Link className="mt-3 text-center hover:underline" href={press1}>
+          <div className="flex flex-col items-center">
+            <Link
+              rel="noopener noreferrer"
+              target="_blank"
+              className="mt-3 text-center hover:underline"
+              href={press1}
+            >
               <Image src={PRESS_1} alt="press_1" />
               Tufts Legacy Project builds intergenerational connections, one
               story at a time
             </Link>
           </div>
-          <div className="flex flex-col py-6">
+          <div className="flex flex-col items-center py-6">
             <Link
               className="mb-8 mt-3 text-center hover:underline"
               href={press2}
@@ -83,22 +88,37 @@ const PublicLayout = () => {
           </div>
         </div>
       ) : (
-        <div className="mt-6 grid grid-cols-2 grid-rows-4 gap-4">
+        <div className="mt-6 grid grid-cols-2 grid-rows-4 gap-4 text-center">
           <div className="row-span-3">
-            <Link href={press2}>
+            <Link rel="noopener noreferrer" target="_blank" href={press1}>
               <Image src={PRESS_1} alt="press_1" />
             </Link>
           </div>
           <div className="row-span-3">
-            <Link className="hover:underline" href={press2}>
+            <Link
+              rel="noopener noreferrer"
+              target="_blank"
+              className="hover:underline"
+              href={press2}
+            >
               <Image src={PRESS_2} alt="press_2" />
             </Link>
           </div>
-          <Link className="hover:underline" href={press1}>
+          <Link
+            rel="noopener noreferrer"
+            target="_blank"
+            className="truncate hover:underline"
+            href={press1}
+          >
             Tufts Legacy Project builds intergenerational connections, one story
             at a time
           </Link>
-          <Link className="hover:underline" href={press2}>
+          <Link
+            rel="noopener noreferrer"
+            target="_blank"
+            className="truncate hover:underline"
+            href={press2}
+          >
             Intergenerational Connection Key to Leaving Accurate Legacies
           </Link>
         </div>

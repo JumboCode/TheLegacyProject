@@ -11,7 +11,7 @@ const HomePage = () => {
 
   return (
     <main className="flex flex-col">
-      <div className="relative z-10 flex flex-col content-center items-center gap-y-6 overflow-hidden rounded bg-[#E7DCD0] px-6 py-[80px] sm:px-12">
+      <div className="relative z-10 flex flex-col content-center items-center gap-y-6 overflow-hidden rounded bg-[#E7DCD0] px-6 py-[80px] shadow-md shadow-gray-500 sm:px-12">
         {/* Hero Section and Action Items Buttons */}
         <div className="h-28 w-72 self-start">
           <Image src={Logo} alt="logo" className="object-contain" />
