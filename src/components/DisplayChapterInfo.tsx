@@ -152,10 +152,16 @@ const DisplayChapterInfo = ({
           <div className="flex flex-col gap-y-6">
             {user.role === "ADMIN" && (
               <div
-                className="w-fit cursor-pointer rounded-lg bg-dark-teal px-4 py-3 text-white"
+                className={`w-fit rounded-lg px-4 py-3 text-white ${
+                  chapter.students.length > 0
+                    ? "cursor-pointer bg-dark-teal"
+                    : "cursor-not-allowed bg-gray-500"
+                }`}
                 onClick={(e) => {
-                  e.stopPropagation();
-                  setDisplayAssignPresident(true);
+                  if (chapter.students.length > 0) {
+                    e.stopPropagation();
+                    setDisplayAssignPresident(true);
+                  }
                 }}
               >
                 Assign Chapter Leader

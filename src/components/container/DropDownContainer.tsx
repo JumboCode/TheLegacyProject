@@ -11,7 +11,7 @@ interface DropDownContainerProps {
 }
 
 const DropDownContainer = (props: DropDownContainerProps) => {
-  const [showItems, setShowItems] = React.useState(false);
+  const [showItems, setShowItems] = React.useState(true);
 
   const handleClick = () => {
     setShowItems(!showItems);
@@ -27,12 +27,12 @@ const DropDownContainer = (props: DropDownContainerProps) => {
       </div>
       <div
         className={`overflow-auto ${
-          showItems ? "max-h-[512px] md:max-h-[1024px]" : "max-h-0"
+          showItems ? "h-fit min-h-[256px] pb-4" : "max-h-0"
         }`}
         style={
           showItems
-            ? { transition: "max-height 1s ease" }
-            : { transition: "max-height 0.3s ease" }
+            ? { transition: "max-height 0.5s ease" }
+            : { transition: "max-height 0.1s ease" }
         }
       >
         {props.children}
