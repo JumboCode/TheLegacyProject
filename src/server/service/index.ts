@@ -15,7 +15,7 @@ export const driveV3 = google.drive({
 
 mailchimp.setConfig({
   apiKey: env.MAILCHIMP_API_KEY,
-  server: "us18",
+  server: "us22",
 });
 
 export { mailchimp };
