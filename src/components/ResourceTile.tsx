@@ -51,7 +51,7 @@ const ResourceTile = ({
   }, [trigger]);
 
   return isEdit ? (
-    <div className="flex h-56 w-full flex-col justify-between rounded-lg bg-white px-8 py-4">
+    <div className="flex h-56 w-full flex-col justify-between rounded-lg bg-white px-8 py-4 shadow-md shadow-gray-500">
       <div>
         <input
           {...register("title", {
@@ -113,7 +113,7 @@ const ResourceTile = ({
       />
     </div>
   ) : (
-    <div className="flex h-24 w-full flex-col gap-y-2.5 rounded-lg bg-white p-6 shadow-lg">
+    <div className="flex h-24 w-full flex-col gap-y-2.5 rounded-lg bg-white p-6 shadow-md shadow-gray-500">
       <div className="flex items-center justify-between text-xl font-normal">
         <p className="text-xl">{resource.title}</p>
         <a target="_blank" href={resource.link} rel="noopener noreferrer">

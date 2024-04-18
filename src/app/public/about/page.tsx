@@ -69,6 +69,8 @@ const AboutLayout = () => {
             <p className="mt-5 h-20 text-center text-sm">
               <span>
                 <Link
+                  rel="noopener noreferrer"
+                  target="_blank"
                   href="https://www.amazon.com/Their-Lives-Reflected-Treasury-Captured/dp/B08SYTBDGC"
                   className="italic text-[#742B1A] hover:underline"
                 >
@@ -90,6 +92,8 @@ const AboutLayout = () => {
             <p className="mt-5 h-20 text-center text-sm">
               <span>
                 <Link
+                  rel="noopener noreferrer"
+                  target="_blank"
                   href="https://www.amazon.com/Sundaes-Sundays-Collection-Histories-captured/dp/B0CPKP2TX2/ref=sr_1_1?crid=1FVJFMUPSDRQC&keywords=sundaes+and+sundays&qid=1707221197&sprefix=sundaes+and+sundays%2Caps%2C187&sr=8-1"
                   className="italic text-[#742B1A] hover:underline"
                 >
@@ -113,6 +117,8 @@ const AboutLayout = () => {
             <p className="mt-5 text-center text-sm">
               <span>
                 <Link
+                  rel="noopener noreferrer"
+                  target="_blank"
                   href="https://www.amazon.com/Their-Lives-Reflected-Treasury-Captured/dp/B08SYTBDGC"
                   className="italic text-[#742B1A] hover:underline"
                 >
@@ -133,6 +139,8 @@ const AboutLayout = () => {
             <p className="mt-5 text-center text-sm">
               <span>
                 <Link
+                  rel="noopener noreferrer"
+                  target="_blank"
                   href="https://www.amazon.com/Sundaes-Sundays-Collection-Histories-captured/dp/B0CPKP2TX2/ref=sr_1_1?crid=1FVJFMUPSDRQC&keywords=sundaes+and+sundays&qid=1707221197&sprefix=sundaes+and+sundays%2Caps%2C187&sr=8-1"
                   className="italic text-[#742B1A] hover:underline"
                 >
