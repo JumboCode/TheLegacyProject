@@ -25,7 +25,7 @@ export const serverSchema = z.object({
   // Parsing \n inserts \\n
   GOOGLE_PRIVATE_KEY: z.string().transform((key) => key.replace(/\\n/g, "\n")),
   MAILCHIMP_API_KEY: z.string(),
-  MAILCHIMP_AUDIENCE_ID: z.string()
+  MAILCHIMP_AUDIENCE_ID: z.string(),
 });
 
 /**
