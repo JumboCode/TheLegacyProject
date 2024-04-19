@@ -6,7 +6,7 @@ import { compareUser, formatFileDate, fullName, seniorFullName } from "@utils";
 import { File } from "@components/file";
 import AddFile from "@components/file/AddFile";
 import { v4 as uuid } from "uuid";
-import Assignment from "./assignment";
+import { Assignment } from "@components/selector";
 import { patchSenior } from "@api/senior/[id]/route.client";
 import React from "react";
 import { useApiThrottle } from "@hooks";
@@ -27,6 +27,8 @@ const DisplaySenior = (props: DisplayProps) => {
     () => senior.chapter.students.sort(compareUser),
     [senior.chapter.students]
   );
+
+  const [editFile, setFileEdit] = React.useState<File | undefined>(undefined);
 
   const getAssignments = () =>
     students.filter((student) => senior.StudentIDs.includes(student.id));
@@ -52,18 +54,31 @@ const DisplaySenior = (props: DisplayProps) => {
       <h1 className="text-4xl font-bold text-[#000022]">
         {seniorFullName(senior)}
       </h1>
+      {senior.location.length > 0 && (
+        <p>
+          <b>Meeting Location: </b>
+          <span>{senior.location}</span>
+        </p>
+      )}
       <p>{senior.description}</p>
       <Assignment
-        header="Assign students"
+        header="Assign members"
         editable={editable}
         display={(user: User) => fullName(user)}
         elements={students}
         selected={assigned}
         setSelected={setAssigned}
         onSave={onSave}
+        tagColor="#A96257"
       />
       <SearchableContainer
-        display={(file) => <File key={file.id} file={file} />}
+        display={(file) => (
+          <File
+            key={file.id}
+            file={file}
+            setFileEdit={canAddFile ? setFileEdit : undefined}
+          />
+        )}
         elements={senior.Files.sort(
           (fileA, fileB) => fileA.date.getTime() - fileB.date.getTime()
         )}
@@ -75,6 +90,8 @@ const DisplaySenior = (props: DisplayProps) => {
               seniorFolder={senior.folder}
               files={senior.Files}
               key={addFileId}
+              editFile={editFile}
+              setEditFile={setFileEdit}
             />
           ) : undefined
         }

@@ -55,7 +55,10 @@ const DisplayChapterInfo = ({
     React.useState(currentPresidents);
   const { fn: throttleEditRole } = useApiThrottle({
     fn: editRole,
-    callback: () => router.refresh(),
+    callback: () => {
+      router.refresh();
+      setDisplayAssignPresident(false);
+    },
   });
 
   const onSaveNewPresidents = async () => {
@@ -80,7 +83,9 @@ const DisplayChapterInfo = ({
     <div className="w-full" onClick={resetAssignment}>
       {displayAssignPresident && (
         <Popup onClick={(e) => e.stopPropagation()}>
-          <div className="text-3xl font-bold text-white">Assign President</div>
+          <div className="text-3xl font-bold text-white">
+            Assign Chapter Leader
+          </div>
           <Dropdown
             header="Select student"
             elements={chapter.students}
@@ -102,7 +107,7 @@ const DisplayChapterInfo = ({
         ].map((value) => (
           <div
             key={value}
-            className="whitespace-nowrap rounded bg-dark-teal p-2.5 font-light text-white"
+            className="whitespace-nowrap rounded-3xl bg-amber-red px-3 py-1 font-light text-white"
           >
             {value}
           </div>
@@ -147,13 +152,19 @@ const DisplayChapterInfo = ({
           <div className="flex flex-col gap-y-6">
             {user.role === "ADMIN" && (
               <div
-                className="w-fit cursor-pointer rounded-lg bg-dark-teal px-4 py-3 text-white"
+                className={`w-fit rounded-lg px-4 py-3 text-white ${
+                  chapter.students.length > 0
+                    ? "cursor-pointer bg-dark-teal"
+                    : "cursor-not-allowed bg-gray-500"
+                }`}
                 onClick={(e) => {
-                  e.stopPropagation();
-                  setDisplayAssignPresident(true);
+                  if (chapter.students.length > 0) {
+                    e.stopPropagation();
+                    setDisplayAssignPresident(true);
+                  }
                 }}
               >
-                Assign President
+                Assign Chapter Leader
               </div>
             )}
             <CardGrid

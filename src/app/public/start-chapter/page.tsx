@@ -35,7 +35,7 @@ const StartChapter = () => {
         <p className="py-3">
           {" "}
           For additional information, feel free to reach out at{" "}
-          <strong> exec@thelegacyproject.org </strong>
+          <strong> exec@thelegacyproject.org.</strong>
         </p>
       </div>
       <NewChapterForm />

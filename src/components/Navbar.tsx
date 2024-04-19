@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useAuth } from "@hooks";
 import logoicon from "../../public/landing/newlegacy-logo.svg";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const NAV_ITEMS = [
   {
@@ -27,6 +28,7 @@ const Navbar = () => {
   const handleMenuClick: React.MouseEventHandler = () => {
     setDropdownVisible((visible) => !visible);
   };
+  const path = usePathname();
 
   const { status, onSignIn } = useAuth();
   useEffect(() => {
@@ -44,7 +46,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="top-0 z-10 flex h-[60px] w-full flex-row items-center justify-between border border-dark-tan bg-med-tan px-[30px]  py-3 sm:px-[50px] md:px-[93px]">
+    <nav className="fixed top-0 z-20 flex h-[60px] w-full flex-row items-center justify-between border border-dark-tan bg-med-tan px-[30px]  py-3 sm:px-[50px] md:px-[93px]">
       <Link href="/public" onClick={() => setDropdownVisible(false)}>
         <Image src={logoicon} alt="Legacy Logo" className="w-[200px]" />
       </Link>
@@ -91,14 +93,18 @@ const Navbar = () => {
             href={href}
             onClick={() => setDropdownVisible(false)}
           >
-            <div className="m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
+            <div
+              className={`m-auto font-bold duration-150 hover:-translate-y-0.5 ${
+                path.startsWith(href) ? "text-dark-teal" : ""
+              }`}
+            >
               {name}
             </div>
           </Link>
         ))}
 
         <button onClick={onSignIn}>
-          <div className=" m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
+          <div className=" m-auto font-bold duration-150 hover:-translate-y-0.5">
             {status === "authenticated" ? "Home" : "Sign In"}
           </div>
         </button>

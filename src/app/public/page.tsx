@@ -1,27 +1,17 @@
 "use client";
 
-import Head from "next/head";
-
 import PhotoCarousel from "@components/PhotoCarousel";
-
-import Button from "@components/Button";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import Logo from "@public/icons/logo.svg";
 
 const HomePage = () => {
-  // TODO: make env variables
-  const chapterInitForm = "https://forms.gle/gBdmpsW6JFnYvwRf7";
-  const chapterResources =
-    "https://drive.google.com/drive/folders/1vw8rc5sU0bYJkgH75VZOjI6IF-XAWEmG?usp=share_link";
-  const legacyInstagram =
-    "https://instagram.com/thelegacyprojectus?igshid=MzRlODBiNWFlZA==";
   const MEET_TLP = "/public/team/";
   const START_A_CHAPTER = "/public/start-chapter";
 
   return (
     <main className="flex flex-col">
-      <div className="relative z-10 flex flex-col content-center items-center gap-y-6 overflow-hidden rounded bg-[#E7DCD0] px-6 py-[80px] sm:px-12">
+      <div className="relative z-10 flex flex-col content-center items-center gap-y-6 overflow-hidden rounded bg-[#E7DCD0] px-6 py-[80px] shadow-md shadow-gray-500 sm:px-12">
         {/* Hero Section and Action Items Buttons */}
         <div className="h-28 w-72 self-start">
           <Image src={Logo} alt="logo" className="object-contain" />
