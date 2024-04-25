@@ -38,7 +38,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
     "react-loading-skeleton": "^3.4.0",
-    "swiper": "^11.1.1",
+    "react-multi-carousel": "^2.8.5",
     "uuidv4": "^6.2.13",
     "yarn": "^1.22.19",
     "zod": "^3.22.4"
