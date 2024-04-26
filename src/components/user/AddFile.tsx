@@ -53,7 +53,7 @@ const TagOptions = ({
                 ? "bg-white text-[#22555A]"
                 : "hover:bg-white hover:text-[#22555A]"
             } m-2 ml-[-2px] inline-block rounded-full border-2 
-            p-2`}
+            p-2 text-base`}
           >
             {tag.name}
           </label>
@@ -72,10 +72,10 @@ const TagSelector = ({
 }) => {
   return (
     <div>
-      <div className="text-neutral-600 mb-1 h-[34px] w-full font-['merriweather'] text-2xl">
+      <div className="text-neutral-600 h-[30px] w-full font-['merriweather'] text-xl">
         Tags
       </div>
-      <div className="text-lg font-thin">
+      <div className="text-sm font-thin">
         Select min of 1, max of 3 <span className="text-red-400">*</span>
       </div>
       <TagOptions
@@ -154,22 +154,23 @@ const AddFile = ({
   }
 
   return !error ? (
-    <Popup className="h-[32rem] w-full overflow-y-auto sm:h-[44rem] sm:w-[36rem]">
+    // <Popup className="h-[32rem] w-full overflow-y-auto sm:h-[44rem] sm:w-[36rem]">
+    <Popup className="h-fit w-full overflow-y-auto sm:w-[36rem]">
       <div className="flex-col justify-between rounded-[16px] text-white">
-        <div className="mb-5 mt-4 text-3xl font-bold"> Create New File</div>
-        <div className="text-neutral-600 mb-3 h-[34px] w-full text-2xl font-thin">
+        <div className="mb-5 text-2xl font-bold">Create New File</div>
+        <div className="text-neutral-600 h-[30px] w-full text-xl">
           Select Date
         </div>
         <div className="inline-bl w-full">
-          <div className="text-2xl text-[#22555A]">
+          <div className="text-base text-[#22555A]">
             <DatePicker
               showIcon
               icon={
                 <FontAwesomeIcon icon={faCalendar} className="text-dark-teal" />
               }
               wrapperClassName="w-full relative"
-              calendarIconClassname="text-3xl text-blue-600 mt-[7px] absolute right-2"
-              className="mb-4 h-16 w-full cursor-pointer rounded-lg pl-4"
+              calendarIconClassname="text-2xl text-blue-600 mt-[3px] absolute right-2"
+              className="mb-4 h-12 w-full cursor-pointer rounded-lg pl-4"
               selected={startDate}
               onChange={(date) => date && setStartDate(date)}
               dateFormat="dd MMMM yyyy"
@@ -188,13 +189,15 @@ const AddFile = ({
         />
         <div className="flex w-full flex-row justify-center">
           <button
-            className="mx-2 my-4 w-full max-w-[9rem] rounded-[16px] bg-white p-3 text-2xl font-medium text-[#22555A] drop-shadow-md hover:bg-offer-white"
+            className=" mx-2 mt-7 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
+                                  px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
             onClick={handleResetState}
           >
             Cancel
           </button>
           <button
-            className="mx-2 my-4 w-full max-w-[9rem] rounded-[16px] p-3 text-2xl font-medium text-[#22555A] drop-shadow-md hover:bg-offer-white enabled:bg-white disabled:bg-gray-500 disabled:text-gray-700"
+            className="mx-2 mt-7 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
+                                  px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white enabled:bg-white disabled:bg-gray-500 disabled:text-gray-700"
             disabled={
               selectedTags.length == 0 ||
               excludedDatesString.includes(startDate.toDateString())
