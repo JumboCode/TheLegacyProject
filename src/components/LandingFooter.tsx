@@ -47,7 +47,7 @@ const LandingFooter = () => {
   };
 
   return (
-    <div className="relative z-10 flex flex-col content-center items-center gap-y-8 overflow-hidden rounded bg-[#E7DCD0] px-12 py-16 text-center shadow-md shadow-gray-500">
+    <div className="relative z-10 mt-16 flex flex-col content-center items-center gap-y-8 overflow-hidden rounded bg-[#E7DCD0] px-12 py-16 text-center shadow-md shadow-gray-500">
       <div className="flex flex-col gap-y-3 text-2xl font-extrabold">
         <p>There are millions of stories waiting to be told.</p>
         <p>It&apos;s your time to change that.</p>
