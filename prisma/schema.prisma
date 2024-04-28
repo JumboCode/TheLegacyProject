@@ -69,7 +69,7 @@ model User {
   Seniors   Senior[]  @relation(fields: [SeniorIDs], references: [id])
   approved  Approval  @default(PENDING)
   ChapterID String?   @db.ObjectId
-  Chapter   Chapter?  @relation(fields: [ChapterID], references: [id])
+  Chapter   Chapter?  @relation(fields: [ChapterID], references: [id], onDelete: SetNull)
   
   userRequest UserRequest?
 }
@@ -98,7 +98,7 @@ model Senior {
   folder      String   @default("")
   Files       File[]
   ChapterID   String   @db.ObjectId
-  chapter     Chapter  @relation(fields: [ChapterID], references: [id])
+  chapter     Chapter  @relation(fields: [ChapterID], references: [id], onDelete: Cascade)
 }
 
 model File {
@@ -131,6 +131,8 @@ model ChapterRequest {
   motivation           String
   availabilities       String
   questions            String
+
+  chapter              Chapter?
 }
 
 model Chapter {
@@ -144,6 +146,11 @@ model Chapter {
   // Google Drive API related fields
   chapterFolder String   @default("")
   permissions   String[]
+
+  chapterRequestId String @db.ObjectId @unique
+  chapterRequest ChapterRequest @relation(fields: [chapterRequestId], references: [id], onDelete: Cascade)
+
+  userRequests  UserRequest[]
 }
 
 model Resource {
@@ -163,6 +170,7 @@ model UserRequest {
   // @deprecated - We ended up not using this anywhere
   approved  Approval @default(PENDING)
   uid       String   @unique @db.ObjectId
-  chapterId String   @db.ObjectId
+  chapterId String   @db.ObjectId 
+  chapter   Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [uid], references: [id])
 }
