@@ -23,7 +23,7 @@ const AboutLayout = () => {
     };
   }, []);
   return (
-    <div className="flex-col justify-center gap-y-4 py-6 sm:flex sm:w-full sm:px-0">
+    <div className="flex flex-col justify-center gap-y-4 py-6 sm:w-full sm:px-0">
       <span className="pt-6 text-center text-4xl font-semibold sm:text-left">
         Our Story
       </span>
