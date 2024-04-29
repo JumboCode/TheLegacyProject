@@ -36,6 +36,8 @@
     "react-datepicker": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
+    "react-loading-skeleton": "^3.4.0",
+    "react-multi-carousel": "^2.8.5",
     "uuidv4": "^6.2.13",
     "yarn": "^1.22.19",
     "zod": "^3.22.4"
@@ -46,6 +48,7 @@
     "@types/react": "18.0.14",
     "@types/react-datepicker": "^6.0.1",
     "@types/react-dom": "18.0.5",
+    "@types/react-image-gallery": "^1.2.4",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
     "autoprefixer": "^10.4.7",
