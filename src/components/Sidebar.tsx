@@ -123,7 +123,7 @@ const Sidebar = (props: ISideBar) => {
           className="mb-24 block lg:hidden"
           style={{ display: sidebarVisible ? "none" : "block" }}
         >
-          <div className="fixed left-0 top-0 z-50 w-full bg-med-tan px-6 shadow-lg shadow-gray-500">
+          <div className="fixed left-0 top-0 z-50 w-full bg-med-tan px-6 shadow-md shadow-gray-500">
             <div className="flex items-center justify-between">
               <svg
                 className="h-8 w-8 text-darkest-tan"
