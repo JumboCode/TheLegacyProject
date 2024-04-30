@@ -96,6 +96,8 @@ const AddFile = ({
 }: AddFileProps) => {
   const currFiles = Object.values(files);
   const excludeDates = currFiles.map((fileObj) => fileObj.date);
+
+  console.log(excludeDates);
   const excludedDatesString = excludeDates
     .map((dateObj) => dateObj.toDateString())
     .filter((date) => editFile?.date.toDateString() !== date ?? true);
