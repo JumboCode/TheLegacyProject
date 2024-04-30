@@ -37,7 +37,7 @@ const HomePage = () => {
           </Link>
         </div>
       </div>
-      <div className="flex w-full flex-col justify-center gap-y-4 py-6">
+      <div className="flex w-full flex-col justify-center gap-y-4 pt-16">
         <span className="text-center text-3xl font-semibold sm:text-left sm:text-4xl">
           About Us
         </span>

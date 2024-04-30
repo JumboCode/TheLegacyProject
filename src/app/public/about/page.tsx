@@ -23,11 +23,13 @@ const AboutLayout = () => {
     };
   }, []);
   return (
-    <div className="flex-col justify-center gap-y-4 py-6 sm:flex sm:w-full sm:px-0">
-      <span className="pt-6 text-center text-3xl font-semibold sm:text-left">
+    <div className="flex flex-col justify-center gap-y-4 py-6 sm:w-full sm:px-0">
+      <span className="pt-6 text-center text-4xl font-semibold sm:text-left">
         Our Story
       </span>
-      <p className="font-bold leading-7">The Legacy Project&apos;s Origin</p>
+      <p className="text-xl font-bold leading-7">
+        The Legacy Project&apos;s Origin
+      </p>
       <p className="leading-7">
         The concept of{" "}
         <strong>
@@ -154,7 +156,7 @@ const AboutLayout = () => {
           </div>
         </div>
       )}
-      <p className="mt-8 text-3xl font-bold leading-7">
+      <p className="mt-16 text-xl font-bold leading-7">
         Parallel Stories Unite
       </p>
       <p className="leading-7">
@@ -197,7 +199,9 @@ const AboutLayout = () => {
         </div>
       )}
 
-      <p className="mt-8 font-bold leading-7">Collaboration and Expansion</p>
+      <p className="mt-16 text-xl font-bold leading-7">
+        Collaboration and Expansion
+      </p>
       <p className="leading-7">
         Arielle and Katie met in 2020, quickly connecting over their aligned
         passions to build intergenerational connections, provide a platform for
@@ -220,7 +224,9 @@ const AboutLayout = () => {
         students passionate about empowering local seniors with the platform to
         amplify their stories.
       </p>
-      <p className="mt-8 font-bold leading-7">TLP&apos;s National Vision</p>
+      <p className="mt-16 text-xl font-bold leading-7">
+        TLP&apos;s National Vision
+      </p>
       <p className="leading-7">
         Having watched the Tufts chapter grow over the past two years, Arielle,
         Katie, and Wanda decided to found TLP as a nonprofit organization with

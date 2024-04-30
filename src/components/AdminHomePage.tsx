@@ -2,21 +2,39 @@
 
 import { Prisma } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { TileEdit } from "./TileGrid/TileEdit";
 import { InfoTile } from "./TileGrid";
 import { fullName } from "@utils";
+import { deleteChapter } from "@api/chapter/[chapterId]/route.client";
+import { useRouter } from "next/navigation";
 import SearchableContainer from "./SearchableContainer";
+import ChapterRequest from "./ChapterRequest";
+import DropDownContainer from "./container/DropDownContainer";
+import { useApiThrottle } from "@hooks";
+import React from "react";
+import { Spinner } from "./skeleton";
 
-type ChapterWithUser = Prisma.ChapterGetPayload<{
-  include: { students: true };
+type ChapterWithUserAndChapterRequest = Prisma.ChapterGetPayload<{
+  include: { students: true; chapterRequest: true };
 }>;
 
 type AdminHomePageProps = {
-  chapters: ChapterWithUser[];
+  chapters: ChapterWithUserAndChapterRequest[];
 };
 
 const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
+  const router = useRouter();
+
+  const [deleteChapterId, setDeleteChapterId] = React.useState("");
+  const { fetching, fn: throttleDeleteChapter } = useApiThrottle({
+    fn: deleteChapter,
+    callback: () => {
+      setDeleteChapterId("");
+      router.refresh();
+    },
+  });
+
   return (
     <SearchableContainer
       elements={chapters}
@@ -31,8 +49,9 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
 
         options.push({
           name: "Remove Chapter",
-          onClick: async () => {
-            return;
+          onClick: () => {
+            setDeleteChapterId(chapter.id);
+            throttleDeleteChapter(chapter.id);
           },
           color: "#ef6767",
           icon: <FontAwesomeIcon icon={faTrashCan} />,
@@ -61,7 +80,35 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
                 value: prez?.email ?? "",
               },
             ]}
-            topRightButton={<TileEdit options={options} />}
+            topRightButton={
+              fetching && chapter.id === deleteChapterId ? (
+                <Spinner width={8} height={8} />
+              ) : !fetching ? (
+                <TileEdit
+                  options={options}
+                  editIconProps={
+                    <FontAwesomeIcon
+                      className="fa-lg cursor-pointer"
+                      icon={faEllipsis}
+                    />
+                  }
+                />
+              ) : null
+            }
+            moreInformation={
+              <DropDownContainer defaultExpand={false}>
+                <ChapterRequest
+                  chapterRequest={chapter.chapterRequest}
+                  ContainerNode={({ children }) => (
+                    <div className="flex h-fit w-full flex-col gap-y-4 bg-white">
+                      {children}
+                    </div>
+                  )}
+                  readonly
+                  title=""
+                />
+              </DropDownContainer>
+            }
           />
         );
       }}

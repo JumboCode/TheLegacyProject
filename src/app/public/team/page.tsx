@@ -28,11 +28,11 @@ const PublicLayout = () => {
     };
   }, []);
   return (
-    <div className="flex w-full flex-col">
-      <span className="pt-6 text-center text-3xl font-semibold sm:text-left">
+    <div className="flex w-full flex-col py-6">
+      <span className="pt-6 text-center text-4xl font-semibold sm:text-left">
         Meet TLP
       </span>
-      <p className="mt-7 leading-7">
+      <p className="mb-4 mt-7 leading-7">
         The Legacy Project, Inc. (TLP) connects college students with local
         elders in their community with the purpose of building strong
         intergenerational relationships and documenting the life histories of
@@ -77,7 +77,7 @@ const PublicLayout = () => {
               story at a time
             </Link>
           </div>
-          <div className="flex flex-col items-center py-6">
+          <div className="flex flex-col items-center pt-6">
             <Link
               className="mb-8 mt-3 text-center hover:underline"
               href={press2}

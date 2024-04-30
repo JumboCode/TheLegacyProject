@@ -5,13 +5,11 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import Image, { StaticImageData } from "next/legacy/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FilterDropdown from "@components/FilterDropdown";
 import { Senior, User } from "@prisma/client";
 
-import ImageIcon from "../../public/icons/icon_add_photo.png";
 import { patchSenior } from "src/app/api/senior/[id]/route.client";
 import { postSenior } from "src/app/api/senior/route.client";
 import z from "zod/lib";
@@ -117,9 +115,6 @@ const AddSenior = ({
   setSeniorPatch,
 }: AddSeniorProps) => {
   const [selectedStudents, setSelectedStudents] = useState<User[]>([]);
-  const [currentImage, setCurrentImage] = useState<string | StaticImageData>(
-    ImageIcon
-  );
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
@@ -209,7 +204,6 @@ const AddSenior = ({
   const handlePopUp = () => {
     setShowAddSeniorPopUp(!showAddSeniorPopUp);
     setSelectedStudents([]);
-    setCurrentImage(ImageIcon);
     setSeniorPatch(""); // empty string used as falsey value to indicate update or patch
     reset();
   };
@@ -220,46 +214,18 @@ const AddSenior = ({
     setError(false);
   };
 
-  const handleImageReplace = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-
-    if (!files || files.length === 0) return;
-
-    const selectedFile = files[0];
-    if (!selectedFile) return;
-    const reader = new FileReader();
-
-    reader.onload = (loadEvent: ProgressEvent<FileReader>) => {
-      const dataUrl = loadEvent.target?.result;
-      if (typeof dataUrl === "string") {
-        setCurrentImage(dataUrl);
-      }
-    };
-
-    reader.readAsDataURL(selectedFile);
-  };
   return (
     <>
       {showAddSeniorPopUp && (
-        <Popup className="h-fit w-[36rem]">
+        <Popup className="h-fit w-full overflow-auto sm:w-[36rem]">
           {!confirm && !error ? (
-            <form className="text-white" onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-5 text-xl font-extrabold sm:text-center md:text-left">
+            <form className=" text-white" onSubmit={handleSubmit(onSubmit)}>
+              <div className="mb-5 text-2xl font-extrabold sm:text-center md:text-left">
                 {seniorPatch ? "Update" : "Add New"} Senior
               </div>
-              <div>
-                <div className=" relative mb-4 flex h-2 w-2 flex-col items-center justify-center gap-10 rounded bg-white p-10">
-                  <Image src={currentImage} alt="Description" layout="fill" />
-                  <input
-                    type="file"
-                    className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
-                    onChange={handleImageReplace}
-                  />
-                </div>
-              </div>
-              <div className="flex">
-                <div className="mr-2 flex-1 flex-col">
-                  <div className=" mb-2 h-[19px] w-full text-base text-white">
+              <div className="flex flex-col sm:flex-row">
+                <div className="mr-0 flex-1 flex-col sm:mr-2">
+                  <div className="mb-2 h-[19px] w-full text-base text-white">
                     First name
                   </div>
                   <input
@@ -274,13 +240,13 @@ const AddSenior = ({
                     autoComplete="off"
                   />
                   {errors?.firstname && (
-                    <div className="text-s mb-1 text-sunset-orange">
+                    <div className="mb-1 text-sm text-sunset-orange">
                       {errors.firstname.message}
                     </div>
                   )}
                 </div>
 
-                <div className="ml-2 flex-1 flex-col">
+                <div className="ml-0 flex-1 flex-col sm:ml-2">
                   <div className="mb-2 h-[19px] w-full text-base text-white">
                     Last name
                   </div>
