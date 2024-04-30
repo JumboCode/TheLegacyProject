@@ -41,7 +41,7 @@ const DropDownContainer = (props: DropDownContainerProps) => {
       </div>
       <div
         ref={animationDivRef}
-        className={`overflow-hidden py-2 ${
+        className={`overflow-hidden ${
           showItems ? "max-h-[512px] md:max-h-[1024px]" : "max-h-0"
         }`}
         style={
@@ -53,7 +53,9 @@ const DropDownContainer = (props: DropDownContainerProps) => {
           (ref.currentTarget.style["overflow"] = "auto")
         }
       >
-        <div className={props.elementsClassName ?? ""}>{props.children}</div>
+        <div className={props.elementsClassName ?? ""}>
+          <div className="pb-2">{props.children}</div>
+        </div>
       </div>
     </div>
   );
