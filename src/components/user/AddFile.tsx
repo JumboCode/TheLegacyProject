@@ -107,7 +107,6 @@ const AddFile = ({
   const router = useRouter();
   const [error, setError] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<TagProps[]>([]);
-
   const handleResetState = () => {
     setStartDate(new Date());
     setSelectedTags([]);
@@ -175,7 +174,7 @@ const AddFile = ({
               className="mb-4 h-12 w-full cursor-pointer rounded-lg pl-4"
               selected={startDate}
               onChange={(date) => date && setStartDate(date)}
-              dateFormat="dd MMMM yyyy"
+              dateFormat="YYYY-MM-dd"
               excludeDates={excludeDates}
             />
             {excludedDatesString.includes(startDate.toDateString()) ? (
