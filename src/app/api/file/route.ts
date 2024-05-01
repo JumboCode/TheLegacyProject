@@ -65,7 +65,11 @@ export const POST = withSession(async (request) => {
 
     const parentID = foundSenior.folder;
 
-    const formatted_date = moment(fileData.date).format("L");
+    const userTimeZoneOffset = new Date().getTimezoneOffset();
+    const newDate = new Date(
+      fileData.date.getTime() + userTimeZoneOffset * 60000
+    );
+    const formatted_date = moment(newDate).format("L");
 
     const fileMetadata = {
       name: [formatted_date],

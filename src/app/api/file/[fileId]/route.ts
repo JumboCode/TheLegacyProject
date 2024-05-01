@@ -58,8 +58,11 @@ export const PATCH = withSession(async ({ params, session, req }) => {
         { status: 400 }
       );
     }
-
-    const formatted_date = moment(fileData.date).format("L");
+    const userTimeZoneOffset = new Date().getTimezoneOffset();
+    const newDate = new Date(
+      fileData.date.getTime() + userTimeZoneOffset * 60000
+    );
+    const formatted_date = moment(newDate).format("L");
 
     const body = { name: formatted_date };
 

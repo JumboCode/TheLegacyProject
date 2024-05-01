@@ -154,7 +154,6 @@ const AddFile = ({
   }
 
   return !error ? (
-    // <Popup className="h-[32rem] w-full overflow-y-auto sm:h-[44rem] sm:w-[36rem]">
     <Popup className="h-fit w-full overflow-y-auto sm:w-[36rem]">
       <div className="flex-col justify-between rounded-[16px] text-white">
         <div className="mb-5 text-2xl font-bold">Create New File</div>
@@ -173,7 +172,7 @@ const AddFile = ({
               className="mb-4 h-12 w-full cursor-pointer rounded-lg pl-4"
               selected={startDate}
               onChange={(date) => date && setStartDate(date)}
-              dateFormat="YYYY-MM-dd"
+              dateFormat="dd MMMM yyyy"
               excludeDates={excludeDates}
             />
             {excludedDatesString.includes(startDate.toDateString()) ? (
