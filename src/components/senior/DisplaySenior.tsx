@@ -48,13 +48,12 @@ const DisplaySenior = (props: DisplayProps) => {
       seniorId: senior.id,
     });
   };
-  const seniorFiles = senior.Files.map((file) => {
-    const userTimeZoneOffset = new Date().getTimezoneOffset();
-    const newDate = new Date(file.date.getTime() + userTimeZoneOffset * 60000);
-    const { date, ...other } = file;
-    return { date: newDate, ...other };
-  });
-
+  const seniorFiles = senior.Files.map((file) => ({
+    ...file,
+    date: new Date(
+      file.date.getTime() + new Date().getTimezoneOffset() * 60000
+    ),
+  }));
   return (
     <div className="flex flex-col gap-y-6">
       <h1 className="text-4xl font-bold text-[#000022]">

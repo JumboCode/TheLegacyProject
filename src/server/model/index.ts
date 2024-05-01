@@ -13,6 +13,9 @@ export const seniorSchema = z.object({
   ChapterID: z.string(),
 }) satisfies z.ZodType<Senior>;
 
+/*  https://stackoverflow.com/questions/49407453/setting-sethours-zero-not-working-in-nodejs 
+    Stores Date object at 0:00:00 UTC time
+*/
 export const File = z.object({
   date: z.string().transform((val) => {
     const date = new Date(val);

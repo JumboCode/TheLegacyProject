@@ -58,9 +58,8 @@ export const PATCH = withSession(async ({ params, session, req }) => {
         { status: 400 }
       );
     }
-    const userTimeZoneOffset = new Date().getTimezoneOffset();
     const newDate = new Date(
-      fileData.date.getTime() + userTimeZoneOffset * 60000
+      fileData.date.getTime() + new Date().getTimezoneOffset() * 60000
     );
     const formatted_date = moment(newDate).format("L");
 
