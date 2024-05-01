@@ -48,6 +48,12 @@ const DisplaySenior = (props: DisplayProps) => {
       seniorId: senior.id,
     });
   };
+  const seniorFiles = senior.Files.map((file) => {
+    const userTimeZoneOffset = new Date().getTimezoneOffset();
+    const newDate = new Date(file.date.getTime() + userTimeZoneOffset * 60000);
+    const { date, ...other } = file;
+    return { date: newDate, ...other };
+  });
 
   return (
     <div className="flex flex-col gap-y-6">
@@ -79,7 +85,7 @@ const DisplaySenior = (props: DisplayProps) => {
             setFileEdit={canAddFile ? setFileEdit : undefined}
           />
         )}
-        elements={senior.Files.sort(
+        elements={seniorFiles.sort(
           (fileA, fileB) => fileA.date.getTime() - fileB.date.getTime()
         )}
         search={(file, filter) => formatFileDate(file.date).includes(filter)}
@@ -88,7 +94,7 @@ const DisplaySenior = (props: DisplayProps) => {
             <AddFile
               seniorId={senior.id}
               seniorFolder={senior.folder}
-              files={senior.Files}
+              files={seniorFiles}
               key={addFileId}
               editFile={editFile}
               setEditFile={setFileEdit}

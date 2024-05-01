@@ -16,8 +16,7 @@ export const seniorSchema = z.object({
 export const File = z.object({
   date: z.string().transform((val) => {
     const date = new Date(val);
-    date.setHours(0, 0, 0, 0);
-    date.toISOString();
+    date.setUTCHours(0, 0, 0, 0);
     return date;
   }),
   filetype: z.string(),
