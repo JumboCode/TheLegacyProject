@@ -96,6 +96,7 @@ const AddFile = ({
 }: AddFileProps) => {
   const currFiles = Object.values(files);
   const excludeDates = currFiles.map((fileObj) => fileObj.date);
+
   const excludedDatesString = excludeDates
     .map((dateObj) => dateObj.toDateString())
     .filter((date) => editFile?.date.toDateString() !== date ?? true);
@@ -105,7 +106,6 @@ const AddFile = ({
   const router = useRouter();
   const [error, setError] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<TagProps[]>([]);
-
   const handleResetState = () => {
     setStartDate(new Date());
     setSelectedTags([]);
@@ -154,7 +154,6 @@ const AddFile = ({
   }
 
   return !error ? (
-    // <Popup className="h-[32rem] w-full overflow-y-auto sm:h-[44rem] sm:w-[36rem]">
     <Popup className="h-fit w-full overflow-y-auto sm:w-[36rem]">
       <div className="flex-col justify-between rounded-[16px] text-white">
         <div className="mb-5 text-2xl font-bold">Create New File</div>

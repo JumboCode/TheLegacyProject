@@ -86,3 +86,7 @@ export const sortedStudents = (students: User[]) => {
 
   return students.sort(comparePositions);
 };
+
+export const offSetDateToUTC = (date: Date) => {
+  return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+};
