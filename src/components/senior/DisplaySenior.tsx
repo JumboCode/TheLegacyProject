@@ -2,7 +2,13 @@
 
 import SearchableContainer from "@components/SearchableContainer";
 import { Prisma, User } from "@prisma/client";
-import { compareUser, formatFileDate, fullName, seniorFullName } from "@utils";
+import {
+  compareUser,
+  formatFileDate,
+  fullName,
+  offSetDateToUTC,
+  seniorFullName,
+} from "@utils";
 import { File } from "@components/file";
 import AddFile from "@components/file/AddFile";
 import { v4 as uuid } from "uuid";
@@ -48,7 +54,10 @@ const DisplaySenior = (props: DisplayProps) => {
       seniorId: senior.id,
     });
   };
-
+  const seniorFiles = senior.Files.map((file) => ({
+    ...file,
+    date: offSetDateToUTC(file.date),
+  }));
   return (
     <div className="flex flex-col gap-y-6">
       <h1 className="text-4xl font-bold text-[#000022]">
@@ -79,7 +88,7 @@ const DisplaySenior = (props: DisplayProps) => {
             setFileEdit={canAddFile ? setFileEdit : undefined}
           />
         )}
-        elements={senior.Files.sort(
+        elements={seniorFiles.sort(
           (fileA, fileB) => fileA.date.getTime() - fileB.date.getTime()
         )}
         search={(file, filter) => formatFileDate(file.date).includes(filter)}
@@ -88,7 +97,7 @@ const DisplaySenior = (props: DisplayProps) => {
             <AddFile
               seniorId={senior.id}
               seniorFolder={senior.folder}
-              files={senior.Files}
+              files={seniorFiles}
               key={addFileId}
               editFile={editFile}
               setEditFile={setFileEdit}
