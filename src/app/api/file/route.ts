@@ -5,6 +5,7 @@ import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator";
 import { driveV3 } from "@server/service";
 import moment from "moment";
+import { offSetDateToUTC } from "@utils";
 
 export const POST = withSession(async (request) => {
   const body = await request.req.json();
@@ -65,10 +66,7 @@ export const POST = withSession(async (request) => {
 
     const parentID = foundSenior.folder;
 
-    const newDate = new Date(
-      fileData.date.getTime() + new Date().getTimezoneOffset() * 60000
-    );
-    const formatted_date = moment(newDate).format("L");
+    const formatted_date = moment(offSetDateToUTC(fileData.date)).format("L");
 
     const fileMetadata = {
       name: [formatted_date],

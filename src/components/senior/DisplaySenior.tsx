@@ -2,7 +2,13 @@
 
 import SearchableContainer from "@components/SearchableContainer";
 import { Prisma, User } from "@prisma/client";
-import { compareUser, formatFileDate, fullName, seniorFullName } from "@utils";
+import {
+  compareUser,
+  formatFileDate,
+  fullName,
+  offSetDateToUTC,
+  seniorFullName,
+} from "@utils";
 import { File } from "@components/file";
 import AddFile from "@components/file/AddFile";
 import { v4 as uuid } from "uuid";
@@ -50,9 +56,7 @@ const DisplaySenior = (props: DisplayProps) => {
   };
   const seniorFiles = senior.Files.map((file) => ({
     ...file,
-    date: new Date(
-      file.date.getTime() + new Date().getTimezoneOffset() * 60000
-    ),
+    date: offSetDateToUTC(file.date),
   }));
   return (
     <div className="flex flex-col gap-y-6">

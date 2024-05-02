@@ -8,6 +8,7 @@ import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator";
 import { driveV3 } from "@server/service";
 import moment from "moment";
+import { offSetDateToUTC } from "@utils";
 
 export const PATCH = withSession(async ({ params, session, req }) => {
   const body = await req.json();
@@ -58,10 +59,7 @@ export const PATCH = withSession(async ({ params, session, req }) => {
         { status: 400 }
       );
     }
-    const newDate = new Date(
-      fileData.date.getTime() + new Date().getTimezoneOffset() * 60000
-    );
-    const formatted_date = moment(newDate).format("L");
+    const formatted_date = moment(offSetDateToUTC(fileData.date)).format("L");
 
     const body = { name: formatted_date };
 
